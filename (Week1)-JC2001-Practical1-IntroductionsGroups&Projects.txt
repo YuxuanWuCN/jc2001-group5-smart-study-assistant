@@ -1,0 +1,62 @@
+=== Page 1 ===
+JC2001 | Practical Session Sheet 
+Page 1 of 2 
+ 
+JC2001 Introduction to Software Engineering 
+Practical Session 1 – Group Project Exercises 
+Introductions, groups, and projects 
+Session Goal 
+In this session, we will form groups for the course project. You will work with the other members of 
+your group for the duration of this course, so you should get to know them. The best groups have a 
+high level of trust, so you need to get to know each other to build that trust. In addition, we will start 
+deciding which problem spaces you want to explore in your software product development project. 
+You are expected to start thinking about possible group project ideas from the first day of the 
+course.  
+Forming Groups 
+1. You need to form a group of 8, 9 or 10 members.  
+2. During this first practical session, you should discuss possible group membership with other 
+students. You may also continue these discussions in your own time. Once you have agreed 
+who will be part of your group, each student must formally join the agreed group on 
+MyAberdeen using the self-group enrolment function. The deadline for joining your agreed 
+group on MyAberdeen is Monday, 14 September 2026 at 23:59 CST (China Standard Time).  
+3. Once the groups have been formed, each group should nominate a group leader.  
+4. An academic supervisor will be allocated to each group, and the list of academic supervisors, 
+along with their email addresses, will be announced on the MyAberdeen course page. The 
+group leader should then email the assigned academic supervisor to arrange a meeting. 
+During this meeting, the group should discuss its proposed project idea and scope with the 
+academic supervisor.  
+Introductions 
+1. Introduce yourselves to each other within the group and include something about what you 
+are looking forward to on this course. 
+2. Go around the group and answer these questions to learn a bit more about each other. The 
+questions are from https://www.socards.org 
+a. What are three things that would instantly cheer you up?  
+b. What is your favourite dish of food, and what memories do you associate with it?  
+c. If you were to give a tour of your hometown, what would be the highlights?  
+d. If you could witness one key moment of history, what would you choose?  
+e. Where do you go and what do you do when you need to restore your energy? 
+Deciding on the Project Topics 
+In your groups, look over the project ideas and discuss what you would like to explore for your 
+software product development project. 
+1. Think about WHAT the project will be. 
+2. Think about WHO the project will be for. 
+3. Consider any major requirements and constraints of your project. 
+
+
+=== Page 2 ===
+JC2001 | Practical Session Sheet 
+Page 2 of 2 
+ 
+4. Start building the vision for your project. 
+Important Deadlines for September 2026 
+Group Formation: Monday, 14 September 2026 at 23:59 CST (China Standard Time) – each student 
+must have formally joined their agreed group on MyAberdeen.  
+Project Proposal: Friday, 25 September 2026 at 23:59 CST (China Standard Time) – submit your 
+project proposal on MyAberdeen.  
+Note: The deadlines listed above are reminders for the September 2026 deadlines only. For further 
+group project deadlines, including project updates, the technical report, proof-of-concept software 
+submission, and the project presentation, please see the course page on MyAberdeen.  
+ 
+ 
+
+
