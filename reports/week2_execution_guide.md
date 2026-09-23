@@ -186,11 +186,53 @@ class DiagnoseResponse(BaseModel):
     related_nodes: List[str] = []
 ```
 
-### 5.4 Git 协同分支规范（简单实用）
-1. `main` 分支：主干分支，仅限组长在代码测试通过后合并；
-2. `dev` 分支：日常联调主分支；
-3. 个人功能分支：`feat-backend-api`（江昊/董思钦）、`feat-frontend-ui`（习羽赛）、`docs-tech-report`（谢炜昕）。
-4. 提交规范：采用简单明确的格式，如 `feat: add diagnose api route` 或 `docs: add use case UC-01`。
+### 5.4 组内 Git 协同规范（对齐组员推荐的轻量 Git Flow 规范）
+
+为了防止多人协同覆盖代码并为期末工作量（Appendix A）留下确凿凭证，全员必须严格执行以下流程：
+
+```bash
+# ==========================================
+# 🧑‍🤝‍🧑 一、组员本地初始化（每一位组员仅执行一次）
+# ==========================================
+# 1. 配置身份信息（用自己的 GitHub 账号与真实姓名/邮箱）
+git config --global user.name "你的GitHub用户名"
+git config --global user.email "你的GitHub注册邮箱"
+
+# 2. 克隆团队仓库（全员统一从远端 clone，切忌传本地压缩包！）
+git clone https://github.com/你的组织或账号/smart-study-assistant.git
+cd smart-study-assistant
+
+# ==========================================
+# 🚀 二、日常完整开发流程（每次写代码都必须严格执行）
+# ==========================================
+# 1. 每次动工前！务必拉取远端最新的 develop 分支，避免代码冲突
+git checkout develop
+git pull origin develop
+
+# 2. 从 develop 新建自己的专属功能分支（命名规则：feature/姓名拼音-功能名）
+# 示例：江昊写接口 -> feature/jianghao-fastapi-scaffold
+# 示例：林泳桐写用例 -> feature/linyongtong-use-cases
+git checkout -b feature/你的姓名拼音-功能名
+
+# 👉 本地写代码、修改文档...
+
+# 3. 本地提交：提交信息必须带上姓名拼音和动宾描述（期末统计工作量直接以此为准！）
+git add .
+git commit -m "姓名拼音: implement feature description"
+# 真实范例：git commit -m "jianghao: add basic fastapi quiz route and health check"
+
+# 4. 推送你的个人分支到远端 GitHub
+git push origin feature/你的姓名拼音-功能名
+
+# ==========================================
+# 🔀 三、发起合并请求（Pull Request）与审查
+# ==========================================
+# 5. 打开 GitHub 仓库页面，点击 "Compare & pull request"
+# 6. base 分支选择 "develop"，compare 选择你刚才推送的个人分支
+# 7. @组长（吴宇轩）或相关负责人审查代码无冲突后，点击 "Squash and merge" 合入 develop
+# 8. main 分支仅在阶段里程碑（如 Project Update 交付时）由组长统一从 develop 合并！
+```
+
 
 ---
 
