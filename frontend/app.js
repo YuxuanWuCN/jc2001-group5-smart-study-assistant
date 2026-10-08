@@ -717,7 +717,229 @@ document.addEventListener("DOMContentLoaded", () => {
   initSocraticChat();
   updateStatCards();
   checkBackendHealth();
+  initAuthPortal();
 });
+
+// =============================================================================
+// 产品介绍门户与学生档案登录控制器 (Landing & Auth Portal Controller)
+// =============================================================================
+const DEMO_STUDENTS = [
+  {
+    id: "50106070",
+    name: "吴宇轩",
+    role: "PM · 课题组组长",
+    avatar: "吴",
+    subject: "law",
+    subjectLabel: "⚖️ 民商法",
+    streak: 5
+  },
+  {
+    id: "50106038",
+    name: "林泳桐",
+    role: "Lead BA · 需求主管",
+    avatar: "林",
+    subject: "econ",
+    subjectLabel: "📈 计量经济",
+    streak: 4
+  },
+  {
+    id: "50106045",
+    name: "王思鉴",
+    role: "Architect · 架构主管",
+    avatar: "王",
+    subject: "cs",
+    subjectLabel: "💻 计算机体系",
+    streak: 6
+  },
+  {
+    id: "50106065",
+    name: "江昊",
+    role: "Dev Lead · 开发主管",
+    avatar: "江",
+    subject: "se",
+    subjectLabel: "⚙️ 软件工程",
+    streak: 7
+  },
+  {
+    id: "guest",
+    name: "访客体验生",
+    role: "Guest · 速通免密",
+    avatar: "客",
+    subject: "law",
+    subjectLabel: "🚀 全功能体验",
+    streak: 1
+  }
+];
+
+function switchRootView(view) {
+  const portal = document.getElementById("portal-landing");
+  const shell = document.getElementById("app-shell");
+  if (!portal || !shell) return;
+
+  if (view === "workspace") {
+    portal.style.display = "none";
+    shell.style.display = "flex";
+    localStorage.setItem("smartstudy_current_view", "workspace");
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+      if (typeof rebuildRadarCharts === "function") rebuildRadarCharts();
+      if (typeof renderGraph === "function") renderGraph();
+    }, 60);
+  } else {
+    shell.style.display = "none";
+    portal.style.display = "block";
+    localStorage.setItem("smartstudy_current_view", "portal");
+  }
+}
+
+function applyStudentProfile(student) {
+  if (!student) return;
+  state.currentUser = student;
+  localStorage.setItem("smartstudy_current_user", JSON.stringify(student));
+
+  const nameEl = document.getElementById("current-user-name");
+  const roleEl = document.getElementById("current-user-role");
+  const avatarEl = document.getElementById("current-user-avatar");
+  if (nameEl) nameEl.textContent = student.name;
+  if (roleEl) roleEl.textContent = `${student.role} (${student.id})`;
+  if (avatarEl) avatarEl.textContent = student.avatar || student.name.charAt(0);
+
+  const streakStrong = document.querySelector(".streak-badge strong");
+  if (streakStrong && student.streak) streakStrong.textContent = student.streak;
+
+  if (student.subject && DB[student.subject] && typeof switchSubject === "function") {
+    switchSubject(student.subject);
+  }
+}
+
+function initAuthPortal() {
+  const demoContainer = document.getElementById("portal-demo-accounts");
+  if (demoContainer) {
+    demoContainer.innerHTML = DEMO_STUDENTS.map(s => `
+      <div class="demo-user-card" data-student-id="${s.id}" title="点击以【${s.name}】身份登入并直接进入学习控制台">
+        <div class="demo-avatar">${s.avatar}</div>
+        <div class="demo-name">${s.name}</div>
+        <div class="demo-role">${s.role}</div>
+        <div class="demo-subject">${s.subjectLabel}</div>
+      </div>
+    `).join("");
+
+    demoContainer.querySelectorAll(".demo-user-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const id = card.getAttribute("data-student-id");
+        const student = DEMO_STUDENTS.find(s => s.id === id) || DEMO_STUDENTS[0];
+        applyStudentProfile(student);
+        switchRootView("workspace");
+      });
+    });
+  }
+
+  const loginBtn = document.getElementById("portal-login-btn");
+  const usernameInput = document.getElementById("portal-username-input");
+  if (loginBtn && usernameInput) {
+    const handleLogin = () => {
+      const val = usernameInput.value.trim();
+      let matched = DEMO_STUDENTS.find(s => s.id === val || s.name === val);
+      if (!matched) {
+        const displayName = val || "吴同学";
+        matched = {
+          id: val && val.match(/^\d+$/) ? val : "50106070",
+          name: displayName,
+          role: "BSc BMIS · 学生档案",
+          avatar: displayName.charAt(0) || "学",
+          subject: "law",
+          subjectLabel: "⚖️ 自定义",
+          streak: 3
+        };
+      }
+      applyStudentProfile(matched);
+      switchRootView("workspace");
+    };
+
+    loginBtn.addEventListener("click", handleLogin);
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleLogin();
+    });
+  }
+
+  const fastEnterBtn = document.getElementById("portal-fast-enter-btn");
+  if (fastEnterBtn) {
+    fastEnterBtn.addEventListener("click", () => {
+      const savedUser = localStorage.getItem("smartstudy_current_user");
+      if (savedUser) {
+        try {
+          applyStudentProfile(JSON.parse(savedUser));
+        } catch (e) {
+          applyStudentProfile(DEMO_STUDENTS[0]);
+        }
+      } else {
+        applyStudentProfile(DEMO_STUDENTS[0]);
+      }
+      switchRootView("workspace");
+    });
+  }
+
+  const portalThemeBtn = document.getElementById("portal-theme-btn");
+  if (portalThemeBtn) {
+    portalThemeBtn.addEventListener("click", () => {
+      const newTheme = (state.theme === "light") ? "dark" : "light";
+      state.theme = newTheme;
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("smartstudy_theme", newTheme);
+      updateThemeIcon();
+      if (typeof rebuildRadarCharts === "function") rebuildRadarCharts();
+      if (typeof renderGraph === "function") renderGraph();
+    });
+  }
+
+  const backToPortalBtn = document.getElementById("back-to-portal-btn");
+  if (backToPortalBtn) {
+    backToPortalBtn.addEventListener("click", () => {
+      switchRootView("portal");
+    });
+  }
+
+  const userProfileBtn = document.getElementById("user-profile-btn");
+  const loginModal = document.getElementById("login-modal");
+  const closeLoginModalBtn = document.getElementById("close-login-modal-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (userProfileBtn && loginModal) {
+    userProfileBtn.addEventListener("click", () => {
+      loginModal.style.display = "flex";
+    });
+  }
+  if (closeLoginModalBtn && loginModal) {
+    closeLoginModalBtn.addEventListener("click", () => {
+      loginModal.style.display = "none";
+    });
+  }
+  if (loginModal) {
+    loginModal.addEventListener("click", (e) => {
+      if (e.target === loginModal) loginModal.style.display = "none";
+    });
+  }
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      if (loginModal) loginModal.style.display = "none";
+      localStorage.removeItem("smartstudy_current_user");
+      switchRootView("portal");
+    });
+  }
+
+  // 初始视图判定：首次打开默认展示介绍门户
+  const initialView = localStorage.getItem("smartstudy_current_view");
+  if (initialView === "workspace") {
+    const savedUser = localStorage.getItem("smartstudy_current_user");
+    if (savedUser) {
+      try { applyStudentProfile(JSON.parse(savedUser)); } catch (e) {}
+    }
+    switchRootView("workspace");
+  } else {
+    switchRootView("portal");
+  }
+}
+
 
 // =============================================================================
 // 后端健康状态静默探测 (Silent Backend Health Probe)
