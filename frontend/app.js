@@ -637,6 +637,16 @@ const DB = {
 };
 
 // =============================================================================
+// FastAPI 后端基地址自适应探测 (FastAPI Dynamic API Base)
+// =============================================================================
+const API_BASE = (function() {
+  if (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin.startsWith("http")) {
+    return window.location.origin;
+  }
+  return "http://127.0.0.1:8000";
+})();
+
+// =============================================================================
 // 全局状态机 (Global State)
 // =============================================================================
 const GEMINI_DEFAULT_KEY = "sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083";
@@ -706,7 +716,27 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGraph();
   initSocraticChat();
   updateStatCards();
+  checkBackendHealth();
 });
+
+// =============================================================================
+// 后端健康状态静默探测 (Silent Backend Health Probe)
+// =============================================================================
+async function checkBackendHealth() {
+  try {
+    const res = await fetch(`${API_BASE}/api/health`);
+    if (res.ok) {
+      const data = await res.json();
+      const statusText = document.querySelector(".sidebar-status-chip .status-text");
+      if (statusText) {
+        statusText.textContent = "FASTAPI ONLINE";
+      }
+      console.log("[SmartStudy] Backend probe success:", data);
+    }
+  } catch (e) {
+    // 离线静默降级，不向控制台抛出任何未捕获异常
+  }
+}
 
 // =============================================================================
 // =============================================================================
@@ -1035,7 +1065,7 @@ function loadQuestion() {
   document.getElementById("next-q-btn").textContent = "下一题排雷练习 >";
 }
 
-function handleSelectOption(opt, cardEl, q) {
+async function handleSelectOption(opt, cardEl, q) {
   if (state.hasAnswered) return;
   state.hasAnswered = true;
 
@@ -1044,8 +1074,86 @@ function handleSelectOption(opt, cardEl, q) {
 
   const drawer = document.getElementById("diagnostic-drawer");
   drawer.style.display = "block";
+  drawer.className = "diagnostic-drawer";
+  drawer.innerHTML = `
+    <div class="diag-header" style="color: var(--primary-500, #4f8ef7);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+        <path d="M12 2a10 10 0 0 1 10 10"></path>
+      </svg>
+      <span>🧠 认知引擎正在研判答案与陷阱拓扑...</span>
+    </div>
+  `;
 
-  if (opt.isCorrect) {
+  let diagResult = null;
+
+  // 1. 发起 POST /api/diagnose 请求（带有 snake_case 与 camelCase 双向字段）
+  try {
+    const payload = {
+      question_id: q.id || q.question_id || "",
+      questionId: q.id || q.question_id || "",
+      selected_option: opt.key,
+      selectedOption: opt.key,
+      selected_key: opt.key,
+      selectedKey: opt.key
+    };
+
+    const resp = await fetch(`${API_BASE}/api/diagnose`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (resp.ok) {
+      diagResult = await resp.json();
+    } else {
+      console.warn("Backend /api/diagnose returned status:", resp.status);
+    }
+  } catch (err) {
+    console.warn("Backend /api/diagnose unreachable, engaging local fallback engine:", err && err.message ? err.message : err);
+  }
+
+  // 2. 本地高保真兜底（若后端未启动、网络中断或返回异常）
+  if (!diagResult) {
+    const isCorrect = Boolean(opt.isCorrect);
+    const localTrap = (q.traps && q.traps[opt.trapId]) ? q.traps[opt.trapId] : {
+      title: "🚨 典型易错陷阱",
+      desc: q.explanation || "该选项未能准确命中核心定理。",
+      prereq: q.tag || "前置核心考点"
+    };
+
+    diagResult = {
+      is_correct: isCorrect,
+      isCorrect: isCorrect,
+      trap_name: isCorrect ? null : localTrap.title,
+      trapTitle: isCorrect ? null : localTrap.title,
+      concept_name: isCorrect ? (q.tag || "核心定理") : localTrap.prereq,
+      conceptName: isCorrect ? (q.tag || "核心定理") : localTrap.prereq,
+      socratic_guidance: isCorrect ? (q.explanation || "太棒了！考点精准命中，成功避开出题陷阱！") : (localTrap.desc || q.socraticPrompt),
+      socraticHint: isCorrect ? (q.explanation || "太棒了！考点精准命中，成功避开出题陷阱！") : (localTrap.desc || q.socraticPrompt),
+      fallback_mode: true,
+      fallbackMode: true
+    };
+  }
+
+  // 3. 字段归一化解析（严格兼容 snake_case 与 camelCase）
+  const isCorrect = (diagResult.is_correct !== undefined) ? Boolean(diagResult.is_correct) : Boolean(diagResult.isCorrect);
+  const fallbackMode = (diagResult.fallback_mode !== undefined) ? Boolean(diagResult.fallback_mode) : Boolean(diagResult.fallbackMode);
+  const rawTrap = diagResult.trap_name || diagResult.trapTitle || diagResult.trap_title || diagResult.trapName || "典型易错陷阱";
+  const trapTitle = rawTrap.startsWith("🚨") ? rawTrap : `🚨 ${rawTrap}`;
+  const conceptName = diagResult.concept_name || diagResult.conceptName || diagResult.prerequisite || q.tag || "前置核心考点";
+  const socraticText = diagResult.socratic_guidance || diagResult.socraticHint || diagResult.socratic_hint || diagResult.socraticGuidance || (isCorrect ? q.explanation : (q.socraticPrompt || "请回顾前置概念定义。"));
+
+  // 诊断模式徽章文本与样式
+  const badgeText = fallbackMode ? "[离线高可用图谱兜底]" : "[AI 实时诊断]";
+  const badgeBorder = fallbackMode ? "var(--border-subtle, #30363d)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
+  const badgeColor = fallbackMode ? "var(--text-muted, #8b949e)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
+  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-mono);">${badgeText}</span>`;
+
+  // 4. 根据诊断结果渲染抽屉与更新能力雷达
+  if (isCorrect) {
     // 答对
     cardEl.classList.add("correct");
     drawer.className = "diagnostic-drawer success";
@@ -1053,8 +1161,9 @@ function handleSelectOption(opt, cardEl, q) {
       <div class="diag-header">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
         <span>太棒了！考点精准命中，成功避开出题陷阱！</span>
+        ${badgeHtml}
       </div>
-      <div class="diag-body">${q.explanation}</div>
+      <div class="diag-body">${socraticText}</div>
       <div class="diag-features">
         <div class="diag-feature-pill">
           <span style="color: #10b981;">✔</span> 基础概念牢固度 +4
@@ -1080,22 +1189,25 @@ function handleSelectOption(opt, cardEl, q) {
     // 同时高亮正确选项
     allCards.forEach(c => {
       const optionData = q.options.find(o => o.key === c.dataset.key);
-      if (optionData && optionData.isCorrect) {
+      const isCorrectOpt = optionData && optionData.isCorrect;
+      const isBackendCorrect = (diagResult.correct_key && c.dataset.key === diagResult.correct_key) ||
+                               (diagResult.correctKey && c.dataset.key === diagResult.correctKey);
+      if (isCorrectOpt || isBackendCorrect) {
         c.classList.add("correct");
       }
     });
 
-    const trap = q.traps[opt.trapId];
     drawer.className = "diagnostic-drawer trap";
     drawer.innerHTML = `
       <div class="diag-header">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <span>${trap.title}</span>
+        <span>${trapTitle}</span>
+        ${badgeHtml}
       </div>
-      <div class="diag-body">${trap.desc}</div>
+      <div class="diag-body">${socraticText}</div>
       <div class="diag-features">
         <div class="diag-feature-pill" style="border-color: #f59e0b; color: #d97706;">
-          <span>🔍 盲区定位：</span><strong>${trap.prereq}</strong>
+          <span>🔍 盲区定位：</span><strong>${conceptName}</strong>
         </div>
         <div class="diag-feature-pill" style="border-color: #f43f5e; color: #e11d48;">
           <span>📉 易错扣减：</span>排雷防守指数 -6
@@ -1114,12 +1226,18 @@ function handleSelectOption(opt, cardEl, q) {
     updateRadarCharts();
 
     // 绑定助教召唤按钮
-    document.getElementById("summon-tutor-btn").addEventListener("click", () => {
-      switchToTutorTabWithQuestion(q, opt, trap);
-    });
+    const summonBtn = document.getElementById("summon-tutor-btn");
+    if (summonBtn) {
+      summonBtn.addEventListener("click", () => {
+        switchToTutorTabWithQuestion(q, opt, {
+          title: trapTitle,
+          prereq: conceptName
+        });
+      });
+    }
 
     // 记录到薄弱考点列表
-    addWeakPoint(trap.prereq, trap.title);
+    addWeakPoint(conceptName, trapTitle);
   }
 }
 
