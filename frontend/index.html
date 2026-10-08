@@ -37,8 +37,156 @@
 </head>
 <body>
 
-  <!-- 应用全屏容器布局 (Shell Layout) -->
-  <div class="app-shell">
+  <!-- ====================================================================
+       迎新与产品介绍门户 (Landing & Auth Portal)
+       ==================================================================== -->
+  <div id="portal-landing" class="portal-landing">
+    <!-- 顶部导航 -->
+    <header class="portal-navbar">
+      <div class="portal-brand">
+        <div class="brand-logo" style="width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563eb, #38bdf8); color: #fff;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="portal-brand-text">
+          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">智学罗盘 <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500); font-family: var(--font-mono);">SmartStudy AI</span></div>
+          <div style="font-size: 0.76rem; color: var(--text-muted);">University of Aberdeen · JC2001 Group 5 软件工程实践</div>
+        </div>
+      </div>
+
+      <div class="portal-nav-actions" style="display: flex; align-items: center; gap: 12px;">
+        <button id="portal-theme-btn" class="theme-toggle-btn" type="button" title="切换深色/浅色外观" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg-surface); cursor: pointer; color: var(--text-body);">
+          🌓
+        </button>
+        <button id="portal-fast-enter-btn" class="btn-main" type="button" style="padding: 8px 18px; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
+          <span>进入学习控制台</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 核心 Hero 标语区 -->
+    <section class="portal-hero">
+      <div class="portal-badge-pill">
+        <span>🎓 University of Aberdeen · JC2001 Software Engineering</span>
+      </div>
+      <h1 class="portal-hero-title">
+        基于认知图谱与出题陷阱拓扑的<br>大学生理工科智能助学系统
+      </h1>
+      <p class="portal-hero-desc">
+        专为大学生理工科课程打造的深度排雷伴学助手。告别“死刷题盲目背答案”，直击选项背后的认知误区与先修知识盲点，用苏格拉底启发引导构建牢固的定理网络。
+      </p>
+
+      <div class="portal-highlights-row">
+        <span class="portal-pill-chip">⚡ GraphRAG 认知图谱仲裁</span>
+        <span class="portal-pill-chip">🎯 36+ 选项陷阱精准溯源</span>
+        <span class="portal-pill-chip">💬 苏格拉底启发式导学</span>
+        <span class="portal-pill-chip">📊 五维认知能力画像</span>
+      </div>
+    </section>
+
+    <!-- 核心学生档案登录与快捷体验区 -->
+    <section class="portal-auth-card">
+      <div class="auth-card-header">
+        <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-title); display: flex; align-items: center; gap: 8px;">
+          <span>🚀</span>
+          <span>学生学籍登入与快速体验通道</span>
+        </div>
+        <div style="font-size: 0.86rem; color: var(--text-muted); margin-top: 5px;">
+          点击以下预设身份一键载入专属学情，或输入任意学号直接登录进入工作台：
+        </div>
+      </div>
+
+      <!-- 快速身份切换卡片网格 -->
+      <div class="demo-accounts-grid" id="portal-demo-accounts">
+        <!-- 由 JS 动态初始化或填充 -->
+      </div>
+
+      <!-- 自定义学号姓名登入栏 -->
+      <div class="portal-login-input-row" style="display: flex; gap: 10px; margin-top: 16px;">
+        <input id="portal-username-input" class="form-input" type="text" placeholder="或输入学号/学生姓名（例如：吴同学 或 50106070）" style="flex: 1; padding: 10px 14px; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-title); font-size: 0.9rem;" />
+        <button id="portal-login-btn" class="btn-main" type="button" style="padding: 10px 24px; font-weight: 600; font-size: 0.9rem; white-space: nowrap;">
+          立即登录并进入系统 &rarr;
+        </button>
+      </div>
+      <div id="portal-login-tip" style="font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; text-align: right;">
+        * 免密演示模式已启用，点击任意卡片即可直接进入做题排雷
+      </div>
+    </section>
+
+    <!-- 痛点对比与四大核心功能展示 -->
+    <section class="portal-features-section">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono);">SYSTEM ARCHITECTURE & CAPABILITIES</div>
+        <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--text-title); margin-top: 6px;">四大核心能力：传统题库 vs 智学罗盘</h2>
+      </div>
+
+      <div class="portal-features-grid">
+        <div class="portal-feature-card">
+          <div class="feature-card-icon" style="background: rgba(79, 142, 247, 0.15); color: #4f8ef7;">🎯</div>
+          <div class="feature-card-title">01 · 智能刷题排雷</div>
+          <div class="feature-card-subtitle">Misconception Diagnosis</div>
+          <p class="feature-card-p">
+            <strong>传统题库痛点：</strong>仅判断对错，无法解释“为什么错”。<br>
+            <strong>罗盘排雷方案：</strong>每个干扰项均绑定义题陷阱（Trap）与先修短板。选错即刻滑出诊断抽屉，直击思维误区。
+          </p>
+          <div class="feature-card-tag">错因归因 · 先修溯源</div>
+        </div>
+
+        <div class="portal-feature-card">
+          <div class="feature-card-icon" style="background: rgba(63, 185, 80, 0.15); color: #3fb950;">💬</div>
+          <div class="feature-card-title">02 · 苏格拉底学伴</div>
+          <div class="feature-card-subtitle">Socratic AI Companion</div>
+          <p class="feature-card-p">
+            <strong>传统 AI 痛点：</strong>直接倾倒标准答案，剥夺学生自主推导过程。<br>
+            <strong>罗盘导学方案：</strong>基于 GraphRAG 知识事实，采用多轮启发式反问，引导学生一步步自行推导出定理结论。
+          </p>
+          <div class="feature-card-tag">零剧透 · 阶梯式点拨</div>
+        </div>
+
+        <div class="portal-feature-card">
+          <div class="feature-card-icon" style="background: rgba(210, 153, 34, 0.15); color: #d29922;">🕸️</div>
+          <div class="feature-card-title">03 · 考点图谱全景</div>
+          <div class="feature-card-subtitle">Knowledge Graph Topology</div>
+          <p class="feature-card-p">
+            <strong>传统复习痛点：</strong>知识孤岛零碎，考前死记硬背容易混淆。<br>
+            <strong>罗盘图谱方案：</strong>将法学、计组、计量经济与软工知识拓扑化，清晰展现“前置概念-核心定理-常见误区”连边。
+          </p>
+          <div class="feature-card-tag">Neo4j 拓扑 · 概念脉络</div>
+        </div>
+
+        <div class="portal-feature-card">
+          <div class="feature-card-icon" style="background: rgba(248, 81, 73, 0.15); color: #f85149;">📊</div>
+          <div class="feature-card-title">04 · 学情综合诊断</div>
+          <div class="feature-card-subtitle">Cognitive Radar & Telemetry</div>
+          <p class="feature-card-p">
+            <strong>传统评估痛点：</strong>单一正确率无法反映综合思维稳健度。<br>
+            <strong>罗盘诊断方案：</strong>实时计算五维能力（基础理解、陷阱防守、推演分析、综合迁移、知识广度），生成薄弱短板雷达。
+          </p>
+          <div class="feature-card-tag">五维雷达 · 动态追踪</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部团队与学术信息 -->
+    <footer class="portal-footer">
+      <div style="font-weight: 600; color: var(--text-title); margin-bottom: 6px;">
+        University of Aberdeen · JC2001 Introduction to Software Engineering (2026–27)
+      </div>
+      <div style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6;">
+        Group 5 (BSc BMIS) 全体成员：吴宇轩(PM · 50106070) · 林泳桐(BA · 50106038) · 王思鉴(SA · 50106045) · 江昊(Dev · 50106065) · 谢炜昕(QA · 50106034) · 张梓健 · 习羽赛 · 董思钦 · 杨明杰 · 梁子铉
+      </div>
+      <div style="margin-top: 10px; font-size: 0.78rem; color: var(--text-light); font-family: var(--font-mono);">
+        SmartStudy Assistant PoC v1.0 · Grounded with GraphRAG & Dual-Mode Diagnostic Engine
+      </div>
+    </footer>
+  </div>
+
+  <!-- 应用全屏容器布局 (Shell Layout - 平时的控制台界面) -->
+  <div class="app-shell" id="app-shell" style="display: none;">
 
     <!-- ====================================================================
          左侧固定评测控制台侧边栏 (DeepSeek Eval Harness Console Sidebar)
@@ -64,6 +212,14 @@
           <span class="status-dot"></span>
           <span class="status-text">NEO4J ONLINE</span>
         </div>
+      </div>
+
+      <!-- 顶部快捷返回产品介绍主页导航 -->
+      <div class="sidebar-portal-box" style="padding: 0 12px 10px 12px;">
+        <button id="back-to-portal-btn" class="back-to-portal-btn" type="button" title="点击返回智学罗盘产品介绍门户与登录页">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>返回产品介绍主页</span>
+        </button>
       </div>
 
       <!-- 核心功能导航 Tabs (保留 .nav-tab-item 与 data-view 选择器) -->
