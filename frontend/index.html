@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>智学罗盘 SmartStudy AI | DeepSeek Eval Harness 评测控制台</title>
+  <title>智学罗盘｜大学生学习助手</title>
   
   <!-- 预先应用持久化主题（默认深色，避免刷新闪烁） -->
   <script>
@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- DeepSeek Eval Harness 评测控制台样式表 -->
-  <link rel="stylesheet" href="style.css?v=20261008_2">
+  <!-- 智学罗盘学生端样式表 -->
+  <link rel="stylesheet" href="style.css?v=20261008_4">
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
     .spin { animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
@@ -52,17 +52,21 @@
           </svg>
         </div>
         <div class="portal-brand-text">
-          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">智学罗盘 <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500); font-family: var(--font-mono);">SmartStudy AI</span></div>
-          <div style="font-size: 0.76rem; color: var(--text-muted);">University of Aberdeen · JC2001 Group 5 软件工程实践</div>
+          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">SmartStudy AI <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500); font-family: var(--font-mono);">智学罗盘</span></div>
+          <div style="font-size: 0.76rem; color: var(--text-muted);" id="portal-brand-sub">University of Aberdeen · JC2001 Group 5 Honours Project</div>
         </div>
       </div>
 
       <div class="portal-nav-actions" style="display: flex; align-items: center; gap: 12px;">
-        <button id="portal-theme-btn" class="theme-toggle-btn" type="button" title="切换深色/浅色外观" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg-surface); cursor: pointer; color: var(--text-body);">
+        <button id="portal-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 12px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-weight: 600; font-size: 0.85rem; font-family: var(--font-mono);">
+          <span>🌐</span>
+          <span class="lang-label">English</span>
+        </button>
+        <button id="portal-theme-btn" class="theme-toggle-btn" type="button" title="Toggle Dark/Light Mode" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg-surface); cursor: pointer; color: var(--text-body);">
           🌓
         </button>
         <button id="portal-fast-enter-btn" class="btn-main" type="button" style="padding: 8px 18px; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
-          <span>进入学习控制台</span>
+          <span id="portal-fast-enter-text">Enter Study Workspace</span>
           <span>&rarr;</span>
         </button>
       </div>
@@ -71,20 +75,20 @@
     <!-- 核心 Hero 标语区 -->
     <section class="portal-hero">
       <div class="portal-badge-pill">
-        <span>🎓 University of Aberdeen · JC2001 Software Engineering</span>
+        <span>给大学生用的学习助手 · 先理解，再做题</span>
       </div>
       <h1 class="portal-hero-title">
-        基于认知图谱与出题陷阱拓扑的<br>大学生理工科智能助学系统
+        把每一次做错题，<br>变成下一次进步的线索
       </h1>
       <p class="portal-hero-desc">
-        专为大学生理工科课程打造的深度排雷伴学助手。告别“死刷题盲目背答案”，直击选项背后的认知误区与先修知识盲点，用苏格拉底启发引导构建牢固的定理网络。
+        不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。
       </p>
 
       <div class="portal-highlights-row">
-        <span class="portal-pill-chip">⚡ GraphRAG 认知图谱仲裁</span>
-        <span class="portal-pill-chip">🎯 36+ 选项陷阱精准溯源</span>
-        <span class="portal-pill-chip">💬 苏格拉底启发式导学</span>
-        <span class="portal-pill-chip">📊 五维认知能力画像</span>
+        <span class="portal-pill-chip">📚 按课程整理知识点</span>
+        <span class="portal-pill-chip">🧭 看懂每次错题原因</span>
+        <span class="portal-pill-chip">💬 一步步提示，不直接剧透</span>
+        <span class="portal-pill-chip">📈 记录自己的学习进度</span>
       </div>
     </section>
 
@@ -96,7 +100,7 @@
           <span>学生学籍登入与快速体验通道</span>
         </div>
         <div style="font-size: 0.86rem; color: var(--text-muted); margin-top: 5px;">
-          点击以下预设身份一键载入专属学情，或输入任意学号直接登录进入工作台：
+          选择一个体验身份，或者输入你的名字，马上开始练习：
         </div>
       </div>
 
@@ -107,27 +111,27 @@
 
       <!-- 自定义学号姓名登入栏 -->
       <div class="portal-login-input-row" style="display: flex; gap: 10px; margin-top: 16px;">
-        <input id="portal-username-input" class="form-input" type="text" placeholder="或输入学号/学生姓名（例如：吴同学 或 50106070）" style="flex: 1; padding: 10px 14px; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-title); font-size: 0.9rem;" />
+        <input id="portal-username-input" class="form-input" type="text" placeholder="输入你的名字或学号（例如：小王 或 50106070）" style="flex: 1; padding: 10px 14px; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-title); font-size: 0.9rem;" />
         <button id="portal-login-btn" class="btn-main" type="button" style="padding: 10px 24px; font-weight: 600; font-size: 0.9rem; white-space: nowrap;">
-          立即登录并进入系统 &rarr;
+          开始学习
         </button>
       </div>
       <div id="portal-login-tip" style="font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; text-align: right;">
-        * 免密演示模式已启用，点击任意卡片即可直接进入做题排雷
+        演示模式无需注册。你的学习记录只保存在当前浏览器中。
       </div>
     </section>
 
     <!-- 痛点对比与四大核心功能展示 -->
     <section class="portal-features-section">
       <div style="text-align: center; margin-bottom: 28px;">
-        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono);">SYSTEM ARCHITECTURE & CAPABILITIES</div>
-        <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--text-title); margin-top: 6px;">四大核心能力：传统题库 vs 智学罗盘</h2>
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono);">你可以这样使用</div>
+        <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--text-title); margin-top: 6px;">把学习拆成四件容易开始的小事</h2>
       </div>
 
       <div class="portal-features-grid">
         <div class="portal-feature-card">
           <div class="feature-card-icon" style="background: rgba(79, 142, 247, 0.15); color: #4f8ef7;">🎯</div>
-          <div class="feature-card-title">01 · 智能刷题排雷</div>
+          <div class="feature-card-title">练一道题，知道错在哪里</div>
           <div class="feature-card-subtitle">Misconception Diagnosis</div>
           <p class="feature-card-p">
             <strong>传统题库痛点：</strong>仅判断对错，无法解释“为什么错”。<br>
@@ -138,7 +142,7 @@
 
         <div class="portal-feature-card">
           <div class="feature-card-icon" style="background: rgba(63, 185, 80, 0.15); color: #3fb950;">💬</div>
-          <div class="feature-card-title">02 · 苏格拉底学伴</div>
+          <div class="feature-card-title">卡住时，有人给你提示</div>
           <div class="feature-card-subtitle">Socratic AI Companion</div>
           <p class="feature-card-p">
             <strong>传统 AI 痛点：</strong>直接倾倒标准答案，剥夺学生自主推导过程。<br>
@@ -149,7 +153,7 @@
 
         <div class="portal-feature-card">
           <div class="feature-card-icon" style="background: rgba(210, 153, 34, 0.15); color: #d29922;">🕸️</div>
-          <div class="feature-card-title">03 · 考点图谱全景</div>
+          <div class="feature-card-title">把零散知识连起来</div>
           <div class="feature-card-subtitle">Knowledge Graph Topology</div>
           <p class="feature-card-p">
             <strong>传统复习痛点：</strong>知识孤岛零碎，考前死记硬背容易混淆。<br>
@@ -160,7 +164,7 @@
 
         <div class="portal-feature-card">
           <div class="feature-card-icon" style="background: rgba(248, 81, 73, 0.15); color: #f85149;">📊</div>
-          <div class="feature-card-title">04 · 学情综合诊断</div>
+          <div class="feature-card-title">知道下一步复习什么</div>
           <div class="feature-card-subtitle">Cognitive Radar & Telemetry</div>
           <p class="feature-card-p">
             <strong>传统评估痛点：</strong>单一正确率无法反映综合思维稳健度。<br>
@@ -205,12 +209,12 @@
           </div>
           <div class="brand-meta">
             <div class="brand-name">智学罗盘</div>
-            <div class="brand-subtitle">EVAL HARNESS v2.4</div>
+            <div class="brand-subtitle">每天学一点，慢慢变扎实</div>
           </div>
         </a>
         <div class="sidebar-status-chip" title="GraphRAG 知识图谱仲裁引擎在线">
           <span class="status-dot"></span>
-          <span class="status-text">NEO4J ONLINE</span>
+          <span class="status-text">学习记录已保存</span>
         </div>
       </div>
 
@@ -224,7 +228,7 @@
 
       <!-- 核心功能导航 Tabs (保留 .nav-tab-item 与 data-view 选择器) -->
       <nav class="nav-tabs" aria-label="核心功能导航">
-        <div class="nav-group-heading">EVALUATION SUITES</div>
+        <div class="nav-group-heading">学习功能</div>
         
         <button class="nav-tab-item active" data-view="quiz" type="button">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -254,16 +258,16 @@
       <!-- 侧边栏系统遥测状态指标 (System Telemetry Specs) -->
       <div class="sidebar-telemetry">
         <div class="telemetry-row">
-          <span class="telemetry-label">GROUNDING GATE</span>
+          <span class="telemetry-label">今日练习</span>
           <span class="telemetry-val text-green">&ge; 85.0%</span>
         </div>
         <div class="telemetry-row">
-          <span class="telemetry-label">HALLUCINATION DROP</span>
+          <span class="telemetry-label">连续学习</span>
           <span class="telemetry-val text-blue">-68.4%</span>
         </div>
         <div class="telemetry-row">
-          <span class="telemetry-label">DIAGNOSTIC ENGINE</span>
-          <span class="telemetry-val">GraphRAG/Qwen</span>
+          <span class="telemetry-label">学习方式</span>
+          <span class="telemetry-val">理解后再练</span>
         </div>
       </div>
 
@@ -292,8 +296,15 @@
             <span class="user-switch-badge" title="切换账号">⇄ 切换</span>
           </div>
 
-          <!-- 明暗主题切换 -->
-          <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="切换明暗色彩主题" title="切换深色/浅色模式">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <!-- 语言切换 -->
+            <button id="sidebar-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 8px; height: 32px; display: flex; align-items: center; gap: 4px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono);">
+              <span>🌐</span>
+              <span class="lang-label">EN</span>
+            </button>
+
+            <!-- 明暗主题切换 -->
+            <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" aria-label="切换明暗色彩主题" title="切换深色/浅色模式">
             <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
               <circle cx="12" cy="12" r="5"></circle>
               <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -309,6 +320,7 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </button>
+          </div>
         </div>
       </div>
 
@@ -345,7 +357,7 @@
               <div class="question-meta-tags">
                 <span id="q-difficulty" class="meta-tag difficulty">★★★☆☆</span>
                 <span id="q-tag" class="meta-tag">可撤销民事法律行为 · 撤销权存续期间</span>
-                <span class="meta-tag benchmark-badge">🎯 BENCHMARK TEST</span>
+                <span class="meta-tag benchmark-badge">今日练习</span>
               </div>
               <div id="q-stem" class="question-title">
                 正在加载题干...
@@ -384,7 +396,7 @@
             <div class="side-card">
               <div class="side-title">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                <span>认知能力五维评测 (RADAR TELEMETRY)</span>
+                <span>最近的学习状态</span>
               </div>
               <div id="mini-radar-chart" class="mini-radar-container"></div>
               <p class="radar-caption">
@@ -467,7 +479,7 @@
         <div class="graph-view-card">
           <div class="graph-view-header">
             <div>
-              <h2 class="section-title">学科知识本体与出题陷阱拓扑图谱 (NEO4J DAG VISUALIZER)</h2>
+              <h2 class="section-title">知识点之间是怎样联系的</h2>
               <p class="section-subtitle">
                 核心考点 (Core Concept)、先修依赖 (Prerequisites) 与 认知混淆易错点 (Misconception Traps)
               </p>
@@ -544,7 +556,7 @@
           <div class="stat-card report-panel-card">
             <div class="side-title">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <span>重点攻坚与薄弱知识点排雷队列 (BENCHMARK DEFECT LOG)</span>
+              <span>我最近需要再看看的地方</span>
             </div>
             
             <!-- 表格化高密度容器 -->
@@ -559,7 +571,7 @@
             </div>
 
             <p class="eval-rec-text">
-              💡 <strong>EVAL RECOMMENDATION</strong>: 自适应追踪模型判定：建议今日优先复习上述失误考点前置定理，并完成 1 道同构变式强化题。
+              💡 <strong>学习建议</strong>：先复习上面列出的知识点，再做一道相似题巩固一下。
             </p>
           </div>
         </div>
@@ -630,7 +642,7 @@
         <div class="form-group">
           <label class="form-label" for="neo4j-uri-input">
             <span>Neo4j 知识图谱 AuraDB 端点</span>
-            <span class="text-blue" style="font-size: 0.76rem;">GraphRAG 事实锚定</span>
+            <span class="text-blue" style="font-size: 0.76rem;">知识点依据</span>
           </label>
           <input id="neo4j-uri-input" class="form-input" type="text" value="neo4j+s://smartstudy-aura.databases.neo4j.io" placeholder="neo4j+s://..." />
         </div>
