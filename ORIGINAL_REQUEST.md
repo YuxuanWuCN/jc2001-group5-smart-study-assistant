@@ -186,3 +186,60 @@ Integrity mode: demo
 
 ### 主题切换
 - [ ] 点击亮/暗切换按钮，背景、文字、卡片颜色均正确翻转，无裸露白块或黑块。
+
+
+## 2026-10-08T01:34:27Z
+
+Build an end-to-end runnable Proof-of-Concept (PoC) MVP for the JC2001 Smart Study Assistant System (智学罗盘). The PoC integrates the existing DeepSeek-style console frontend with a lightweight, robust FastAPI backend that delivers question loading, distractor trap misconception diagnosis, Socratic hints, and automated verification tests.
+
+Working directory: d:/jc2001
+Integrity mode: development
+Requested team: Full team (架构、后端、前端、QA测试并行多角色分工协作)
+
+Special User Directive:
+The user specifically requested: "记得搭建好前端给我看哦". Ensure the frontend (`frontend/index.html` + `frontend/app.js`) is completely and smoothly wired up to the backend, fully runnable via local HTTP server / uvicorn / static mount, with zero CORS issues, fluid interactive diagnostic drawer, and clear instructions/preview links for the user to view and test it immediately.
+
+## Requirements
+
+### R1. Lightweight FastAPI Backend & API Contracts
+Implement a modular, runnable FastAPI backend service under `backend/` following clean architecture. The service must expose:
+- `GET /api/health`: Health status probe.
+- `GET /api/quiz`: Load question sets by discipline/subject with choices and distractor tags conforming to the `QuizItem` Pydantic schema.
+- `POST /api/diagnose`: Receive a student's answer choice, match the pre-tagged misconception/trap, query knowledge concepts, and generate Socratic diagnosis guidance.
+- Strict Pydantic model validations for all request and response payloads, ensuring compatibility with defined project contracts.
+
+### R2. DeepSeek Console Frontend Integration & CORS
+Connect the existing frontend (`frontend/index.html`, `frontend/app.js`) to the FastAPI backend:
+- Configure FastAPI CORS middleware to allow cross-origin requests from local browser sessions (`http://localhost:*`, `http://127.0.0.1:*`, or local `file://` protocol).
+- Ensure that selecting a question option triggers `POST /api/diagnose`, renders the returned misconception analysis in the right-side Diagnostic Drawer, and maintains fluid UI interactions without JavaScript console errors.
+- Mount or provide convenient serving of `frontend/` so the user can open `http://127.0.0.1:8000/` or `frontend/index.html` directly to preview the interactive application.
+
+### R3. Resilient Diagnostic Service & Seed Data
+Provide a dual-mode diagnostic engine:
+- Live LLM diagnostic synthesis using DashScope (Qwen-Turbo) when `QWEN_API_KEY` is present.
+- Automatic, robust offline fallback mode when the API key is missing or network times out, returning pre-compiled domain misconceptions from local seed knowledge graphs so the system never crashes (500 error) during testing.
+- Seed the backend with questions across STEM, economics, or computer science derived from the project's evaluation datasets.
+
+### R4. Automated Pytest Suite & Reproducible Launch
+Deliver a comprehensive automated test suite and developer documentation:
+- Pytest unit and integration tests under `tests/` covering API endpoint contracts, schema validation, diagnostic fallback mechanisms, and CORS headers.
+- Update `requirements.txt` with minimal, non-conflicting dependencies (`fastapi`, `uvicorn`, `pydantic`, `pytest`, `requests`, `python-dotenv`).
+- Provide clear instructions to start the service and run tests with a single command.
+
+## Acceptance Criteria
+
+### API Functionality & Schema Validation
+- [ ] `uvicorn` starts the FastAPI app on port 8000, and `GET /api/health` returns `200 OK` with `{"status": "ok"}`.
+- [ ] `GET /api/quiz?subject=economics` (or another valid subject) returns HTTP 200 with a list of questions conforming to `QuizItem`.
+- [ ] `POST /api/diagnose` with a valid `DiagnoseRequest` payload returns HTTP 200 with a response strictly conforming to `DiagnoseResponse`.
+
+### Robustness & Fault Tolerance
+- [ ] In the absence of external network or API keys, `POST /api/diagnose` gracefully returns a valid `DiagnoseResponse` with `fallback_mode=true` without raising unhandled 500 exceptions.
+
+### Frontend Integration & User Preview
+- [ ] Opening `frontend/index.html` (or the served frontend URL) in a web browser and selecting an option in the quiz view successfully communicates with the running backend, rendering diagnosis in the drawer without browser console exceptions.
+- [ ] Provide clear local preview verification for the user.
+
+### Test Automation & Quality Gate
+- [ ] Executing `pytest tests/` in the project root executes all test suites and passes with 100% success rate (exit code 0).
+- [ ] No temporary debug scripts or unorganized files remain in the root directory.

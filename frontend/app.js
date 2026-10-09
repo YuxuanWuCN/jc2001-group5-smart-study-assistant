@@ -4,9 +4,9 @@
  */
 
 // =============================================================================
-// 多学科精品真题与避坑知识本体库 (Curated Multi-Discipline Question Bank)
+// 多学科精品真题与避坑知识本体库 (Curated Multi-Discipline Question Bank - Chinese)
 // =============================================================================
-const DB = {
+const DB_ZH = {
   law: {
     name: "民商法学与民法典",
     badge: "期末高频考点",
@@ -637,6 +637,571 @@ const DB = {
 };
 
 // =============================================================================
+// 多学科精品真题与避坑知识本体库 (Curated Multi-Discipline Question Bank - English)
+// =============================================================================
+const DB_EN = {
+  se: {
+    name: "Software Engineering & Architecture",
+    badge: "JC2001 Core Syllabus",
+    questions: [
+      {
+        id: "se_1",
+        difficulty: "★★★☆☆",
+        tag: "Process Models · Scrum vs Waterfall Trade-offs",
+        stem: "In a smart hospital health-informatics project, emergency scheduling and insurance API specifications change frequently due to shifting national health policies, whereas the core electronic health record (EHR) archiving module is governed by strict statutory audit and traceability mandates. Which software process strategy is most scientifically defensible?",
+        options: [
+          { key: "A", text: "Enforce a strict Waterfall model, completely freezing all insurance and scheduling requirements in Phase 1 before coding commences", isCorrect: false, trapId: "trap_se_1_1" },
+          { key: "B", text: "Adopt a Hybrid process model: architecture-centric, documented governance for the compliant core, paired with 2-week agile Scrum sprints for volatile microservices", isCorrect: true },
+          { key: "C", text: "Completely abandon architectural documentation and formal test cases, using Extreme Programming (XP) with daily pair refactoring for all regulatory audits", isCorrect: false, trapId: "trap_se_1_2" },
+          { key: "D", text: "Adopt the Big Bang model, having developers code continuously in the final week prior to final delivery", isCorrect: false, trapId: "trap_se_1_3" }
+        ],
+        explanation: "【Authoritative Analysis · Software Lifecycle Trade-offs】: According to Boehm's software engineering economics, the cost of requirement changes escalates exponentially over the project lifecycle. Forcing a rigid Waterfall model on volatile business logic causes severe schedule delays and budget overruns; conversely, zero-documentation hacking on compliant cores leads to audit rejection. Industry best practice is a Hybrid dual-track approach: architectural baselines under strict control, paired with agile front-end sprints.",
+        traps: {
+          trap_se_1_1: {
+            title: "🚨 Dogmatic Waterfall Trap: Forcibly 'Freezing Requirements' in Volatile Domains",
+            desc: "A classic misconception among novice engineers. When business policies change monthly, Waterfall's sequential phase dependencies cause endless change requests and massive code rewrites!",
+            prereq: "Prerequisite Concept: Boehm's Cost of Change Curve & Waterfall Constraints",
+            radarHit: "trapDefense"
+          },
+          trap_se_1_2: {
+            title: "🚨 Extreme Agilism Trap: Mistaking 'Agile' for 'Zero Documentation & No Architecture'",
+            desc: "In safety-critical or regulatory-compliant domains, Requirements Traceability Matrices (RTM) and interface contracts are mandatory audit criteria!",
+            prereq: "Prerequisite Concept: Safety-Critical Regulatory Standards & Audit Traceability",
+            radarHit: "boundary"
+          },
+          trap_se_1_3: {
+            title: "🚨 Cowboy Coding Trap: Big Bang Delivery without Incremental Validation",
+            desc: "Deferring integration to the final week prevents early risk discovery, resulting in unmanageable integration faults!",
+            prereq: "Prerequisite Concept: Incremental Integration vs Big Bang Risk Management",
+            radarHit: "recall"
+          }
+        },
+        graph: {
+          title: "Software Process Trade-offs · Scrum vs Waterfall Topology",
+          nodes: [
+            { id: "c1", label: "Hybrid Process Model", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Prereq: Change Cost Curve", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Prereq: Audit Traceability", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Dogmatic Freeze", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Zero-Doc Extremism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Economic Driver" },
+            { from: "p2", to: "c1", label: "Compliance Constraint" },
+            { from: "c1", to: "t1", label: "Prone to (Rigid Phasing)" },
+            { from: "c1", to: "t2", label: "Prone to (Uncontrolled Agile)" }
+          ]
+        },
+        socraticPrompt: "Consider the two distinct subsystems: one is volatile with rapid policy changes, while the other is mission-critical with strict government audits. Can a single extreme methodology (pure Waterfall or zero-doc XP) satisfy both constraints simultaneously?"
+      },
+      {
+        id: "se_2",
+        difficulty: "★★★★☆",
+        tag: "Object-Oriented Architecture · SOLID Principles & DIP",
+        stem: "In an academic knowledge extraction engine, the core analysis class LiteratureAnalyzer hardcodes a direct instantiation of a database client: this.db = new MySQLClient(). Due to project expansion, the system must now support Neo4j graph databases and vector stores. According to the Dependency Inversion Principle (DIP), what is the optimal refactoring strategy?",
+        options: [
+          { key: "A", text: "Introduce nested if-else / switch-case blocks inside LiteratureAnalyzer to execute vendor-specific queries based on environment variables", isCorrect: false, trapId: "trap_se_2_1" },
+          { key: "B", text: "Define a unified IKnowledgeStorage interface so that LiteratureAnalyzer and concrete clients (MySQLClient, Neo4jClient) depend solely on the abstraction, injected via constructor Dependency Injection (DI)", isCorrect: true },
+          { key: "C", text: "Force Neo4jClient to inherit directly from MySQLClient and override relational query methods", isCorrect: false, trapId: "trap_se_2_2" },
+          { key: "D", text: "Consolidate all database routines into a static God Class GlobalDBManager called directly by business classes", isCorrect: false, trapId: "trap_se_2_3" }
+        ],
+        explanation: "【Authoritative Analysis · SOLID Principles & DIP】: DIP states: High-level modules should not depend on low-level modules; both should depend on abstractions. Option B decouples the core analysis logic from underlying storage mechanisms, adhering to DIP and the Open/Closed Principle (OCP).",
+        traps: {
+          trap_se_2_1: {
+            title: "🚨 Branch Sprawl Code Smell: Severely Violating Open/Closed Principle (OCP)",
+            desc: "Using conditionals (if-else) to extend low-level drivers means modifying core business logic every time a database is added, risking regression bugs!",
+            prereq: "Prerequisite Concept: Open/Closed Principle (Open for extension, closed for modification)",
+            radarHit: "trapDefense"
+          },
+          trap_se_2_2: {
+            title: "🚨 Inheritance Abuse: Violating Liskov Substitution Principle (LSP)",
+            desc: "Graph databases and relational databases have completely different query contracts and data models; an 'is-a' relationship does not hold!",
+            prereq: "Prerequisite Concept: Liskov Substitution Principle (LSP)",
+            radarHit: "boundary"
+          },
+          trap_se_2_3: {
+            title: "🚨 Monolithic Anti-Pattern: Introducing God Class and Global State",
+            desc: "A static God Class tightly couples all modules to a single global state, impeding unit testing and parallel development!",
+            prereq: "Prerequisite Concept: Single Responsibility Principle (SRP)",
+            radarHit: "recall"
+          }
+        },
+        graph: {
+          title: "SOLID Principles · Dependency Inversion Topology",
+          nodes: [
+            { id: "c1", label: "Dependency Inversion (DIP)", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Abstraction Contract", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Dependency Injection", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Switch Sprawl", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: God Class Coupling", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Enables Decoupling" },
+            { from: "p2", to: "c1", label: "Runtime Provision" },
+            { from: "c1", to: "t1", label: "Prone to (Violates OCP)" },
+            { from: "c1", to: "t2", label: "Prone to (Anti-Pattern)" }
+          ]
+        },
+        socraticPrompt: "If class A directly constructs `new B()`, what happens to class A when class B's constructor parameters change? Who is controlling the dependency?"
+      },
+      {
+        id: "se_3",
+        difficulty: "★★★★☆",
+        tag: "Software Quality Assurance · Boundary Value Analysis & Mutation Testing",
+        stem: "In a university GPA calculation module, valid course credits must fall within the range [0.5, 10.0]. Regarding black-box test design and test suite adequacy measurement, which statement is entirely correct?",
+        options: [
+          { key: "A", text: "Achieving 100% line coverage is sufficient to prove that all boundary defects have been eliminated, requiring no further testing", isCorrect: false, trapId: "trap_se_3_1" },
+          { key: "B", text: "Boundary Value Analysis (BVA) must test boundary values (0.5, 10.0) as well as adjacent invalid inputs (0.4, 10.1); Mutation Testing evaluates test adequacy by injecting artificial faults (mutants) into source code", isCorrect: true },
+          { key: "C", text: "Boundary Value Analysis requires testers to supply only valid in-range inputs, strictly avoiding invalid or out-of-bound inputs", isCorrect: false, trapId: "trap_se_3_2" },
+          { key: "D", text: "Mutation Testing is a white-box stress testing tool used exclusively to measure CPU load under 100,000 concurrent users", isCorrect: false, trapId: "trap_se_3_3" }
+        ],
+        explanation: "【Authoritative Analysis · BVA & Mutation Testing Kill Rates】: ① Most defects occur at boundary conditions; BVA must test both valid boundaries and immediate invalid off-points (e.g. 0.4 and 10.1). ② Coverage Illusion: 100% statement coverage can be achieved with assertion-free tests! Mutation testing changes operators (e.g. >= to >) to verify if the test suite actually fails (kills mutants), measuring genuine defect-detection efficacy.",
+        traps: {
+          trap_se_3_1: {
+            title: "🚨 False Sense of Security: High Line Coverage ≠ High Defect Detection",
+            desc: "A critical blind spot in QA. Executing a line does not verify its correctness! Without rigorous assertions, line coverage is high but mutation score is 0%!",
+            prereq: "Prerequisite Concept: Test Adequacy Criteria & Mutation Score",
+            radarHit: "trapDefense"
+          },
+          trap_se_3_2: {
+            title: "🚨 Missing Negative Testing: Omitting Off-Boundary Input Causes Crashes",
+            desc: "Testing only valid inputs (positive testing) is a symptom of brittle software. Robustness requires verifying defensive rejection of invalid equivalence classes!",
+            prereq: "Prerequisite Concept: Robustness Testing & Equivalence Partitioning",
+            radarHit: "boundary"
+          },
+          trap_se_3_3: {
+            title: "🚨 Concept Confusion: Confusing Mutation Testing with Stress/Performance Testing",
+            desc: "Mutation testing is a fault-injection test assessment technique, not a load or performance benchmarking tool!",
+            prereq: "Prerequisite Concept: Fault Injection & Mutation Testing Definitions",
+            radarHit: "recall"
+          }
+        },
+        graph: {
+          title: "SQA & Mutation Testing · Test Adequacy Topology",
+          nodes: [
+            { id: "c1", label: "Mutation Testing Adequacy", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Boundary Value Analysis", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Fault Injection / Mutant Kill", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Coverage Illusion", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Stress Test Confusion", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Input Sampling" },
+            { from: "p2", to: "c1", label: "Adequacy Metric" },
+            { from: "c1", to: "t1", label: "Prone to (Assertion-Free)" },
+            { from: "c1", to: "t2", label: "Prone to (Category Error)" }
+          ]
+        },
+        socraticPrompt: "If a security guard opens every door in a building but doesn't check IDs (100% statement coverage without assertions), will an intruder be detected if one sneaks in (mutant)? What gives genuine quality assurance?"
+      }
+    ]
+  },
+  cs: {
+    name: "Computer Systems Architecture",
+    badge: "Hardware & Systems",
+    questions: [
+      {
+        id: "cs_1",
+        difficulty: "★★★★☆",
+        tag: "RISC Pipeline Architecture · Hazards & Forwarding Paths",
+        stem: "In a standard 5-stage in-order pipeline (IF, ID, EX, MEM, WB), instruction i is an arithmetic operation (e.g. add R1, R2, R3), followed immediately by instruction i+1 (e.g. sub R4, R1, R5) which requires R1 in the EX stage. Which statement regarding pipeline hazards and optimization is correct?",
+        options: [
+          { key: "A", text: "This is a Write-After-Read (WAR) anti-dependency hazard; the pipeline must stall for 2 cycles", isCorrect: false, trapId: "trap_cs_1" },
+          { key: "B", text: "This is a Read-After-Write (RAW) true data dependency; it can be resolved with zero stalls using hardware forwarding from EX/MEM to ALU", isCorrect: true },
+          { key: "C", text: "This is a Structural Hazard; it must be resolved by upgrading the register file to multi-port hardware", isCorrect: false, trapId: "trap_cs_2" },
+          { key: "D", text: "This is a Control Hazard; it requires branch prediction using a Branch History Table (BHT)", isCorrect: false, trapId: "trap_cs_3" }
+        ],
+        explanation: "【Authoritative Analysis · RISC Pipeline Data Forwarding】: Instruction i computes R1 at the end of the EX stage. Instruction i+1 needs R1 at the beginning of the EX stage. By forwarding R1 directly from the EX/MEM pipeline register to the ALU input multiplexer, data hazards are resolved with zero stall cycles.",
+        traps: {
+          trap_cs_1: {
+            title: "🚨 Misconception Trap: WAR/WAW hazards cannot occur in in-order pipelines!",
+            desc: "WAR hazards only occur in out-of-order superscalar architectures (e.g. Tomasulo algorithm). In an in-order pipeline, instructions flow sequentially, so an older instruction can never read after a newer instruction writes!",
+            prereq: "Prerequisite Concept: In-Order vs Out-of-Order Execution",
+            radarHit: "boundary"
+          },
+          trap_cs_2: {
+            title: "🚨 Category Confusion Trap: Confusing data dependencies with structural resource contention",
+            desc: "Structural hazards occur when hardware resources cannot support all concurrent instruction combinations (e.g. single-port memory). Here, the issue is data value dependency!",
+            prereq: "Prerequisite Concept: Three Types of Pipeline Hazards",
+            radarHit: "recall"
+          },
+          trap_cs_3: {
+            title: "🚨 Irrelevant Hazard Trap: Arithmetic instructions do not branch",
+            desc: "Control hazards are exclusively caused by PC-modifying branch or jump instructions, not arithmetic operations!",
+            prereq: "Prerequisite Concept: Control Hazards & Branch Prediction",
+            radarHit: "synthesis"
+          }
+        },
+        graph: {
+          title: "RISC Pipeline · Data Dependencies & Forwarding",
+          nodes: [
+            { id: "c1", label: "Pipeline RAW Hazard", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "In-Order Issue", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "ALU Forwarding", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: WAR Anti-Dependency", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Structural Contention", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Architectural Rule" },
+            { from: "p2", to: "c1", label: "Zero-Stall Solution" },
+            { from: "c1", to: "t1", label: "Prone to (Out-of-Order Myth)" },
+            { from: "c1", to: "t2", label: "Prone to (Resource Confusion)" }
+          ]
+        },
+        socraticPrompt: "In an in-order pipeline, if instruction i produces its result at cycle 3, and instruction i+1 needs it at cycle 4, why should we wait until cycle 5 when it is written back to the register file?"
+      },
+      {
+        id: "cs_2",
+        difficulty: "★★★★☆",
+        tag: "Memory Hierarchy · Set-Associative Cache Mapping",
+        stem: "A 32-bit byte-addressed processor features a 32KB data cache with 64-byte blocks and 4-way set associativity. A loop accessing a large array with a 32KB stride causes severe conflict misses. Which statement regarding address fields and optimization is correct?",
+        options: [
+          { key: "A", text: "Address division: Tag=19 bits, Index=7 bits, Offset=6 bits; increasing associativity to 8-way directly alleviates conflict misses", isCorrect: true },
+          { key: "B", text: "Address division: Tag=18 bits, Index=8 bits, Offset=6 bits; replacing LRU with FIFO reduces miss rates", isCorrect: false, trapId: "trap_cs_2_1" },
+          { key: "C", text: "Address division: Tag=20 bits, Index=6 bits, Offset=6 bits; increasing block size to 128B cures conflict misses", isCorrect: false, trapId: "trap_cs_2_2" },
+          { key: "D", text: "Adding an instruction prefetch buffer inside the CPU eliminates all data cache misses", isCorrect: false, trapId: "trap_cs_2_3" }
+        ],
+        explanation: "【Authoritative Analysis · Cache Address Breakdown & 3C Misses】: Block size 64B = 2⁶ -> Offset = 6 bits. Total blocks = 32KB / 64B = 512 blocks. 4-way set associative -> Sets = 512 / 4 = 128 sets = 2⁷ -> Index = 7 bits. Tag = 32 - 7 - 6 = 19 bits. Conflict misses occur when addresses map to the same set; increasing associativity (e.g. 8-way) directly mitigates conflict misses.",
+        traps: {
+          trap_cs_2_1: {
+            title: "🚨 Set Count Calculation Trap: Confusing total cache blocks with sets",
+            desc: "Dividing total capacity by block size gives total blocks (512), not sets! With 4 ways, there are 128 sets (7 index bits). Furthermore, FIFO suffers from Belady's anomaly!",
+            prereq: "Prerequisite Concept: Set-Associative Cache Formulas & Locality Principle",
+            radarHit: "precision"
+          },
+          trap_cs_2_2: {
+            title: "🚨 Block Size Illusion: Larger blocks can exacerbate conflict misses",
+            desc: "Increasing block size for a fixed cache size reduces the number of sets, potentially worsening conflict misses for strided access!",
+            prereq: "Prerequisite Concept: 3C Miss Model (Compulsory, Capacity, Conflict)",
+            radarHit: "boundary"
+          },
+          trap_cs_2_3: {
+            title: "🚨 Instruction vs Data Cache Confusion",
+            desc: "Instruction prefetchers handle the instruction stream, providing zero benefit for data array strides!",
+            prereq: "Prerequisite Concept: Harvard Architecture Split Cache Separation",
+            radarHit: "recall"
+          }
+        },
+        graph: {
+          title: "Memory Hierarchy · Cache Associativity Topology",
+          nodes: [
+            { id: "c1", label: "Conflict Miss Mitigation", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Address Breakdown (19/7/6)", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Associativity Expansion", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Total Blocks as Sets", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Block Size Oversizing", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Mathematical Foundation" },
+            { from: "p2", to: "c1", label: "Resolution Technique" },
+            { from: "c1", to: "t1", label: "Prone to (Calculation Error)" },
+            { from: "c1", to: "t2", label: "Prone to (Sub-optimal Tuning)" }
+          ]
+        },
+        socraticPrompt: "If an array access jumps by exactly 32KB every step, and your cache index repeats every 32KB, all accesses collide into the exact same set index! How can you provide more available slots per set?"
+      }
+    ]
+  },
+  econ: {
+    name: "Econometrics & Quantitative Modeling",
+    badge: "Honours Core",
+    questions: [
+      {
+        id: "econ_1",
+        difficulty: "★★★★☆",
+        tag: "Econometrics · Gauss-Markov Theorem & OLS Omitted Variable Bias",
+        stem: "When estimating a Mincer earnings equation via Ordinary Least Squares (OLS), the true model includes unobserved innate ability. If ability is omitted and positively correlated with schooling, which property of the OLS estimator for returns to schooling is violated?",
+        options: [
+          { key: "A", text: "OLS remains unbiased and consistent, but standard errors are underestimated", isCorrect: false, trapId: "trap_econ_1" },
+          { key: "B", text: "The Gauss-Markov zero conditional mean assumption E(u|X)=0 is violated, causing positive omitted variable bias", isCorrect: true },
+          { key: "C", text: "This is pure heteroscedasticity; OLS remains unbiased and BLUE", isCorrect: false, trapId: "trap_econ_2" },
+          { key: "D", text: "Multicollinearity between regressors causes the (X'X) matrix to be singular, preventing computation", isCorrect: false, trapId: "trap_econ_3" }
+        ],
+        explanation: "【Authoritative Analysis · Gauss-Markov & Omitted Variable Bias】: When an omitted regressor is correlated with both the dependent variable and an included regressor, it enters the error term u. Consequently, Cov(X, u) ≠ 0, directly violating the zero conditional mean assumption E(u|X)=0. The OLS estimator becomes biased and inconsistent.",
+        traps: {
+          trap_econ_1: {
+            title: "🚨 Efficiency vs Unbiasedness Confusion",
+            desc: "Novice students often confuse efficiency with unbiasedness. Omitting an uncorrelated variable merely inflates variance, but omitting a correlated variable destroys consistency!",
+            prereq: "Prerequisite Concept: Gauss-Markov Zero Conditional Mean Assumption",
+            radarHit: "boundary"
+          },
+          trap_econ_2: {
+            title: "🚨 Heteroscedasticity Category Confusion",
+            desc: "Heteroscedasticity concerns Var(u|X) ≠ σ²; it affects standard errors and efficiency, but does NOT cause omitted variable bias!",
+            prereq: "Prerequisite Concept: Homoscedasticity vs Endogeneity",
+            radarHit: "recall"
+          },
+          trap_econ_3: {
+            title: "🚨 Multicollinearity Confusion",
+            desc: "Multicollinearity requires multiple regressors in the model with high correlation. An unobserved, omitted variable is not an included regressor!",
+            prereq: "Prerequisite Concept: Full Rank Condition & Multicollinearity",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Econometrics · Omitted Variable Bias Topology",
+          nodes: [
+            { id: "c1", label: "Omitted Variable Bias", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "E(u|X) = 0 Violation", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Endogeneity / Ability", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Confusing with Efficiency", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Misattributing Heteroscedasticity", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Direct Mechanism" },
+            { from: "p2", to: "c1", label: "Omitted Cause" },
+            { from: "c1", to: "t1", label: "Prone to (Bias vs Variance)" },
+            { from: "c1", to: "t2", label: "Prone to (Error Term Confusion)" }
+          ]
+        },
+        socraticPrompt: "If innate ability makes individuals earn more and also stay in school longer, when you attribute wage growth purely to schooling without measuring ability, are you overestimating or underestimating schooling's true causal impact?"
+      }
+    ]
+  },
+  law: {
+    name: "Commercial & Contract Law",
+    badge: "Legal Foundations",
+    questions: [
+      {
+        id: "law_1",
+        difficulty: "★★★☆☆",
+        tag: "Contract Law · Vitiating Factors & Rescission Limitation",
+        stem: "Party A enters into a commercial sales agreement on 1 March 2023 induced by fraudulent misrepresentation by Party B. Party A discovers the fraud on 1 May 2023. Under statutory contract law governing voidable contracts, when does the limitation period for exercising the right of rescission commence, and when does it strictly expire?",
+        options: [
+          { key: "A", text: "Commences on contract signing (1 March 2023), expiring strictly in 3 years", isCorrect: false, trapId: "trap_law_1" },
+          { key: "B", text: "Commences on the date the fraud is discovered (1 May 2023), expiring in 1 year", isCorrect: true },
+          { key: "C", text: "Commences on the cessation of the fraudulent act, expiring in 1 year", isCorrect: false, trapId: "trap_law_2" },
+          { key: "D", text: "Commences on contract signing, expiring in 2 years regardless of notice", isCorrect: false, trapId: "trap_law_3" }
+        ],
+        explanation: "【Authoritative Analysis · Rescission Extinction Periods】: The right of rescission for fraudulent misrepresentation commences when the aggrieved party knows or ought to have known of the ground for rescission, expiring strictly in 1 year (with an absolute long-stop period of 5 years from contract formation). This is an extinction/preclusion period and cannot be suspended or interrupted.",
+        traps: {
+          trap_law_1: {
+            title: "🚨 Misconception Trap: Confusing Preclusion Periods with 3-Year General Limitation Actions",
+            desc: "General limitation periods govern claims for damages (claims), whereas rescission is a formative power subject to strict statutory preclusion!",
+            prereq: "Prerequisite Concept: Formative Rights vs Claims & Preclusion Periods",
+            radarHit: "trapDefense"
+          },
+          trap_law_2: {
+            title: "🚨 Rule Mismatch Trap: Confusing Fraud with Duress commencement points",
+            desc: "Under duress, the period commences when the coercion ceases. Under fraud, it commences when the fraud is known or ought to be known!",
+            prereq: "Prerequisite Concept: Vitiating Factors Statutory Commencement Rules",
+            radarHit: "boundary"
+          },
+          trap_law_3: {
+            title: "🚨 Obsolete Statute Confusion",
+            desc: "Confusing superseded legacy contract rules with modern codified contract frameworks.",
+            prereq: "Prerequisite Concept: Modern Codified Contract Law Rules",
+            radarHit: "recall"
+          }
+        },
+        graph: {
+          title: "Contract Law · Rescission Period Topology",
+          nodes: [
+            { id: "c1", label: "Rescission Period", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Knowledge of Fraud (1 Year)", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Absolute Long-Stop (5 Years)", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: 3-Year Limitation Confusion", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Duress Cessation Mismatch", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Statutory Start" },
+            { from: "p2", to: "c1", label: "Max Protection Limit" },
+            { from: "c1", to: "t1", label: "Prone to (Nature of Rights)" },
+            { from: "c1", to: "t2", label: "Prone to (Commencement Mismatch)" }
+          ]
+        },
+        socraticPrompt: "Why does the law impose a strict 1-year extinction period once fraud is discovered, rather than allowing the innocent party to hold the threat of rescission indefinitely over commercial transactions?"
+      }
+    ]
+  }
+};
+
+// 当前题库指针 (动态绑定语言)
+let DB = (localStorage.getItem("smartstudy_lang") === "zh" || !localStorage.getItem("smartstudy_lang")) ? DB_ZH : DB_EN;
+
+// =============================================================================
+// 多语言国际化字典 (Internationalization Dictionary - EN / ZH)
+// =============================================================================
+const I18N = {
+  en: {
+    brandName: "SmartStudy AI",
+    brandSubtitle: "STUDY CONSOLE v1.0",
+    courseBadge: "University of Aberdeen · JC2001 Group 5 Honours Project",
+    fastEnter: "Enter Study Workspace →",
+    backToPortal: "Back to Portal",
+    tabQuiz: "01 Misconception Quiz",
+    tabTutor: "02 Socratic AI Tutor",
+    tabGraph: "03 Knowledge Graph",
+    tabReport: "04 Learning Telemetry",
+    suitesHeading: "CURRICULUM MODULES",
+    telemetryHeading: "SYSTEM METRICS",
+    groundingGate: "GROUNDING GATE",
+    hallucinationDrop: "HALLUCINATION DROP",
+    diagnosticEngine: "DIAGNOSTIC ENGINE",
+    streak: "STREAK",
+    apiStatus: "API: Local Sandbox",
+    switchBadge: "⇄ Switch",
+    radarTitle: "COGNITIVE 5D TELEMETRY",
+    radarCaption: "⚡ Adaptive Trap Tracking / Prerequisite Topology Diagnosis",
+    tutorName: "Socratic AI Companion",
+    tutorStatus: "GraphRAG Grounded · Zero Hallucination",
+    tutorInvite: "\"Notice subtle assumptions in the question? Pick an option to test your intuition, and I will guide you to unpack underlying prerequisite theorems!\"",
+    tutorBtn: "Enter Socratic Seminar Room",
+    prevItem: "◀ PREV ITEM",
+    resetItem: "🔄 RESET",
+    nextItem: "NEXT ITEM >",
+    counterPrefix: "Item",
+    counterMid: "/",
+    counterSuffix: "· 18 Items Practiced Today",
+    benchmarkTag: "🎯 BENCHMARK TEST",
+    loadingStem: "Loading question stem...",
+    subjects: {
+      se: "[SE] ⚙️ Software Eng.",
+      cs: "[CS] 💻 Architecture",
+      econ: "[ECON] 📈 Econometrics",
+      law: "[LAW] ⚖️ Commercial Law"
+    },
+    portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
+    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br>Exam Distractor Trap Diagnosis System",
+    portalHeroDesc: "An intelligent diagnostic study assistant tailored for university STEM & Software Engineering curricula. Moving beyond rote memorisation to pinpoint underlying misconceptions, distractor traps, and prerequisite gaps via Socratic dialogues.",
+    pillGrounded: "⚡ GraphRAG Grounded Synthesis",
+    pillTraps: "🎯 36+ Distractor Traps & Misconceptions",
+    pillSocratic: "💬 Socratic Guided Inquiries",
+    pillRadar: "📊 5D Cognitive Competency Radar",
+    authCardTitle: "🚀 Student Identity Access & Fast Showcase",
+    authCardDesc: "Click any member profile below to load individual telemetry, or enter student ID:",
+    authInputPlaceholder: "Or enter Student ID / Name (e.g. 50106070 or Yuxuan Wu)",
+    authSubmitBtn: "Launch Study Workspace →",
+    authTip: "* Sandbox demo mode enabled. Click any card to enter interactive practice.",
+    featuresSubheading: "SYSTEM ARCHITECTURE & CAPABILITIES",
+    featuresHeading: "Four Core Capabilities: Conventional Quiz vs SmartStudy AI",
+    feat1Title: "01 · Misconception Diagnosis",
+    feat1Sub: "Distractor Trap Attribution",
+    feat1Desc: "<strong>Conventional Quiz Flaw:</strong> Merely scores correct/wrong without explaining the root misconception.<br><strong>SmartStudy Remedy:</strong> Every distractor is linked to specific traps and prerequisite blind spots. Picking an option unfolds a deep diagnosis drawer.",
+    feat1Tag: "Causal Attribution · Prerequisite Trace",
+    feat2Title: "02 · Socratic AI Companion",
+    feat2Sub: "Grounded Guided Inquiry",
+    feat2Desc: "<strong>Conventional AI Flaw:</strong> Dumps the final answer immediately, bypassing independent critical thinking.<br><strong>SmartStudy Remedy:</strong> Grounded in GraphRAG facts, the AI prompts stepped inquiry, nudging students to deduce core theorems independently.",
+    feat2Tag: "Zero Leakage · Stepped Guidance",
+    feat3Title: "03 · Knowledge Graph Topology",
+    feat3Sub: "Curriculum Concept Graph",
+    feat3Desc: "<strong>Conventional Study Flaw:</strong> Fragmented concepts cause exam confusion.<br><strong>SmartStudy Remedy:</strong> Visualises topological links across Software Engineering, Architecture, Econometrics, and Law (prerequisites, theorems, and common traps).",
+    feat3Tag: "Neo4j Topology · Prerequisite Links",
+    feat4Title: "04 · Cognitive Telemetry & Radar",
+    feat4Sub: "Real-time Skill Profiling",
+    feat4Desc: "<strong>Conventional Metric Flaw:</strong> Raw percentage score fails to reflect cognitive robustness.<br><strong>SmartStudy Remedy:</strong> Dynamically calculates 5 skill dimensions (Recall, Defense, Deduction, Synthesis, Boundary) to generate targeted review plans.",
+    feat4Tag: "5D Radar · Adaptive Tracking",
+    footerCourse: "University of Aberdeen · JC2001 Introduction to Software Engineering (2026–27)",
+    footerTeam: "Group 5 (BSc BMIS): Yuxuan Wu (PM · 50106070) · Yongtong Lin (BA · 50106038) · Sijian Wang (SA · 50106045) · Hao Jiang (Dev · 50106065) · Weixin Xie (QA · 50106034) · Zijian Zhang · Yusai Xi · Siqin Dong · Mingjie Yang · Zixuan Liang",
+    footerVersion: "SmartStudy Assistant PoC v1.0 · Grounded with GraphRAG & Dual-Mode Diagnostic Engine",
+    diagCorrectHeader: "Great Job! Concept accurately mastered, avoiding distractor traps!",
+    diagLoading: "🧠 Cognitive Engine analysing answer & trap topology...",
+    diagOfflineBadge: "[Offline Topology Fallback]",
+    diagOnlineBadge: "[AI Live Diagnosis]",
+    weakPointPrefix: "🔍 Prerequisite Blind Spot:",
+    deductionPrefix: "📉 Defense Index Impact:",
+    summonTutorBtn: "💬 Summon Socratic Tutor for Step-by-Step Guidance",
+    feedbackCorrectTip: "✔ Prerequisite Concept Mastery +4 | Defense Index +6",
+    radarRecall: "Recall",
+    radarBoundary: "Boundary",
+    radarDefense: "Defense",
+    radarSynthesis: "Synthesis",
+    radarPrecision: "Precision"
+  },
+  zh: {
+    brandName: "智学罗盘",
+    brandSubtitle: "每天学一点，慢慢变扎实",
+    courseBadge: "阿伯丁大学 JC2001 Group 5 软件工程实践",
+    fastEnter: "进入学习控制台 →",
+    backToPortal: "返回产品介绍主页",
+    tabQuiz: "智能刷题排雷",
+    tabTutor: "苏格拉底学伴",
+    tabGraph: "考点图谱全景",
+    tabReport: "学情综合诊断",
+    suitesHeading: "学习功能",
+    telemetryHeading: "我的学习",
+    groundingGate: "GROUNDING GATE",
+    hallucinationDrop: "HALLUCINATION DROP",
+    diagnosticEngine: "DIAGNOSTIC ENGINE",
+    streak: "STREAK",
+    apiStatus: "API: 沙箱模式",
+    switchBadge: "⇄ 切换",
+    radarTitle: "最近的学习状态",
+    radarCaption: "根据你的练习记录，找到下一步该复习的地方",
+    tutorName: "苏格拉底学霸助教",
+    tutorStatus: "会一步步提示你思考",
+    tutorInvite: "卡住了没关系。先说说你的想法，我会给你一个小提示，而不是直接把答案告诉你。", 
+    tutorBtn: "进入启发式学伴研讨室",
+    prevItem: "◀ PREV ITEM",
+    resetItem: "🔄 RESET",
+    nextItem: "下一题排雷练习 >",
+    counterPrefix: "第",
+    counterMid: "/",
+    counterSuffix: "题 · 今日已练 18 题",
+    benchmarkTag: "🎯 BENCHMARK TEST",
+    loadingStem: "正在加载题干...",
+    subjects: {
+      se: "[SE] ⚙️ 软件工程",
+      cs: "[CS] 💻 体系结构",
+      econ: "[ECON] 📈 计量经济",
+      law: "[LAW] ⚖️ 民商法学"
+    },
+    portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
+    portalHeroTitle: "把每一次做错题，<br>变成下一次进步的线索",
+    portalHeroDesc: "不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。",
+    pillGrounded: "📚 按课程整理知识点",
+    pillTraps: "🧭 看懂每次错题原因",
+    pillSocratic: "💬 一步步提示，不直接剧透",
+    pillRadar: "📈 记录自己的学习进度",
+    authCardTitle: "👋 从今天的学习开始",
+    authCardDesc: "选择一个体验身份，或者输入你的名字，马上开始练习：",
+    authInputPlaceholder: "输入你的名字或学号（例如：小王 或 50106070）",
+    authSubmitBtn: "开始学习",
+    authTip: "演示模式无需注册。你的学习记录只保存在当前浏览器中。",
+    featuresSubheading: "SYSTEM ARCHITECTURE & CAPABILITIES",
+    featuresHeading: "把学习拆成四件容易开始的小事",
+    feat1Title: "练一道题，知道错在哪里",
+    feat1Sub: "错题不只是一个红叉",
+    feat1Desc: "<strong>传统题库痛点：</strong>仅判断对错，无法解释“为什么错”。<br><strong>罗盘排雷方案：</strong>每个干扰项均绑定义题陷阱（Trap）与先修短板。选错即刻滑出诊断抽屉，直击思维误区。",
+    feat1Tag: "错因归因 · 先修溯源",
+    feat2Title: "卡住时，有人给你提示",
+    feat2Sub: "不直接告诉你答案",
+    feat2Desc: "<strong>传统 AI 痛点：</strong>直接倾倒标准答案，剥夺学生自主推导过程。<br><strong>罗盘导学方案：</strong>基于 GraphRAG 知识事实，采用多轮启发式反问，引导学生一步步自行推导出定理结论。",
+    feat2Tag: "零剧透 · 阶梯式点拨",
+    feat3Title: "把零散知识连起来",
+    feat3Sub: "看见前后知识点的关系",
+    feat3Desc: "<strong>传统复习痛点：</strong>知识孤岛零碎，考前死记硬背容易混淆。<br><strong>罗盘图谱方案：</strong>将法学、计组、计量经济与软工知识拓扑化，清晰展现“前置概念-核心定理-常见误区”连边。",
+    feat3Tag: "Neo4j 拓扑 · 概念脉络",
+    feat4Title: "知道下一步复习什么",
+    feat4Sub: "学习记录会给你方向",
+    feat4Desc: "<strong>传统评估痛点：</strong>单一正确率无法反映综合思维稳健度。<br><strong>罗盘诊断方案：</strong>实时计算五维能力（基础理解、陷阱防守、推演分析、综合迁移、知识广度），生成薄弱短板雷达。",
+    feat4Tag: "五维雷达 · 动态追踪",
+    footerCourse: "University of Aberdeen · JC2001 Introduction to Software Engineering (2026–27)",
+    footerTeam: "Group 5 (BSc BMIS) 全体成员：吴宇轩(PM · 50106070) · 林泳桐(BA · 50106038) · 王思鉴(SA · 50106045) · 江昊(Dev · 50106065) · 谢炜昕(QA · 50106034) · 张梓健 · 习羽赛 · 董思钦 · 杨明杰 · 梁子铉",
+    footerVersion: "SmartStudy Assistant PoC v1.0 · Grounded with GraphRAG & Dual-Mode Diagnostic Engine",
+    diagCorrectHeader: "太棒了！考点精准命中，成功避开出题陷阱！",
+    diagLoading: "🧠 认知引擎正在研判答案与陷阱拓扑...",
+    diagOfflineBadge: "[离线高可用图谱兜底]",
+    diagOnlineBadge: "[AI 实时诊断]",
+    weakPointPrefix: "🔍 盲区定位：",
+    deductionPrefix: "📉 易错扣减：",
+    summonTutorBtn: "💬 召唤苏格拉底学霸助教启发点拨",
+    feedbackCorrectTip: "✔ 基础概念牢固度 +4 | 排雷防守指数 +6",
+    radarRecall: "基础概念 (Recall)",
+    radarBoundary: "边界推演 (Boundary)",
+    radarDefense: "排雷防守 (Defense)",
+    radarSynthesis: "综合运用 (Synthesis)",
+    radarPrecision: "计算精度 (Precision)"
+  }
+};
+const API_BASE = (function() {
+  if (typeof window !== "undefined" && window.location && window.location.origin && window.location.origin.startsWith("http")) {
+    return window.location.origin;
+  }
+  return "http://127.0.0.1:8000";
+})();
+
+// =============================================================================
 // 全局状态机 (Global State)
 // =============================================================================
 const GEMINI_DEFAULT_KEY = "sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083";
@@ -649,11 +1214,25 @@ const activeProvider = localStorage.getItem("smartstudy_provider") || "gemini";
 const activeApiUrl = (savedApiKey && savedApiKey.trim()) ? (localStorage.getItem("smartstudy_apiurl") || GEMINI_DEFAULT_URL) : GEMINI_DEFAULT_URL;
 const activeModel = (savedApiKey && savedApiKey.trim()) ? (localStorage.getItem("smartstudy_model") || GEMINI_DEFAULT_MODEL) : GEMINI_DEFAULT_MODEL;
 
+const initialLang = localStorage.getItem("smartstudy_lang") || "zh";
+
+const DEFAULT_WEAK_LISTS = {
+  en: [
+    { tag: "Waterfall vs Agile Trade-offs", reason: "Confusing regulatory audit with extreme agile", count: 2 },
+    { tag: "SOLID & Dependency Inversion (DIP)", reason: "Direct coupling to low-level drivers without interface", count: 1 }
+  ],
+  zh: [
+    { tag: "除斥期间 vs 诉讼时效", reason: "混淆权利性质（形成权 vs 请求权）", count: 2 },
+    { tag: "顺序执行与乱序流水线", reason: "死搬 WAR 冒险导致判断失误", count: 1 }
+  ]
+};
+
 const state = {
-  currentSubject: "law",
+  lang: initialLang,
+  currentSubject: localStorage.getItem("smartstudy_subject") || "se",
   currentQIndex: 0,
   activeTab: "quiz",
-  theme: "light",
+  theme: localStorage.getItem("smartstudy_theme") || "light",
   hasAnswered: false,
 
   // AI 大模型与知识图谱接口配置
@@ -684,10 +1263,7 @@ const state = {
   },
 
   // 待排雷薄弱考点列表
-  weakList: [
-    { tag: "除斥期间 vs 诉讼时效", reason: "混淆权利性质（形成权 vs 请求权）", count: 2 },
-    { tag: "顺序执行与乱序流水线", reason: "死搬 WAR 冒险导致判断失误", count: 1 }
-  ]
+  weakList: (initialLang === "zh" ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en)
 };
 
 let miniRadarChart = null;
@@ -706,7 +1282,664 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGraph();
   initSocraticChat();
   updateStatCards();
+  checkBackendHealth();
+  initAuthPortal();
+  initI18n();
 });
+
+// =============================================================================
+// 产品介绍门户与学生档案登录控制器 (Landing & Auth Portal Controller)
+// =============================================================================
+const DEMO_STUDENTS_CONFIG = {
+  en: [
+    {
+      id: "50106070",
+      name: "Yuxuan Wu",
+      role: "PM · Group Leader",
+      avatar: "YW",
+      subject: "se",
+      subjectLabel: "⚙️ Software Eng.",
+      streak: 5
+    },
+    {
+      id: "50106038",
+      name: "Yongtong Lin",
+      role: "Lead BA · Requirements",
+      avatar: "YL",
+      subject: "econ",
+      subjectLabel: "📈 Econometrics",
+      streak: 4
+    },
+    {
+      id: "50106045",
+      name: "Sijian Wang",
+      role: "Chief Architect",
+      avatar: "SW",
+      subject: "cs",
+      subjectLabel: "💻 Architecture",
+      streak: 6
+    },
+    {
+      id: "50106065",
+      name: "Hao Jiang",
+      role: "Development Lead",
+      avatar: "HJ",
+      subject: "se",
+      subjectLabel: "⚙️ Software Eng.",
+      streak: 7
+    },
+    {
+      id: "guest",
+      name: "Guest Learner",
+      role: "Instant Sandbox Access",
+      avatar: "GL",
+      subject: "se",
+      subjectLabel: "🚀 Instant Sandbox",
+      streak: 1
+    }
+  ],
+  zh: [
+    {
+      id: "50106070",
+      name: "吴宇轩",
+      role: "PM · 课题组组长",
+      avatar: "吴",
+      subject: "se",
+      subjectLabel: "⚙️ 软件工程",
+      streak: 5
+    },
+    {
+      id: "50106038",
+      name: "林泳桐",
+      role: "Lead BA · 需求主管",
+      avatar: "林",
+      subject: "econ",
+      subjectLabel: "📈 计量经济",
+      streak: 4
+    },
+    {
+      id: "50106045",
+      name: "王思鉴",
+      role: "Architect · 架构主管",
+      avatar: "王",
+      subject: "cs",
+      subjectLabel: "💻 计算机体系",
+      streak: 6
+    },
+    {
+      id: "50106065",
+      name: "江昊",
+      role: "Dev Lead · 开发主管",
+      avatar: "江",
+      subject: "se",
+      subjectLabel: "⚙️ 软件工程",
+      streak: 7
+    },
+    {
+      id: "guest",
+      name: "访客体验生",
+      role: "Guest · 速通免密",
+      avatar: "客",
+      subject: "se",
+      subjectLabel: "🚀 全功能体验",
+      streak: 1
+    }
+  ]
+};
+
+function getDemoStudents() {
+  const lang = state.lang || "en";
+  return DEMO_STUDENTS_CONFIG[lang] || DEMO_STUDENTS_CONFIG.en;
+}
+
+function switchRootView(view) {
+  const portal = document.getElementById("portal-landing");
+  const shell = document.getElementById("app-shell");
+  if (!portal || !shell) return;
+
+  if (view === "workspace") {
+    portal.style.display = "none";
+    shell.style.display = "flex";
+    localStorage.setItem("smartstudy_current_view", "workspace");
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+      if (typeof rebuildRadarCharts === "function") rebuildRadarCharts();
+      if (typeof renderGraph === "function") renderGraph();
+    }, 60);
+  } else {
+    shell.style.display = "none";
+    portal.style.display = "block";
+    localStorage.setItem("smartstudy_current_view", "portal");
+  }
+}
+
+function switchSubject(sub) {
+  if (!DB[sub]) return;
+  state.currentSubject = sub;
+  state.currentQIndex = 0;
+  localStorage.setItem("smartstudy_subject", sub);
+  const btns = document.querySelectorAll(".subject-btn");
+  btns.forEach(b => {
+    if (b.dataset.subject === sub) {
+      b.classList.add("active");
+    } else {
+      b.classList.remove("active");
+    }
+  });
+  loadQuestion();
+  renderGraph();
+  if (typeof resetChatWithContext === "function") resetChatWithContext();
+}
+
+function applyStudentProfile(student) {
+  if (!student) return;
+  state.currentUser = student;
+  localStorage.setItem("smartstudy_current_user", JSON.stringify(student));
+
+  const nameEl = document.getElementById("current-user-name");
+  const roleEl = document.getElementById("current-user-role");
+  const avatarEl = document.getElementById("current-user-avatar");
+  if (nameEl) nameEl.textContent = student.name;
+  if (roleEl) roleEl.textContent = `${student.role} (${student.id})`;
+  if (avatarEl) avatarEl.textContent = student.avatar || student.name.charAt(0);
+
+  const streakStrong = document.querySelector(".streak-badge strong");
+  if (streakStrong && student.streak) streakStrong.textContent = student.streak;
+
+  if (student.subject && DB[student.subject] && typeof switchSubject === "function") {
+    switchSubject(student.subject);
+  }
+}
+
+function renderDemoAccounts() {
+  const demoContainer = document.getElementById("portal-demo-accounts");
+  if (demoContainer) {
+    const students = getDemoStudents();
+    demoContainer.innerHTML = students.map(s => `
+      <div class="demo-user-card" data-student-id="${s.id}" title="${state.lang === 'zh' ? '点击以【' + s.name + '】身份登入并进入控制台' : 'Click to launch workspace as ' + s.name}">
+        <div class="demo-avatar">${s.avatar}</div>
+        <div class="demo-name">${s.name}</div>
+        <div class="demo-role">${s.role}</div>
+        <div class="demo-subject">${s.subjectLabel}</div>
+      </div>
+    `).join("");
+
+    demoContainer.querySelectorAll(".demo-user-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const id = card.getAttribute("data-student-id");
+        const list = getDemoStudents();
+        const student = list.find(s => s.id === id) || list[0];
+        applyStudentProfile(student);
+        switchRootView("workspace");
+      });
+    });
+  }
+
+  // Also populate demo cards inside the modal if it exists
+  const modalGrid = document.getElementById("demo-accounts-list");
+  if (modalGrid) {
+    const students = getDemoStudents();
+    modalGrid.innerHTML = students.map(s => `
+      <div class="demo-user-card" data-student-id="${s.id}" style="padding: 10px; cursor: pointer;">
+        <div class="demo-avatar" style="width: 32px; height: 32px; font-size: 0.85rem;">${s.avatar}</div>
+        <div class="demo-name" style="font-size: 0.88rem;">${s.name}</div>
+        <div class="demo-role" style="font-size: 0.72rem;">${s.role}</div>
+      </div>
+    `).join("");
+
+    modalGrid.querySelectorAll(".demo-user-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const id = card.getAttribute("data-student-id");
+        const list = getDemoStudents();
+        const student = list.find(s => s.id === id) || list[0];
+        applyStudentProfile(student);
+        const loginModal = document.getElementById("login-modal");
+        if (loginModal) loginModal.style.display = "none";
+      });
+    });
+  }
+}
+
+function applyLanguage(lang) {
+  state.lang = lang;
+  localStorage.setItem("smartstudy_lang", lang);
+  DB = (lang === "zh") ? DB_ZH : DB_EN;
+  const dict = I18N[lang] || I18N.en;
+
+  // 1. Language Toggle Buttons
+  const portalLangBtn = document.getElementById("portal-lang-btn");
+  if (portalLangBtn) {
+    const label = portalLangBtn.querySelector(".lang-label");
+    if (label) label.textContent = (lang === "zh") ? "中文" : "English";
+    portalLangBtn.title = (lang === "zh") ? "切换为英文 (Switch to English)" : "Switch to Chinese / 切换中文";
+  }
+  const sidebarLangBtn = document.getElementById("sidebar-lang-btn");
+  if (sidebarLangBtn) {
+    const label = sidebarLangBtn.querySelector(".lang-label");
+    if (label) label.textContent = (lang === "zh") ? "中文" : "EN";
+    sidebarLangBtn.title = (lang === "zh") ? "切换为英文 (Switch to English)" : "Switch to Chinese / 切换中文";
+  }
+
+  // 2. Portal Header & Hero
+  const portalBrandSub = document.getElementById("portal-brand-sub");
+  if (portalBrandSub) portalBrandSub.textContent = dict.courseBadge;
+
+  const fastEnterText = document.getElementById("portal-fast-enter-text");
+  if (fastEnterText) fastEnterText.textContent = dict.fastEnter;
+
+  const heroBadge = document.querySelector(".portal-badge-pill span");
+  if (heroBadge) heroBadge.textContent = dict.portalHeroBadge;
+
+  const heroTitle = document.querySelector(".portal-hero-title");
+  if (heroTitle) heroTitle.innerHTML = dict.portalHeroTitle;
+
+  const heroDesc = document.querySelector(".portal-hero-desc");
+  if (heroDesc) heroDesc.textContent = dict.portalHeroDesc;
+
+  const pills = document.querySelectorAll(".portal-highlights-row .portal-pill-chip");
+  if (pills && pills.length >= 4) {
+    pills[0].textContent = dict.pillGrounded;
+    pills[1].textContent = dict.pillTraps;
+    pills[2].textContent = dict.pillSocratic;
+    pills[3].textContent = dict.pillRadar;
+  }
+
+  // 3. Auth Card
+  const authCardTitle = document.querySelector(".auth-card-header div:first-child span:last-child");
+  if (authCardTitle) authCardTitle.textContent = dict.authCardTitle;
+
+  const authCardDesc = document.querySelector(".auth-card-header div:last-child");
+  if (authCardDesc) authCardDesc.textContent = dict.authCardDesc;
+
+  const usernameInput = document.getElementById("portal-username-input");
+  if (usernameInput) usernameInput.placeholder = dict.authInputPlaceholder;
+
+  const loginBtn = document.getElementById("portal-login-btn");
+  if (loginBtn) loginBtn.innerHTML = `${dict.authSubmitBtn}`;
+
+  const loginTip = document.getElementById("portal-login-tip");
+  if (loginTip) loginTip.textContent = dict.authTip;
+
+  // Re-render student cards
+  renderDemoAccounts();
+
+  // 4. Features Section
+  const featuresSub = document.querySelector(".portal-features-section div div:first-child");
+  if (featuresSub) featuresSub.textContent = dict.featuresSubheading;
+
+  const featuresHeading = document.querySelector(".portal-features-section div h2");
+  if (featuresHeading) featuresHeading.textContent = dict.featuresHeading;
+
+  const featureCards = document.querySelectorAll(".portal-feature-card");
+  if (featureCards && featureCards.length >= 4) {
+    featureCards[0].querySelector(".feature-card-title").textContent = dict.feat1Title;
+    featureCards[0].querySelector(".feature-card-subtitle").textContent = dict.feat1Sub;
+    featureCards[0].querySelector(".feature-card-p").innerHTML = dict.feat1Desc;
+    featureCards[0].querySelector(".feature-card-tag").textContent = dict.feat1Tag;
+
+    featureCards[1].querySelector(".feature-card-title").textContent = dict.feat2Title;
+    featureCards[1].querySelector(".feature-card-subtitle").textContent = dict.feat2Sub;
+    featureCards[1].querySelector(".feature-card-p").innerHTML = dict.feat2Desc;
+    featureCards[1].querySelector(".feature-card-tag").textContent = dict.feat2Tag;
+
+    featureCards[2].querySelector(".feature-card-title").textContent = dict.feat3Title;
+    featureCards[2].querySelector(".feature-card-subtitle").textContent = dict.feat3Sub;
+    featureCards[2].querySelector(".feature-card-p").innerHTML = dict.feat3Desc;
+    featureCards[2].querySelector(".feature-card-tag").textContent = dict.feat3Tag;
+
+    featureCards[3].querySelector(".feature-card-title").textContent = dict.feat4Title;
+    featureCards[3].querySelector(".feature-card-subtitle").textContent = dict.feat4Sub;
+    featureCards[3].querySelector(".feature-card-p").innerHTML = dict.feat4Desc;
+    featureCards[3].querySelector(".feature-card-tag").textContent = dict.feat4Tag;
+  }
+
+  // 5. Portal Footer
+  const footerCourse = document.querySelector(".portal-footer div:nth-child(1)");
+  if (footerCourse) footerCourse.textContent = dict.footerCourse;
+
+  const footerTeam = document.querySelector(".portal-footer div:nth-child(2)");
+  if (footerTeam) footerTeam.textContent = dict.footerTeam;
+
+  const footerVersion = document.querySelector(".portal-footer div:nth-child(3)");
+  if (footerVersion) footerVersion.textContent = dict.footerVersion;
+
+  // 6. Sidebar (App Shell)
+  const brandName = document.querySelector(".brand-meta .brand-name");
+  if (brandName) brandName.textContent = dict.brandName;
+
+  const brandSub = document.querySelector(".brand-meta .brand-subtitle");
+  if (brandSub) brandSub.textContent = dict.brandSubtitle;
+
+  const backToPortalSpan = document.querySelector("#back-to-portal-btn span");
+  if (backToPortalSpan) backToPortalSpan.textContent = dict.backToPortal;
+
+  const navHeading = document.querySelector(".nav-group-heading");
+  if (navHeading) navHeading.textContent = dict.suitesHeading;
+
+  const tabQuiz = document.querySelector('.nav-tab-item[data-view="quiz"] .tab-label');
+  if (tabQuiz) tabQuiz.textContent = dict.tabQuiz;
+
+  const tabTutor = document.querySelector('.nav-tab-item[data-view="tutor"] .tab-label');
+  if (tabTutor) tabTutor.textContent = dict.tabTutor;
+
+  const tabGraph = document.querySelector('.nav-tab-item[data-view="graph"] .tab-label');
+  if (tabGraph) tabGraph.textContent = dict.tabGraph;
+
+  const tabReport = document.querySelector('.nav-tab-item[data-view="report"] .tab-label');
+  if (tabReport) tabReport.textContent = dict.tabReport;
+
+  const apiStatusText = document.getElementById("nav-api-status-text");
+  if (apiStatusText) apiStatusText.textContent = dict.apiStatus;
+
+  const switchBadge = document.querySelector(".user-switch-badge");
+  if (switchBadge) switchBadge.textContent = dict.switchBadge;
+
+  // 7. Subject Buttons in Quiz view
+  const subBtns = document.querySelectorAll(".subject-btn");
+  subBtns.forEach(btn => {
+    const s = btn.getAttribute("data-subject");
+    if (s && dict.subjects[s]) {
+      btn.textContent = dict.subjects[s];
+    }
+  });
+
+  // 8. Quiz Actions
+  const prevBtn = document.getElementById("prev-q-btn");
+  if (prevBtn) prevBtn.textContent = dict.prevItem;
+
+  const resetBtn = document.getElementById("reset-q-btn");
+  if (resetBtn) resetBtn.textContent = dict.resetItem;
+
+  const nextBtn = document.getElementById("next-q-btn");
+  if (nextBtn) nextBtn.textContent = dict.nextItem;
+
+  // 9. Quiz Sidebar Cards
+  const radarTitle = document.querySelector(".quiz-sidebar .side-title span");
+  if (radarTitle) radarTitle.textContent = dict.radarTitle;
+
+  const radarCaption = document.querySelector(".quiz-sidebar .radar-caption");
+  if (radarCaption) radarCaption.textContent = dict.radarCaption;
+
+  const compName = document.querySelector(".companion-name");
+  if (compName) compName.textContent = dict.tutorName;
+
+  const compStatus = document.querySelector(".companion-status");
+  if (compStatus) compStatus.innerHTML = `<span class="status-dot"></span> ${dict.tutorStatus}`;
+
+  const compBubble = document.querySelector(".companion-bubble");
+  if (compBubble) compBubble.textContent = dict.tutorInvite;
+
+  const tutorLaunchBtn = document.querySelector(".tutor-launch-btn");
+  if (tutorLaunchBtn) tutorLaunchBtn.textContent = dict.tutorBtn;
+
+  // 10. Socratic Chat View
+  const chatTitle = document.querySelector(".chat-title");
+  if (chatTitle) {
+    chatTitle.textContent = (lang === "zh")
+      ? "启发式苏格拉底学霸助教 (SOCRATIC AGENT)"
+      : "Socratic Reasoning AI Tutor (SOCRATIC AGENT)";
+  }
+  const chatSubtitle = document.querySelector(".chat-subtitle");
+  if (chatSubtitle) {
+    chatSubtitle.textContent = (lang === "zh")
+      ? "接入学科本体知识图谱 · 强制学术置信度仲裁 · 幻觉发生率降低 68.4%"
+      : "Grounded in Curriculum Knowledge Graph · Grounding Gate ≥ 85% · Hallucination Rate Drop -68.4%";
+  }
+
+  const chips = document.querySelectorAll(".quick-chip");
+  if (chips && chips.length >= 4) {
+    if (lang === "zh") {
+      chips[0].textContent = "💡 为什么这个选项是高频出题陷阱？";
+      chips[1].textContent = "⛓️ 解这道题必须掌握哪些前置定理？";
+      chips[2].textContent = "🎯 请给我一道同构变式强化题";
+      chips[3].textContent = "🔍 怎样快速区分这些核心概念与边界条件？";
+    } else {
+      chips[0].textContent = "💡 Why is this option a frequent distractor trap?";
+      chips[1].textContent = "⛓️ What prerequisite theorems are essential for this problem?";
+      chips[2].textContent = "🎯 Provide an isomorphic problem for reinforcement";
+      chips[3].textContent = "🔍 How to rigorously distinguish between core concepts?";
+    }
+  }
+
+  const chatInput = document.getElementById("chat-input-text");
+  if (chatInput) {
+    chatInput.placeholder = (lang === "zh")
+      ? "向苏格拉底助教输入你的解题思考或疑问（支持探讨推导思路与前置条件）..."
+      : "Enter your reasoning, hypothesis, or questions for Socratic dialogue...";
+  }
+
+  const chatSendBtn = document.getElementById("chat-send-btn");
+  if (chatSendBtn) chatSendBtn.textContent = (lang === "zh") ? "发 送" : "SEND";
+
+  // 11. Knowledge Graph View
+  const graphTitle = document.querySelector("#view-graph .section-title");
+  if (graphTitle) {
+    graphTitle.textContent = (lang === "zh")
+      ? "学科知识本体与出题陷阱拓扑图谱 (NEO4J DAG VISUALIZER)"
+      : "Curriculum Ontology & Exam Distractor Topology (NEO4J DAG VISUALIZER)";
+  }
+  const graphDesc = document.querySelector("#view-graph .section-desc");
+  if (graphDesc) {
+    graphDesc.textContent = (lang === "zh")
+      ? "核心考点 (Core Concept)、先修依赖 (Prerequisites) 与 认知混淆易错点 (Misconception Traps)"
+      : "Core Syllabus Concepts, Prerequisite Dependencies, and Cognitive Misconception Traps";
+  }
+  const graphLegends = document.querySelectorAll(".graph-legend-item span");
+  if (graphLegends && graphLegends.length >= 3) {
+    graphLegends[0].textContent = (lang === "zh") ? "核心考核考点" : "Core Syllabus Concept";
+    graphLegends[1].textContent = (lang === "zh") ? "前置定理基础" : "Prerequisite Foundation";
+    graphLegends[2].textContent = (lang === "zh") ? "典型易错陷阱" : "Distractor Misconception Trap";
+  }
+
+  // 12. Analytics & Report View
+  const statLabels = document.querySelectorAll("#view-report .stat-label");
+  if (statLabels && statLabels.length >= 4) {
+    statLabels[0].textContent = (lang === "zh") ? "CONSECUTIVE DAYS / 连续打卡" : "CONSECUTIVE STUDY DAYS";
+    statLabels[1].textContent = (lang === "zh") ? "TRAPS IDENTIFIED / 识破陷阱" : "TRAPS DEFENDED";
+    statLabels[2].textContent = (lang === "zh") ? "PREDICTED SCORE / 模拟预测" : "PROJECTED EXAM SCORE";
+    statLabels[3].textContent = (lang === "zh") ? "GROUNDING CONFIDENCE / 仲裁可信度" : "GROUNDING CONFIDENCE";
+  }
+
+  const radarBigTitle = document.querySelector("#view-report .panel-title span");
+  if (radarBigTitle) {
+    radarBigTitle.textContent = (lang === "zh")
+      ? "认知能力五维全景画像 (ECharts 5.5.1 Radar)"
+      : "Cognitive Competency 5D Panorama (ECharts 5.5.1)";
+  }
+
+  const defectLogTitle = document.querySelector("#view-report .defect-panel .panel-title span");
+  if (defectLogTitle) {
+    defectLogTitle.textContent = (lang === "zh")
+      ? "重点攻坚与薄弱知识点排雷队列 (BENCHMARK DEFECT LOG)"
+      : "Curriculum Defect Queue & Target Review (BENCHMARK DEFECT LOG)";
+  }
+
+  const colTopic = document.querySelector(".col-topic");
+  if (colTopic) {
+    colTopic.textContent = (lang === "zh")
+      ? "DEFECT TARGET & REASON / 考点与归因"
+      : "DEFECT TARGET & CAUSAL ATTRIBUTION";
+  }
+
+  const evalRec = document.querySelector(".eval-rec-box");
+  if (evalRec) {
+    evalRec.innerHTML = (lang === "zh")
+      ? `💡 <strong>EVAL RECOMMENDATION</strong>: 自适应追踪模型判定：建议今日优先复习上述失误考点前置定理，并完成 1 道同构变式强化题。`
+      : `💡 <strong>EVAL RECOMMENDATION</strong>: Adaptive tracker indicates: Focus today on prerequisite theorems for flagged items, then complete 1 reinforcement item.`;
+  }
+
+  // 13. Update Active Student Profile Display
+  if (state.currentUser) {
+    const matched = getDemoStudents().find(s => s.id === state.currentUser.id);
+    if (matched) {
+      applyStudentProfile(matched);
+    }
+  }
+
+  // 14. Update WeakList language
+  state.weakList = (lang === "zh") ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en;
+
+  // 15. Reload Question, Radar Charts and Graph
+  loadQuestion();
+  if (typeof rebuildRadarCharts === "function") rebuildRadarCharts();
+  if (typeof renderGraph === "function") renderGraph();
+  updateStatCards();
+}
+
+function initI18n() {
+  const currentLang = localStorage.getItem("smartstudy_lang") || "zh";
+
+  const portalLangBtn = document.getElementById("portal-lang-btn");
+  if (portalLangBtn) {
+    portalLangBtn.addEventListener("click", () => {
+      const nextLang = (state.lang === "en") ? "zh" : "en";
+      applyLanguage(nextLang);
+    });
+  }
+
+  const sidebarLangBtn = document.getElementById("sidebar-lang-btn");
+  if (sidebarLangBtn) {
+    sidebarLangBtn.addEventListener("click", () => {
+      const nextLang = (state.lang === "en") ? "zh" : "en";
+      applyLanguage(nextLang);
+    });
+  }
+
+  applyLanguage(currentLang);
+}
+
+function initAuthPortal() {
+  renderDemoAccounts();
+
+  const loginBtn = document.getElementById("portal-login-btn");
+  const usernameInput = document.getElementById("portal-username-input");
+  if (loginBtn && usernameInput) {
+    const handleLogin = () => {
+      const val = usernameInput.value.trim();
+      const students = getDemoStudents();
+      let matched = students.find(s => s.id === val || s.name.toLowerCase() === val.toLowerCase());
+      if (!matched) {
+        const isZh = (state.lang === "zh");
+        const displayName = val || (isZh ? "吴同学" : "Yuxuan Wu");
+        matched = {
+          id: val && val.match(/^\d+$/) ? val : "50106070",
+          name: displayName,
+          role: isZh ? "BSc BMIS · 学生档案" : "BSc BMIS · Student Profile",
+          avatar: isZh ? (displayName.charAt(0) || "学") : (displayName.slice(0, 2).toUpperCase() || "YW"),
+          subject: "se",
+          subjectLabel: isZh ? "⚙️ 软件工程" : "⚙️ Software Eng.",
+          streak: 3
+        };
+      }
+      applyStudentProfile(matched);
+      switchRootView("workspace");
+    };
+
+    loginBtn.addEventListener("click", handleLogin);
+    usernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleLogin();
+    });
+  }
+
+  const fastEnterBtn = document.getElementById("portal-fast-enter-btn");
+  if (fastEnterBtn) {
+    fastEnterBtn.addEventListener("click", () => {
+      const savedUser = localStorage.getItem("smartstudy_current_user");
+      const students = getDemoStudents();
+      if (savedUser) {
+        try {
+          applyStudentProfile(JSON.parse(savedUser));
+        } catch (e) {
+          applyStudentProfile(students[0]);
+        }
+      } else {
+        applyStudentProfile(students[0]);
+      }
+      switchRootView("workspace");
+    });
+  }
+
+  const portalThemeBtn = document.getElementById("portal-theme-btn");
+  if (portalThemeBtn) {
+    portalThemeBtn.addEventListener("click", () => {
+      const newTheme = (state.theme === "light") ? "dark" : "light";
+      state.theme = newTheme;
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("smartstudy_theme", newTheme);
+      updateThemeIcon();
+      if (typeof rebuildRadarCharts === "function") rebuildRadarCharts();
+      if (typeof renderGraph === "function") renderGraph();
+    });
+  }
+
+  const backToPortalBtn = document.getElementById("back-to-portal-btn");
+  if (backToPortalBtn) {
+    backToPortalBtn.addEventListener("click", () => {
+      switchRootView("portal");
+    });
+  }
+
+  const userProfileBtn = document.getElementById("user-profile-btn");
+  const loginModal = document.getElementById("login-modal");
+  const closeLoginModalBtn = document.getElementById("close-login-modal-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (userProfileBtn && loginModal) {
+    userProfileBtn.addEventListener("click", () => {
+      loginModal.style.display = "flex";
+      renderDemoAccounts();
+    });
+  }
+  if (closeLoginModalBtn && loginModal) {
+    closeLoginModalBtn.addEventListener("click", () => {
+      loginModal.style.display = "none";
+    });
+  }
+  if (loginModal) {
+    loginModal.addEventListener("click", (e) => {
+      if (e.target === loginModal) loginModal.style.display = "none";
+    });
+  }
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      if (loginModal) loginModal.style.display = "none";
+      localStorage.removeItem("smartstudy_current_user");
+      switchRootView("portal");
+    });
+  }
+
+  // 初始视图判定：首次打开默认展示介绍门户
+  const initialView = localStorage.getItem("smartstudy_current_view");
+  if (initialView === "workspace") {
+    const savedUser = localStorage.getItem("smartstudy_current_user");
+    if (savedUser) {
+      try { applyStudentProfile(JSON.parse(savedUser)); } catch (e) {}
+    }
+    switchRootView("workspace");
+  } else {
+    switchRootView("portal");
+  }
+}
+
+
+// =============================================================================
+// 后端健康状态静默探测 (Silent Backend Health Probe)
+// =============================================================================
+async function checkBackendHealth() {
+  try {
+    const res = await fetch(`${API_BASE}/api/health`);
+    if (res.ok) {
+      const data = await res.json();
+      const statusText = document.querySelector(".sidebar-status-chip .status-text");
+      if (statusText) {
+        statusText.textContent = "FASTAPI ONLINE";
+      }
+      console.log("[SmartStudy] Backend probe success:", data);
+    }
+  } catch (e) {
+    // 离线静默降级，不向控制台抛出任何未捕获异常
+  }
+}
 
 // =============================================================================
 // =============================================================================
@@ -1005,7 +2238,11 @@ function loadQuestion() {
   const counterEl = document.getElementById("q-counter");
   if (counterEl) {
     const totalInSub = DB[state.currentSubject].questions.length;
-    counterEl.textContent = `${DB[state.currentSubject].name} · 第 ${state.currentQIndex + 1} / ${totalInSub} 题 (今日已练 18 题)`;
+    if (state.lang === "zh") {
+      counterEl.textContent = `${DB[state.currentSubject].name} · 第 ${state.currentQIndex + 1} / ${totalInSub} 题 (今日已练 18 题)`;
+    } else {
+      counterEl.textContent = `${DB[state.currentSubject].name} · Item ${state.currentQIndex + 1} / ${totalInSub} (18 Items Practiced Today)`;
+    }
   }
 
   // 渲染选项列表
@@ -1032,35 +2269,116 @@ function loadQuestion() {
   drawer.innerHTML = "";
 
   // 重置按钮文本
-  document.getElementById("next-q-btn").textContent = "下一题排雷练习 >";
+  document.getElementById("next-q-btn").textContent = (state.lang === "zh") ? "下一题排雷练习 >" : "NEXT ITEM >";
 }
 
-function handleSelectOption(opt, cardEl, q) {
+async function handleSelectOption(opt, cardEl, q) {
   if (state.hasAnswered) return;
   state.hasAnswered = true;
 
   const allCards = document.querySelectorAll(".quiz-option-card");
   allCards.forEach(c => c.classList.add("disabled"));
 
+  const dict = I18N[state.lang || "en"] || I18N.en;
   const drawer = document.getElementById("diagnostic-drawer");
   drawer.style.display = "block";
+  drawer.className = "diagnostic-drawer";
+  drawer.innerHTML = `
+    <div class="diag-header" style="color: var(--primary-500, #4f8ef7);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+        <path d="M12 2a10 10 0 0 1 10 10"></path>
+      </svg>
+      <span>${dict.diagLoading}</span>
+    </div>
+  `;
 
-  if (opt.isCorrect) {
+  let diagResult = null;
+
+  // 1. 发起 POST /api/diagnose 请求（带有 snake_case 与 camelCase 双向字段）
+  try {
+    const payload = {
+      question_id: q.id || q.question_id || "",
+      questionId: q.id || q.question_id || "",
+      selected_option: opt.key,
+      selectedOption: opt.key,
+      selected_key: opt.key,
+      selectedKey: opt.key
+    };
+
+    const resp = await fetch(`${API_BASE}/api/diagnose`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (resp.ok) {
+      diagResult = await resp.json();
+    } else {
+      console.warn("Backend /api/diagnose returned status:", resp.status);
+    }
+  } catch (err) {
+    console.warn("Backend /api/diagnose unreachable, engaging local fallback engine:", err && err.message ? err.message : err);
+  }
+
+  // 2. 本地高保真兜底（若后端未启动、网络中断或返回异常）
+  if (!diagResult) {
+    const isCorrect = Boolean(opt.isCorrect);
+    const localTrap = (q.traps && q.traps[opt.trapId]) ? q.traps[opt.trapId] : {
+      title: state.lang === "zh" ? "🚨 典型易错陷阱" : "🚨 Classic Distractor Trap",
+      desc: q.explanation || (state.lang === "zh" ? "该选项未能准确命中核心定理。" : "This option deviates from the core theorem."),
+      prereq: q.tag || (state.lang === "zh" ? "前置核心考点" : "Prerequisite Concept")
+    };
+
+    diagResult = {
+      is_correct: isCorrect,
+      isCorrect: isCorrect,
+      trap_name: isCorrect ? null : localTrap.title,
+      trapTitle: isCorrect ? null : localTrap.title,
+      concept_name: isCorrect ? (q.tag || "核心定理") : localTrap.prereq,
+      conceptName: isCorrect ? (q.tag || "核心定理") : localTrap.prereq,
+      socratic_guidance: isCorrect ? (q.explanation || dict.diagCorrectHeader) : (localTrap.desc || q.socraticPrompt),
+      socraticHint: isCorrect ? (q.explanation || dict.diagCorrectHeader) : (localTrap.desc || q.socraticPrompt),
+      fallback_mode: true,
+      fallbackMode: true
+    };
+  }
+
+  // 3. 字段归一化解析（严格兼容 snake_case 与 camelCase）
+  const isCorrect = (diagResult.is_correct !== undefined) ? Boolean(diagResult.is_correct) : Boolean(diagResult.isCorrect);
+  const fallbackMode = (diagResult.fallback_mode !== undefined) ? Boolean(diagResult.fallback_mode) : Boolean(diagResult.fallbackMode);
+  const defaultTrapTitle = state.lang === "zh" ? "典型易错陷阱" : "Classic Distractor Trap";
+  const rawTrap = diagResult.trap_name || diagResult.trapTitle || diagResult.trap_title || diagResult.trapName || defaultTrapTitle;
+  const trapTitle = rawTrap.startsWith("🚨") ? rawTrap : `🚨 ${rawTrap}`;
+  const conceptName = diagResult.concept_name || diagResult.conceptName || diagResult.prerequisite || q.tag || (state.lang === "zh" ? "前置核心考点" : "Prerequisite Concept");
+  const socraticText = diagResult.socratic_guidance || diagResult.socraticHint || diagResult.socratic_hint || diagResult.socraticGuidance || (isCorrect ? q.explanation : (q.socraticPrompt || "Review prerequisite definitions."));
+
+  // 诊断模式徽章文本与样式
+  const badgeText = fallbackMode ? dict.diagOfflineBadge : dict.diagOnlineBadge;
+  const badgeBorder = fallbackMode ? "var(--border-subtle, #30363d)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
+  const badgeColor = fallbackMode ? "var(--text-muted, #8b949e)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
+  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-mono);">${badgeText}</span>`;
+
+  // 4. 根据诊断结果渲染抽屉与更新能力雷达
+  if (isCorrect) {
     // 答对
     cardEl.classList.add("correct");
     drawer.className = "diagnostic-drawer success";
     drawer.innerHTML = `
       <div class="diag-header">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span>太棒了！考点精准命中，成功避开出题陷阱！</span>
+        <span>${dict.diagCorrectHeader}</span>
+        ${badgeHtml}
       </div>
-      <div class="diag-body">${q.explanation}</div>
+      <div class="diag-body">${socraticText}</div>
       <div class="diag-features">
         <div class="diag-feature-pill">
-          <span style="color: #10b981;">✔</span> 基础概念牢固度 +4
+          <span style="color: #10b981;">✔</span> ${state.lang === 'zh' ? '基础概念牢固度 +4' : 'Prerequisite Recall +4'}
         </div>
         <div class="diag-feature-pill">
-          <span style="color: #10b981;">✔</span> 陷阱防御指数 +5
+          <span style="color: #10b981;">✔</span> ${state.lang === 'zh' ? '陷阱防御指数 +5' : 'Trap Defense Index +5'}
         </div>
       </div>
     `;
@@ -1080,30 +2398,33 @@ function handleSelectOption(opt, cardEl, q) {
     // 同时高亮正确选项
     allCards.forEach(c => {
       const optionData = q.options.find(o => o.key === c.dataset.key);
-      if (optionData && optionData.isCorrect) {
+      const isCorrectOpt = optionData && optionData.isCorrect;
+      const isBackendCorrect = (diagResult.correct_key && c.dataset.key === diagResult.correct_key) ||
+                               (diagResult.correctKey && c.dataset.key === diagResult.correctKey);
+      if (isCorrectOpt || isBackendCorrect) {
         c.classList.add("correct");
       }
     });
 
-    const trap = q.traps[opt.trapId];
     drawer.className = "diagnostic-drawer trap";
     drawer.innerHTML = `
       <div class="diag-header">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <span>${trap.title}</span>
+        <span>${trapTitle}</span>
+        ${badgeHtml}
       </div>
-      <div class="diag-body">${trap.desc}</div>
+      <div class="diag-body">${socraticText}</div>
       <div class="diag-features">
         <div class="diag-feature-pill" style="border-color: #f59e0b; color: #d97706;">
-          <span>🔍 盲区定位：</span><strong>${trap.prereq}</strong>
+          <span>${dict.weakPointPrefix} </span><strong>${conceptName}</strong>
         </div>
         <div class="diag-feature-pill" style="border-color: #f43f5e; color: #e11d48;">
-          <span>📉 易错扣减：</span>排雷防守指数 -6
+          <span>${dict.deductionPrefix} </span>${state.lang === 'zh' ? '排雷防守指数 -6' : 'Defense Index -6'}
         </div>
       </div>
       <div style="margin-top: 16px; display: flex; gap: 12px;">
         <button id="summon-tutor-btn" class="btn-secondary" style="background: var(--bg-surface); font-size: 0.86rem; border-color: var(--primary-500); color: var(--primary-600);">
-          💬 召唤苏格拉底学霸助教点拨此题
+          ${dict.summonTutorBtn}
         </button>
       </div>
     `;
@@ -1114,12 +2435,18 @@ function handleSelectOption(opt, cardEl, q) {
     updateRadarCharts();
 
     // 绑定助教召唤按钮
-    document.getElementById("summon-tutor-btn").addEventListener("click", () => {
-      switchToTutorTabWithQuestion(q, opt, trap);
-    });
+    const summonBtn = document.getElementById("summon-tutor-btn");
+    if (summonBtn) {
+      summonBtn.addEventListener("click", () => {
+        switchToTutorTabWithQuestion(q, opt, {
+          title: trapTitle,
+          prereq: conceptName
+        });
+      });
+    }
 
     // 记录到薄弱考点列表
-    addWeakPoint(trap.prereq, trap.title);
+    addWeakPoint(conceptName, trapTitle);
   }
 }
 
@@ -1145,10 +2472,11 @@ function renderWeakPointsList() {
     el.style.border = "1px solid var(--border-subtle)";
     el.style.marginBottom = "8px";
     el.style.fontSize = "0.86rem";
+    const badgeText = (state.lang === "zh") ? `失误 ${item.count} 次` : `${item.count} Flagged`;
     el.innerHTML = `
       <div style="font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between;">
         <span>${item.tag}</span>
-        <span style="color: var(--rose-500); font-size: 0.78rem;">失误 ${item.count} 次</span>
+        <span style="color: var(--rose-500); font-size: 0.78rem;">${badgeText}</span>
       </div>
       <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">${item.reason}</div>
     `;
@@ -1215,16 +2543,17 @@ document.getElementById("reset-q-btn").addEventListener("click", () => {
 // ECharts 5.5.1 五维雷达图体系 (双端联动：侧栏迷你图 + 大屏分析图)
 // =============================================================================
 function getRadarOption(isDark) {
+  const dict = I18N[state.lang || "en"] || I18N.en;
   return {
     backgroundColor: "transparent",
     tooltip: { trigger: "item" },
     radar: {
       indicator: [
-        { name: "基础概念 (Recall)", max: 100 },
-        { name: "边界推演 (Boundary)", max: 100 },
-        { name: "排雷防守 (Defense)", max: 100 },
-        { name: "综合运用 (Synthesis)", max: 100 },
-        { name: "计算精度 (Precision)", max: 100 }
+        { name: dict.radarRecall, max: 100 },
+        { name: dict.radarBoundary, max: 100 },
+        { name: dict.radarDefense, max: 100 },
+        { name: dict.radarSynthesis, max: 100 },
+        { name: dict.radarPrecision, max: 100 }
       ],
       shape: "polygon",
       splitNumber: 4,
@@ -1264,7 +2593,7 @@ function getRadarOption(isDark) {
               state.radar.synthesis,
               state.radar.precision
             ],
-            name: "当前备考能力画像",
+            name: (state.lang === "zh") ? "当前备考能力画像" : "Cognitive Mastery Profile",
             symbol: "circle",
             symbolSize: 4,
             itemStyle: { color: "#3b82f6" },
@@ -1380,19 +2709,36 @@ function resetChatWithContext() {
   if (!container) return;
 
   const q = getCurrentQuestion();
-  container.innerHTML = `
-    <div class="msg-row tutor">
-      <div class="msg-avatar">AI</div>
-      <div class="msg-bubble">
-        同学你好！我是你的<strong>启发式苏格拉底学霸助教</strong>。我的回答直接锚定在经过验证的学科知识图谱上，<strong>绝不直接替你抄写答案，也绝不产生虚假乱回答的知识幻觉</strong>！<br><br>
-        当前正在研习：<strong>【${DB[state.currentSubject].name}】</strong>。<br>
-        ${q.socraticPrompt}
-        <div>
-          <span class="msg-grounding-tag">🔒 Neo4j 权威事实锚定 · 幻觉率降低 68.4%</span>
+  const isZh = (state.lang === "zh");
+  if (isZh) {
+    container.innerHTML = `
+      <div class="msg-row tutor">
+        <div class="msg-avatar">AI</div>
+        <div class="msg-bubble">
+          同学你好！我是你的<strong>启发式苏格拉底学霸助教</strong>。我的回答直接锚定在经过验证的学科知识图谱上，<strong>绝不直接替你抄写答案，也绝不产生虚假乱回答的知识幻觉</strong>！<br><br>
+          当前正在研习：<strong>【${DB[state.currentSubject].name}】</strong>。<br>
+          ${q.socraticPrompt}
+          <div>
+            <span class="msg-grounding-tag">🔒 Neo4j 权威事实锚定 · 幻觉率降低 68.4%</span>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="msg-row tutor">
+        <div class="msg-avatar">AI</div>
+        <div class="msg-bubble">
+          Greetings! I am your <strong>Socratic AI Study Companion</strong>. My responses are strictly anchored to verified syllabus knowledge graphs — <strong>no spoon-feeding solutions, zero hallucinated facts</strong>!<br><br>
+          Active Curriculum: <strong>[${DB[state.currentSubject].name}]</strong>.<br>
+          ${q.socraticPrompt}
+          <div>
+            <span class="msg-grounding-tag">🔒 GraphRAG Grounded Fact Base · Hallucination Rate Drop -68.4%</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 
 function switchToTutorTabWithQuestion(q, opt, trap) {
@@ -1403,41 +2749,59 @@ function switchToTutorTabWithQuestion(q, opt, trap) {
   document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
   document.getElementById("view-tutor").classList.add("active");
 
-  // 追加用户错题提问
-  appendChatMessage("user", `助教你好，我刚才在做这道【${q.tag}】题时，选了错误选项 ${opt.key}，掉进了陷阱。请问为什么会这样？`);
+  const isZh = (state.lang === "zh");
+  const userName = (state.currentUser && state.currentUser.name) || (isZh ? "吴同学" : "Yuxuan Wu");
+  const userMsg = isZh
+    ? `助教你好，我刚才在做这道【${q.tag}】题时，选了错误选项 ${opt.key}，掉进了陷阱。请问为什么会这样？`
+    : `Hello Tutor, while attempting the item on [${q.tag}], I chose distractor ${opt.key} and fell into a trap. Could you guide me through where my reasoning diverged?`;
+
+  appendChatMessage("user", userMsg);
 
   setTimeout(() => {
-    appendChatMessage(
-      "tutor",
-      `吴同学，你踩到了出题人最得意的陷阱——<strong>【${trap.title}】</strong>！<br><br>
-       根据后台 Neo4j 图谱的先修依赖链，这里你遗漏的核心前置前提是：<strong>${trap.prereq}</strong>。<br><br>
-       ${q.socraticPrompt}`
-    );
-  }, 600);
+    const tutorMsg = isZh
+      ? `${userName}，你踩到了出题人最得意的陷阱——<strong>【${trap.title}】</strong>！<br><br>
+         根据后台 Neo4j 图谱的先修依赖链，这里你遗漏的核心前置前提是：<strong>${trap.prereq}</strong>。<br><br>
+         ${q.socraticPrompt}`
+      : `${userName}, you encountered a classic distractor trap: <strong>${trap.title}</strong>!<br><br>
+         According to our GraphRAG prerequisite chain, the primary conceptual gap is: <strong>${trap.prereq}</strong>.<br><br>
+         ${q.socraticPrompt}`;
+
+    appendChatMessage("tutor", tutorMsg);
+  }, 500);
 }
 
 function getLocalSmartReply(text, q) {
-  if (text.includes("前置") || text.includes("条件") || text.includes("前提")) {
-    const prereqs = q.graph.nodes.filter(n => n.type === "prereq").map(n => n.label).join("、");
+  const isZh = (state.lang === "zh");
+  const lower = text.toLowerCase();
+  if (text.includes("前置") || text.includes("条件") || text.includes("前提") || lower.includes("prereq")) {
+    const prereqs = q.graph.nodes.filter(n => n.type === "prereq").map(n => n.label).join(isZh ? "、" : ", ");
     return {
-      text: `根据后台 Neo4j 图谱反查，掌握【${q.tag}】的核心前置基石包括：<strong>${prereqs || '核心定理先修要件'}</strong>。请问在你的解题逻辑中，是否有遗漏这些前置约束？`,
-      tag: "💡 图谱知识反查 · 前置先修链"
+      text: isZh
+        ? `根据后台 Neo4j 图谱反查，掌握【${q.tag}】的核心前置基石包括：<strong>${prereqs || '核心定理先修要件'}</strong>。请问在你的解题逻辑中，是否有遗漏这些前置约束？`
+        : `According to our GraphRAG syllabus topology, foundational prerequisites for [${q.tag}] include: <strong>${prereqs || 'Core Prerequisite Theorems'}</strong>. In your reasoning process, did you account for all boundary conditions?`,
+      tag: isZh ? "💡 图谱知识反查 · 前置先修链" : "💡 Graph Topology Prerequisite Trace"
     };
-  } else if (text.includes("陷阱") || text.includes("为什么") || text.includes("深坑")) {
+  } else if (text.includes("陷阱") || text.includes("为什么") || text.includes("深坑") || lower.includes("trap")) {
     const traps = Object.values(q.traps).map(t => t.title).join("<br>");
     return {
-      text: `出题专家在设计本考点时，针对学生认知薄弱点埋伏了典型认知陷阱：<br>${traps}<br><br>请结合具体题干分析，哪一个陷阱最容易使人误入歧途？`,
-      tag: "🚨 陷阱排雷反查 · 常见易错点"
+      text: isZh
+        ? `出题专家在设计本考点时，针对学生认知薄弱点埋伏了典型认知陷阱：<br>${traps}<br><br>请结合具体题干分析，哪一个陷阱最容易使人误入歧途？`
+        : `Examiners intentionally designed typical distractor traps around this topic:<br>${traps}<br><br>Reflecting on the problem statement, which assumption is most tempting yet flawed?`,
+      tag: isZh ? "🚨 陷阱排雷反查 · 常见易错点" : "🚨 Distractor Trap Attribution"
     };
-  } else if (text.includes("变式") || text.includes("再做") || text.includes("同构")) {
+  } else if (text.includes("变式") || text.includes("再做") || text.includes("同构") || lower.includes("isomorphic") || lower.includes("reinforcement")) {
     return {
-      text: `已从【${DB[state.currentSubject].name}】题库拓扑中为你提取同构变式强化题：<br><br>设本题的核心前提条件发生对偶扰动，请问对应的因果推导结论是否依然成立？试在苏格拉底学伴中写出你的推导论据。`,
-      tag: "🎯 同构变式强化 · 自适应出题"
+      text: isZh
+        ? `已从【${DB[state.currentSubject].name}】题库拓扑中为你提取同构变式强化题：<br><br>设本题的核心前提条件发生对偶扰动，请问对应的因果推导结论是否依然成立？试在苏格拉底学伴中写出你的推导论据。`
+        : `Extracted isomorphic reinforcement problem from [${DB[state.currentSubject].name}] topology:<br><br>If the primary boundary invariant is inverted, does the architectural guarantee still hold? State your deductive proof below.`,
+      tag: isZh ? "🎯 同构变式强化 · 自适应出题" : "🎯 Isomorphic Reinforcement Item"
     };
   } else {
     return {
-      text: `⚠️ <strong>未识别到 API 链接或密钥</strong><br><br>当前系统尚未接入可用的大模型服务。<br>👉 请点击侧边栏（或顶部）的 <strong>「🔑 API 配置」</strong> 填入你的大模型 API Key 与接口端点（支持 DeepSeek、阿里云通义千问、OpenAI 等兼容端点）。`,
-      tag: "⚠️ 未识别到 API 链接"
+      text: isZh
+        ? `⚠️ <strong>未识别到 API 链接或密钥</strong><br><br>当前系统尚未接入可用的大模型服务。<br>👉 请点击侧边栏（或顶部）的 <strong>「🔑 API 配置」</strong> 填入你的大模型 API Key 与接口端点（支持 DeepSeek、阿里云通义千问、OpenAI 等兼容端点）。`
+        : `⚠️ <strong>No External LLM Endpoint Configured</strong><br><br>The system is currently operating in offline sandbox mode.<br>👉 Click <strong>"🔑 API Settings"</strong> in the sidebar to configure Gemini / Qwen / OpenAI endpoints if live inference is desired.`,
+      tag: isZh ? "⚠️ 未识别到 API 链接" : "⚠️ Sandbox Mode Active"
     };
   }
 }
