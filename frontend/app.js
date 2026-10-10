@@ -2363,7 +2363,7 @@ async function handleSelectOption(opt, cardEl, q) {
   const badgeText = fallbackMode ? dict.diagOfflineBadge : dict.diagOnlineBadge;
   const badgeBorder = fallbackMode ? "var(--border-subtle, #30363d)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
   const badgeColor = fallbackMode ? "var(--text-muted, #8b949e)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
-  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-mono);">${badgeText}</span>`;
+  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-sans);">${badgeText}</span>`;
 
   // 4. 根据诊断结果渲染抽屉与更新能力雷达
   if (isCorrect) {
@@ -3210,7 +3210,7 @@ function renderSandboxFeedback() {
       <div class="feedback-box-traditional" style="animation: fadeIn 0.25s ease;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
           <span style="font-weight: 700; font-size: 0.95rem; color: #f85149;">${trad.badge}</span>
-          <span style="font-size: 0.74rem; background: rgba(248,81,73,0.12); color: #f85149; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">${trad.tag}</span>
+          <span style="font-size: 0.74rem; background: rgba(248,81,73,0.12); color: #f85149; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">${trad.tag}</span>
         </div>
         <div style="font-size: 1rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; padding: 10px 14px; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-subtle);">
           ${trad.directAnswer}
@@ -3238,7 +3238,7 @@ function renderSandboxFeedback() {
       <div class="feedback-box-smartstudy" style="animation: fadeIn 0.25s ease;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
           <span style="font-weight: 700; font-size: 0.95rem; color: #10b981;">${smart.badge}</span>
-          <span style="font-size: 0.74rem; background: rgba(16,185,129,0.12); color: #10b981; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">Neo4j GraphRAG</span>
+          <span style="font-size: 0.74rem; background: rgba(16,185,129,0.12); color: #10b981; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">Neo4j GraphRAG</span>
         </div>
         <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-title); margin-bottom: 10px;">
           ${smart.trapTitle}
@@ -3246,7 +3246,7 @@ function renderSandboxFeedback() {
         <div style="font-size: 0.82rem; color: #f59e0b; background: rgba(245,158,11,0.08); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 10px;">
           ${smart.prereq}
         </div>
-        <div style="font-size: 0.8rem; color: #818cf8; margin-bottom: 10px; font-family: var(--font-mono);">
+        <div style="font-size: 0.8rem; color: #818cf8; margin-bottom: 10px; font-family: var(--font-sans);">
           ${smart.radarDeduction}
         </div>
 

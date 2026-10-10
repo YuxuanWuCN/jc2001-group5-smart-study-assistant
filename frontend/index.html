@@ -41,6 +41,11 @@
        迎新与产品介绍门户 (Landing & Auth Portal)
        ==================================================================== -->
   <div id="portal-landing" class="portal-landing">
+    <!-- 手机官网级动态流光球 (Ambient Floating Mesh Glow Orbs) -->
+    <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+    <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+    <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+
     <!-- 顶部导航 -->
     <header class="portal-navbar">
       <div class="portal-brand">
@@ -52,7 +57,7 @@
           </svg>
         </div>
         <div class="portal-brand-text">
-          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">SmartStudy AI <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500); font-family: var(--font-mono);">智学罗盘</span></div>
+          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">SmartStudy AI <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500);">智学罗盘</span></div>
           <div style="font-size: 0.76rem; color: var(--text-muted);" id="portal-brand-sub">University of Aberdeen · JC2001 Group 5 Honours Project</div>
         </div>
       </div>
@@ -62,7 +67,7 @@
           <span>⌘K</span>
           <span>指令台</span>
         </button>
-        <button id="portal-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 12px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-weight: 600; font-size: 0.85rem; font-family: var(--font-mono);">
+        <button id="portal-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 12px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-weight: 600; font-size: 0.85rem;">
           <span>🌐</span>
           <span class="lang-label">English</span>
         </button>
@@ -105,7 +110,7 @@
         <p class="sandbox-subtitle">试着在下方真实期末真题中点击一个易错选项，一键切换对比两种助学范式带来的认知跃迁差距：</p>
       </div>
 
-      <div class="sandbox-container spotlight-card">
+      <div class="sandbox-container spotlight-card border-beam-card">
         <!-- 模式切换控制器 -->
         <div class="sandbox-mode-switch">
           <button id="sandbox-btn-trad" class="sandbox-tab-btn" type="button">
@@ -185,7 +190,7 @@
     <!-- 痛点对比与四大核心功能展示 -->
     <section class="portal-features-section">
       <div style="text-align: center; margin-bottom: 28px;">
-        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono);">你可以这样使用</div>
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em;">你可以这样使用</div>
         <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--text-title); margin-top: 6px;">把学习拆成四件容易开始的小事</h2>
       </div>
 
@@ -359,7 +364,7 @@
 
           <div style="display: flex; align-items: center; gap: 6px;">
             <!-- 语言切换 -->
-            <button id="sidebar-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 8px; height: 32px; display: flex; align-items: center; gap: 4px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono);">
+            <button id="sidebar-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 8px; height: 32px; display: flex; align-items: center; gap: 4px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-size: 0.78rem; font-weight: 600;">
               <span>🌐</span>
               <span class="lang-label">EN</span>
             </button>
