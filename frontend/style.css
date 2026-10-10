@@ -2029,18 +2029,626 @@ body {
 
 body { background: var(--bg-main); }
 .portal-landing {
-  max-width: 1180px;
-  padding: 22px 34px 70px;
-  background: radial-gradient(circle at 85% 6%, rgba(139, 164, 255, .16), transparent 28rem);
+  max-width: 1240px;
+  padding: 24px 36px 80px;
+  margin: 0 auto;
+  position: relative;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
-.portal-navbar { border-bottom: 0; margin-bottom: 66px; }
-.portal-brand .brand-logo { border-radius: 12px !important; background: #5b7cfa !important; box-shadow: 0 8px 18px rgba(91,124,250,.22); }
-.portal-hero { max-width: 760px; margin-bottom: 44px; text-align: left; }
-.portal-badge-pill { border: 0; background: var(--primary-50); color: var(--primary-600); padding: 8px 14px; margin-bottom: 22px; }
-.portal-hero-title { font-size: clamp(2.35rem, 5vw, 4.45rem); line-height: 1.1; letter-spacing: -.055em; font-weight: 800; }
-.portal-hero-desc { max-width: 610px; margin: 0 0 26px; font-size: 1.06rem; color: var(--text-body); }
-.portal-highlights-row { justify-content: flex-start; gap: 8px; }
-.portal-pill-chip { border: 0; box-shadow: none; background: var(--bg-surface); color: var(--text-muted); padding: 8px 12px; border-radius: 999px; font-family: var(--font-sans); }
+[data-theme="light"] .portal-landing {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+.portal-landing::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 20%;
+  width: 60vw;
+  height: 450px;
+  background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.16), rgba(56, 189, 248, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+.portal-navbar {
+  border-bottom: 0;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 10;
+}
+.portal-brand .brand-logo {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4) !important;
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.35) !important;
+}
+.portal-hero {
+  max-width: 860px;
+  margin-bottom: 36px;
+  text-align: left;
+  position: relative;
+  z-index: 10;
+}
+.portal-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+  color: #818cf8;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+}
+[data-theme="light"] .portal-badge-pill {
+  border-color: rgba(99, 102, 241, 0.2);
+  background: rgba(99, 102, 241, 0.08);
+  color: #4f46e5;
+}
+.portal-hero-title {
+  font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  font-weight: 850;
+  color: var(--text-title);
+  margin-bottom: 18px;
+}
+.hero-gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+[data-theme="light"] .hero-gradient-text {
+  background: linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #9333ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.portal-hero-desc {
+  max-width: 680px;
+  margin: 0 0 24px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+.portal-hero-desc strong {
+  color: var(--text-body);
+}
+
+/* 核心学术遥测指标栏 (Telemetry Strip) */
+.portal-telemetry-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.telemetry-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  color: var(--text-body);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.telemetry-pill:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-strong);
+}
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px currentColor;
+}
+.pulse-blue { background: #38bdf8; color: #38bdf8; }
+.pulse-amber { background: #f59e0b; color: #f59e0b; }
+.pulse-green { background: #10b981; color: #10b981; }
+.pulse-purple { background: #a855f7; color: #a855f7; }
+
+/* 鼠标聚光灯高光卡片 (Spotlight Card) */
+.spotlight-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(450px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(99, 102, 241, 0.45), transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* =====================================================================
+   核心交互式演播沙盒 (Interactive Comparison Sandbox)
+   ===================================================================== */
+.portal-sandbox-section {
+  margin-top: 48px;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 10;
+}
+.sandbox-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.sandbox-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--primary-500);
+  background: var(--primary-50);
+  border: 1px solid var(--primary-100);
+  border-radius: 999px;
+  padding: 4px 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.sandbox-title {
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-weight: 800;
+  color: var(--text-title);
+  letter-spacing: -0.02em;
+}
+.sandbox-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.sandbox-container {
+  padding: 24px 28px;
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+.sandbox-mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 22px;
+  background: var(--bg-surface-subtle);
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--border-muted);
+}
+.sandbox-tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.sandbox-tab-btn.active {
+  background: var(--bg-surface);
+  color: var(--text-title);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-subtle);
+}
+.sandbox-tab-btn .mode-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sandbox-tab-btn .mode-tag {
+  font-size: 0.74rem;
+  opacity: 0.75;
+}
+.sandbox-body-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.sandbox-question-col {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.sandbox-q-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--primary-500);
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+}
+.sandbox-q-stem {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-title);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.sandbox-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+.sandbox-opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-body);
+  text-align: left;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+.sandbox-opt-btn:hover {
+  border-color: var(--primary-500);
+  background: var(--bg-surface-hover);
+  transform: translateX(2px);
+}
+.sandbox-opt-btn.active {
+  border-color: var(--primary-500);
+  background: var(--primary-50);
+  color: var(--text-title);
+  box-shadow: 0 0 0 1px var(--primary-500);
+}
+.sandbox-opt-btn .opt-label {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.sandbox-opt-btn.active .opt-label {
+  background: var(--primary-500);
+  color: #fff;
+  border-color: transparent;
+}
+.sandbox-opt-btn .opt-hint {
+  margin-left: auto;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.sandbox-feedback-col {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feedback-box-traditional {
+  border-left: 3px solid #f85149;
+  padding-left: 14px;
+}
+.feedback-box-smartstudy {
+  border-left: 3px solid #10b981;
+  padding-left: 14px;
+}
+
+/* =====================================================================
+   DeepSeek-R1 风格思维链推演折叠面板 (Reasoning Accordion)
+   ===================================================================== */
+.reasoning-accordion {
+  margin: 12px 0 16px;
+  background: rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.86rem;
+  transition: all 0.25s ease;
+}
+.reasoning-accordion[open] {
+  background: rgba(99, 102, 241, 0.09);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+}
+.reasoning-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  color: #818cf8;
+  font-family: var(--font-mono);
+}
+[data-theme="light"] .reasoning-summary {
+  color: #4f46e5;
+}
+.reasoning-summary::-webkit-details-marker {
+  display: none;
+}
+.reasoning-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reasoning-toggle-icon {
+  font-size: 0.72rem;
+  transition: transform 0.2s ease;
+}
+.reasoning-accordion[open] .reasoning-toggle-icon {
+  transform: rotate(90deg);
+}
+.reasoning-body {
+  padding: 12px 16px 14px;
+  border-top: 1px solid rgba(99, 102, 241, 0.15);
+  background: rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+[data-theme="light"] .reasoning-body {
+  background: rgba(255, 255, 255, 0.6);
+}
+.reasoning-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+.reasoning-step-item .step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.25);
+  color: #818cf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.reasoning-step-item .step-content strong {
+  color: var(--text-title);
+  font-family: var(--font-mono);
+  margin-right: 4px;
+}
+
+/* =====================================================================
+   全局 HUD 快捷指令控制台 (Command Palette Cmd+K / Ctrl+K)
+   ===================================================================== */
+.cmd-palette-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.75);
+  backdrop-filter: blur(14px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 13vh;
+}
+.cmd-palette-modal {
+  width: 600px;
+  max-width: 92vw;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.22);
+  overflow: hidden;
+  animation: cmdModalIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes cmdModalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(-8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.cmd-palette-search {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  gap: 12px;
+}
+.cmd-search-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+.cmd-palette-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--text-title);
+  font-family: var(--font-sans);
+}
+.cmd-esc-kbd {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+}
+.cmd-palette-list {
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cmd-palette-category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 6px 10px 2px;
+  font-family: var(--font-mono);
+}
+.cmd-palette-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-body);
+  transition: all 0.12s ease;
+  font-size: 0.88rem;
+}
+.cmd-palette-item.active, .cmd-palette-item:hover {
+  background: var(--primary-50);
+  color: var(--primary-500);
+  transform: translateX(3px);
+}
+.cmd-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cmd-item-title {
+  font-weight: 600;
+  color: var(--text-title);
+}
+.cmd-palette-item.active .cmd-item-title {
+  color: var(--primary-500);
+}
+.cmd-item-hint {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.cmd-palette-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 18px;
+  background: var(--bg-surface-subtle);
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+.cmd-palette-footer kbd {
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+/* 快捷指令唤起胶囊按钮 */
+.cmd-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.cmd-pill-btn:hover {
+  border-color: var(--primary-500);
+  color: var(--text-title);
+  background: var(--bg-surface);
+}
+
+/* =====================================================================
+   五维战力勋章 (Radar Defense Tier Badge)
+   ===================================================================== */
+.radar-defense-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(56, 189, 248, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  margin-bottom: 16px;
+}
+.radar-badge-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  flex-shrink: 0;
+}
+.radar-badge-content {
+  flex: 1;
+}
+.radar-badge-title {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-title);
+}
+.radar-badge-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* 现有卡片与响应式优化 */
 .portal-auth-card { max-width: none; padding: 28px; border: 0; box-shadow: var(--shadow-md); }
 .portal-auth-card::before { height: 4px; background: #8ba3ff; }
 .auth-card-header > div:first-child { font-size: 1.3rem !important; }
@@ -2048,7 +2656,7 @@ body { background: var(--bg-main); }
 .demo-user-card { background: var(--bg-surface-subtle); border: 1px solid var(--border-muted); border-radius: 16px; padding: 16px 10px; }
 .demo-user-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
 .demo-avatar { background: #edf1ff; color: var(--primary-600); }
-.portal-features-section { margin-top: 66px; }
+.portal-features-section { margin-top: 56px; }
 .portal-features-section > div:first-child { text-align: left !important; }
 .portal-features-section > div:first-child > div:first-child { text-transform: none !important; letter-spacing: 0 !important; font-family: var(--font-sans) !important; color: var(--text-muted) !important; }
 .portal-features-section h2 { font-size: 2rem !important; letter-spacing: -.03em; }
@@ -2066,6 +2674,7 @@ body { background: var(--bg-main); }
 .quiz-main-card, .side-card, .graph-view-card, .stat-card { border: 0; border-radius: 18px; box-shadow: var(--shadow-sm); }
 .question-title { font-size: 1.28rem; line-height: 1.7; }
 .benchmark-badge, .eval-tag, .canvas-spec, .canvas-status { display: none; }
+
 @media (max-width: 760px) {
   .portal-landing { padding: 18px 18px 46px; }
   .portal-navbar { align-items: flex-start; gap: 16px; margin-bottom: 42px; }
@@ -2073,7 +2682,8 @@ body { background: var(--bg-main); }
   .portal-nav-actions .lang-toggle-btn { display: none !important; }
   .portal-nav-actions { gap: 6px !important; }
   .portal-fast-enter-btn { padding: 8px 12px !important; }
-  .portal-hero-title { font-size: 2.7rem; }
+  .portal-hero-title { font-size: 2.3rem; }
+  .sandbox-body-grid { grid-template-columns: 1fr; }
   .portal-login-input-row { flex-direction: column; }
   .portal-login-input-row button { width: 100%; }
   .demo-accounts-grid, .portal-features-grid { grid-template-columns: 1fr 1fr; }
@@ -2086,4 +2696,5 @@ body { background: var(--bg-main); }
   .nav-tab-item { min-width: 130px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
 
