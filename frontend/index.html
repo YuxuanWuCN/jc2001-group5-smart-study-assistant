@@ -20,13 +20,8 @@
     })();
   </script>
 
-  <!-- 预加载 Monospace 字体 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- 智学罗盘学生端样式表 -->
-  <link rel="stylesheet" href="style.css?v=20261008_4">
+  <!-- 智学罗盘学生端样式表 (含强制缓存失效刷新) -->
+  <link rel="stylesheet" href="style.css?v=20261010_flagship_v1">
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
     .spin { animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
@@ -37,14 +32,17 @@
 </head>
 <body>
 
+  <!-- 全景旗舰手机官网级动态极光氛围光场 (Global Flagship Aurora Ambient Mesh) -->
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-blob aurora-blob-1"></div>
+    <div class="aurora-blob aurora-blob-2"></div>
+    <div class="aurora-blob aurora-blob-3"></div>
+  </div>
+
   <!-- ====================================================================
        迎新与产品介绍门户 (Landing & Auth Portal)
        ==================================================================== -->
   <div id="portal-landing" class="portal-landing">
-    <!-- 手机官网级动态流光球 (Ambient Floating Mesh Glow Orbs) -->
-    <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
-    <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
-    <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
 
     <!-- 顶部导航 -->
     <header class="portal-navbar">
@@ -855,7 +853,7 @@
     </div>
   </div>
 
-  <!-- 前端逻辑控制器 -->
-  <script src="app.js?v=20261010_1"></script>
+  <!-- 前端逻辑控制器 (强制缓存失效刷新) -->
+  <script src="app.js?v=20261010_flagship_v1"></script>
 </body>
 </html>

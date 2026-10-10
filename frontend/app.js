@@ -1062,7 +1062,7 @@ const I18N = {
       law: "[LAW] ⚖️ Commercial Law"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br>Exam Distractor Trap Diagnosis System",
+    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br><span class=\"hero-gradient-text\">Exam Distractor Trap Diagnosis System</span>",
     portalHeroDesc: "An intelligent diagnostic study assistant tailored for university STEM & Software Engineering curricula. Moving beyond rote memorisation to pinpoint underlying misconceptions, distractor traps, and prerequisite gaps via Socratic dialogues.",
     pillGrounded: "⚡ GraphRAG Grounded Synthesis",
     pillTraps: "🎯 36+ Distractor Traps & Misconceptions",
@@ -1147,7 +1147,7 @@ const I18N = {
       law: "[LAW] ⚖️ 民商法学"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "把每一次做错题，<br>变成下一次进步的线索",
+    portalHeroTitle: "把每一次做错题，<br><span class=\"hero-gradient-text\">变成下一次进步的线索</span>",
     portalHeroDesc: "不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。",
     pillGrounded: "📚 按课程整理知识点",
     pillTraps: "🧭 看懂每次错题原因",

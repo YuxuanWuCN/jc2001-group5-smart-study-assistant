@@ -758,42 +758,43 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 20px;
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--primary-600);
-  background: var(--primary-500);
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
   color: #ffffff;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
   overflow: hidden;
-  transition: all 0.18s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-main:hover {
-  background: var(--primary-600);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  background: linear-gradient(135deg, #4338ca 0%, #0891b2 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 26px rgba(79, 70, 229, 0.55), 0 0 16px rgba(6, 182, 212, 0.3);
 }
 
 .btn-main::after {
   content: "";
   position: absolute;
   top: -50%;
-  left: -60%;
-  width: 40%;
+  left: -70%;
+  width: 50%;
   height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
   transform: rotate(25deg);
-  transition: none;
   pointer-events: none;
+  animation: btnGleam 4s ease-in-out infinite;
 }
 
-.btn-main:hover::after {
-  left: 120%;
-  transition: left 0.65s ease-in-out;
+@keyframes btnGleam {
+  0% { left: -70%; }
+  25% { left: 130%; }
+  100% { left: 130%; }
 }
 
 /* 右侧陪伴与辅助侧栏 */
@@ -1990,8 +1991,8 @@ body {
    Keep the existing interaction contract, soften the console language.
    ===================================================================== */
 :root {
-  --font-sans: "Nunito Sans", "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Fira Code", Consolas, "Microsoft YaHei UI", monospace;
   --bg-main: #f7f8fb;
   --bg-surface: #ffffff;
   --bg-surface-hover: #f1f5f9;
@@ -2072,58 +2073,67 @@ body { background: var(--bg-main); }
   filter: blur(40px);
 }
 
-/* 旗舰手机官网风格动态柔光粒子能量场 (Flagship Mesh Glow Orbs) */
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
+/* =====================================================================
+   全景旗舰手机官网级动态极光氛围光场 (Global Flagship Aurora Ambient Mesh)
+   ===================================================================== */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
   pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.45;
   z-index: 0;
+  overflow: hidden;
+  opacity: 0.72;
+  filter: blur(65px);
   will-change: transform;
 }
-.glow-orb-1 {
-  width: 480px;
-  height: 480px;
-  top: -120px;
-  left: 15%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(56, 189, 248, 0.25) 50%, transparent 70%);
-  animation: orbFloat1 22s ease-in-out infinite alternate;
+[data-theme="light"] .aurora-bg {
+  opacity: 0.38;
+  filter: blur(75px);
 }
-.glow-orb-2 {
-  width: 420px;
-  height: 420px;
-  top: 180px;
-  right: 5%;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.45) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 70%);
-  animation: orbFloat2 26s ease-in-out infinite alternate;
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  will-change: transform;
 }
-.glow-orb-3 {
-  width: 520px;
-  height: 520px;
-  top: 550px;
-  left: -100px;
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(99, 102, 241, 0.2) 60%, transparent 70%);
-  animation: orbFloat3 30s ease-in-out infinite alternate;
+.aurora-blob-1 {
+  width: 650px;
+  height: 650px;
+  top: -160px;
+  left: 8%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.75) 0%, rgba(56, 189, 248, 0.45) 45%, transparent 70%);
+  animation: auroraFloat1 12s ease-in-out infinite alternate;
 }
-@keyframes orbFloat1 {
+.aurora-blob-2 {
+  width: 580px;
+  height: 580px;
+  top: 120px;
+  right: 4%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.7) 0%, rgba(236, 72, 153, 0.4) 45%, transparent 70%);
+  animation: auroraFloat2 14s ease-in-out infinite alternate;
+}
+.aurora-blob-3 {
+  width: 720px;
+  height: 720px;
+  bottom: -220px;
+  left: 18%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.65) 0%, rgba(99, 102, 241, 0.35) 50%, transparent 70%);
+  animation: auroraFloat3 16s ease-in-out infinite alternate;
+}
+@keyframes auroraFloat1 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(80px, 60px) scale(1.15) rotate(45deg); }
+  100% { transform: translate(-60px, 90px) scale(0.92) rotate(90deg); }
+}
+@keyframes auroraFloat2 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(-90px, 70px) scale(1.18) rotate(-50deg); }
+  100% { transform: translate(70px, -40px) scale(0.88) rotate(-100deg); }
+}
+@keyframes auroraFloat3 {
   0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(60px, 40px) scale(1.12); }
-  100% { transform: translate(-40px, 80px) scale(0.95); }
-}
-@keyframes orbFloat2 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-50px, 50px) scale(1.1); }
-  100% { transform: translate(40px, -30px) scale(0.92); }
-}
-@keyframes orbFloat3 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(70px, -50px) scale(1.08); }
-  100% { transform: translate(-30px, 30px) scale(1.02); }
-}
-[data-theme="light"] .glow-orb {
-  opacity: 0.25;
-  filter: blur(90px);
+  50% { transform: translate(100px, -70px) scale(1.12); }
+  100% { transform: translate(-50px, 50px) scale(0.95); }
 }
 
 .portal-navbar {
@@ -2143,6 +2153,23 @@ body { background: var(--bg-main); }
   text-align: left;
   position: relative;
   z-index: 10;
+  animation: flagshipReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.portal-sandbox-section {
+  animation: flagshipReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+.portal-auth-card {
+  animation: flagshipReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+@keyframes flagshipReveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .portal-badge-pill {
   display: inline-flex;
@@ -2172,24 +2199,31 @@ body { background: var(--bg-main); }
   margin-bottom: 18px;
 }
 .hero-gradient-text {
-  background: linear-gradient(120deg, #38bdf8 0%, #818cf8 25%, #c084fc 50%, #38bdf8 75%, #818cf8 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 25%, #c084fc 50%, #f472b6 75%, #38bdf8 100%);
+  background-size: 250% 250%;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: flagshipTextFlow 7s linear infinite;
+  color: transparent;
+  animation: textShimmer 3.5s ease-in-out infinite;
   display: inline-block;
+  font-weight: 850;
 }
 [data-theme="light"] .hero-gradient-text {
-  background: linear-gradient(120deg, #0284c7 0%, #4f46e5 25%, #9333ea 50%, #0284c7 75%, #4f46e5 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #0284c7 0%, #4f46e5 25%, #9333ea 50%, #db2777 75%, #0284c7 100%);
+  background-size: 250% 250%;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: flagshipTextFlow 7s linear infinite;
+  color: transparent;
+  animation: textShimmer 3.5s ease-in-out infinite;
   display: inline-block;
+  font-weight: 850;
 }
-@keyframes flagshipTextFlow {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+@keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 .portal-hero-desc {
   max-width: 680px;
