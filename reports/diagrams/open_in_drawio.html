@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JC2001 Week 6 UML 实验与练习合集 - draw.io 快捷入口</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+    h1 { color: #0d6efd; margin-top: 0; }
+    h2 { color: #212529; border-bottom: 2px solid #e9ecef; padding-bottom: 8px; }
+    .btn {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background-color: #0d6efd;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn:hover { background-color: #0b5ed7; }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #e7f1ff;
+      color: #0d6efd;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #dee2e6; padding: 10px 14px; text-align: left; }
+    th { background: #f1f3f5; }
+    code { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎨 JC2001 Week 6 UML 绘图与实验套件</h1>
+    <p>该文件已集成 <strong>Week 6 图书馆用例图实验（100分评分基准）</strong> 与 <strong>课堂 3 项 draw.io 练习</strong> 的完整多页工程。</p>
+    <div style="margin: 20px 0;">
+      <button class="btn" onclick="openDrawio()">🚀 在 Edge 中以 draw.io 在线打开 (带完整工程)</button>
+    </div>
+    <p style="color: #6c757d; font-size: 14px;">本地源文件保存在：<code>d:\jc2001\reports\diagrams\JC2001_Week6_UML_Lab_Practices.drawio</code></p>
+  </div>
+
+  <div class="card">
+    <h2>📑 工程包含的 4 个绘图页面（多标签页切换）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>标签页名称</th>
+          <th>对应实验文件</th>
+          <th>核心知识点与规范</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Library Use Case Lab</strong> <span class="badge">打分作业</span></td>
+          <td><code>User-Case-Diagram-Lab.pdf</code></td>
+          <td>学生/管理员/定时器角色、系统边界、<code>&lt;&lt;include&gt;&gt;</code> 借书资格校验、<code>&lt;&lt;extend&gt;&gt;</code> 逾期缴费</td>
+        </tr>
+        <tr>
+          <td><strong>2. Practice - Exam Use Case</strong></td>
+          <td><code>UML Draw Practices.pdf</code> (第1题)</td>
+          <td>Student, Administration 角色、学生注册、考试管理、测试、成绩报告生成</td>
+        </tr>
+        <tr>
+          <td><strong>3. Practice - Activity Diagram</strong></td>
+          <td><code>UML Draw Practices.pdf</code> (第2题)</td>
+          <td>用户登录流程、输入凭证、提交、数据验证分支判断（成功/拒绝重试）</td>
+        </tr>
+        <tr>
+          <td><strong>4. Practice - Class Diagram</strong></td>
+          <td><code>UML Draw Practices.pdf</code> (第3题)</td>
+          <td><code>Document</code> 基类（属性与操作） $\to$ <code>Book</code> 与 <code>Email</code> 子类泛化继承（空心三角实线）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function openDrawio() {
+      fetch('../../scratch/drawio_url.txt')
+        .then(res => res.text())
+        .then(url => {
+          window.open(url.trim(), '_blank');
+        })
+        .catch(err => {
+          alert('可以直接在 draw.io 网页选择 Open From Device，打开本目录下的 .drawio 文件！');
+        });
+    }
+  </script>
+</body>
+</html>

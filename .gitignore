@@ -39,3 +39,12 @@ scraped_*
 /*.pdf
 !/reports/*.pdf
 
+# Root-level PPT unpack scratch (throwaway scripts, dumped text & extracted assets)
+# Per Phase 2 governance: no temporary debugging scripts committed to root directories.
+/_extract_images.py
+/_extract_week5.py
+/_unpack.py
+/_week5_dump.txt
+/_week5_slides/
+/_week5_unpacked/
+

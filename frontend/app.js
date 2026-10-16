@@ -1062,7 +1062,7 @@ const I18N = {
       law: "[LAW] ⚖️ Commercial Law"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br>Exam Distractor Trap Diagnosis System",
+    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br><span class=\"hero-gradient-text\">Exam Distractor Trap Diagnosis System</span>",
     portalHeroDesc: "An intelligent diagnostic study assistant tailored for university STEM & Software Engineering curricula. Moving beyond rote memorisation to pinpoint underlying misconceptions, distractor traps, and prerequisite gaps via Socratic dialogues.",
     pillGrounded: "⚡ GraphRAG Grounded Synthesis",
     pillTraps: "🎯 36+ Distractor Traps & Misconceptions",
@@ -1147,7 +1147,7 @@ const I18N = {
       law: "[LAW] ⚖️ 民商法学"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "把每一次做错题，<br>变成下一次进步的线索",
+    portalHeroTitle: "把每一次做错题，<br><span class=\"hero-gradient-text\">变成下一次进步的线索</span>",
     portalHeroDesc: "不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。",
     pillGrounded: "📚 按课程整理知识点",
     pillTraps: "🧭 看懂每次错题原因",
@@ -1285,6 +1285,10 @@ document.addEventListener("DOMContentLoaded", () => {
   checkBackendHealth();
   initAuthPortal();
   initI18n();
+  // 特性 002: 现代 AI 视觉与极客交互体系
+  initSpotlightCards();
+  initComparisonSandbox();
+  initCommandPalette();
 });
 
 // =============================================================================
@@ -2359,7 +2363,7 @@ async function handleSelectOption(opt, cardEl, q) {
   const badgeText = fallbackMode ? dict.diagOfflineBadge : dict.diagOnlineBadge;
   const badgeBorder = fallbackMode ? "var(--border-subtle, #30363d)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
   const badgeColor = fallbackMode ? "var(--text-muted, #8b949e)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
-  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-mono);">${badgeText}</span>`;
+  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-sans);">${badgeText}</span>`;
 
   // 4. 根据诊断结果渲染抽屉与更新能力雷达
   if (isCorrect) {
@@ -2674,6 +2678,7 @@ function updateStatCards() {
   if (elStreak) elStreak.textContent = `${state.stats.streakDays} 天`;
   if (elTraps) elTraps.textContent = `${state.stats.trapsAvoided} 个`;
   if (elScore) elScore.textContent = `${state.stats.predictedScore} 分`;
+  updateRadarDefenseBadge();
   renderWeakPointsList();
 }
 
@@ -2911,12 +2916,56 @@ function appendChatMessage(sender, htmlContent, customTag) {
   const container = document.getElementById("chat-msgs-container");
   if (!container) return;
 
-  const tagText = customTag || "💡 苏格拉底启发点拨 · 严禁直接泄题";
+  const isZh = (state.lang === "zh");
+  const tagText = customTag || (isZh ? "💡 苏格拉底启发点拨 · 严禁直接泄题" : "💡 Socratic Heuristic Guidance · Zero Spoiler Policy");
   const row = document.createElement("div");
   row.className = `msg-row ${sender}`;
+
+  let reasoningHtml = "";
+  if (sender === 'tutor' && !htmlContent.includes("reasoning-accordion")) {
+    reasoningHtml = `
+      <details class="reasoning-accordion">
+        <summary class="reasoning-summary">
+          <span class="reasoning-summary-left">
+            <span class="pulse-dot pulse-purple"></span>
+            <span>${isZh ? '🧠 深度思考推演路径 (Reasoning Trace · 2.8s)' : '🧠 Deep Reasoning Trace (2.8s)'}</span>
+          </span>
+          <span class="reasoning-toggle-icon">▶</span>
+        </summary>
+        <div class="reasoning-body">
+          <div class="reasoning-step-item">
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <strong>${isZh ? '[GraphRAG 拓扑召回]' : '[GraphRAG Recall]'}</strong> ${isZh ? '检索考点核心知识拓扑，召回 3 个强先修依赖节点。' : 'Retrieved core concept topology, recalled 3 prerequisite nodes.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <strong>${isZh ? '[错因拓扑比对]' : '[Trap Arbitration]'}</strong> ${isZh ? '仲裁思维偏差，锁定典型易错诱因与法理/概念混淆边界。' : 'Arbitrated cognitive misconception against typical student error patterns.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <strong>${isZh ? '[防剧透安全防护]' : '[Anti-Spoiler Shield]'}</strong> ${isZh ? '严格拦截直接给出标准答案，启动苏格拉底阶梯式启发问句。' : 'Blocked standard answer reveal; activated step-by-step heuristic prompts.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">4</span>
+            <div class="step-content">
+              <strong>${isZh ? '[启发式导学输出]' : '[Socratic Synthesis]'}</strong> ${isZh ? '输出引导学生自主推演的启发思考问题。' : 'Synthesized prompt to facilitate student self-derivation.'}
+            </div>
+          </div>
+        </div>
+      </details>
+    `;
+  }
+
   row.innerHTML = `
-    <div class="msg-avatar">${sender === 'tutor' ? 'AI' : '我'}</div>
+    <div class="msg-avatar">${sender === 'tutor' ? 'AI' : (isZh ? '我' : 'Me')}</div>
     <div class="msg-bubble">
+      ${reasoningHtml}
       ${htmlContent}
       ${sender === 'tutor' ? `<div><span class="msg-grounding-tag">${tagText}</span></div>` : ''}
     </div>
@@ -2979,3 +3028,547 @@ function renderGraph() {
 
   svg.innerHTML = html;
 }
+
+// =============================================================================
+// 特性 002: 五维战力勋章实时结算 (Radar Defense Tier Badge)
+// =============================================================================
+function updateRadarDefenseBadge() {
+  const iconEl = document.getElementById("radar-badge-icon");
+  const titleEl = document.getElementById("radar-badge-title");
+  const descEl = document.getElementById("radar-badge-desc");
+  if (!iconEl || !titleEl || !descEl) return;
+
+  const isZh = (state.lang === "zh");
+  const avgDefense = state.stats.predictedScore || 86.5;
+  let tier = "S";
+  let title = isZh ? "S级 · 认知破壁先锋学者 (DEFENSE MASTER)" : "Tier S · Master Knowledge Defensor";
+  let desc = isZh
+    ? `综合思维防守指数 ${avgDefense} 分 · 成功排查并阻断 ${state.stats.trapsAvoided || 14} 处核心知识陷阱`
+    : `Defense Rating ${avgDefense} pts · Successfully isolated ${state.stats.trapsAvoided || 14} conceptual traps`;
+
+  if (avgDefense < 70) {
+    tier = "C";
+    title = isZh ? "C级 · 基础筑基研习生 (NOVICE)" : "Tier C · Foundational Learner";
+  } else if (avgDefense < 80) {
+    tier = "B";
+    title = isZh ? "B级 · 敏锐探究实战家 (PRACTITIONER)" : "Tier B · Active Practitioner";
+  } else if (avgDefense < 88) {
+    tier = "A";
+    title = isZh ? "A级 · 稳健思维精通者 (PROFICIENT)" : "Tier A · Proficient Scholar";
+  }
+
+  iconEl.textContent = tier;
+  titleEl.textContent = title;
+  descEl.textContent = desc;
+}
+
+// =============================================================================
+// 特性 002: 鼠标聚光灯跟随高光 (Spotlight Card Effect)
+// =============================================================================
+function initSpotlightCards() {
+  const updateCardCoordinates = (e, card) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  document.querySelectorAll(".spotlight-card, .portal-feature-card, .demo-user-card").forEach(card => {
+    card.addEventListener("pointermove", (e) => updateCardCoordinates(e, card));
+    card.addEventListener("mouseleave", () => {
+      card.style.removeProperty("--mouse-x");
+      card.style.removeProperty("--mouse-y");
+    });
+  });
+}
+
+// =============================================================================
+// 特性 002: 交互式双核对比演播台控制器 (Interactive Comparison Sandbox)
+// =============================================================================
+const SANDBOX_STATE = {
+  mode: "smartstudy", // 'smartstudy' | 'traditional'
+  selectedOption: "A"
+};
+
+const SANDBOX_CASES = {
+  A: {
+    key: "A",
+    text: "自合同签订之日起算，最迟于 3 年内届满",
+    traditional: {
+      badge: "❌ 判题结果：答案错误 (WRONG)",
+      directAnswer: "标准答案：B（自知道受欺诈之日起算，最迟 1 年内届满）",
+      critique: "🚨 传统题库/通用 AI 严重缺陷：<br>直接生硬抛出标准答案，不解释为什么错。未反查‘请求权 vs 形成权’前置概念差异。64% 的学生下次遇到变型题依然会再次误套 3 年诉讼时效！",
+      tag: "机械判卷 · 剥夺自主思考"
+    },
+    smartstudy: {
+      badge: "🛡️ 智学罗盘 · 错因拓扑仲裁引擎已捕获",
+      trapTitle: "🚨 典型混淆陷阱：错将【形成权除斥期间】套用为【3年普通诉讼时效】",
+      prereq: "先修定理短板：请求权（适用诉讼时效）vs 形成权（适用不变除斥期间）核心法律关系划分",
+      radarDeduction: "📉 陷阱防守力 (Trap Defense) -5 分 · 逆向先修雷达已标记盲区",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "定位《民法典》第152条撤销权法定除斥期间规则。" },
+        { num: 2, title: "[错因拓扑比对]", desc: "捕获 64% 学生因套用第188条普通诉讼时效而踩中的制度混淆陷阱。" },
+        { num: 3, title: "[防剧透安全防护]", desc: "阻断直接提供正确选项 B，隔离答案泄露。" },
+        { num: 4, title: "[苏格拉底启发生成]", desc: "发起单方意志变更法律关系与给付请求权的时效差异设问。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴发问：同学，请停下来想一想：撤销合同行使的是请求对方还钱的'请求权'，还是凭你单方意思就能消灭合同的'形成权'？为什么形成权绝不能适用可以中断、延长的诉讼时效？"
+    }
+  },
+  B: {
+    key: "B",
+    text: "自知道受欺诈之日起算，最迟于 1 年内届满",
+    traditional: {
+      badge: "✅ 判题结果：答案正确 (CORRECT)",
+      directAnswer: "回答正确！得分 +5 分。",
+      critique: "传统题库缺陷：只知其然不知其所以然。未考察最长 5 年存续保护期，容易产生侥幸蒙对现象。",
+      tag: "简单打分 · 无深层溯源"
+    },
+    smartstudy: {
+      badge: "🌟 智学罗盘 · 考点拓扑闭环验证通过",
+      trapTitle: "🎯 认知拓扑完美命中：准确识破除斥期间主起算点与期限限制",
+      prereq: "关联巩固知识：请留意除斥期间不适用诉讼时效的中止、中断与延长",
+      radarDeduction: "📈 陷阱防守力 (Trap Defense) +5 分 · 知识稳健度上升",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "全量验证除斥期间三大法定要素。" },
+        { num: 2, title: "[认知防御校验]", desc: "成功绕开 3 年诉讼时效与胁迫终止点双重陷阱。" },
+        { num: 3, title: "[知识图谱拓展]", desc: "向外发散关联最长 5 年除斥期间保护期。" },
+        { num: 4, title: "[同构变式推送]", desc: "生成第三人欺诈情境下的追认判定挑战。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴进阶挑战：如果甲自合同签订后第 4 年零 11 个月才发现受欺诈，他还能否在知道之日起享有整整 1 年的撤销权？为什么《民法典》设置了最长 5 年的终期？"
+    }
+  },
+  C: {
+    key: "C",
+    text: "自欺诈行为终止之日起算，最迟于 1 年内届满",
+    traditional: {
+      badge: "❌ 判题结果：答案错误 (WRONG)",
+      directAnswer: "标准答案：B",
+      critique: "传统题库缺陷：未指出为什么不能从‘终止之日’起算，学生对欺诈和胁迫的起算条件仍然模糊混淆。",
+      tag: "机械判卷 · 无归因指引"
+    },
+    smartstudy: {
+      badge: "🛡️ 智学罗盘 · 错因拓扑仲裁引擎已捕获",
+      trapTitle: "🚨 规范错配陷阱：把【受欺诈】与【受胁迫】的法定起算点混为一谈",
+      prereq: "先修定理短板：受胁迫（意志受压制终止后起算） vs 受欺诈（受蒙骗知情后起算）法定起算根据区别",
+      radarDeduction: "📉 边界认知度 (Boundary Precision) -4 分 · 已高亮混淆连边",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "对比欺诈与胁迫民事法律行为撤销权起算条件。" },
+        { num: 2, title: "[错因拓扑比对]", desc: "锁定因生活经验‘事情结束才算’导致的法条错配陷阱。" },
+        { num: 3, title: "[防剧透安全防护]", desc: "阻断直接泄露选项 B，反向引导辨析意志瑕疵存续状态。" },
+        { num: 4, title: "[启发导学生成]", desc: "发起胁迫状态下受害人为何不敢起诉的法理根因追问。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴发问：想一想为什么法律规定受胁迫要等到'胁迫行为终止'？因为被威胁时当事人不敢去法院！而受欺诈的人只要'知道了真相'就可以立即起诉，为何需要等待欺诈行为终止？"
+    }
+  }
+};
+
+function initComparisonSandbox() {
+  const btnTrad = document.getElementById("sandbox-btn-trad");
+  const btnSmart = document.getElementById("sandbox-btn-smart");
+  const optionsContainer = document.getElementById("sandbox-options");
+  const feedbackBox = document.getElementById("sandbox-feedback-box");
+
+  if (!btnTrad || !btnSmart || !optionsContainer || !feedbackBox) return;
+
+  btnTrad.addEventListener("click", () => {
+    SANDBOX_STATE.mode = "traditional";
+    btnTrad.classList.add("active");
+    btnSmart.classList.remove("active");
+    renderSandboxFeedback();
+  });
+
+  btnSmart.addEventListener("click", () => {
+    SANDBOX_STATE.mode = "smartstudy";
+    btnSmart.classList.add("active");
+    btnTrad.classList.remove("active");
+    renderSandboxFeedback();
+  });
+
+  optionsContainer.querySelectorAll(".sandbox-opt-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      optionsContainer.querySelectorAll(".sandbox-opt-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      SANDBOX_STATE.selectedOption = btn.dataset.key;
+      renderSandboxFeedback();
+    });
+  });
+
+  renderSandboxFeedback();
+}
+
+function renderSandboxFeedback() {
+  const feedbackBox = document.getElementById("sandbox-feedback-box");
+  if (!feedbackBox) return;
+
+  const currentCase = SANDBOX_CASES[SANDBOX_STATE.selectedOption] || SANDBOX_CASES.A;
+  const isSmart = (SANDBOX_STATE.mode === "smartstudy");
+
+  if (!isSmart) {
+    const trad = currentCase.traditional;
+    feedbackBox.innerHTML = `
+      <div class="feedback-box-traditional" style="animation: fadeIn 0.25s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-weight: 700; font-size: 0.95rem; color: #f85149;">${trad.badge}</span>
+          <span style="font-size: 0.74rem; background: rgba(248,81,73,0.12); color: #f85149; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">${trad.tag}</span>
+        </div>
+        <div style="font-size: 1rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; padding: 10px 14px; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-subtle);">
+          ${trad.directAnswer}
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; padding: 10px 12px; background: rgba(248,81,73,0.06); border-radius: 8px; border: 1px dashed rgba(248,81,73,0.25);">
+          ${trad.critique}
+        </div>
+        <div style="margin-top: 14px; text-align: right;">
+          <span style="font-size: 0.78rem; color: var(--text-light); font-family: var(--font-mono);">Traditional AI Model: Zero Prerequisite Tracking</span>
+        </div>
+      </div>
+    `;
+  } else {
+    const smart = currentCase.smartstudy;
+    const reasoningItems = smart.reasoningSteps.map(step => `
+      <div class="reasoning-step-item">
+        <span class="step-num">${step.num}</span>
+        <div class="step-content">
+          <strong>${step.title}</strong> ${step.desc}
+        </div>
+      </div>
+    `).join("");
+
+    feedbackBox.innerHTML = `
+      <div class="feedback-box-smartstudy" style="animation: fadeIn 0.25s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-weight: 700; font-size: 0.95rem; color: #10b981;">${smart.badge}</span>
+          <span style="font-size: 0.74rem; background: rgba(16,185,129,0.12); color: #10b981; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">Neo4j GraphRAG</span>
+        </div>
+        <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-title); margin-bottom: 10px;">
+          ${smart.trapTitle}
+        </div>
+        <div style="font-size: 0.82rem; color: #f59e0b; background: rgba(245,158,11,0.08); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 10px;">
+          ${smart.prereq}
+        </div>
+        <div style="font-size: 0.8rem; color: #818cf8; margin-bottom: 10px; font-family: var(--font-sans);">
+          ${smart.radarDeduction}
+        </div>
+
+        <!-- 深度思维链推演折叠 -->
+        <details class="reasoning-accordion" open>
+          <summary class="reasoning-summary">
+            <span class="reasoning-summary-left">
+              <span class="pulse-dot pulse-purple"></span>
+              <span>🧠 深度思考过程 (Thinking Process · 2.4s)</span>
+            </span>
+            <span class="reasoning-toggle-icon">▶</span>
+          </summary>
+          <div class="reasoning-body">
+            ${reasoningItems}
+          </div>
+        </details>
+
+        <div style="font-size: 0.86rem; color: var(--text-body); background: var(--bg-surface); padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle); line-height: 1.6;">
+          ${smart.socraticPrompt}
+        </div>
+      </div>
+    `;
+  }
+}
+
+// =============================================================================
+// 特性 002: 全局极客 HUD 快捷指令控制台 (Command Palette Cmd+K / Ctrl+K)
+// =============================================================================
+const COMMANDS_REGISTRY = [
+  // 核心视图切换
+  {
+    id: "nav_quiz",
+    title: "智能刷题排雷工作台",
+    subtitle: "打开核心题目研习与思维陷阱诊断控制台",
+    category: "navigation",
+    keywords: ["刷题", "排雷", "quiz", "题目", "练习"],
+    icon: "🎯",
+    shortcut: "Alt+1",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="quiz"]')?.click();
+    }
+  },
+  {
+    id: "nav_tutor",
+    title: "苏格拉底 AI 学伴",
+    subtitle: "开启多轮启发式导学推导与思维链交流",
+    category: "navigation",
+    keywords: ["学伴", "苏格拉底", "tutor", "ai", "对话", "辅导"],
+    icon: "💬",
+    shortcut: "Alt+2",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="tutor"]')?.click();
+    }
+  },
+  {
+    id: "nav_graph",
+    title: "考点拓扑图谱全景",
+    subtitle: "进入 Neo4j 知识拓扑、前置依赖与陷阱网络全景画布",
+    category: "navigation",
+    keywords: ["图谱", "知识图谱", "graph", "拓扑", "考点", "依赖"],
+    icon: "🕸️",
+    shortcut: "Alt+3",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="graph"]')?.click();
+    }
+  },
+  {
+    id: "nav_report",
+    title: "学情综合诊断与五维画像",
+    subtitle: "查看个人五维能力雷达、防守战力勋章与易错短板清单",
+    category: "navigation",
+    keywords: ["学情", "诊断", "雷达", "report", "画像", "能力", "战力"],
+    icon: "📊",
+    shortcut: "Alt+4",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="report"]')?.click();
+    }
+  },
+  // 学科切换
+  {
+    id: "sub_law",
+    title: "切换学科：⚖️ 民商法学 (Law)",
+    subtitle: "民法典第152条撤销权、物权善意取得高频考点",
+    category: "discipline",
+    keywords: ["法学", "民法", "law", "民商法"],
+    icon: "⚖️",
+    shortcut: "Ctrl+L",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="law"]')?.click();
+    }
+  },
+  {
+    id: "sub_cs",
+    title: "切换学科：💻 计算机体系结构 (CS)",
+    subtitle: "MIPS五级流水线、数据冲突与Tomasulo动态调度",
+    category: "discipline",
+    keywords: ["计算机", "体系结构", "cs", "流水线", "计组"],
+    icon: "💻",
+    shortcut: "Ctrl+C",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="cs"]')?.click();
+    }
+  },
+  {
+    id: "sub_econ",
+    title: "切换学科：📈 计量经济学 (Econ)",
+    subtitle: "OLS高斯马尔可夫假定、内生性偏误与工具变量法",
+    category: "discipline",
+    keywords: ["经济", "计量", "econ", "计量经济学", "内生性"],
+    icon: "📈",
+    shortcut: "Ctrl+E",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="econ"]')?.click();
+    }
+  },
+  {
+    id: "sub_se",
+    title: "切换学科：⚙️ 软件工程 (SE)",
+    subtitle: "阿伯丁大学 JC2001 课程软件工程生命周期与架构建模",
+    category: "discipline",
+    keywords: ["软工", "软件工程", "se", "jc2001", "架构"],
+    icon: "⚙️",
+    shortcut: "Ctrl+S",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="se"]')?.click();
+    }
+  },
+  // 快捷操作
+  {
+    id: "act_theme",
+    title: "切换明暗色彩主题 (Theme Toggle)",
+    subtitle: "在深空极光 (Dark) 与学术科技白 (Light) 间无缝切换",
+    category: "action",
+    keywords: ["主题", "深色", "浅色", "暗色", "theme", "dark", "light"],
+    icon: "🌓",
+    shortcut: "Ctrl+T",
+    action: () => {
+      document.getElementById("theme-toggle-btn")?.click();
+    }
+  },
+  {
+    id: "act_portal",
+    title: "返回产品介绍门户 (Landing Page)",
+    subtitle: "返回系统首页了解项目学术背景、核心创新与课题组成员",
+    category: "action",
+    keywords: ["首页", "门户", "介绍", "portal", "landing", "home"],
+    icon: "🏠",
+    shortcut: "Ctrl+H",
+    action: () => {
+      switchRootView("portal-landing");
+    }
+  },
+  {
+    id: "act_auth",
+    title: "学生档案登录与快捷切换",
+    subtitle: "打开学生学籍身份管理与 10 人课题组账号通道",
+    category: "action",
+    keywords: ["登录", "账号", "身份", "学生", "切换", "auth", "login"],
+    icon: "👤",
+    shortcut: "Ctrl+U",
+    action: () => {
+      openAuthModal();
+    }
+  }
+];
+
+let activeCmdIndex = 0;
+let filteredCommands = [...COMMANDS_REGISTRY];
+
+function initCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  const input = document.getElementById("cmd-palette-input");
+  const btnPortalCmd = document.getElementById("portal-cmd-btn");
+  const btnQuizCmd = document.getElementById("quiz-cmd-btn");
+
+  if (!overlay || !input) return;
+
+  // 快捷键全局监听 Cmd+K / Ctrl+K / ESC
+  window.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      toggleCommandPalette();
+    } else if (e.key === "Escape" && overlay.style.display !== "none") {
+      closeCommandPalette();
+    }
+  });
+
+  if (btnPortalCmd) btnPortalCmd.addEventListener("click", () => openCommandPalette());
+  if (btnQuizCmd) btnQuizCmd.addEventListener("click", () => openCommandPalette());
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeCommandPalette();
+  });
+
+  input.addEventListener("input", (e) => {
+    filterCommandPalette(e.target.value.trim());
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeCmdIndex = (activeCmdIndex + 1) % (filteredCommands.length || 1);
+      renderCommandPaletteList();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeCmdIndex = (activeCmdIndex - 1 + (filteredCommands.length || 1)) % (filteredCommands.length || 1);
+      renderCommandPaletteList();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (filteredCommands[activeCmdIndex]) {
+        executeCommand(filteredCommands[activeCmdIndex]);
+      }
+    }
+  });
+}
+
+function openCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  const input = document.getElementById("cmd-palette-input");
+  if (!overlay || !input) return;
+
+  overlay.style.display = "flex";
+  input.value = "";
+  activeCmdIndex = 0;
+  filteredCommands = [...COMMANDS_REGISTRY];
+  renderCommandPaletteList();
+  setTimeout(() => input.focus(), 50);
+}
+
+function closeCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function toggleCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  if (overlay && overlay.style.display !== "none") {
+    closeCommandPalette();
+  } else {
+    openCommandPalette();
+  }
+}
+
+function filterCommandPalette(query) {
+  if (!query) {
+    filteredCommands = [...COMMANDS_REGISTRY];
+  } else {
+    const q = query.toLowerCase();
+    filteredCommands = COMMANDS_REGISTRY.filter(item => {
+      return item.title.toLowerCase().includes(q) ||
+             (item.subtitle && item.subtitle.toLowerCase().includes(q)) ||
+             item.keywords.some(k => k.toLowerCase().includes(q));
+    });
+  }
+  activeCmdIndex = 0;
+  renderCommandPaletteList();
+}
+
+function renderCommandPaletteList() {
+  const listContainer = document.getElementById("cmd-palette-results");
+  if (!listContainer) return;
+
+  if (filteredCommands.length === 0) {
+    listContainer.innerHTML = `
+      <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.88rem;">
+        未找到匹配指令。尝试搜索“刷题”、“法学”、“体系结构”或“主题”。
+      </div>
+    `;
+    return;
+  }
+
+  let html = "";
+  let lastCategory = "";
+
+  filteredCommands.forEach((cmd, idx) => {
+    if (cmd.category !== lastCategory) {
+      lastCategory = cmd.category;
+      const catNames = {
+        navigation: "核心功能直达",
+        discipline: "学科题库切换",
+        action: "系统快捷操作"
+      };
+      html += `<div class="cmd-palette-category">${catNames[cmd.category] || cmd.category}</div>`;
+    }
+
+    const isActive = idx === activeCmdIndex;
+    html += `
+      <div class="cmd-palette-item ${isActive ? 'active' : ''}" data-idx="${idx}">
+        <div class="cmd-item-left">
+          <span style="font-size: 1.1rem;">${cmd.icon}</span>
+          <div>
+            <div class="cmd-item-title">${cmd.title}</div>
+            <div class="cmd-item-hint">${cmd.subtitle || ''}</div>
+          </div>
+        </div>
+        ${cmd.shortcut ? `<kbd class="cmd-esc-kbd">${cmd.shortcut}</kbd>` : ''}
+      </div>
+    `;
+  });
+
+  listContainer.innerHTML = html;
+
+  listContainer.querySelectorAll(".cmd-palette-item").forEach(el => {
+    el.addEventListener("click", () => {
+      const idx = parseInt(el.dataset.idx, 10);
+      if (filteredCommands[idx]) executeCommand(filteredCommands[idx]);
+    });
+  });
+}
+
+function executeCommand(cmd) {
+  closeCommandPalette();
+  if (cmd && typeof cmd.action === "function") {
+    cmd.action();
+  }
+}
+
