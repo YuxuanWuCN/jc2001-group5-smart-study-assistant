@@ -15,6 +15,7 @@ from backend.app.routers.quiz import router as quiz_router
 from backend.app.routers.diagnose import router as diagnose_router
 from backend.app.routers.reports import router as reports_router
 from backend.app.routers.auth import router as auth_router
+from backend.app.routers.knowledge import router as knowledge_router
 
 # Configure root logger
 logging.basicConfig(
@@ -47,6 +48,7 @@ def create_app() -> FastAPI:
     application.include_router(diagnose_router, prefix="/api")
     application.include_router(reports_router, prefix="/api")
     application.include_router(auth_router, prefix="/api")
+    application.include_router(knowledge_router, prefix="/api")
 
 
     # 3. Mount frontend static directory at root / for single-port instant preview

@@ -1230,6 +1230,7 @@ const DEFAULT_WEAK_LISTS = {
 const state = {
   lang: initialLang,
   currentSubject: localStorage.getItem("smartstudy_subject") || "se",
+  graphSubject: "or",
   currentQIndex: 0,
   activeTab: "home",
   theme: localStorage.getItem("smartstudy_theme") || "light",
@@ -1279,6 +1280,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initWorkspaceHome();
   initApiModal();
   initSubjectSelector();
+  initGraphSubjectSelector();
   initRadarCharts();
   loadQuestion();
   renderGraph();
@@ -3351,7 +3353,260 @@ function appendChatMessage(sender, htmlContent, customTag) {
 
   container.appendChild(row);
   container.scrollTop = container.scrollHeight;
-}
+// =============================================================================
+// 大二上专业拓扑与知识图谱预置数据 (Year 2 Semester 1 Curriculum Graphs)
+// =============================================================================
+const DAERSHANG_GRAPHS = {
+  or: {
+    title: "[OR] 📐 运筹学与优化建模",
+    graph: {
+      title: "运筹学·线性规划与系统优化决策拓扑图谱",
+      nodes: [
+        { id: "or_c2", label: "规划三要素(变量/目标/约束)", type: "core", x: 260, y: 140 },
+        { id: "or_p1", label: "先修: 线性代数与向量空间", type: "prereq", x: 120, y: 50 },
+        { id: "or_p2", label: "先修: 凸集性质与极点定理", type: "prereq", x: 400, y: 50 },
+        { id: "or_t1", label: "陷阱: 遗漏非负性物理约束", type: "trap", x: 120, y: 250 },
+        { id: "or_t2", label: "陷阱: 混淆无界解与无可行解", type: "trap", x: 400, y: 250 }
+      ],
+      edges: [
+        { from: "or_p1", to: "or_c2", label: "基向量支撑" },
+        { from: "or_p2", to: "or_c2", label: "凸多面体极点" },
+        { from: "or_c2", to: "or_t1", label: "易错于 (脱离现实意义)" },
+        { from: "or_c2", to: "or_t2", label: "易错于 (解空间边界模糊)" }
+      ]
+    },
+    concepts: [
+      {
+        id: "or_c1",
+        label: "运筹学系统建模范式 (OR Paradigm)",
+        def: "六阶段决策闭环：形成问题、建立模型、求解模型、验证模型、建立控制、系统实施。",
+        prereqs: ["系统工程导论", "数学建模"],
+        traps: ["跳过机理分析盲目套算法", "武断忽略非线性边界"],
+        apps: ["车间调度", "冷链物流路径规划 (VRP)"]
+      },
+      {
+        id: "or_c2",
+        label: "规划模型三要素 (Variables / Objective / Constraints)",
+        def: "决策变量、目标函数与约束条件组成的凸规划数学模型，求解最优可控决策。",
+        prereqs: ["多元函数微积分", "超平面"],
+        traps: ["遗漏非负性约束 $x_j \\ge 0$", "未对多目标做归一化无量纲处理"],
+        apps: ["投资组合配比", "生产排程"]
+      },
+      {
+        id: "or_c3",
+        label: "可行域与凸多面体几何 (Convex Polyhedron & Extreme Points)",
+        def: "由线性不等式交集围成的凸集。极点定理保证最优解必在极点上取得。",
+        prereqs: ["凸分析", "向量空间"],
+        traps: ["把非凸域误当凸多面体", "混淆有界性与最优解存在性"],
+        apps: ["图解法几何分析", "资源瓶颈投影"]
+      },
+      {
+        id: "or_c4",
+        label: "规划解的分类与状态判别 (BFS / Optimal / Infeasible)",
+        def: "可行解、基可行解 (BFS)、最优解、无界解与无可行解的严谨判定准则。",
+        prereqs: ["高斯消元", "基础解系"],
+        traps: ["混淆无解与无界解", "退化解循环摆动"],
+        apps: ["约束冲突检测", "死锁预警"]
+      }
+    ]
+  },
+  mis: {
+    title: "[MIS] 🌐 管理信息系统",
+    graph: {
+      title: "管理信息系统·社会技术范式与企业集成架构拓扑图谱",
+      nodes: [
+        { id: "mis_c3", label: "企业系统金字塔(TPS/MIS/DSS/ESS)", type: "core", x: 260, y: 140 },
+        { id: "mis_p1", label: "先修: 商业信息价值链(Data->Info)", type: "prereq", x: 120, y: 50 },
+        { id: "mis_p2", label: "先修: 业务流程重组(BPR)", type: "prereq", x: 400, y: 50 },
+        { id: "mis_t1", label: "陷阱: 技术决定论(忽视组织流程)", type: "trap", x: 120, y: 250 },
+        { id: "mis_t2", label: "陷阱: 数据颗粒度与系统层级错配", type: "trap", x: 400, y: 250 }
+      ],
+      edges: [
+        { from: "mis_p1", to: "mis_c3", label: "数据价值流升华" },
+        { from: "mis_p2", to: "mis_c3", label: "组织流程协同" },
+        { from: "mis_c3", to: "mis_t1", label: "易错于 (工具崇拜误区)" },
+        { from: "mis_c3", to: "mis_t2", label: "易错于 (操作报表与战略看板混同)" }
+      ]
+    },
+    concepts: [
+      {
+        id: "mis_c1",
+        label: "信息系统社会技术范式 (Sociotechnical Systems)",
+        def: "技术、组织、管理与人四大要素协同互动的复合系统，破除单纯软硬件IT工具论。",
+        prereqs: ["管理学原理", "组织行为学"],
+        traps: ["技术决定论：以为买系统就能解决管理混乱", "忽视员工使用阻力"],
+        apps: ["企业数字化转型", "政企协同办公"]
+      },
+      {
+        id: "mis_c2",
+        label: "商业信息价值链 (Information Value Chain)",
+        def: "原始数据经过采集、存储、清洗、转化分析后生成指导决策的商业信息与战略知识。",
+        prereqs: ["数据库系统", "统计分析"],
+        traps: ["混淆数据与信息", "忽视数据源头脏数据 GIGO"],
+        apps: ["金融风控反欺诈", "电商动态推荐"]
+      },
+      {
+        id: "mis_c3",
+        label: "企业系统金字塔 (TPS / MIS / DSS / ESS)",
+        def: "操作层TPS、管理报表MIS、战术模型DSS与高管战略ESS四级协同系统架构。",
+        prereqs: ["运营管理", "决策支持"],
+        traps: ["高管呈送未汇总流水", "用战略看板对账"],
+        apps: ["智慧零售门店", "跨国银行风控舱"]
+      },
+      {
+        id: "mis_c4",
+        label: "C2M 反向定制供应链与社交裂变电商 (Pinduoduo Model)",
+        def: "消费者拼团聚拢长尾需求直连工厂制造（Customer-to-Manufacturer），削减多级中间损耗与牛鞭效应。",
+        prereqs: ["供应链SCM", "平台双边网络效应"],
+        traps: ["忽视工厂柔性制造壁垒", "忽略品控与长期品牌声誉"],
+        apps: ["产业带白牌制造出海", "生鲜直采冷链网络"]
+      }
+    ]
+  },
+  prob_stat: {
+    title: "[MATH] 🎲 概率论与数理统计",
+    graph: {
+      title: "概率统计·公理化测度与贝叶斯先验后验拓扑图谱",
+      nodes: [
+        { id: "stat_c3", label: "贝叶斯定理(先验向后验更新)", type: "core", x: 260, y: 140 },
+        { id: "stat_p1", label: "先修: 柯氏公理与条件概率", type: "prereq", x: 120, y: 50 },
+        { id: "stat_p2", label: "先修: 完备事件群划分与全概率", type: "prereq", x: 400, y: 50 },
+        { id: "stat_t1", label: "陷阱: 混淆互斥与相互独立", type: "trap", x: 120, y: 250 },
+        { id: "stat_t2", label: "陷阱: 基准率遗漏(Base Rate Fallacy)", type: "trap", x: 400, y: 250 }
+      ],
+      edges: [
+        { from: "stat_p1", to: "stat_c3", label: "条件测度基础" },
+        { from: "stat_p2", to: "stat_c3", label: "分母全概率归一化" },
+        { from: "stat_c3", to: "stat_t1", label: "易错于 (集合交集空与信息独立混同)" },
+        { from: "stat_c3", to: "stat_t2", label: "易错于 (忽略罕见先验病率)" }
+      ]
+    },
+    concepts: [
+      {
+        id: "stat_c1",
+        label: "柯尔莫哥洛夫公理化体系 (Kolmogorov Axioms)",
+        def: "非负性、规范性 P(Ω)=1 与可列可加性，奠定现代概率论测度论严格数学基础。",
+        prereqs: ["实分析测度", "德摩根定律"],
+        traps: ["经验频率混淆理论概率", "无限空间忽略可列可加性"],
+        apps: ["精算保费定价", "量子几率幅"]
+      },
+      {
+        id: "stat_c2",
+        label: "条件概率与乘法公式 (Conditional Probability)",
+        def: "样本空间在已知先验事件发生下的缩减归一化测度 P(A|B) = P(AB) / P(B)。",
+        prereqs: ["交集运算", "测度缩放"],
+        traps: ["对零概率事件条件化", "混淆条件与联合概率"],
+        apps: ["贝叶斯过滤分类器", "隐性基因测算"]
+      },
+      {
+        id: "stat_c3",
+        label: "全概率公式与贝叶斯定理 (Bayes' Theorem)",
+        def: "执果索因反求后验概率，现代机器学习与不确定性推理的核心引擎。",
+        prereqs: ["完备划分条件", "全概率定理"],
+        traps: ["基准率谬误导致假阳性误诊", "划分不互斥套用公式"],
+        apps: ["医学筛查校准", "卡尔曼滤波多传感器融合"]
+      },
+      {
+        id: "stat_c4",
+        label: "随机变量与分布律 (PMF & Distributions)",
+        def: "样本空间到实数的映射 X: Ω -> R，PMF 概率和为 1。二项分布与泊松分布。",
+        prereqs: ["单值映射", "级数收敛"],
+        traps: ["把随机变量当常数", "非独立试验滥用二项分布"],
+        apps: ["排队论并发负荷建模", "工业抽检质检"]
+      }
+    ]
+  },
+  mkt: {
+    title: "[MKT] 🎯 市场营销学",
+    graph: {
+      title: "市场营销·STP战略定位与4Ps协同竞争拓扑图谱",
+      nodes: [
+        { id: "mkt_c1", label: "STP战略核心(细分/目标/定位)", type: "core", x: 260, y: 140 },
+        { id: "mkt_p1", label: "先修: 消费者画像与需求弹性", type: "prereq", x: 120, y: 50 },
+        { id: "mkt_p2", label: "先修: 行业竞争壁垒与心智定位", type: "prereq", x: 400, y: 50 },
+        { id: "mkt_t1", label: "陷阱: 目标泛化(迎合所有人)", type: "trap", x: 120, y: 250 },
+        { id: "mkt_t2", label: "陷阱: 狭隘促销陷阱(营销≠推销打折)", type: "trap", x: 400, y: 250 }
+      ],
+      edges: [
+        { from: "mkt_p1", to: "mkt_c1", label: "基于需求差异细分" },
+        { from: "mkt_p2", to: "mkt_c1", label: "心智空缺确立定位" },
+        { from: "mkt_c1", to: "mkt_t1", label: "易错于 (缺乏舍弃勇气)" },
+        { from: "mkt_c1", to: "mkt_t2", label: "易错于 (打折内卷蚕食品牌)" }
+      ]
+    },
+    concepts: [
+      {
+        id: "mkt_c1",
+        label: "经典 STP 战略分析框架 (Segmentation / Targeting / Positioning)",
+        def: "现代战略营销三大基石：细分客户群体、选定目标客群并在心智中确立差异化定位。",
+        prereqs: ["需求弹性", "消费者画像"],
+        traps: ["目标市场泛化试图迎合所有人", "细分标准主观脱离市场"],
+        apps: ["新品牌冷启动定位", "车企子品牌矩阵"]
+      },
+      {
+        id: "mkt_c2",
+        label: "营销组合 4Ps 协同模型 (Product / Price / Place / Promotion)",
+        def: "产品、价格、渠道与推广四大可控战术工具的协同发力。",
+        prereqs: ["价格弹性", "全渠道OMO"],
+        traps: ["4P元素严重冲突导致品牌撕裂", "营销狭隘等同于推销"],
+        apps: ["新产品GTM方案制定", "爆品引流与利润品组合"]
+      },
+      {
+        id: "mkt_c3",
+        label: "波特五力与行业竞争策略 (Porter's Five Forces & Competition)",
+        def: "分析行业盈利壁垒，制定成本领先、差异化与聚焦战略（瑞幸vs库迪案例）。",
+        prereqs: ["微观经济学", "战略管理"],
+        traps: ["陷入夹在中间困境", "忽略颠覆性跨界替代品威胁"],
+        apps: ["连锁咖啡价格战分析", "电池产业链议价话语权"]
+      }
+    ]
+  },
+  eng: {
+    title: "[ENG] ✍️ 学术英语与学术写作",
+    graph: {
+      title: "学术英语·IMRaD范式与客观对冲语篇拓扑图谱",
+      nodes: [
+        { id: "eng_c1", label: "IMRaD宏观学术范式", type: "core", x: 260, y: 140 },
+        { id: "eng_p1", label: "先修: 学术语域与客观对冲语(Hedging)", type: "prereq", x: 120, y: 50 },
+        { id: "eng_p2", label: "先修: 规范释义与反抄袭引证", type: "prereq", x: 400, y: 50 },
+        { id: "eng_t1", label: "陷阱: 绝对化过度承诺(缺少对冲语)", type: "trap", x: 120, y: 250 },
+        { id: "eng_t2", label: "陷阱: 机械同义词拼贴抄袭(Patchwriting)", type: "trap", x: 400, y: 250 }
+      ],
+      edges: [
+        { from: "eng_p1", to: "eng_c1", label: "严谨客观度保证" },
+        { from: "eng_p2", to: "eng_c1", label: "学术伦理与合法性" },
+        { from: "eng_c1", to: "eng_t1", label: "易错于 (武断绝对被同行证伪)" },
+        { from: "eng_c1", to: "eng_t2", label: "易错于 (Turnitin重复率高危)" }
+      ]
+    },
+    concepts: [
+      {
+        id: "eng_c1",
+        label: "学术论文 IMRaD 结构范式 (Introduction / Methods / Results / Discussion)",
+        def: "国际学术发表标准语篇框架，严密组织研究问题、复现设计、事实证据与深入讨论。",
+        prereqs: ["研究方法论", "学术文体学"],
+        traps: ["混淆Results与Discussion", "文献综述流水账缺少Gap论证"],
+        apps: ["SCI/SSCI论文发表", "毕业技术报告撰写"]
+      },
+      {
+        id: "eng_c2",
+        label: "学术语域与对冲语修辞 (Academic Register & Hedging)",
+        def: "运用 may, indicate, suggest, potentially 等对冲语保持客观审慎，避免武断结论。",
+        prereqs: ["情态动词语义学", "学术诚信"],
+        traps: ["滥用always/prove造成过度承诺", "口语体非正式词混入论文"],
+        apps: ["评审意见辩驳信Rebuttal", "学术结论段客观撰写"]
+      },
+      {
+        id: "eng_c3",
+        label: "学术严谨引用与反抄袭规范 (Anti-Plagiarism & Paraphrasing)",
+        def: "改写释义必须重构句式与逻辑，杜绝仅机械替换同义词的拼贴式抄袭（Patchwriting）。",
+        prereqs: ["学术伦理", "结构化转述技能"],
+        traps: ["同义词机械替换仍被查重认定抄袭", "二次引用未标注源出处"],
+        apps: ["文献综述防查重", "技术报告知识产权合规"]
+      }
+    ]
+  }
+};
 
 // =============================================================================
 // 考点图谱全景画布渲染 (Interactive Neo4j Graph Canvas)
@@ -3360,14 +3615,64 @@ function renderGraph() {
   const svg = document.getElementById("large-graph-svg");
   if (!svg) return;
 
-  const q = getCurrentQuestion();
+  const currentSubj = state.graphSubject || "or";
   const isDark = state.theme === "dark";
+
+  // 高亮对应的学科按钮
+  document.querySelectorAll(".graph-subj-btn").forEach(btn => {
+    if (btn.dataset.graphSubject === currentSubj) {
+      btn.classList.add("active");
+      btn.style.borderColor = "var(--primary)";
+      btn.style.color = "var(--primary)";
+      btn.style.fontWeight = "700";
+    } else {
+      btn.classList.remove("active");
+      btn.style.borderColor = "var(--border-subtle)";
+      btn.style.color = "var(--text-title)";
+      btn.style.fontWeight = "600";
+    }
+  });
 
   const colorMap = {
     core: { fill: isDark ? "#1e3a8a" : "#dbeafe", stroke: "#2563eb", text: isDark ? "#bfdbfe" : "#1e40af" },
     prereq: { fill: isDark ? "#064e3b" : "#d1fae5", stroke: "#059669", text: isDark ? "#a7f3d0" : "#065f46" },
     trap: { fill: isDark ? "#4c0519" : "#ffe4e6", stroke: "#e11d48", text: isDark ? "#fecdd3" : "#9f1239" }
   };
+
+  let graphData = null;
+  let conceptsList = [];
+  let displayTitle = "";
+
+  // 1. 判断是否属于大二上预置学科
+  if (DAERSHANG_GRAPHS[currentSubj]) {
+    const entry = DAERSHANG_GRAPHS[currentSubj];
+    graphData = entry.graph;
+    conceptsList = entry.concepts || [];
+    displayTitle = entry.title;
+  } else {
+    // 2. 属于经典学科 (law, cs, econ, se)
+    const q = (DB[currentSubj] && DB[currentSubj].questions && DB[currentSubj].questions[0]) || getCurrentQuestion();
+    graphData = q ? q.graph : null;
+    displayTitle = `[${currentSubj.toUpperCase()}] 基础经典学科拓扑`;
+    if (q && q.traps) {
+      conceptsList = Object.entries(q.traps).map(([k, t]) => ({
+        id: k,
+        label: t.title || "知识点陷阱",
+        def: t.desc || "",
+        prereqs: [t.prereq || "前置定理"],
+        traps: [t.title],
+        apps: ["考点避坑诊断"]
+      }));
+    }
+  }
+
+  // 更新画布顶部标题
+  const titleEl = document.getElementById("graph-canvas-title");
+  if (titleEl && displayTitle) {
+    titleEl.textContent = `SUBJECT: ${displayTitle}`;
+  }
+
+  if (!graphData) return;
 
   let html = `<defs>
     <marker id="arrow-large" viewBox="0 0 10 10" refX="26" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -3376,9 +3681,9 @@ function renderGraph() {
   </defs>`;
 
   // 连边
-  q.graph.edges.forEach(edge => {
-    const from = q.graph.nodes.find(n => n.id === edge.from);
-    const to = q.graph.nodes.find(n => n.id === edge.to);
+  graphData.edges.forEach(edge => {
+    const from = graphData.nodes.find(n => n.id === (edge.from || edge.from_node));
+    const to = graphData.nodes.find(n => n.id === (edge.to || edge.to_node));
     if (!from || !to) return;
 
     const midX = (from.x * 1.5 + to.x * 1.5) / 2;
@@ -3392,7 +3697,7 @@ function renderGraph() {
   });
 
   // 节点
-  q.graph.nodes.forEach(node => {
+  graphData.nodes.forEach(node => {
     const c = colorMap[node.type] || colorMap.core;
     const nx = node.x * 1.5;
     const ny = node.y * 1.5;
@@ -3405,6 +3710,52 @@ function renderGraph() {
   });
 
   svg.innerHTML = html;
+
+  // 渲染知识点卡片列表
+  renderGraphConceptsList(conceptsList);
+}
+
+// 渲染知识点与先修/陷阱详情卡片
+function renderGraphConceptsList(concepts) {
+  const container = document.getElementById("graph-concepts-grid");
+  if (!container) return;
+
+  if (!concepts || concepts.length === 0) {
+    container.innerHTML = `<div style="grid-column: 1/-1; color: var(--text-muted); font-size: 0.9rem; padding: 12px;">暂无该学科概念详情。</div>`;
+    return;
+  }
+
+  container.innerHTML = concepts.map(c => `
+    <div class="concept-detail-card" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 14px; background: var(--bg-surface); display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-title);">${c.label}</span>
+        <span style="font-size: 0.75rem; background: var(--bg-card); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border-subtle); color: var(--text-muted);">${c.id}</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-body); line-height: 1.45; margin: 0;">${c.def}</p>
+      <div style="display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; margin-top: 4px;">
+        <div style="color: var(--accent-green);">
+          <strong>⛓️ 先修基础:</strong> ${(c.prereqs || []).join(" · ") || "无"}
+        </div>
+        <div style="color: var(--accent-red);">
+          <strong>🚨 认知陷阱:</strong> ${(c.traps || []).join(" · ") || "无"}
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// 初始化图谱视图学科选择器
+function initGraphSubjectSelector() {
+  const btns = document.querySelectorAll(".graph-subj-btn");
+  btns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetSubj = btn.dataset.graphSubject;
+      if (targetSubj) {
+        state.graphSubject = targetSubj;
+        renderGraph();
+      }
+    });
+  });
 }
 
 // =============================================================================

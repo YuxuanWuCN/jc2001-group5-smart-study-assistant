@@ -43,6 +43,48 @@ SUBJECT_ALIASES: Dict[str, str] = {
     "softwareengineering": "se",
     "软件工程": "se",
     "软工": "se",
+
+    # Operations Research (大二上)
+    "or": "or",
+    "operations_research": "or",
+    "operations-research": "or",
+    "operationsresearch": "or",
+    "运筹学": "or",
+    "运筹": "or",
+
+    # Management Information Systems (大二上)
+    "mis": "mis",
+    "management_information_systems": "mis",
+    "management-information-systems": "mis",
+    "managementinformationsystems": "mis",
+    "管理信息系统": "mis",
+    "信管": "mis",
+
+    # Probability & Mathematical Statistics (大二上)
+    "prob_stat": "prob_stat",
+    "prob-stat": "prob_stat",
+    "probability": "prob_stat",
+    "statistics": "prob_stat",
+    "概率论与数理统计": "prob_stat",
+    "概率论": "prob_stat",
+    "数理统计": "prob_stat",
+    "数学": "prob_stat",
+
+    # Marketing (大二上)
+    "mkt": "mkt",
+    "marketing": "mkt",
+    "市场营销学": "mkt",
+    "市场营销": "mkt",
+    "营销": "mkt",
+
+    # Academic English (大二上)
+    "eng": "eng",
+    "english": "eng",
+    "academic_english": "eng",
+    "academic-english": "eng",
+    "学术英语": "eng",
+    "英语": "eng",
+    "学英": "eng",
 }
 
 

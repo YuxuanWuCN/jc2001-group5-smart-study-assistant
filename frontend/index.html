@@ -664,13 +664,36 @@
             </div>
           </div>
 
+          <!-- 学科分类与大二上专业拓扑选择条 -->
+          <div class="graph-subject-pills-bar" style="margin: 12px 0 16px 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-right: 4px;">🎓 大二上专业必修:</span>
+            <button class="graph-subj-btn active" data-graph-subject="or" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[OR] 📐 运筹学</button>
+            <button class="graph-subj-btn" data-graph-subject="mis" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[MIS] 🌐 管理信息系统</button>
+            <button class="graph-subj-btn" data-graph-subject="prob_stat" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[MATH] 🎲 概率与统计</button>
+            <button class="graph-subj-btn" data-graph-subject="mkt" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[MKT] 🎯 市场营销</button>
+            <button class="graph-subj-btn" data-graph-subject="eng" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[ENG] ✍️ 学术英语</button>
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-left: 8px; margin-right: 4px;">📚 通识与核心基准:</span>
+            <button class="graph-subj-btn" data-graph-subject="law" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[LAW] ⚖️ 民商法学</button>
+            <button class="graph-subj-btn" data-graph-subject="cs" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[CS] 💻 体系结构</button>
+            <button class="graph-subj-btn" data-graph-subject="econ" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[ECON] 📈 计量经济</button>
+            <button class="graph-subj-btn" data-graph-subject="se" type="button" style="padding: 5px 12px; font-size: 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-title); cursor: pointer; font-weight: 600;">[SE] ⚙️ 软件工程</button>
+          </div>
+
           <!-- 交互式 SVG 拓扑画布 -->
           <div class="graph-canvas-box">
             <div class="graph-canvas-overlay">
-              <span class="canvas-spec">CANVAS: 1200x580</span>
+              <span id="graph-canvas-title" class="canvas-spec">SUBJECT: [OR] 运筹学与优化建模</span>
               <span class="canvas-status">STATUS: RENDERED</span>
             </div>
             <svg id="large-graph-svg" viewBox="0 0 780 460" width="100%" height="100%"></svg>
+          </div>
+
+          <!-- 学科知识点精讲与先修依赖卡片列表 -->
+          <div id="graph-concept-details" style="margin-top: 24px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; color: var(--text-title);">📖 当前学科核心概念与先修拓扑详情</h3>
+            <div id="graph-concepts-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;">
+              <!-- 动态由 app.js 填充 -->
+            </div>
           </div>
         </div>
       </section>
