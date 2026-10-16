@@ -111,6 +111,18 @@ def test_html_dom_elements_required_by_app_js():
         "mini-radar-chart",       # 5-dimension competency radar container
         "api-modal",              # Settings modal for API configuration
         "api-settings-btn",       # Nav button opening API settings
+        "portal-landing",         # Landing and Auth Portal container
+        "portal-auth-nav-btn",    # Navbar sign-in button
+        "login-modal",            # Student account & login/register modal
+        "tab-login-btn",          # Tab for student login
+        "tab-register-btn",       # Tab for new student registration
+        "submit-auth-btn",        # Modal submit button
+        "auth-username-input",    # Student ID / username input in modal
+        "auth-password-input",    # Student password input in modal
+        "portal-username-input",  # Student ID input on landing card
+        "portal-login-btn",       # Sign-in button on landing card
+        "user-profile-btn",       # Sidebar student profile trigger
+        "logout-btn",             # Student account logout button
     ]
 
     for element_id in required_ids:

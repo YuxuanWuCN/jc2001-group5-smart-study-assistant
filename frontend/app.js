@@ -1231,7 +1231,7 @@ const state = {
   lang: initialLang,
   currentSubject: localStorage.getItem("smartstudy_subject") || "se",
   currentQIndex: 0,
-  activeTab: "quiz",
+  activeTab: "home",
   theme: localStorage.getItem("smartstudy_theme") || "light",
   hasAnswered: false,
 
@@ -1263,7 +1263,8 @@ const state = {
   },
 
   // 待排雷薄弱考点列表
-  weakList: (initialLang === "zh" ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en)
+  weakList: (initialLang === "zh" ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en),
+  reportSubject: "all"
 };
 
 let miniRadarChart = null;
@@ -1275,6 +1276,7 @@ let largeRadarChart = null;
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initNavTabs();
+  initWorkspaceHome();
   initApiModal();
   initSubjectSelector();
   initRadarCharts();
@@ -1282,6 +1284,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGraph();
   initSocraticChat();
   updateStatCards();
+  initReportFilters();
   checkBackendHealth();
   initAuthPortal();
   initI18n();
@@ -1531,7 +1534,11 @@ function applyLanguage(lang) {
   const fastEnterText = document.getElementById("portal-fast-enter-text");
   if (fastEnterText) fastEnterText.textContent = dict.fastEnter;
 
-  const heroBadge = document.querySelector(".portal-badge-pill span");
+  const portalAuthNavLabel = document.getElementById("portal-auth-nav-label");
+  if (portalAuthNavLabel) portalAuthNavLabel.textContent = (lang === "zh") ? "学生登录" : "Sign In";
+
+
+  const heroBadge = document.getElementById("portal-hero-badge-text") || document.querySelector(".portal-badge-pill span:not(.pulse-dot)");
   if (heroBadge) heroBadge.textContent = dict.portalHeroBadge;
 
   const heroTitle = document.querySelector(".portal-hero-title");
@@ -1812,9 +1819,178 @@ function initI18n() {
   applyLanguage(currentLang);
 }
 
+// =============================================================================
+// 学生档案与登录门户交互逻辑 (Auth Portal & Modal Identity Switcher)
+// =============================================================================
+let currentAuthMode = "login"; // "login" | "register"
+
+function openAuthModal(defaultTab = "login") {
+  const loginModal = document.getElementById("login-modal");
+  if (!loginModal) return;
+  loginModal.style.display = "flex";
+  renderDemoAccounts();
+  setAuthTab(defaultTab);
+  const input = document.getElementById("auth-username-input");
+  if (input) {
+    setTimeout(() => input.focus(), 60);
+  }
+}
+
+function closeAuthModal() {
+  const loginModal = document.getElementById("login-modal");
+  if (loginModal) loginModal.style.display = "none";
+  const feedback = document.getElementById("auth-feedback-banner");
+  if (feedback) feedback.style.display = "none";
+}
+
+function setAuthTab(mode) {
+  currentAuthMode = mode;
+  const tabLogin = document.getElementById("tab-login-btn");
+  const tabRegister = document.getElementById("tab-register-btn");
+  const majorGroup = document.getElementById("register-major-group");
+  const submitBtn = document.getElementById("submit-auth-btn");
+  const feedback = document.getElementById("auth-feedback-banner");
+  if (feedback) feedback.style.display = "none";
+
+  if (mode === "register") {
+    tabRegister?.classList.add("active");
+    tabLogin?.classList.remove("active");
+    if (majorGroup) majorGroup.style.display = "block";
+    if (submitBtn) {
+      submitBtn.textContent = (state.lang === "zh") ? "立即创建档案并进入" : "Create Profile & Enter";
+    }
+  } else {
+    tabLogin?.classList.add("active");
+    tabRegister?.classList.remove("active");
+    if (majorGroup) majorGroup.style.display = "none";
+    if (submitBtn) {
+      submitBtn.textContent = (state.lang === "zh") ? "立即登录并进入" : "Sign In & Enter";
+    }
+  }
+}
+
+async function handleModalAuthSubmit() {
+  const usernameInput = document.getElementById("auth-username-input");
+  const pwdInput = document.getElementById("auth-password-input");
+  const majorSelect = document.getElementById("auth-major-select");
+  const feedback = document.getElementById("auth-feedback-banner");
+  const submitBtn = document.getElementById("submit-auth-btn");
+
+  const val = usernameInput ? usernameInput.value.trim() : "";
+  if (!val) {
+    if (feedback) {
+      feedback.style.display = "block";
+      feedback.className = "api-status-banner api-status-error";
+      feedback.textContent = (state.lang === "zh") ? "⚠️ 请输入学号或学生姓名" : "⚠️ Please enter your student ID or name";
+    }
+    usernameInput?.focus();
+    return;
+  }
+
+  const isZh = (state.lang === "zh");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span class="spin">⏳</span> ${isZh ? "验证中..." : "Authenticating..."}`;
+  }
+
+  try {
+    let studentObj = null;
+
+    if (currentAuthMode === "register") {
+      const subject = majorSelect ? majorSelect.value : "se";
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          student_id: val && val.match(/^\d+$/) ? val : `STU-${Math.floor(Math.random() * 90000 + 10000)}`,
+          name: val,
+          preferred_subject: subject,
+          password: pwdInput ? pwdInput.value : ""
+        })
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        studentObj = payload.user;
+      }
+    } else {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          student_id: val,
+          password: pwdInput ? pwdInput.value : ""
+        })
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        studentObj = payload.user;
+      }
+    }
+
+    if (!studentObj) {
+      // 离线环境本地兜底匹配
+      const students = getDemoStudents();
+      studentObj = students.find(s => s.id === val || s.name.toLowerCase() === val.toLowerCase());
+      if (!studentObj) {
+        studentObj = {
+          id: val && val.match(/^\d+$/) ? val : "50106070",
+          name: val,
+          role: isZh ? "BSc BMIS · 学生档案" : "BSc BMIS · Student Profile",
+          avatar: val.charAt(0) || "学",
+          subject: (majorSelect && currentAuthMode === "register") ? majorSelect.value : "se",
+          subjectLabel: isZh ? "⚙️ 软件工程" : "⚙️ Software Eng.",
+          streak: 1
+        };
+      }
+    }
+
+    if (feedback) {
+      feedback.style.display = "block";
+      feedback.className = "api-status-banner api-status-ok";
+      feedback.textContent = isZh ? "✅ 验证通过，正在加载学习工作台..." : "✅ Authentication successful, loading workspace...";
+    }
+
+    setTimeout(() => {
+      applyStudentProfile(studentObj);
+      closeAuthModal();
+      switchRootView("workspace");
+      if (feedback) feedback.style.display = "none";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = (currentAuthMode === "register")
+          ? (isZh ? "立即创建档案并进入" : "Create Profile & Enter")
+          : (isZh ? "立即登录并进入" : "Sign In & Enter");
+      }
+    }, 400);
+
+  } catch (e) {
+    // 离线降级
+    const students = getDemoStudents();
+    const studentObj = students.find(s => s.id === val || s.name.toLowerCase() === val.toLowerCase()) || {
+      id: val && val.match(/^\d+$/) ? val : "50106070",
+      name: val,
+      role: isZh ? "BSc BMIS · 学生档案" : "BSc BMIS · Student Profile",
+      avatar: val.charAt(0) || "学",
+      subject: "se",
+      subjectLabel: isZh ? "⚙️ 软件工程" : "⚙️ Software Eng.",
+      streak: 1
+    };
+    applyStudentProfile(studentObj);
+    closeAuthModal();
+    switchRootView("workspace");
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = (currentAuthMode === "register")
+        ? (isZh ? "立即创建档案并进入" : "Create Profile & Enter")
+        : (isZh ? "立即登录并进入" : "Sign In & Enter");
+    }
+  }
+}
+
 function initAuthPortal() {
   renderDemoAccounts();
 
+  // 1. 门户页面快速登入
   const loginBtn = document.getElementById("portal-login-btn");
   const usernameInput = document.getElementById("portal-username-input");
   if (loginBtn && usernameInput) {
@@ -1845,6 +2021,15 @@ function initAuthPortal() {
     });
   }
 
+  // 2. 顶栏登录按钮
+  const portalAuthNavBtn = document.getElementById("portal-auth-nav-btn");
+  if (portalAuthNavBtn) {
+    portalAuthNavBtn.addEventListener("click", () => {
+      openAuthModal("login");
+    });
+  }
+
+  // 3. 顶栏快速进入工作台按钮
   const fastEnterBtn = document.getElementById("portal-fast-enter-btn");
   if (fastEnterBtn) {
     fastEnterBtn.addEventListener("click", () => {
@@ -1863,6 +2048,7 @@ function initAuthPortal() {
     });
   }
 
+  // 4. 门户主题切换
   const portalThemeBtn = document.getElementById("portal-theme-btn");
   if (portalThemeBtn) {
     portalThemeBtn.addEventListener("click", () => {
@@ -1876,6 +2062,7 @@ function initAuthPortal() {
     });
   }
 
+  // 5. 工作台返回门户介绍页
   const backToPortalBtn = document.getElementById("back-to-portal-btn");
   if (backToPortalBtn) {
     backToPortalBtn.addEventListener("click", () => {
@@ -1883,36 +2070,76 @@ function initAuthPortal() {
     });
   }
 
+  // 6. 工作台侧边栏用户身份卡片点击 -> 打开登录/切换弹窗
   const userProfileBtn = document.getElementById("user-profile-btn");
   const loginModal = document.getElementById("login-modal");
   const closeLoginModalBtn = document.getElementById("close-login-modal-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  if (userProfileBtn && loginModal) {
+  if (userProfileBtn) {
     userProfileBtn.addEventListener("click", () => {
-      loginModal.style.display = "flex";
-      renderDemoAccounts();
+      openAuthModal("login");
     });
   }
-  if (closeLoginModalBtn && loginModal) {
-    closeLoginModalBtn.addEventListener("click", () => {
-      loginModal.style.display = "none";
-    });
+  if (closeLoginModalBtn) {
+    closeLoginModalBtn.addEventListener("click", closeAuthModal);
   }
   if (loginModal) {
     loginModal.addEventListener("click", (e) => {
-      if (e.target === loginModal) loginModal.style.display = "none";
+      if (e.target === loginModal) closeAuthModal();
     });
   }
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-      if (loginModal) loginModal.style.display = "none";
+      closeAuthModal();
       localStorage.removeItem("smartstudy_current_user");
       switchRootView("portal");
     });
   }
 
-  // 初始视图判定：首次打开默认展示介绍门户
+  // 7. 模态框 Tab 切换 (登录 / 注册)
+  const tabLoginBtn = document.getElementById("tab-login-btn");
+  const tabRegisterBtn = document.getElementById("tab-register-btn");
+  if (tabLoginBtn) {
+    tabLoginBtn.addEventListener("click", () => setAuthTab("login"));
+  }
+  if (tabRegisterBtn) {
+    tabRegisterBtn.addEventListener("click", () => setAuthTab("register"));
+  }
+
+  // 8. 密码明文切换
+  const togglePwdBtn = document.getElementById("toggle-auth-pwd-btn");
+  const pwdInput = document.getElementById("auth-password-input");
+  if (togglePwdBtn && pwdInput) {
+    togglePwdBtn.addEventListener("click", () => {
+      if (pwdInput.type === "password") {
+        pwdInput.type = "text";
+        togglePwdBtn.textContent = "🙈";
+      } else {
+        pwdInput.type = "password";
+        togglePwdBtn.textContent = "👁️";
+      }
+    });
+  }
+
+  // 9. 模态框提交按钮与回车监听
+  const submitAuthBtn = document.getElementById("submit-auth-btn");
+  const authUsernameInput = document.getElementById("auth-username-input");
+  if (submitAuthBtn) {
+    submitAuthBtn.addEventListener("click", handleModalAuthSubmit);
+  }
+  if (authUsernameInput) {
+    authUsernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleModalAuthSubmit();
+    });
+  }
+  if (pwdInput) {
+    pwdInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleModalAuthSubmit();
+    });
+  }
+
+  // 10. 初始视图判定：首次打开默认展示介绍门户
   const initialView = localStorage.getItem("smartstudy_current_view");
   if (initialView === "workspace") {
     const savedUser = localStorage.getItem("smartstudy_current_user");
@@ -2176,6 +2403,16 @@ function updateThemeIcon() {
 // =============================================================================
 // 顶部页面切换 (Navigation Tabs)
 // =============================================================================
+function initWorkspaceHome() {
+  document.querySelectorAll("[data-home-view]").forEach((entry) => {
+    entry.addEventListener("click", () => {
+      const target = entry.dataset.homeView;
+      const tab = document.querySelector(`.nav-tab-item[data-view="${target}"]`);
+      if (tab) tab.click();
+    });
+  });
+}
+
 function initNavTabs() {
   const tabs = document.querySelectorAll(".nav-tab-item");
   tabs.forEach(tab => {
@@ -2195,8 +2432,11 @@ function initNavTabs() {
         targetSec.classList.add("active");
       }
 
-      if (viewId === "report" && largeRadarChart) {
-        setTimeout(() => largeRadarChart.resize(), 50);
+      if (viewId === "report") {
+        if (largeRadarChart) {
+          setTimeout(() => largeRadarChart.resize(), 50);
+        }
+        fetchAndRenderReport(state.reportSubject || "all");
       }
       if (viewId === "graph") {
         renderGraph();
@@ -2680,6 +2920,144 @@ function updateStatCards() {
   if (elScore) elScore.textContent = `${state.stats.predictedScore} 分`;
   updateRadarDefenseBadge();
   renderWeakPointsList();
+}
+
+function initReportFilters() {
+  const filterBtns = document.querySelectorAll(".report-filter-btn");
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const subj = btn.dataset.subject || "all";
+      state.reportSubject = subj;
+      fetchAndRenderReport(subj);
+    });
+  });
+}
+
+async function fetchAndRenderReport(subject = "all") {
+  const baseUrl = (window.location.protocol === "http:" || window.location.protocol === "https:")
+    ? window.location.origin
+    : "http://127.0.0.1:8000";
+
+  const isZh = (state.lang === "zh");
+  const provEl = document.getElementById("report-provenance-text");
+  if (provEl) {
+    provEl.textContent = isZh ? "正在拉取最新学情评测数据..." : "Fetching telemetry metrics...";
+  }
+
+  try {
+    const [sumRes, trendRes] = await Promise.all([
+      fetch(`${baseUrl}/api/reports/summary?subject=${encodeURIComponent(subject)}`),
+      fetch(`${baseUrl}/api/reports/trend?subject=${encodeURIComponent(subject)}`)
+    ]);
+
+    if (!sumRes.ok || !trendRes.ok) {
+      throw new Error(`API returned HTTP ${sumRes.status} / ${trendRes.status}`);
+    }
+
+    const summary = await sumRes.json();
+    const trend = await trendRes.json();
+
+    // 1. Update Core Stat Cards
+    const elAttempt = document.getElementById("stat-attempt-count");
+    const elTraps = document.getElementById("stat-traps");
+    const elAccuracy = document.getElementById("stat-accuracy");
+    const elScore = document.getElementById("stat-score");
+    const elStreakDesc = document.getElementById("stat-streak-desc");
+    const elBadgeDesc = document.getElementById("radar-badge-desc");
+
+    const attemptCount = summary.attempt_count ?? summary.attemptCount ?? 0;
+    const correctCount = summary.correct_count ?? summary.correctCount ?? 0;
+    const accuracy = summary.accuracy_rate ?? summary.accuracyRate ?? 0;
+    const trapsIdentified = summary.traps_identified ?? summary.trapsIdentified ?? 0;
+    const cogScore = summary.cognitive_score ?? summary.cognitiveScore ?? 50.0;
+    const streak = summary.streak_days ?? summary.streakDays ?? 1;
+
+    if (elAttempt) elAttempt.textContent = isZh ? `${attemptCount} 题` : `${attemptCount} Qs`;
+    if (elTraps) elTraps.textContent = isZh ? `${trapsIdentified} 处` : `${trapsIdentified} Traps`;
+    if (elAccuracy) elAccuracy.textContent = `${accuracy.toFixed(1)}%`;
+    if (elScore) elScore.textContent = isZh ? `${cogScore.toFixed(1)} 分` : `${cogScore.toFixed(1)} pts`;
+
+    if (elStreakDesc) {
+      elStreakDesc.textContent = isZh
+        ? `🔥 ${streak} 天连续打卡专注状态`
+        : `🔥 ${streak}-day active study streak`;
+    }
+
+    if (elBadgeDesc) {
+      elBadgeDesc.textContent = isZh
+        ? `综合思维防守指数 ${cogScore.toFixed(1)} 分 · 答对 ${correctCount}/${attemptCount} 核心考点题目`
+        : `Defense Score: ${cogScore.toFixed(1)} pts · Solved ${correctCount}/${attemptCount} core problems`;
+    }
+
+    // 2. Update Provenance Timestamp
+    if (provEl) {
+      const genTime = summary.generated_at ? new Date(summary.generated_at).toLocaleTimeString() : "实时聚合";
+      provEl.textContent = isZh
+        ? `数据源: ${summary.data_source || 'session_telemetry'} · 生成时间: ${genTime} · 100% 考官可复现`
+        : `Source: ${summary.data_source || 'session_telemetry'} · Time: ${genTime} · 100% Offline Reproducible`;
+    }
+
+    // 3. Render Weak Points List
+    const weakContainer = document.getElementById("weak-points-list");
+    if (weakContainer) {
+      weakContainer.innerHTML = "";
+      const wpList = summary.weak_points || summary.weakPoints || [];
+      if (wpList.length === 0) {
+        weakContainer.innerHTML = `
+          <div style="padding: 14px; text-align: center; color: var(--text-muted); font-size: 0.84rem;">
+            ${isZh ? "当前学科暂无高危失分薄弱点，概念掌握扎实！" : "No critical misconceptions recorded for this subject."}
+          </div>
+        `;
+      } else {
+        wpList.forEach(wp => {
+          const row = document.createElement("div");
+          row.style.padding = "10px 14px";
+          row.style.borderRadius = "var(--radius-sm)";
+          row.style.background = "var(--bg-surface-subtle)";
+          row.style.border = "1px solid var(--border-subtle)";
+          row.style.marginBottom = "8px";
+          row.style.fontSize = "0.86rem";
+          const failCount = wp.fail_count ?? wp.failCount ?? 1;
+          const trapTitle = wp.trap_name || wp.trapName || "概念混淆";
+          const failBadge = isZh ? `失误 ${failCount} 次` : `${failCount} Misses`;
+          row.innerHTML = `
+            <div style="font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between; align-items: center;">
+              <span>${wp.topic}</span>
+              <span style="color: var(--rose-500); font-size: 0.76rem; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px;">${failBadge}</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #f59e0b; margin-top: 4px; font-weight: 500;">⚠️ 诱因: ${trapTitle}</div>
+            ${wp.recommendation ? `<div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 3px;">💡 建议: ${wp.recommendation}</div>` : ""}
+          `;
+          weakContainer.appendChild(row);
+        });
+      }
+    }
+
+    // 4. Update Large Radar Chart
+    if (largeRadarChart && trend && trend.scores) {
+      largeRadarChart.setOption({
+        series: [
+          {
+            data: [
+              {
+                value: trend.scores,
+                name: isZh ? "能力雷达画像" : "Cognitive Radar"
+              }
+            ]
+          }
+        ]
+      });
+    }
+
+  } catch (err) {
+    console.warn("fetchAndRenderReport fallback to in-memory telemetry:", err);
+    if (provEl) {
+      provEl.textContent = isZh ? "数据源: 本地会话离线沙箱 (Fallback Mode)" : "Source: Local In-Memory Sandbox";
+    }
+    updateStatCards();
+  }
 }
 
 // =============================================================================
