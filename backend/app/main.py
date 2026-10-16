@@ -13,6 +13,8 @@ from backend.app.config import settings
 from backend.app.routers.health import router as health_router
 from backend.app.routers.quiz import router as quiz_router
 from backend.app.routers.diagnose import router as diagnose_router
+from backend.app.routers.reports import router as reports_router
+from backend.app.routers.auth import router as auth_router
 
 # Configure root logger
 logging.basicConfig(
@@ -43,6 +45,9 @@ def create_app() -> FastAPI:
     application.include_router(health_router, prefix="/api")
     application.include_router(quiz_router, prefix="/api")
     application.include_router(diagnose_router, prefix="/api")
+    application.include_router(reports_router, prefix="/api")
+    application.include_router(auth_router, prefix="/api")
+
 
     # 3. Mount frontend static directory at root / for single-port instant preview
     frontend_dir = settings.FRONTEND_DIR
