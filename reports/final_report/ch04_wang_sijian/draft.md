@@ -22,7 +22,7 @@ We replaced it because it could not absorb a second contributor. Every new behav
 
 Physical simplicity was a second deliberate objective, not a side effect. One archive, one command, one port. A service mesh would have replaced that instruction with a toolchain prerequisite, and reproducibility is one of the criteria the proof of concept is marked against.
 
-We considered splitting into microservices and rejected it on cost, not on principle. Orchestration, service discovery, cross-service transactions and distributed tracing would all have fallen on ten students in twelve weeks. What they buy is independent scaling, which is worth nothing when the system serves one user on one laptop.
+We considered splitting into microservices and rejected it on cost, not on principle. Orchestration, service discovery, cross-service transactions and distributed tracing would all have fallen on ten students in twelve weeks. What they buy is independent scaling, which is worth nothing when the system serves one user on one laptop. Architecture is a response to constraints rather than a measure of sophistication (Sommerville, 2016, ch. 6).
 
 ### 4.1.3 Component inventory and responsibilities
 
@@ -58,7 +58,7 @@ The endpoint contract and the field-level schema belong to Chapter 5.2, and we d
 
 ### 4.2.1 System context model
 
-Figure 4.2 places three external entities outside the boundary.
+Figure 4.2 places three external entities outside the boundary. A context model exists to fix that boundary before any functional decomposition begins (Sommerville, 2016, ch. 5).
 
 The student operates the system, through a browser and nothing else. The instructor does not operate it. We include the instructor because they are a genuine stakeholder in the artefact, and we exclude every teacher-side function because we cut that scope deliberately in Chapter 2. Whether an actor appears in the context model and whether their features are built are separate questions, and we answer them separately.
 
@@ -68,11 +68,11 @@ Neo4j AuraDB is the third entity, and it is drawn dashed. The dashes are a decis
 
 ### 4.2.2 Sequence model for diagnosis
 
-Figure 4.4 traces one diagnosis from the browser to the response. The front end posts a question identifier and a selected option key. The router validates the body against a typed model. From there the diagnostic service resolves the question, finds the selected option, reads its correctness flag, and on a wrong answer reads the trap attached to that option.
+Figure 4.4 traces one diagnosis from the browser to the response. Interaction models of this kind expose ordering and failure paths that a structural diagram hides (Sommerville, 2016, ch. 5). The front end posts a question identifier and a selected option key. The router validates the body against a typed model. From there the diagnostic service resolves the question, finds the selected option, reads its correctness flag, and on a wrong answer reads the trap attached to that option.
 
 What matters most is what the figure leaves out. The diagnosis performs no model inference. It is a dictionary lookup followed by field assembly.
 
-This is a decision with a specific failure in mind. A language model can produce a statute that does not exist, or a formula that holds in general and fails at the boundary the question is testing. In a teaching tool that is a teaching error, not a quality regression. A lookup table fails differently: it can only be right about questions we wrote, and it cannot invent.
+This is a decision with a specific failure in mind. A language model can produce a statute that does not exist, or a formula that holds in general and fails at the boundary the question is testing. Retrieval-grounded generation reduces but does not remove this risk, which is why grounding must be measured rather than assumed (Es et al., 2023). In a teaching tool that is a teaching error, not a quality regression. A lookup table fails differently: it can only be right about questions we wrote, and it cannot invent.
 
 We measured the deterministic core over 720 samples drawn from the 36 wrong-answer cases. The core is question lookup, option resolution and trap lookup. Median was 0.6 microseconds and p95 was 0.7 microseconds. End to end over HTTP on a local `uvicorn` worker, the median round trip was 1.5 milliseconds. Framework and transport overhead account for the gap. We report both numbers instead of choosing the flattering one.
 
@@ -84,7 +84,7 @@ That boundary is the one we would defend hardest in a viva. A deterministic judg
 
 ### 4.3.1 Four domain classes and their relationships
 
-Figure 4.3 shows the domain model as it exists in `backend/app/models/quiz.py`.
+Figure 4.3 shows the domain model as it exists in `backend/app/models/quiz.py`. Class models record the relationships that the implementation must enforce, not merely the fields each object carries (Sommerville, 2016, ch. 5).
 
 A question aggregates four options. The shipped set is twelve questions and forty-eight options. Each option carries a key, text, a correctness flag and an optional trap identifier. Correct options carry no trap identifier at all, and that absence is load-bearing. A question is well formed only when exactly three options carry one, so integrity can be checked by counting. The validator uses that property directly.
 
@@ -110,7 +110,7 @@ This is AD-4, and every determinism claim in this chapter rests on it. Once the 
 
 Table 4.1 records seven decisions, with four fields each: the decision, the alternative rejected, the reason, and the cost we accepted.
 
-The fourth field is the one that does the work. A decision presented without a cost is usually a decision that was not examined. We therefore read an empty cost column as insufficient thought, not as a good choice. Two entries, AD-6 and AD-7, exist mainly to disclose weaknesses. A report claiming no weaknesses would contradict the results in Chapter 6.
+The fourth field is the one that does the work. Design rationale is itself a design artefact: a decision recorded without its rejected alternatives cannot be reviewed or revisited (Sommerville, 2016, ch. 6). A decision presented without a cost is usually a decision that was not examined. We therefore read an empty cost column as insufficient thought, not as a good choice. Two entries, AD-6 and AD-7, exist mainly to disclose weaknesses. A report claiming no weaknesses would contradict the results in Chapter 6.
 
 ### 4.4.2 What we got wrong
 
@@ -150,7 +150,7 @@ The second health endpoint is worth one paragraph. It performs a single live pro
 
 The quality attributes in Chapter 2 follow from the decisions in Section 4.4. They are not aspirations attached afterwards, and each traces to a mechanism.
 
-Usability comes from the single page and from progressive disclosure. The diagnostic drawer reveals a trap in layers, so a student meets one idea at a time.
+Usability comes from the single page and from progressive disclosure. The diagnostic drawer reveals a trap in layers, so a student meets one idea at a time. Progressive disclosure trades completeness for comprehension, and it is appropriate where the secondary material would distract from the primary task (Nielsen, 2006).
 
 Performance comes from the absence of a database, a network call and a model call on the verdict path. The figures in Section 4.2.2 follow from the design; they were not obtained by optimisation.
 
@@ -174,3 +174,13 @@ Chapter 4 contributes four figures and two tables. The numbers follow the global
 | Table 4.2 | Component responsibilities and permitted dependencies | §4.1.3 | §4.1.3 |
 
 Figure 4.3 is the only wholly new technical diagram in this chapter, and the brief requires class diagrams explicitly. Table 4.2 was added during drafting and is not in the global allocation; if the allocation is closed it can be folded into the prose of §4.1.3 without losing content.
+
+## Chapter 4 references
+
+The chapter cites three sources. All three are cited in the running text above and are listed here in Harvard style. The volume editor should merge this list into the consolidated reference list and renumber.
+
+Es, S., James, J., Espinosa-Anke, L. and Schockaert, S. (2023) 'RAGAS: Automated Evaluation of Retrieval Augmented Generation'. *arXiv preprint* arXiv:2309.15217.
+
+Nielsen, J. (2006) 'Progressive Disclosure'. *Nielsen Norman Group*, 3 December. Available at: https://www.nngroup.com/articles/progressive-disclosure/ (Accessed: 19 October 2026).
+
+Sommerville, I. (2016) *Software Engineering*. 10th edn. Harlow: Pearson Education.
