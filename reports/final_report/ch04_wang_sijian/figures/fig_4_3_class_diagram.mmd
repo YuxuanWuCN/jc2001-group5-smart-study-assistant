@@ -1,0 +1,89 @@
+%%{init: {"class": {"hideEmptyMembersBox": true}}}%%
+%% Figure 4.3 — UML Class Diagram (domain model)
+%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant / Chapter 4.3
+%% 
+%% 这是本章唯一的全新技术图（官方 Brief 明确要求 class diagrams）。
+%% 类与属性严格对应 backend/app/models/quiz.py 的实际定义（develop@626d467）。
+%% 
+%% 设计洞见（正文 4.3.2 必须点出）：
+%%   陷阱挂在「选项」上，而不是挂在「题目」上。
+%%   同一错误选项在不同情境下的误解不同；把陷阱绑到选项，使"诊断"退化为
+%%   一次外键查找（traps[option.trap_id]），而不是一次推理。
+%%   这个建模决定（AD-04）是整个诊断算法得以确定性化的前提。
+%% 
+%% 实测基数：QuizItem 12 · OptionItem 48 · TrapDetail 36 · GraphNode 60
+classDiagram
+    direction LR
+
+    class QuizItem {
+        +str id
+        +str subject
+        +str difficulty
+        +str tag
+        +str stem
+        +str explanation
+        +str answer
+        +str trap_hint
+        +str socratic_prompt
+        +get_correct_option()
+        +deduce_answer_key()
+    }
+
+    class OptionItem {
+        +str key
+        +str text
+        +bool is_correct
+        +str trap_id
+        +normalize_keys()
+        +sync_aliases()
+    }
+
+    class TrapDetail {
+        +str title
+        +str desc
+        +str prereq
+        +str radar_hit
+        +normalize_keys()
+        +sync_aliases()
+    }
+
+    class RadarDimension {
+        <<enumeration>>
+        recall
+        boundary
+        trapDefense
+        synthesis
+        precision
+    }
+
+    class GraphData {
+        +str title
+        +list nodes
+        +list edges
+    }
+
+    class GraphNode {
+        +str id
+        +str label
+        +str type
+        +float x
+        +float y
+    }
+
+    class GraphEdge {
+        +str from_node
+        +str to_node
+        +str label
+    }
+
+    QuizItem "1" *-- "4" OptionItem : options
+    QuizItem "1" o-- "0..1" GraphData : graph
+    QuizItem "1" o-- "0..*" TrapDetail : traps[dict]
+    OptionItem "0..*" --> "0..1" TrapDetail : trap_id（仅错项）
+    TrapDetail "1" --> "1" RadarDimension : radar_hit
+
+    GraphData "1" *-- "0..*" GraphNode : nodes
+    GraphData "1" *-- "0..*" GraphEdge : edges
+
+    note for OptionItem "陷阱挂在选项上而非题目上：<br/>traps[option.trap_id] 一次查表即完成诊断"
+    note for RadarDimension "5 个维度由 frontend/app.js 渲染为学情雷达图"

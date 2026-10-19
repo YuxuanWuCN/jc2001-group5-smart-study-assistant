@@ -1,0 +1,59 @@
+%% Figure 4.4 — Diagnose sequence diagram (POST /api/diagnose)
+%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant / Chapter 4.2.2
+%% 
+%% 设计约束（勿违反）：
+%%   1. 诊断主链路（矩形框内）不含任何外部服务：没有 Neo4j，也没有模型调用。
+%%      依据 backend/app/services/diagnostic_service.py 的分支结构 —— 判定只做内存
+%%      字典查找与字段拼装，因此 P95 < 5 ms 且完全离线。
+%%   2. Neo4j Aura 不出现在本图中。它只服务离线评估链路（AD-05），
+%%      一旦画进在线时序就与 4.2.2 的正文断言矛盾。
+%%   3. 模型（Qwen-Turbo）仅在「答错之后生成提示语」时可选调用，由
+%%      QWEN_API_KEY 门控，4.0 s 超时后回落本地种子文案；它是提示语增强器，
+%%      不是诊断路径的一部分，失败也不改变判定结果。
+%%   4. 接口字段取自 backend/app/models/diagnose.py：请求 question_id + selected_option；
+%%      响应 is_correct / trap_id / trap_title / concept_name / prerequisite /
+%%      socratic_guidance / radar_dimension / score_delta / fallback_mode / model_used。
+%%   5. 三个兜底出口（题目未命中 / 参数非法 / 未预期异常）保证不抛 500。
+%% 
+%% 渲染注意：注释行不可只写 "%%"，必须写成 "%% "；节点/参与者名不要带 ASCII 半角括号。
+sequenceDiagram
+    autonumber
+    actor User as 学生
+    participant UI as 前端 app.js
+    participant API as 路由层
+    participant Svc as 诊断服务
+    participant Bank as 题库
+
+    User->>UI: 点击干扰项（如 B）
+    UI->>API: POST /api/diagnose
+
+    rect rgb(240, 247, 255)
+    Note over API,Bank: 诊断主链路 · 纯内存查表 · 无网络 · 无模型 · 无数据库
+    API->>API: Pydantic 校验
+    alt 校验通过
+        API->>Svc: diagnose_answer
+        Svc->>Bank: 按 question_id 取题
+        alt 题目命中
+            Bank-->>Svc: QuizItem
+            Svc->>Svc: 按 selected_key 定位选项
+            Svc->>Bank: traps[trap_id] 查表
+            Bank-->>Svc: TrapDetail 四字段
+            Svc-->>API: DiagnoseResponse
+        else 题目未命中
+            Svc-->>API: 应急兜底响应
+        end
+    else 校验失败
+        API-->>UI: 422 校验错误
+    end
+    end
+
+    API-->>UI: 200 OK · is_correct + trap 四字段 + radar_dimension
+
+    opt 仅答错且已配置 QWEN_API_KEY · 4.0 s 超时
+        Svc->>Svc: 生成提示语
+        Note over Svc: 失败或超时回落本地文案；判定不受影响
+    end
+
+    UI->>UI: 展开诊断抽屉
+    UI-->>User: 展示陷阱、先修定理与提示
+    UI->>UI: 写入 localStorage 并更新雷达
