@@ -121,12 +121,17 @@ END
 
 **最后一行必须写"我们输掉的那一项"**：承认在开放问答场景下查表失效，并说明这正是我们选择闭式选择题界面的根本原因（呼应 Ch2 的 R01/R02 范围决策）。承认边界比假装全能更可信。
 
-#### 5.4.3 雷达分数的聚合
+#### 5.4.3 雷达分数的会话聚合（初创轻量架构 · 方案 B）
 
-说明 5 个维度分数如何从历次诊断累积（读 `backend/app/services/report_service.py` 与 `/api/reports/trend` 的实现口径写，**不要自己发明公式**）：
-- 每次作答如何映射到维度增量；
-- 空状态（0 次作答）怎么显示；
-- **如果实现里存在简化（例如没有加权衰减），就直说"这是一个未实现的简化"**，并写进 Ch7 的 Limitations。
+说明 5 个能力维度（Recall, Boundary, Defense, Synthesis, Precision）如何从答题事件中即时累积（**读 `frontend/app.js` 的 `state.radar` 与 `updateRadarCharts()` 实现口径，不要自己发明公式**）：
+- **即时增量与削减机制**：
+  - 正确作答：`state.radar.recall = min(100, +4)`, `trapDefense = min(100, +5)`, `synthesis = min(100, +3)`；
+  - 答错踩坑：`state.radar.trapDefense = max(30, -6)`, `boundary = max(30, -4)`；
+  - 每次作答后前端即时驱动 ECharts 重绘，实现零网络开销、零毫秒延迟响应。
+- **初创架构取舍（Trade-off Analysis，重点论据）**：
+  - 明确写明：本 MVP 采用“前端会话即时增量聚合 + 预置学科基准映射”的精益方案，优先保障单机离线可用，不依赖后端重型事件数据库；
+  - 诚实指出简化：当前实现**未引入跨学期时间加权衰减（如艾宾浩斯遗忘曲线或 FSRS 算法）**，学生会话刷新后仅保留基础状态；
+  - 呼应第七章：在 Ch7 的 Limitations 与 Future Work 里将“长周期贝叶斯知识追踪（BKT）与时间衰减”列为下一阶段工程演进目标。
 
 ---
 
@@ -136,7 +141,7 @@ END
 | :--- | :--- |
 | 题库全文（12 题 36 陷阱） | `backend/app/data/seed_questions.py` |
 | 诊断服务实现 | `backend/app/services/diagnostic_service.py` |
-| 雷达聚合实现 | `backend/app/services/report_service.py` |
+| 前端雷达即时聚合逻辑 | `frontend/app.js`（搜索 `state.radar` 与 `updateRadarCharts`） |
 | 相关测试 | `tests/test_quiz.py`、`tests/test_adversarial_backend.py` |
 | 数据契约 | `reports/report_data_contract.md` |
 
