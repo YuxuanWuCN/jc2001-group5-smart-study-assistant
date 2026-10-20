@@ -1,0 +1,16 @@
+%% Figure 5.2 - Trap causal chain: from a wrong selection to teaching feedback
+%% Chapter 5.3.2 (Dong Siqin). Exporters: mermaid.live, or the headless-Chrome pipeline
+%% described in reports/figures/README.md section 3.
+%% The data names used here are verified against backend/app/data/seed_questions.py.
+flowchart LR
+    A["1. Student selects<br/>an option<br/><i>key = B</i>"] --> B{"2. option<br/>is_correct ?"}
+    B -- "yes" --> C["Positive feedback<br/>+ dimension credit<br/>(no trap lookup)"]
+    B -- "no" --> D["3. Read option.trap_id<br/><i>trap_law_1</i>"]
+    D --> E{"4. traps[trap_id]<br/>exists ?"}
+    E -- "yes" --> F["5. TrapDetail<br/>title · desc · prereq · radar_hit"]
+    E -- "no" --> G["Local fallback<br/>generic prerequisite hint<br/>fallback_mode = true"]
+    F --> H["6. Assemble DiagnoseResponse<br/>verdict · trap_title · explanation<br/>prerequisite · radar_target · score_delta"]
+    G --> H
+    H --> I["7. Diagnostic drawer<br/>and radar update"]
+    I --> J["8. Targeted review<br/>suggestion"]
+    X["Unknown question_id<br/>degrades to HTTP 200<br/>(never a 5xx)"] -.-> H

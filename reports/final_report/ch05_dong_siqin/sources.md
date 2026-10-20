@@ -39,7 +39,16 @@
 | Table 5.4 | `backend/app/data/seed_questions.py` 逐题汇总 |
 | Table 5.5 | `backend/app/models/quiz.py` 的 `TrapDetail` 定义 ＋ `law_1 / trap_law_1` 真实取值 |
 | Table 5.6 | 本章论述（查表 vs LLM 现场生成） |
-| Figure 5.2 | 自绘（错选 → `trap_id` → `TrapDetail` → 诊断抽屉的因果链）；绘图源文件拟放 `reports/figures/` |
+| Figure 5.2 | 自绘因果链（错选 → `trap_id` → `TrapDetail` → 诊断抽屉）；源文件 `reports/figures/fig_trap_causal_chain.mmd`，矢量图 `reports/figures/fig_trap_causal_chain.svg`（插入报告优先用 SVG） |
+
+## 5.1 本章引用文献（均经 Crossref 核对卷期页码与 DOI）
+
+| 文献 | 用于支撑 | 核对结果 |
+| :--- | :--- | :--- |
+| VanLehn (2011), *Educational Psychologist* 46(4), 197–221 | 细粒度反馈的有效性 | ✅ vol/issue/pages/DOI 全部一致 |
+| Corbett and Anderson (1994), *User Modeling and User-Adapted Interaction* 4(4), 253–278 | 能力维度独立累积（知识追踪） | ⚠️ Crossref 出版年记为 **1995**，学界多引 1994；提交前以出版社页面为准并全篇统一 |
+| Koedinger, Corbett and Perfetti (2012), *Cognitive Science* 36(5), 757–798 | 前置知识对稳健学习的必要性 | ✅ 一致 |
+| Haladyna, Downing and Rodriguez (2002), *Applied Measurement in Education* 15(3), 309–333 | 干扰项必须可解释的命题写作规范 | ✅ 一致（DOI 10.1207/s15324818ame1503_5） |
 
 ## 6. 任务书与规范
 
