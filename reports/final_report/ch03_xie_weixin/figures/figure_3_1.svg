@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1330"><rect width="100%" height="100%" fill="white"/>
+<rect x="350" y="50" width="1500" height="1160" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="1100.0" y="637.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle"></text>
+<text x="1100" y="99.28" font-family="DejaVu Sans, sans-serif" font-size="29" text-anchor="middle">StudyGraph use case specification boundary</text>
+<polyline points="170,640 290,640 330,195 470,195" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="170,640 290,640 330,450 470,450" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="170,640 290,640 330,705 470,705" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="170,640 290,640 330,960 470,960" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="170,640 260,640 260,340 1790,340 1790,450 1750,450" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="170,640 240,640 240,1100 1790,1100 1790,960 1750,960" fill="none" stroke="black" stroke-width="3"/>
+<circle cx="130" cy="480" r="30" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="130,510 130,640" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="65,555 195,555" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="130,640 75,720" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="130,640 185,720" fill="none" stroke="black" stroke-width="3"/>
+<text x="130" y="778.96" font-family="DejaVu Sans, sans-serif" font-size="28" text-anchor="middle">Student</text>
+<ellipse cx="680.0" cy="195.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="680.0" y="187.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-02</text>
+<text x="680.0" y="218.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Subject practice</text>
+<ellipse cx="1540.0" cy="195.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="1540.0" y="187.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-01</text>
+<text x="1540.0" y="218.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Misconception diagnosis</text>
+<ellipse cx="680.0" cy="450.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="680.0" y="442.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-03</text>
+<text x="680.0" y="473.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Evidence and provenance</text>
+<ellipse cx="1540.0" cy="450.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="1540.0" y="442.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-08</text>
+<text x="1540.0" y="473.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Tutor follow-up</text>
+<ellipse cx="680.0" cy="705.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="680.0" y="697.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-04</text>
+<text x="680.0" y="728.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Question knowledge map</text>
+<ellipse cx="1540.0" cy="705.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3" stroke-dasharray="10 6"/>
+<text x="1540.0" y="697.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-07</text>
+<text x="1540.0" y="728.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Supplementary practice</text>
+<ellipse cx="680.0" cy="960.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="680.0" y="952.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-06</text>
+<text x="680.0" y="983.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Wrong-answer history</text>
+<ellipse cx="1540.0" cy="960.0" rx="210.0" ry="60.0" fill="white" stroke="black" stroke-width="3"/>
+<text x="1540.0" y="952.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">UC-05</text>
+<text x="1540.0" y="983.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Learning analysis</text>
+<polyline points="1330,195 890,195" fill="none" stroke="black" stroke-width="3" stroke-dasharray="10 8"/>
+<polyline points="905.7964861140267,186.37034030512433 890,195 905.7964861140267,203.62965969487564" fill="none" stroke="black" stroke-width="3"/>
+<text x="1110" y="157.36" font-family="DejaVu Sans, sans-serif" font-size="23" text-anchor="middle">«extend»</text>
+<text x="1110" y="238.72" font-family="DejaVu Sans, sans-serif" font-size="21" text-anchor="middle">[incorrect answer]</text>
+<polyline points="1540,390 1540,255" fill="none" stroke="black" stroke-width="3" stroke-dasharray="10 8"/>
+<polyline points="1548.6296596948757,270.7964861140267 1540,255 1531.3703403051243,270.7964861140267" fill="none" stroke="black" stroke-width="3"/>
+<text x="1700" y="317.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">«extend»</text>
+<text x="1700" y="349.4" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle">[ask tutor]</text>
+<polyline points="1330,705 1240,705 1240,290 1400,290 1400,250" fill="none" stroke="black" stroke-width="3" stroke-dasharray="10 8"/>
+<polyline points="1408.6296596948757,265.7964861140267 1400,250 1391.3703403051243,265.7964861140267" fill="none" stroke="black" stroke-width="3"/>
+<text x="1115" y="587.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">«extend»</text>
+<text x="1115" y="621.4" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle">[request practice]</text>
+<polyline points="1540,765 1540,900" fill="none" stroke="black" stroke-width="3" stroke-dasharray="10 8"/>
+<polyline points="1531.3703403051243,884.2035138859733 1540,900 1548.6296596948757,884.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<text x="1710" y="824.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">«extend»</text>
+<text x="1710" y="856.4" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle">[request practice]</text>
+<text x="1540" y="805.76" font-family="DejaVu Sans, sans-serif" font-size="18" text-anchor="middle"></text>
+<text x="1540" y="1076.72" font-family="DejaVu Sans, sans-serif" font-size="21" text-anchor="middle">UC-07 is a planned function</text>
+<text x="1100" y="1147.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Other cases have partial or limited evidence; see Table 3.1 and Appendix B.</text>
+<text x="950" y="1257.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Requirements model: relationships describe intended goals, not verified delivery.</text>
+</svg>
