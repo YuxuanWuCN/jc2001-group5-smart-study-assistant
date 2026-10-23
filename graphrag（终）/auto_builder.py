@@ -13,10 +13,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # ==========================================
 # 1. 核心基建配置
 # ==========================================
-DASHSCOPE_API_KEY = "sk-294bcfe0ecc9403c975dcaf411f9080c" 
-NEO4J_URI = "neo4j+ssc://5f97bf4d.databases.neo4j.io"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "JEGZu0b0z6qKT4T29YcOgn8b1RcP333EPmPt1xgI0-Y"
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "") 
+NEO4J_URI = os.getenv("NEO4J_URI", "neo4j+ssc://5f97bf4d.databases.neo4j.io")
+NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
 
 # 🚀 并发引擎配置：5个线程同时向阿里云发请求
 MAX_WORKERS = 5 

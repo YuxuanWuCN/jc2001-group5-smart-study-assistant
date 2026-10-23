@@ -1,0 +1,85 @@
+finding_id,question_id,subject,artifact_kind,artifact_ref,claim_under_test,machine_flag,machine_reason,human_verdict,human_note,is_in_denominator,reviewer
+L1-law_1-A,law_1,law,option_text,A,自合同签订之日（2023年3月1日）起算，最迟于 3 年内届满,OK,,TRUE,,True,审计团队
+L1-law_1-B,law_1,law,option_text,B,自知道受欺诈之日（2023年5月1日）起算，最迟于 1 年内届满,OK,,TRUE,,True,审计团队
+L1-law_1-C,law_1,law,option_text,C,自欺诈行为终止之日起算，最迟于 1 年内届满,OK,,TRUE,,True,审计团队
+L1-law_1-D,law_1,law,option_text,D,自合同签订之日起算，无论是否知情一律在 2 年内届满,OK,,TRUE,,True,审计团队
+L1-law_1-trap_law_1,law_1,law,trap_desc,trap_law_1,🚨 典型混淆陷阱：把'形成权除斥期间'错套为'3年普通诉讼时效' | 这是全校 64% 学生最常踩的深坑！通用 AI 答题时也经常将《民法典》第 188 条的 3 年诉讼时效套到撤销权上。诉讼时效管的是'请求权'，而撤销权属于'形成权'，必须适用严格的法定除斥期间！,OK,,TRUE,,True,审计团队
+L1-law_1-trap_law_2,law_1,law,trap_desc,trap_law_2,🚨 规范错配陷阱：把'受欺诈'与'受胁迫'的法定起算点混为一谈 | 《民法典》严格区分受欺诈与受胁迫：受胁迫才自'胁迫行为终止之日'起算；受欺诈则是自'知道或者应当知道撤销事由之日'起算！,OK,,TRUE,,True,审计团队
+L1-law_1-trap_law_3,law_1,law,trap_desc,trap_law_3,🚨 历史废条死记陷阱：混淆旧合同法与现行民法典 | 误用了已被废止的旧合同法条款。现行民法典明确统一为受欺诈起算 1 年，最长保护期为 5 年（并非 2 年）。,OK,,TRUE,,True,审计团队
+L1-law_2-A,law_2,law,option_text,A,因乙对相机无处分权，乙丙之间的买卖合同自始绝对无效，丙不能取得所有权,OK,,TRUE,,True,审计团队
+L1-law_2-B,law_2,law,option_text,B,丙已基于《民法典》善意取得制度原始取得该相机所有权，甲无权要求返还原物,OK,,TRUE,,True,审计团队
+L1-law_2-C,law_2,law,option_text,C,因相机属于出借物而非遗失物，丙必须先行向甲支付合理补偿后方可保留相机,OK,,TRUE,,True,审计团队
+L1-law_2-D,law_2,law,option_text,D,善意取得仅适用于不动产物权，动产在原权利人甲明确追认前处于效力待定状态,OK,,TRUE,,True,审计团队
+L1-law_2-trap_law_2_1,law_2,law,trap_desc,trap_law_2_1,🚨 废除旧法死记陷阱：把'处分权瑕疵'误等同于'买卖合同绝对无效' | 这是法学期末和考研 58% 学生极易踩中的传统重灾区！民法典明确区分负担行为（债权合同）与处分行为（物权变动）。买卖合同即使无权处分也有效，不能履行则承担违约责任，善意受让人更直接受善意取得保护！,OK,,TRUE,,True,审计团队
+L1-law_2-trap_law_2_2,law_2,law,trap_desc,trap_law_2_2,🚨 规则混淆陷阱：错把'遗失物盗脏物回赎'套用到'意定借用委托物'上 | 《民法典》第 312 条仅对遗失物等'非基于真正权利人意思脱离占有的物'规定了 2 年内可支付对价请求返还。本案中甲是自愿借给乙的（占有委托物），原权利人必须自担信托风险，根本不存在有偿回赎权利！,OK,,TRUE,,True,审计团队
+L1-law_2-trap_law_2_3,law_2,law,trap_desc,trap_law_2_3,🚨 制度适用范围盲区：善意取得横跨动产与不动产两大领域 | 通用 AI 常常将动产交付与不动产登记要件张冠李戴。善意取得恰恰是以动产占有公信力与不动产登记公信力为双支柱的法定原始取得制度！,OK,,TRUE,,True,审计团队
+L1-law_3-A,law_3,law,option_text,A,张某离职后已无代理权，该合同自始绝对无效，科技公司不负任何民事责任,OK,,TRUE,,True,审计团队
+L1-law_3-B,law_3,law,option_text,B,构成表见代理，该合同对科技公司有效，科技公司须承担合同约定的履约付款责任,OK,,TRUE,,True,审计团队
+L1-law_3-C,law_3,law,option_text,C,该合同属于效力待定合同，若科技公司在法定 30 天内不予追认，则合同直接归于消灭,OK,,TRUE,,True,审计团队
+L1-law_3-D,law_3,law,option_text,D,只有当云服务商能充分证明科技公司高管存在主观欺诈故意时，方能认定表见代理成立,OK,,TRUE,,True,审计团队
+L1-law_3-trap_law_3_1,law_3,law,trap_desc,trap_law_3_1,🚨 机械无权否定陷阱：忽视商事外观法理对善意第三人的倾斜保护 | 很多初学者只看到'张某已离职无权'这半句话，机械认定合同无效。表见代理制度的存在目的，恰恰就是在代理权实质欠缺时，因被代理人造成了权利外观而强制其承受法律后果！,OK,,TRUE,,True,审计团队
+L1-law_3-trap_law_3_2,law_3,law,trap_desc,trap_law_3_2,🚨 程序顺位颠倒陷阱：把'表见代理'降级为'狭义无权代理的效力待定' | 表见代理一旦成立，相对人享有选择权：既可以主张表见代理有效要求公司履约，也可以主动撤销。但被代理人（科技公司）根本无权单方面通过'拒绝追认'来废除合同！,OK,,TRUE,,True,审计团队
+L1-law_3-trap_law_3_3,law_3,law,trap_desc,trap_law_3_3,🚨 归责要件苛刻化陷阱：混淆'权利外观可归责性'与'侵权故意' | 认定表见代理完全不需要被代理人具有主观欺诈故意！只要公章管理不善、授权书未收回等客观过失造成了权利外观，就足以认定本人具有可归责性！,OK,,TRUE,,True,审计团队
+L1-cs_1-A,cs_1,cs,option_text,A,属于写后读 (WAR) 反相关冒险；五级流水线必须插入 2 个周期停顿,OK,,TRUE,,True,审计团队
+L1-cs_1-B,cs_1,cs,option_text,B,属于读后写 (RAW) 真实数据相关；可通过硬件前递旁路 (Forwarding) 消除所有停顿,OK,,TRUE,,True,审计团队
+L1-cs_1-C,cs_1,cs,option_text,C,属于结构冒险 (Structural Hazard)；必须通过将单端口寄存器升级为多端口解决,OK,,TRUE,,True,审计团队
+L1-cs_1-D,cs_1,cs,option_text,D,属于控制冒险 (Control Hazard)；需要引入分支历史表 (BHT) 预测执行,OK,,TRUE,,True,审计团队
+L1-cs_1-trap_cs_1,cs_1,cs,trap_desc,trap_cs_1,🚨 高阶概念死记硬背陷阱：五级顺序流水线根本不可能出现 WAR/WAW 反相关！ | 这是通用大模型极易给出的知识幻觉！只有在支持'乱序执行 (Out-of-Order Execution)'的超标量处理器（如 Tomasulo 架构）中才可能发生 WAR 冒险。在经典五级顺序流水线中，指令按序流淌，前一条指令不可能在后一条指令之后才读取！,OK,,TRUE,,True,审计团队
+L1-cs_1-trap_cs_2,cs_1,cs,trap_desc,trap_cs_2,🚨 分类混淆陷阱：误将'寄存器数据传递'判断为'硬件结构资源冲突' | 结构冒险指的是多个指令在同一时钟周期争夺同一物理部件（例如单端口内存同时读指令与读数据）。题干明确是寄存器数值的前后依赖，是纯粹的数据冒险！,OK,,TRUE,,True,审计团队
+L1-cs_1-trap_cs_3,cs_1,cs,trap_desc,trap_cs_3,"🚨 题意泛化盲猜陷阱：算术指令不存在条件分支 | 控制冒险仅由条件分支（beq, bne）或无条件跳转（jmp）修改 PC 引起，普通算术指令没有任何分支预测需求！",OK,,TRUE,,True,审计团队
+L1-cs_2-A,cs_2,cs,option_text,A,主存地址划分为：Tag=19位，Index=7位，Offset=6位；将相联度提升为 8 路可直接缓解冲突缺失,OK,,TRUE,,True,审计团队
+L1-cs_2-B,cs_2,cs,option_text,B,主存地址划分为：Tag=18位，Index=8位，Offset=6位；将替换算法由 LRU 改为 FIFO 可降低缺失率,OK,,TRUE,,True,审计团队
+L1-cs_2-C,cs_2,cs,option_text,C,主存地址划分为：Tag=20位，Index=6位，Offset=6位；将块大小从 64B 增大到 128B 能根治冲突缺失,OK,,TRUE,,True,审计团队
+L1-cs_2-D,cs_2,cs,option_text,D,只要在 CPU 内部增加一级指令预取缓冲区（Prefetch Buffer），即可完全消除数据 Cache 的所有缺失,OK,,TRUE,,True,审计团队
+L1-cs_2-trap_cs_2_1,cs_2,cs,trap_desc,trap_cs_2_1,🚨 组数计算与替换策略双重陷阱：混淆 Cache 总块数与组数 | 许多同学直接把 512 块当成 512 组算出 9 位或 8 位 Index。更严重的是，LRU 基于时间局部性是理论与工程最佳基准，FIFO 不仅缺失率更高，还会引发著名的 Belady 异常！,OK,,TRUE,,True,审计团队
+L1-cs_2-trap_cs_2_2,cs_2,cs,trap_desc,trap_cs_2_2,🚨 块大小盲目增大陷阱：块过大会压缩组数并加剧冲突缺失 | 在 Cache 总容量固定的前提下，盲目增大块大小会导致 Cache 总组数急剧减半，反而使步长访问的冲突缺失雪上加霜，并显著增加主存缺失惩罚（Miss Penalty）！,OK,,TRUE,,True,审计团队
+L1-cs_2-trap_cs_2_3,cs_2,cs,trap_desc,trap_cs_2_3,🚨 部件职责错配陷阱：把指令预取与数据访存混为一谈 | 指令预取缓冲区针对的是顺序指令流的自适应提取，对大步长随机跳转的数据密集型数组读写根本无法起到降低冲突缺失的作用！,OK,,TRUE,,True,审计团队
+L1-cs_3-A,cs_3,cs,option_text,A,若 TLB 命中，CPU 直接获取物理地址并发起内存读取，全程完全无需访问主存中的多级页表,OK,,TRUE,,True,审计团队
+L1-cs_3-B,cs_3,cs,option_text,B,若 TLB 缺失，硬件 MMU 必须立即向操作系统内核报告缺页中断异常（Page Fault），暂停当前进程,OK,,TRUE,,True,审计团队
+L1-cs_3-C,cs_3,cs,option_text,C,操作系统缺页异常处理程序完成磁盘换页调入后，CPU 从导致缺页指令的'下一条指令 (PC+4)'恢复执行,OK,,TRUE,,True,审计团队
+L1-cs_3-D,cs_3,cs,option_text,D,页表中的有效位（Valid Bit）为 1 且 TLB 缺失时，该物理页必定已经被完全换出到磁盘交换区,OK,,TRUE,,True,审计团队
+L1-cs_3-trap_cs_3_1,cs_3,cs,trap_desc,trap_cs_3_1,🚨 经典混淆高危陷阱：把'TLB Miss'错当成'Page Fault' | 这是全网大模型乱回答与期末考试 71% 学生必错的核心深坑！TLB 缺失只是快表中没有缓存该页表项，物理页完全可能好端端躺在物理内存中。只有当页表查询发现 Valid=0（该页尚未载入内存）时，才会触发真正的 Page Fault！,OK,,TRUE,,True,审计团队
+L1-cs_3-trap_cs_3_2,cs_3,cs,trap_desc,trap_cs_3_2,🚨 异常返回语义断点陷阱：把'Fault 重执原指令'误套为'Interrupt 返回 PC+4' | 中断（Interrupt）是异步的，通常返回下一条指令；而缺页属于故障（Fault），访存指令因缺页尚未成功读取数据，若直接跳到下一条指令，当前寄存器将读入垃圾数据，程序逻辑直接崩塌！,OK,,TRUE,,True,审计团队
+L1-cs_3-trap_cs_3_3,cs_3,cs,trap_desc,trap_cs_3_3,🚨 标志位逻辑彻底反转陷阱：Valid=1 恰恰代表页面在物理内存中 | Valid/Present 位为 1 代表页面就在主存物理帧中；为 0 才表示页面未分配或已换出到磁盘 Swap 分区！,OK,,TRUE,,True,审计团队
+L1-econ_1-A,econ_1,econ,option_text,A,OLS 估计量失去无偏性 (Biased)，产生严重内生性偏差，无法客观反映总体真实参数,OK,,TRUE,,True,审计团队
+L1-econ_1-B,econ_1,econ,option_text,B,高斯-马尔可夫定理完全失效，OLS 估计量不再属于最佳线性无偏估计 (BLUE),OK,,TRUE,,True,审计团队
+L1-econ_1-C,econ_1,econ,option_text,C,OLS 估计量依然保持无偏性与 BLUE 性质，但参数方差膨胀，导致 t 检验失效,OK,,TRUE,,True,审计团队
+L1-econ_1-D,econ_1,econ,option_text,D,模型的总判定系数 R² 会严重受挫跌落至接近 0,OK,,TRUE,,True,审计团队
+L1-econ_1-trap_econ_1,econ_1,econ,trap_desc,trap_econ_1,🚨 混淆无偏性与有效性边界：把'估计精度不足'误等同于'估计量有偏' | 很多学生以及未经图谱事实约束的通用大模型，张口就回答'估计量有偏'！有偏（Bias）只有在遗漏关键变量或存在内生性时才会发生。自变量之间有相关性绝不破坏无偏性！,OK,,TRUE,,True,审计团队
+L1-econ_1-trap_econ_2,econ_1,econ,trap_desc,trap_econ_2,🚨 定理条件理解陷阱：误判 BLUE 性质失效 | 在所有线性无偏估计量中，OLS 依然是方差最小的那个（BLUE），只是此时这个'最小方差'本身已经被样本数据推高了而已。,OK,,TRUE,,True,审计团队
+L1-econ_1-trap_econ_3,econ_1,econ,trap_desc,trap_econ_3,🚨 经典反常识表象陷阱：共线性下 R² 和 F 往往虚高！ | 多重共线性的最经典教科书表象就是：F 检验极度显著、R² 很高（如 0.85），但每个自变量的 t 检验都无法拒绝原假设！,OK,,TRUE,,True,审计团队
+L1-econ_2-A,econ_2,econ,option_text,A,"Z 必须同时满足相关性条件（Cov(Z, Educ) ≠ 0）和严格的外生性排他性假定（Cov(Z, u) = 0 且 Z 不能直接决定工资）",OK,,TRUE,,True,审计团队
+L1-econ_2-B,econ_2,econ,option_text,B,即便第一阶段回归的 F 统计量仅为 2.8（远低于 10），只要样本量 N 趋于无穷大，2SLS 估计量依然绝对无偏且方差最小,OK,,TRUE,,True,审计团队
+L1-econ_2-C,econ_2,econ,option_text,C,在模型恰好识别（内生变量数 = 工具变量数 = 1）时，可直接通过过度识别检验（Sargan-Hansen Test）在统计学上严格检验 Z 是否外生,OK,,TRUE,,True,审计团队
+L1-econ_2-D,econ_2,econ,option_text,D,为了提高因果解释力，合格的工具变量 Z 必须对因变量 ln(Wage) 具有显著而直接的强相关推动力,OK,,TRUE,,True,审计团队
+L1-econ_2-trap_econ_2_1,econ_2,econ,trap_desc,trap_econ_2_1,🚨 弱工具变量致命盲区：大样本并不能自动拯救弱工具变量的严重偏误 | 这是计量经济学实证顶级翻车现场！当第一阶段相关性微弱时（F < 10），2SLS 的渐近偏误会朝 OLS 方向靠拢，抽样分布极度肥尾畸变，常规标准误完全失效，甚至产生毁灭性虚假因果！,OK,,TRUE,,True,审计团队
+L1-econ_2-trap_econ_2_2,econ_2,econ,trap_desc,trap_econ_2_2,🚨 自由度与识别条件数学盲区：恰好识别根本无法进行统计外生性检验 | 过度识别检验（如 Sargan Test / Hansen J 统计量）的前提是工具变量个数 m 严格大于内生变量个数 k（即 m > k）。恰好识别时残差与预测值完全正交，残差平方和自由度为 0，根本无法做检验！,OK,,TRUE,,True,审计团队
+L1-econ_2-trap_econ_2_3,econ_2,econ,trap_desc,trap_econ_2_3,🚨 排他性约束彻底颠倒：合格的工具变量绝对不能直接影响因变量！ | 排他性约束（Exclusion Restriction）的严苛定义是：工具变量 Z 只能'通过内生变量 Educ 这唯一通道'间接影响工资！若 Z 本身直接决定工资，则该变量直接进入原方程扰动项，外生性荡然无存！,OK,,TRUE,,True,审计团队
+L1-econ_3-A,econ_3,econ,option_text,A,存在异方差时，OLS 估计量 β̂ 彻底失去无偏性与一致性，算出来的回归系数数值完全毫无参考价值,OK,,TRUE,,True,审计团队
+L1-econ_3-B,econ_3,econ,option_text,B,怀特检验（White Test）要求研究者必须预先知道异方差的具体数学形式（如指数形式或线性形式）方可实施,OK,,TRUE,,True,审计团队
+L1-econ_3-C,econ_3,econ,option_text,C,OLS 估计量依然无偏且一致，但传统公式计算的标准误严重有偏；现代学界通用做法是直接采用 White 稳健标准误（Robust Standard Errors）进行统计推断,OK,,TRUE,,True,审计团队
+L1-econ_3-D,econ_3,econ,option_text,D,采用加权最小二乘法 (WLS) 在任何情况下都无条件优于 OLS 稳健回归，绝对不可能引入新的模型设定误差,OK,,TRUE,,True,审计团队
+L1-econ_3-trap_econ_3_1,econ_3,econ,trap_desc,trap_econ_3_1,🚨 性质混淆高频深坑：把'有效性受损'误判为'估计量失去无偏性' | 全班 60% 同学会脱口而出'OLS 估计量有偏'！无偏性的唯一前提是外生性 E(u|X)=0。残差方差变大变小，只是让估计量的抽样波动变大，绝不会让总体平均估计中心发生系统性偏移！,OK,,TRUE,,True,审计团队
+L1-econ_3-trap_econ_3_2,econ_3,econ,trap_desc,trap_econ_3_2,🚨 统计检验机制混淆：误把'怀特检验'等同于依赖具体形式的检验 | 怀特检验最大的突破性贡献，正是由于它将残差平方对所有自变量的一阶项、平方项及交互项做辅助回归，完全不需要研究者猜测异方差是哪种特定函数！,OK,,TRUE,,True,审计团队
+L1-econ_3-trap_econ_3_3,econ_3,econ,trap_desc,trap_econ_3_3,🚨 WLS 盲目盲信反模式：错误权重的 WLS 甚至比 OLS 还要糟糕 | 可行广义最小二乘法 (FGLS/WLS) 只有在研究者准确猜对异方差函数结构时才渐近有效。若权重矩阵设定错误，WLS 的估计量反而会失去一致性，因此现代顶级实证论文几乎清一色采用 OLS + Robust 标准误！,OK,,TRUE,,True,审计团队
+L1-se_1-A,se_1,se,option_text,A,强制推行纯瀑布模型（Waterfall），在阶段一彻底冻结所有医保与排班需求规格说明书后才允许进入编码阶段,OK,,TRUE,,True,审计团队
+L1-se_1-B,se_1,se,option_text,B,采用混合软件过程模型（Hybrid Model），底层强合规与稳定架构采用架构先行和严格文档，高频易变的业务服务采用 2 周 Sprint 的 Scrum 敏捷迭代验证,OK,,TRUE,,True,审计团队
+L1-se_1-C,se_1,se,option_text,C,彻底废弃所有软件架构设计文档与测试用例，全盘采用极限编程（XP），依靠每天结对重构解决所有国家合规性评审,OK,,TRUE,,True,审计团队
+L1-se_1-D,se_1,se,option_text,D,采用大爆炸模型（Big Bang Model），由开发人员在期末截止前一周连续通宵一次性交付全量代码,OK,,TRUE,,True,审计团队
+L1-se_1-trap_se_1_1,se_1,se,trap_desc,trap_se_1_1,🚨 传统教条主义瀑布陷阱：在易变业务中强行'冻结需求' | 很多刚学软件工程的同学盲目崇拜瀑布模型的严密性，忽视了当外部业务或政策月月变更时，瀑布模型的前后阶段强依赖会导致全团队陷入永无止境的'需求变更提交流程'和代码大规模推倒重来！,OK,,TRUE,,True,审计团队
+L1-se_1-trap_se_1_2,se_1,se,trap_desc,trap_se_1_2,🚨 敏捷宣言教条化误读陷阱：把'拥抱变更'误等同于'不要任何文档和架构' | 敏捷宣言原文是'可工作的软件胜于详尽的文档'，绝不是'不要文档'！在医疗、金融、航天等安全关键系统（Safety-critical systems）中，需求追溯矩阵（RTM）和接口契约文档是法律法规强制要求的一票否决项！,OK,,TRUE,,True,审计团队
+L1-se_1-trap_se_1_3,se_1,se,trap_desc,trap_se_1_3,🚨 反工程开发模式陷阱：大爆炸模型是混乱工程的代名词 | 无计划、无阶段审查、无测试门禁的大爆炸模型违背了软件工程的一切基本原则，是导致绝大多数软件项目彻底报废的头号反模式！,OK,,TRUE,,True,审计团队
+L1-se_2-A,se_2,se,option_text,A,在 LiteratureAnalyzer 内部增加大量的 if-else 或 switch-case 语句，根据传入的环境变量分别执行不同数据库的私有操作代码,OK,,TRUE,,True,审计团队
+L1-se_2-B,se_2,se,option_text,B,抽象出统一的 IKnowledgeStorage 契约接口，使上层 LiteratureAnalyzer 与具体的 MySQLClient/Neo4jClient 均只依赖该抽象接口，通过构造函数依赖注入（DI）解耦,OK,,TRUE,,True,审计团队
+L1-se_2-C,se_2,se,option_text,C,直接让 Neo4jClient 类强制继承自 MySQLClient 类，并通过重写（Override）覆写其中的关系查询方法,OK,,TRUE,,True,审计团队
+L1-se_2-D,se_2,se,option_text,D,将所有数据库操作逻辑整合到一个全局公共上帝类（God Class）GlobalDBManager 中，由业务类直接调用其静态方法,OK,,TRUE,,True,审计团队
+L1-se_2-trap_se_2_1,se_2,se,trap_desc,trap_se_2_1,🚨 分支蔓延坏味道陷阱：严重违反开闭原则 (OCP) | 用大量的条件分支（if-else）来扩展底层实现是初学者最常犯的工程坏味道！每次接入新数据库都要修改高层业务代码并重新编译测试，极易引发回归缺陷（Regression Bugs）！,OK,,TRUE,,True,审计团队
+L1-se_2-trap_se_2_2,se_2,se,trap_desc,trap_se_2_2,🚨 继承滥用深坑：严重违反里氏替换原则 (LSP) | 图数据库和关系型数据库在数据模型、事务语义和查询契约上根本不存在'is-a'的派生替换关系！强行继承导致基类契约被肆意破坏，子类无法安全替换父类！,OK,,TRUE,,True,审计团队
+L1-se_2-trap_se_2_3,se_2,se,trap_desc,trap_se_2_3,🚨 上帝类紧耦合陷阱：制造单点故障并扼杀单元测试 | 引入全局万能上帝类（God Class）是典型的反模式，导致系统内聚度（Cohesion）极低而耦合度（Coupling）极高，全局状态混乱，且单元测试中将彻底无法进行依赖 Mock！,OK,,TRUE,,True,审计团队
+L1-se_3-A,se_3,se,option_text,A,只要测试套件在代码行覆盖率（Line Coverage）上达到了 100%，就足以证明所有边界值缺陷已被完全消除，无需进一步质量检验,OK,,TRUE,,True,审计团队
+L1-se_3-B,se_3,se,option_text,B,"边界值分析（BVA）不仅应选取边界上及边界内的值（如 0.5, 0.6, 9.9, 10.0），还必须选取边界外紧邻的无效输入（如 0.4, 10.1）检验防御性拦截；变异测试通过在源代码中植入变异体（Mutant）来客观度量测试用例的真正杀伤力",OK,,TRUE,,True,审计团队
+L1-se_3-C,se_3,se,option_text,C,边界值分析法要求测试人员只能输入合法范围内的有效数据，严禁输入任何负向或越界的无效数据,OK,,TRUE,,True,审计团队
+L1-se_3-D,se_3,se,option_text,D,变异测试是一种专门用于测量系统在 10 万人并发选课时服务器 CPU 占用率的白盒压力测试工具,OK,,TRUE,,True,审计团队
+L1-se_3-trap_se_3_1,se_3,se,trap_desc,trap_se_3_1,🚨 虚假覆盖率安全感陷阱：高行覆盖率 ≠ 高检错能力 | 这是软件工程质量门禁中最危险的盲区！测试代码执行了每一行，并不代表它断言了每一行的逻辑正确性！如果测试用例中没有任何 assert，覆盖率依然可以显示 100%，但变异测试杀伤率将直降为 0！,OK,,TRUE,,True,审计团队
+L1-se_3-trap_se_3_2,se_3,se,trap_desc,trap_se_3_2,🚨 负向测试缺失陷阱：忽略边界外拦截测试直接导致生产崩溃 | 只测试合法数据（Positive Testing）是脆弱软件的典型征兆。健壮性测试必须覆盖紧邻边界外的无效等价类，确保异常被安全捕获并抛出受控错误，而非直接抛出未捕获异常导致系统崩溃！,OK,,TRUE,,True,审计团队
+L1-se_3-trap_se_3_3,se_3,se,trap_desc,trap_se_3_3,🚨 测试类型概念错配陷阱：把'变异测试'误判为'性能压测' | 变异测试是著名的'测试你的测试（Testing the Tests）'的高级元测试技术，属于缺陷注入（Fault Injection）和测试集能力评价领域，与性能压测完全无关！,OK,,TRUE,,True,审计团队

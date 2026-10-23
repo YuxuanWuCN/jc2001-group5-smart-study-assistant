@@ -123,7 +123,7 @@ class DeliverablesVerifier:
         self.results: List[CheckResult] = []
 
         # Target file paths
-        self.p1_md_path = self.root_dir / "practical1_deliverables.md"
+        self.p1_md_path = self.root_dir / "docs" / "archive" / "practical1_deliverables.md"
         self.prop_md_path = self.root_dir / "reports" / "project_proposal.md"
         self.prop_docx_path = self.root_dir / "reports" / "project_proposal.docx"
         self.prop_pdf_path = self.root_dir / "reports" / "project_proposal.pdf"

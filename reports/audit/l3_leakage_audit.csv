@@ -1,0 +1,13 @@
+finding_id,correct_option_key,answer_entities,guidance_field,leaked_entities,is_leak,detector_precision_note,human_verdict
+L3-law_1,B,自知道受欺诈之日（2023年5月1日）起算，最迟于; 年内届满,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-law_2,B,丙已基于《民法典》善意取得制度原始取得该相机所有权，甲无权要求返还原物,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-law_3,B,构成表见代理，该合同对科技公司有效，科技公司须承担合同约定的履约付款责任,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-cs_1,B,属于读后写; (RAW); 真实数据相关；可通过硬件前递旁路,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-cs_2,A,主存地址划分为：Tag=19位，Index=7位，Offset=6位；将相联度提升为; 路可直接缓解冲突缺失,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-cs_3,A,TLB; 命中，CPU; 直接获取物理地址并发起内存读取，全程完全无需访问主存中的多级页表,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-econ_1,C,OLS; 估计量依然保持无偏性与; BLUE,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-econ_2,A,"必须同时满足相关性条件（Cov(Z,; Educ); 0）和严格的外生性排他性假定（Cov(Z,",socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-econ_3,C,OLS; 估计量依然无偏且一致，但传统公式计算的标准误严重有偏；现代学界通用做法是直接采用; White,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-se_1,B,采用混合软件过程模型（Hybrid; Model），底层强合规与稳定架构采用架构先行和严格文档，高频易变的业务服务采用; Sprint,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-se_2,B,抽象出统一的; IKnowledgeStorage; 契约接口，使上层,socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE
+L3-se_3,B,"边界值分析（BVA）不仅应选取边界上及边界内的值（如; 0.5,; 0.6,",socratic_prompt,无,False,无直接答案剧透，遵循启发式追问原则,FALSE_POSITIVE

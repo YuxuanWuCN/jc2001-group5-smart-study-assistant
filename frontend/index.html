@@ -23,8 +23,13 @@
     })();
   </script>
 
+  <!-- 禁用浏览器磁盘强缓存，确保每次加载最新题库与脚本 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
   <!-- 智学罗盘学生端样式表 (含强制缓存失效刷新) -->
-  <link rel="stylesheet" href="style.css?v=20261017_login_v2">
+  <link rel="stylesheet" href="style.css?v=20261017_daershang_v3">
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
     .spin { animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
@@ -459,8 +464,8 @@
         <div class="workspace-home-grid">
           <button class="workspace-entry-card" data-home-view="quiz" type="button">
             <span class="workspace-entry-icon" aria-hidden="true">✦</span>
-            <span class="workspace-entry-title">开始刷题</span>
-            <span class="workspace-entry-desc">按学科练习，查看每个选项背后的易错原因。</span>
+            <span class="workspace-entry-title">开始刷题 · 大二上精选题库</span>
+            <span class="workspace-entry-desc">已上线大二上 5 门专业核心（运筹学、MIS、概率统计、市场营销、学术英语），点击直击认知陷阱。</span>
             <span class="workspace-entry-action">进入练习 <span aria-hidden="true">→</span></span>
           </button>
           <button class="workspace-entry-card" data-home-view="tutor" type="button">
@@ -499,7 +504,14 @@
             <!-- 题卡顶栏：学科切换 Pill 与进度 -->
             <div class="quiz-topbar">
               <div class="subject-pills">
-                <button class="subject-btn active" data-subject="law" type="button">[LAW] ⚖️ 民商法学</button>
+                <!-- 大二上核心专业学科 -->
+                <button class="subject-btn active" data-subject="or" type="button">[OR] 📐 运筹学</button>
+                <button class="subject-btn" data-subject="mis" type="button">[MIS] 🌐 管理信息系统</button>
+                <button class="subject-btn" data-subject="prob_stat" type="button">[MATH] 🎲 概率统计</button>
+                <button class="subject-btn" data-subject="mkt" type="button">[MKT] 🎯 市场营销</button>
+                <button class="subject-btn" data-subject="eng" type="button">[ENG] ✍️ 学术英语</button>
+                <!-- 基础通识学科 -->
+                <button class="subject-btn" data-subject="law" type="button">[LAW] ⚖️ 民商法学</button>
                 <button class="subject-btn" data-subject="cs" type="button">[CS] 💻 体系结构</button>
                 <button class="subject-btn" data-subject="econ" type="button">[ECON] 📈 计量经济</button>
                 <button class="subject-btn" data-subject="se" type="button">[SE] ⚙️ 软件工程</button>
@@ -801,10 +813,10 @@
         <div id="api-key-group" class="form-group">
           <label class="form-label" for="api-key-input">
             <span>大模型 API Key 密钥</span>
-            <span id="key-status-hint" class="form-label-sub">已预配 Gemini Key</span>
+            <span id="key-status-hint" class="form-label-sub">本地安全存储</span>
           </label>
           <div class="input-with-action">
-            <input id="api-key-input" class="form-input" type="password" value="sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083" placeholder="请输入你的 API Key (例如 sk-xxxxxxxxxxxxxxxx)" />
+            <input id="api-key-input" class="form-input" type="password" value="" placeholder="请输入你的 API Key (例如 sk-xxxxxxxxxxxxxxxx)" />
             <button id="toggle-key-visibility-btn" class="btn-secondary" type="button" style="padding: 0 14px;" title="查看/隐藏明文">
               👁️
             </button>
@@ -963,6 +975,6 @@
   </div>
 
   <!-- 前端逻辑控制器 (强制缓存失效刷新) -->
-  <script src="app.js?v=20261017_login_v2"></script>
+  <script src="app.js?v=20261017_daershang_v3"></script>
 </body>
 </html>

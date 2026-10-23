@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import httpx
 import json
@@ -10,10 +11,10 @@ st.set_page_config(page_title="逻辑淬火台 | 智能排雷导师", layout="wi
 # ==========================================
 # 1. 基建配置 (已开启 ssc)
 # ==========================================
-DASHSCOPE_API_KEY = "sk-294bcfe0ecc9403c975dcaf411f9080c" 
-NEO4J_URI = "neo4j+ssc://5f97bf4d.databases.neo4j.io"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "JEGZu0b0z6qKT4T29YcOgn8b1RcP333EPmPt1xgI0-Y"
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "") 
+NEO4J_URI = os.getenv("NEO4J_URI", "neo4j+ssc://5f97bf4d.databases.neo4j.io")
+NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
 
 @st.cache_resource
 def init_neo4j_driver():

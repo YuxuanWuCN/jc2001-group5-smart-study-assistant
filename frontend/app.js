@@ -7,6 +7,291 @@
 // 多学科精品真题与避坑知识本体库 (Curated Multi-Discipline Question Bank - Chinese)
 // =============================================================================
 const DB_ZH = {
+  or: {
+    name: "运筹学与优化建模",
+    badge: "大二上核心必修",
+    questions: [
+      {
+        id: "or_1",
+        difficulty: "★★★☆☆",
+        tag: "规划建模 · 决策变量物理非负性与约束边界",
+        stem: "某装备制造厂计划生产甲、乙两种工业构件，生产每件构件需消耗钢材工时与数控铣床台时。在建立追求总销售利润最大化（max Z = 300x₁ + 500x₂）的线性规划（LP）模型时，下列关于数学模型构建要素及其标准型规范的说法，完全正确的是？",
+        options: [
+          { key: "A", text: "只要目标函数是线性的，决策变量 x₁, x₂ 可以取任意负实数，模型无需定义物理非负约束，求解器会自动修正", isCorrect: false, trapId: "trap_or_1" },
+          { key: "B", text: "必须严格在约束条件组中加入非负性约束 x₁ ≥ 0, x₂ ≥ 0；若存在不可行解（Infeasible），说明各项约束超平面的交集可行域为空集，而非目标值发散至正无穷", isCorrect: true },
+          { key: "C", text: "线性规划模型的可行域一定是一个非凸的开放空间，因此必须依靠遗传算法或模拟退火算法在曲面上寻找局部最优解", isCorrect: false, trapId: "trap_or_2" },
+          { key: "D", text: "若将成本极小化模型转换为标准极大化模型，只需将目标函数系数乘以 -1，其余所有约束条件不等号方向必须一律保持原样不变", isCorrect: false, trapId: "trap_or_3" }
+        ],
+        explanation: "【权威考点解析 · Hamdy Taha 规划建模与标准型】：① 决策变量代表真实的物理实体或产销量，必须满足非负约束（Non-negativity Constraints $x_j \\ge 0$），否则会出现生产负构件的荒谬解；② 线性规划可行域必然是超平面交集围成的凸多面体（Convex Polyhedron），极点定理保证最优解必在极点上取得；不可行解意味着约束互斥使得可行域交集为空集！",
+        traps: {
+          trap_or_1: {
+            title: "🚨 物理现实意义脱离陷阱：遗漏非负性约束",
+            desc: "这是运筹学初学者在建摸中最常犯的严重错误！计算机求解器只认识纯符号逻辑，如果漏写 x₁ ≥ 0，数学计算可能得出 x₁ = -100 获得虚假高利润，导致方案在工程上彻底报废！",
+            prereq: "先修定理前置：线性规划标准型三大规范要件与非负性公理",
+            radarHit: "boundary"
+          },
+          trap_or_2: {
+            title: "🚨 可行域几何性质误判陷阱：把凸多面体当成非凸曲面",
+            desc: "线性规划的所有约束均为线性一阶不等式，由超平面半空间交集构成的可行域严格属于凸集（Convex Set），绝不是非凸曲面！单纯形法正是沿着极点边界迭代寻找全局最优解！",
+            prereq: "先修定理前置：凸集定义与极点最优性定理 (Extreme Point Theorem)",
+            radarHit: "recall"
+          },
+          trap_or_3: {
+            title: "🚨 对偶与标准型转化粗心陷阱：约束方向未联动调整",
+            desc: "极小化化极大化除目标函数取反外，不等式两边乘以负号时不等号方向必须严格反转，或引入非负松弛变量（Slack Variables）化为等式标准型！",
+            prereq: "先修定理前置：线性规划对偶理论与单纯形标准型转化矩阵",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "运筹学第1章·线性规划建模与解空间拓扑",
+          nodes: [
+            { id: "c1", label: "规划模型三要素", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "非负物理约束 x≥0", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "凸多面体可行域极点", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 遗漏非负产销量", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 误判可行域为非凸", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "物理现实边界" },
+            { from: "p2", to: "c1", label: "极点最优保证" },
+            { from: "c1", to: "t1", label: "易错于 (脱离现实意义)" },
+            { from: "c1", to: "t2", label: "易错于 (几何拓扑混淆)" }
+          ]
+        },
+        socraticPrompt: "同学请思考：如果一家面包店要计算明天烤多少个牛角包能赚最多钱，计算机求解器算出来说'烤负 5 个牛角包'最划算，这在现实物理世界中能被执行吗？为什么数学公式必须用约束条件锁住物理边界？"
+      }
+    ]
+  },
+
+  mis: {
+    name: "管理信息系统",
+    badge: "大二上专业核心",
+    questions: [
+      {
+        id: "mis_1",
+        difficulty: "★★★☆☆",
+        tag: "组织系统层级 · TPS与DSS协同与C2M反向供应链",
+        stem: "某零售制造企业正在推进数字化转型。在分析 Laudon 经典信息系统架构与新零售 C2M（Customer-to-Manufacturer）反向定制商业模式时，关于各业务系统层级分工与企业价值链协同，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "企业战略决策支持系统（ESS）应该直接实时接入收银台POS机的每一笔零钱流水，并逐笔呈送给董事会高管进行日常核验", isCorrect: false, trapId: "trap_mis_1" },
+          { key: "B", text: "TPS（事务处理系统）位于底层支撑日常高频结构化业务交易（如订单创建、库存扣减）；C2M 模式通过拼团等社交裂变聚拢长尾需求直连工厂制造，核心价值在于依托算法精准预测需求，消除中间代理流转与库存牛鞭效应", isCorrect: true },
+          { key: "C", text: "现代企业管理信息系统（MIS）纯粹由计算机软件与云服务器硬件等 IT 工具构成，与企业组织结构变革、业务流程再造（BPR）及员工培训毫无关系", isCorrect: false, trapId: "trap_mis_2" },
+          { key: "D", text: "ERP 系统（企业资源计划）的主要目的是在各个部门之间建立更严格的数据壁垒，防止财务数据和生产数据发生跨系统共享", isCorrect: false, trapId: "trap_mis_3" }
+        ],
+        explanation: "【权威考点解析 · Laudon 管理信息系统与数字化新零售】：① TPS（事务处理系统）负责记录底层日常确定性操作；中高层决策系统（MIS/DSS/ESS）依靠汇总和建模提炼高阶商业洞察；② C2M（反向定制）依托数字化长尾聚合消除多级中间代理，削减牛鞭效应；③ MIS 是技术、人与组织的综合社会技术系统，绝非纯硬件采购！",
+        traps: {
+          trap_mis_1: {
+            title: "🚨 数据颗粒度错配陷阱：高管看板混同底层操作流水",
+            desc: "给高管呈送未汇总的底层交易明细是典型的信息架构反模式！高管需要的是宏观战略看板与趋势指标，底层明细会造成信息过载（Information Overload）！",
+            prereq: "先修定理前置：企业金字塔系统层级（TPS/MIS/DSS/ESS）数据颗粒度理论",
+            radarHit: "boundary"
+          },
+          trap_mis_2: {
+            title: "🚨 技术决定论陷阱：误把 IT 工具等同于系统变革",
+            desc: "购买了 ERP/CRM 软件并不等于系统成功！如果没有业务流程再造（BPR）、组织变革管理与人员激励机制协同，系统上线往往沦为摆设甚至引发组织震荡！",
+            prereq: "先修定理前置：信息系统社会技术范式与业务流程重组 (BPR)",
+            radarHit: "recall"
+          },
+          trap_mis_3: {
+            title: "🚨 企业集成中枢反向误判：ERP 是消除孤岛而非制造壁垒",
+            desc: "ERP 的核心使命恰恰是打破部门壁垒与信息孤岛（Information Silos），建立跨财务、进销存与制造的一体化单一真理来源（SSOT）！",
+            prereq: "先修定理前置：ERP 核心架构与企业端到端业务集成链",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "管理信息系统·社会技术范式与企业集成架构",
+          nodes: [
+            { id: "c1", label: "企业四级系统金字塔", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "底层高频事务 TPS", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "C2M 反向供应链算法", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 颗粒度错配高管看明细", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 误把工具采购当变革", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "结构化数据源基石" },
+            { from: "p2", to: "c1", label: "消除中间代理牛鞭效应" },
+            { from: "c1", to: "t1", label: "易错于 (信息过载错位)" },
+            { from: "c1", to: "t2", label: "易错于 (技术决定论偏见)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果一家医院院长每天上班都要逐笔审查每一个门诊病人挂号付了 10 块钱挂号费的系统日志，他还有时间去规划医院全年的医疗科研战略吗？为什么信息系统必须按管理层级对数据进行不同维度的汇总抽象？"
+      }
+    ]
+  },
+
+  prob_stat: {
+    name: "概率论与数理统计",
+    badge: "大二上数学基础",
+    questions: [
+      {
+        id: "stat_1",
+        difficulty: "★★★★☆",
+        tag: "先验后验反转 · 贝叶斯定理与事件独立性判定",
+        stem: "某高校实验室研发了一种针对芯片纳米级微裂纹的无损光学检测仪。已知某批次晶圆芯片中存在该微裂纹的先验概率为 P(A) = 0.002（千分之二）。检测仪对于有裂纹芯片检出阳性的灵敏度为 P(+|A) = 0.99；对于无裂纹芯片误报为阳性的假阳性率为 P(+|Ā) = 0.05。现随机抽取一枚芯片检测呈阳性，关于该芯片确实存在微裂纹的真实后验概率 P(A|+) 以及概率基本理论，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "既然检测仪的阳性准确率高达 99%，那么这枚呈阳性的芯片存在微裂纹的概率必定是 99%，无需考虑先验患病率", isCorrect: false, trapId: "trap_stat_1" },
+          { key: "B", text: "两个事件互斥（互不相容 AB=∅）等同于两个事件相互独立（P(AB)=P(A)P(B)），因此互斥事件一定不互相影响", isCorrect: false, trapId: "trap_stat_2" },
+          { key: "C", text: "依据贝叶斯定理反向计算，受极低先验基准率（0.002）的制约，真实后验概率 P(A|+) = (0.002×0.99) / (0.002×0.99 + 0.998×0.05) ≈ 3.81%；若两个正概率事件相互独立，则它们绝对不可能互斥（必定能同时发生）", isCorrect: true },
+          { key: "D", text: "离散型随机变量的所有取值概率之和可以大于 1，只要每个单点概率非负即可", isCorrect: false, trapId: "trap_stat_3" }
+        ],
+        explanation: "【权威考点解析 · 贝叶斯反转公式与假阳性悖论】：① 在罕见事件检测中，极低的先验概率（0.002）导致即使检测灵敏度很高（99%），绝大多数阳性结果依然来自海量健康样本中的小比例假阳性（0.998×0.05 ≈ 0.0499），真实后验仅约 3.81%！② 互斥与独立根本对立：若 P(A)>0, P(B)>0 且互斥，则 P(AB)=0 ≠ P(A)P(B)，互斥必定不独立！",
+        traps: {
+          trap_stat_1: {
+            title: "🚨 基准率谬误 (Base Rate Fallacy)：误把灵敏度当成确诊后验率",
+            desc: "这是全校 72% 学生甚至资深工程师极常踩中的概率深坑！忽视了先验患病率极低这一关键前提，将条件几率 P(+|A) 与 P(A|+) 混为一谈！",
+            prereq: "先修定理前置：条件概率测度归一化与全概率划分定理",
+            radarHit: "boundary"
+          },
+          trap_stat_2: {
+            title: "🚨 集合互斥与统计独立混同高危陷阱",
+            desc: "互斥说的是'几何交集为空不能同时发生'；独立说的是'一个发生完全不改变另一个的几率'！当 A 发生时 B 绝对不能发生，这说明 A 对 B 产生了极其强烈的负向信息约束，怎么可能是独立？",
+            prereq: "先修定理前置：事件统计独立性严格数学判定 P(AB)=P(A)P(B)",
+            radarHit: "recall"
+          },
+          trap_stat_3: {
+            title: "🚨 离散概率质量函数 (PMF) 归一化性质缺失",
+            desc: "柯尔莫哥洛夫第二公理规范性明确规定 P(Ω)=1，离散型随机变量在全样本空间上的所有分布律概率和必须严格等于 1，绝不可能大于 1！",
+            prereq: "先修定理前置：柯尔莫哥洛夫公理化体系与 PMF 归一化",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "概率统计·公理化测度与贝叶斯先验后验拓扑",
+          nodes: [
+            { id: "c1", label: "贝叶斯后验更新定理", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "先验基准率 P(A)=0.002", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "全概率分母归一化", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 错把灵敏度当后验率", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 混淆互斥与相互独立", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "执果索因核心先验" },
+            { from: "p2", to: "c1", label: "分母完备事件群划分" },
+            { from: "c1", to: "t1", label: "易错于 (基准率谬误)" },
+            { from: "c1", to: "t2", label: "易错于 (几何与信息测度混淆)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果全世界只有 1 个人得了某种奇特疾病，而医院有一种准确率 99.9% 的测试仪。如果全地球 80 亿人都去测，会有 800 万健康人被误报为阳性，而真正患病的只有 1 个人。如果你拿到阳性报告，你真的有 99.9% 的几率患病吗？"
+      }
+    ]
+  },
+
+  mkt: {
+    name: "市场营销学",
+    badge: "大二上管理必修",
+    questions: [
+      {
+        id: "mkt_1",
+        difficulty: "★★★☆☆",
+        tag: "STP战略定位 · 4Ps协同与波特竞争战略",
+        stem: "在分析中国现制咖啡市场（以瑞幸咖啡与库迪咖啡的“9.9元价格战”为实战案例）时，关于经典 STP 战略营销框架与波特五力竞争策略的实施，下列分析完全正确的是？",
+        options: [
+          { key: "A", text: "一个成熟品牌的最佳市场定位策略就是“试图迎合全社会所有消费群体的所有需求”，因此无需进行市场细分（Segmentation）和目标选择（Targeting）", isCorrect: false, trapId: "trap_mkt_1" },
+          { key: "B", text: "瑞幸依托密集的下沉门店网络与数字化全自动化下单流程，在细分市场上锁定高性价比、高便利性白领客群；企业若仅依赖低价补贴打价格战而未能形成供应链规模成本领先（Cost Leadership）或心智差异化（Differentiation），极易陷入“夹在中间”（Stuck in the Middle）并严重蚕食品牌资产", isCorrect: true },
+          { key: "C", text: "营销组合（4Ps）中的“Promotion（推广）”就是现代市场营销（Marketing）的全部内涵，产品研发与定价与营销无关", isCorrect: false, trapId: "trap_mkt_2" },
+          { key: "D", text: "消费者对于日常现磨咖啡这类低卷入度（Low Involvement）快消品，每次购买前都会花费数周时间阅读上万字行业研究报告后再理性下单", isCorrect: false, trapId: "trap_mkt_3" }
+        ],
+        explanation: "【权威考点解析 · STP战略与波特三大竞争策略】：① 战略的本质在于取舍（Trade-off），试图满足所有人会导致定位模糊；② 价格战不是长久之计，企业必须具备供应链规模效应支撑的成本领先或品牌心智差异化，否则必沦为亏损内卷；③ 4Ps 是产品、价格、渠道与推广四大要素的整体协同！",
+        traps: {
+          trap_mkt_1: {
+            title: "🚨 目标定位泛化陷阱：试图迎合所有人",
+            desc: "没有细分就没有定位！试图做万能品牌的企业往往在任何细分人群中心智都极其平庸，导致资源迅速被差异化对手蚕食！",
+            prereq: "先修定理前置：STP 理论与目标细分市场吸引力评估",
+            radarHit: "boundary"
+          },
+          trap_mkt_2: {
+            title: "🚨 营销狭隘化误区：把营销等同于打折促销",
+            desc: "很多人误把 Marketing 窄化为促销打折，忽视了 Product（核心价值）与 Place（渠道掌控）才是构成商业竞争壁垒的长效资产！",
+            prereq: "先修定理前置：营销组合 4Ps 协同理论与品牌资产模型",
+            radarHit: "recall"
+          },
+          trap_mkt_3: {
+            title: "🚨 消费者涉入度模型错配：快消品误套高涉入决策",
+            desc: "现磨咖啡属于典型低涉入度、高频即时消费品，消费者决策依赖便利性、习惯和价格刺激，绝非长周期深度搜索！",
+            prereq: "先修定理前置：消费者卷入度理论（FCB Grid / Involvement Funnel）",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "市场营销·STP战略定位与4Ps协同竞争拓扑",
+          nodes: [
+            { id: "c1", label: "STP战略核心定位", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "供应链成本领先壁垒", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "低涉入度快消决策漏斗", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 试图迎合所有人泛化", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 狭隘降价打折伤商誉", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "规模效应支撑价格战" },
+            { from: "p2", to: "c1", label: "即时便利与心智卡位" },
+            { from: "c1", to: "t1", label: "易错于 (缺乏战略舍弃勇气)" },
+            { from: "c1", to: "t2", label: "易错于 (战术打折蚕食品牌)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果星巴克和瑞幸明天突然把每一杯咖啡都免费送，后天停止补贴时消费者还会觉得咖啡好喝吗？如果一个品牌只靠降价来吸引顾客，一旦对手比你多降 1 块钱，你辛辛苦苦积累的客户还在吗？"
+      }
+    ]
+  },
+
+  eng: {
+    name: "学术英语与学术写作",
+    badge: "大二上通识进阶",
+    questions: [
+      {
+        id: "eng_1",
+        difficulty: "★★★☆☆",
+        tag: "学术论文范式 · IMRaD语篇与客观对冲语修辞",
+        stem: "在撰写面向国际同行评审的高水平学术论文或软件工程毕业技术报告时，关于学术语域（Academic Register）、对冲语（Hedging）及反抄袭规范，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "为了让学术结论看起来更有说服力，研究人员在论文中应该尽可能多地使用“always, absolutely, perfectly proves”等绝对化断言，坚决不能使用“may, might, suggest”等软化词", isCorrect: false, trapId: "trap_eng_1" },
+          { key: "B", text: "国际公认的学术论文 IMRaD 结构（引言、方法、结果、讨论）要求严谨客观；对冲语（Hedging Devices）是学术严谨性的体现，能精确控制论证确定性范围；合规释义（Paraphrasing）必须彻底重构原意句式逻辑，仅机械替换同义词的拼贴仍会被查重系统判定为 Patchwriting 学术不端", isCorrect: true },
+          { key: "C", text: "在撰写论文 Results（结果）部分时，应该直接掺杂大量未经实验数据检验的主观推测和个人情绪化宣誓", isCorrect: false, trapId: "trap_eng_2" },
+          { key: "D", text: "学术英语允许在正式论文中随意大面积使用“kids, a lot of, cool stuff”等口语化日常俚语，无需区分口头语域与学术书面语域", isCorrect: false, trapId: "trap_eng_3" }
+        ],
+        explanation: "【权威考点解析 · IMRaD 语篇规范与学术诚信】：① 科学结论必须留有余地，对冲语（may, indicate, suggest, potentially）展现了科研人员面对未知的谦逊与严密；② 释义（Paraphrasing）必须用自己的句式和逻辑重述，简单同义词替换仍属 Patchwriting 抄袭！③ 结果部分客观罗列数据，讨论部分方可展开深入机理探讨！",
+        traps: {
+          trap_eng_1: {
+            title: "🚨 绝对化过度承诺陷阱：缺少学术对冲语 (Hedging)",
+            desc: "在学术写作中使用 absolutely / perfectly proves 是初学者的致命伤！任何实验都有采样和边界限制，武断断言极易被同行评审严厉驳回！",
+            prereq: "先修定理前置：学术语域客观性与对冲修辞规范 (Epistemic Modality)",
+            radarHit: "boundary"
+          },
+          trap_eng_2: {
+            title: "🚨 语篇结构功能错位陷阱：在结果中夹带主观臆断",
+            desc: "Results 必须是纯粹、客观、中立的事实和图表！主观引申和假设机制解释必须放在 Discussion 章节中展开！",
+            prereq: "先修定理前置：学术语篇 IMRaD 宏观四大功能分区",
+            radarHit: "recall"
+          },
+          trap_eng_3: {
+            title: "🚨 伪释义拼贴抄袭陷阱：Patchwriting 仍构成学术不端",
+            desc: "只是在别人的句子里把 important 换成 significant、把 big 换成 massive，原作者的句式骨架原封不动，在查重系统（如 Turnitin）中将直接标红！",
+            prereq: "先修定理前置：学术引用规范与深度释义结构重组技巧",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "学术英语·IMRaD范式与客观对冲语篇拓扑",
+          nodes: [
+            { id: "c1", label: "IMRaD学术语篇范式", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "客观审慎对冲语 Hedging", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "反抄袭深度释义 Paraphrasing", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 绝对化过度承诺", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 机械同义词拼贴抄袭", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "讨论部分科学严密性" },
+            { from: "p2", to: "c1", label: "文献综述合法性" },
+            { from: "c1", to: "t1", label: "易错于 (武断绝对化)" },
+            { from: "c1", to: "t2", label: "易错于 (查重系统标红)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果一位气象学家在学术论文中写道'明天必定 100% 下雨，绝对不会有一丝阳光'，而第二天正好出了太阳；如果他写成'雷达监测数据显示存在明显的冷暖气流交汇，表明明天下雨的概率极高'。哪一种表述才是真正的科学态度？"
+      }
+    ]
+  },
+
   law: {
     name: "民商法学与民法典",
     badge: "期末高频考点",
@@ -1013,6 +1298,291 @@ const DB_EN = {
         socraticPrompt: "Why does the law impose a strict 1-year extinction period once fraud is discovered, rather than allowing the innocent party to hold the threat of rescission indefinitely over commercial transactions?"
       }
     ]
+  },
+
+  or: {
+    name: "Operations Research & Optimization",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "or_1",
+        difficulty: "★★★☆☆",
+        tag: "LP Modeling · Variable Non-Negativity & Feasibility",
+        stem: "An equipment manufacturing plant plans to produce two industrial components requiring steel processing and CNC milling hours. In formulating a Linear Programming (LP) model to maximize total profit (max Z = 300x₁ + 500x₂), which of the following statements regarding model formulation and standard form is strictly correct?",
+        options: [
+          { key: "A", text: "As long as the objective function is linear, decision variables x₁, x₂ can take negative values without explicit non-negativity constraints, as solvers handle bounds automatically", isCorrect: false, trapId: "trap_or_1" },
+          { key: "B", text: "Non-negativity constraints x₁ ≥ 0, x₂ ≥ 0 must be explicitly stated; an infeasible problem indicates that the intersection of all constraint half-spaces is empty, rather than unbounded", isCorrect: true },
+          { key: "C", text: "The feasible region of an LP model is inherently non-convex, so genetic algorithms must be used to find local optima", isCorrect: false, trapId: "trap_or_2" },
+          { key: "D", text: "To convert minimization to standard maximization, only the objective coefficients are negated, while all constraint inequality directions must remain untouched", isCorrect: false, trapId: "trap_or_3" }
+        ],
+        explanation: "1. Decision variables represent physical products and must satisfy non-negativity constraints x_j >= 0. 2. The feasible region is a convex polyhedron formed by intersecting half-spaces. Infeasibility means the feasible region is empty.",
+        traps: {
+          trap_or_1: {
+            title: "Physical Boundary Violation: Omission of Non-negativity Constraints",
+            desc: "Solvers only follow mathematical statements. Omitting x >= 0 may result in negative production outputs that are physically impossible.",
+            prereq: "Prerequisite: Canonical Form of Linear Programming and Non-negativity Axioms",
+            radarHit: "boundary"
+          },
+          trap_or_2: {
+            title: "Geometric Misconception: Confusing Convex Polyhedrons with Non-Convex Surfaces",
+            desc: "All linear constraints define half-spaces whose intersection is strictly a convex set. Extreme point theorem guarantees optima lie on boundary vertices.",
+            prereq: "Prerequisite: Convex Sets and Extreme Point Optimality Theorem",
+            radarHit: "recall"
+          },
+          trap_or_3: {
+            title: "Dual Transformation Trap: Inversion of Constraint Inequalities Neglected",
+            desc: "Multiplying constraints by -1 to reverse inequalities or adding slack variables is required for standard equality form.",
+            prereq: "Prerequisite: Duality Theory and Simplex Tableau Standardisation",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Operations Research · LP Modeling & Feasible Space",
+          nodes: [
+            { id: "c1", label: "LP Model Triad", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Non-negativity x≥0", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Convex Polyhedron Vertex", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Negative Quantities", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Non-convex Fallacy", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Physical Boundary" },
+            { from: "p2", to: "c1", label: "Optimal Guarantee" },
+            { from: "c1", to: "t1", label: "Prone to (Omission)" },
+            { from: "c1", to: "t2", label: "Prone to (Geometric Confusion)" }
+          ]
+        },
+        socraticPrompt: "If a bakery models croissant production to maximize profit and the computer solves for 'baking -5 croissants' to yield maximum revenue, can this be executed in reality? Why must mathematical models restrict variables to physical reality?"
+      }
+    ]
+  },
+
+  mis: {
+    name: "Management Information Systems",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "mis_1",
+        difficulty: "★★★☆☆",
+        tag: "System Hierarchy · TPS vs DSS & C2M Supply Chain",
+        stem: "A manufacturing enterprise is undergoing digital transformation. Based on Laudon's classic information system architecture and C2M (Customer-to-Manufacturer) reverse supply chains, which of the following is strictly correct?",
+        options: [
+          { key: "A", text: "Executive Support Systems (ESS) should directly capture POS cash register receipts in real time for C-level routine auditing", isCorrect: false, trapId: "trap_mis_1" },
+          { key: "B", text: "TPS operates at the operational tier to process daily structured transactions; C2M aggregates long-tail demand to connect directly with manufacturing, mitigating the bullwhip effect via predictive analytics", isCorrect: true },
+          { key: "C", text: "Modern MIS is purely comprised of computer software and cloud servers, completely divorced from business process reengineering (BPR) or organizational culture", isCorrect: false, trapId: "trap_mis_2" },
+          { key: "D", text: "The primary purpose of ERP is to establish data silos between departments to prevent cross-functional sharing", isCorrect: false, trapId: "trap_mis_3" }
+        ],
+        explanation: "1. TPS handles operational transaction logging; ESS aggregates high-level strategic indicators. 2. C2M leverages predictive demand aggregation to reduce bullwhip fluctuations. 3. MIS is a socio-technical system encompassing technology, people, and processes.",
+        traps: {
+          trap_mis_1: {
+            title: "Data Granularity Mismatch: C-Suite Information Overload",
+            desc: "Streaming unaggregated operational transactions to senior executives causes severe information overload.",
+            prereq: "Prerequisite: Four-Tier Organizational Pyramid & Granularity Theory",
+            radarHit: "boundary"
+          },
+          trap_mis_2: {
+            title: "Technological Determinism: Confusing Tool Procurement with Change",
+            desc: "Software alone does not ensure business transformation without Business Process Reengineering (BPR) and organizational realignment.",
+            prereq: "Prerequisite: Socio-technical Perspective of Information Systems",
+            radarHit: "recall"
+          },
+          trap_mis_3: {
+            title: "ERP Architecture Inversion: Silo Breakdown vs Silo Creation",
+            desc: "ERP eliminates fragmented data silos by providing a Single Source of Truth (SSOT).",
+            prereq: "Prerequisite: Enterprise Resource Planning Integration Paradigms",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "MIS · Socio-Technical Paradigm & Enterprise Architecture",
+          nodes: [
+            { id: "c1", label: "4-Tier System Pyramid", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Operational TPS", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "C2M Demand Algorithms", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Granularity Mismatch", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Tool Determinism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Data Foundation" },
+            { from: "p2", to: "c1", label: "Bullwhip Reduction" },
+            { from: "c1", to: "t1", label: "Prone to (Information Overload)" },
+            { from: "c1", to: "t2", label: "Prone to (Neglecting Process)" }
+          ]
+        },
+        socraticPrompt: "If a hospital CEO spends their workday reviewing the $2 parking receipt of every visitor, will they have time for hospital healthcare strategy? Why must systems aggregate data according to management tiers?"
+      }
+    ]
+  },
+
+  prob_stat: {
+    name: "Probability & Mathematical Statistics",
+    badge: "Year 2 Math Foundation",
+    questions: [
+      {
+        id: "stat_1",
+        difficulty: "★★★★☆",
+        tag: "Bayesian Reasoning · Base Rate Fallacy & Independence",
+        stem: "An optical test is developed for detecting semiconductor microcracks. The prior probability of a microcrack is P(A) = 0.002. Sensitivity is P(+|A) = 0.99, and false positive rate is P(+|Ā) = 0.05. If a randomly tested chip is positive, which statement regarding posterior probability P(A|+) and probability theory is strictly correct?",
+        options: [
+          { key: "A", text: "Since the test accuracy is 99%, the probability that this positive chip is defective is 99%, irrespective of prior incidence", isCorrect: false, trapId: "trap_stat_1" },
+          { key: "B", text: "Mutual exclusivity (AB = ∅) is equivalent to statistical independence (P(AB) = P(A)P(B))", isCorrect: false, trapId: "trap_stat_2" },
+          { key: "C", text: "By Bayes' theorem, due to the low base rate (0.002), the true posterior P(A|+) ≈ 3.81%; two positive probability events that are independent cannot be mutually exclusive", isCorrect: true },
+          { key: "D", text: "The sum of all discrete probability mass functions can exceed 1 as long as each point is non-negative", isCorrect: false, trapId: "trap_stat_3" }
+        ],
+        explanation: "1. Under low base rates (0.002), most positive tests originate from the vast healthy cohort (false positives), yielding ~3.81% posterior. 2. Mutual exclusivity implies P(AB)=0. If P(A)>0 and P(B)>0, P(AB) != P(A)P(B), hence mutually exclusive events cannot be independent.",
+        traps: {
+          trap_stat_1: {
+            title: "Base Rate Fallacy: Confusing Sensitivity with Posterior",
+            desc: "Conflating conditional sensitivity P(+|A) with posterior probability P(A|+) by neglecting rare prior prevalence.",
+            prereq: "Prerequisite: Kolmogorov Axioms and Bayes' Inversion Formula",
+            radarHit: "boundary"
+          },
+          trap_stat_2: {
+            title: "Exclusivity vs Independence Conflation",
+            desc: "Mutually exclusive events provide maximum negative information about each other, violating independence.",
+            prereq: "Prerequisite: Statistical Independence Definition P(AB) = P(A)P(B)",
+            radarHit: "recall"
+          },
+          trap_stat_3: {
+            title: "Violation of Probability Normalization",
+            desc: "By Kolmogorov's Second Axiom, the sum over the entire sample space must strictly equal 1.",
+            prereq: "Prerequisite: Axiomatic Foundation of Probability Measures",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Probability & Statistics · Bayesian Update Topology",
+          nodes: [
+            { id: "c1", label: "Bayes Posterior Update", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Prior Base Rate P(A)=0.002", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Total Probability Partition", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Base Rate Neglect", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Exclusivity/Independence", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Prior Anchor" },
+            { from: "p2", to: "c1", label: "Partitioning" },
+            { from: "c1", to: "t1", label: "Prone to (Fallacy)" },
+            { from: "c1", to: "t2", label: "Prone to (Conceptual Conflation)" }
+          ]
+        },
+        socraticPrompt: "If only 1 person in the entire world has a disease, and a test has 99.9% accuracy, testing all 8 billion people will generate 8 million false alarms. If you test positive, is your chance of having the disease truly 99.9%?"
+      }
+    ]
+  },
+
+  mkt: {
+    name: "Marketing Principles & Analytics",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "mkt_1",
+        difficulty: "★★★☆☆",
+        tag: "STP Strategy · 4Ps Alignment & Competitive Advantage",
+        stem: "When analyzing competitive pricing wars in consumer packaged goods and coffee retail, which of the following statements regarding the STP framework and Porter's generic strategies is strictly correct?",
+        options: [
+          { key: "A", text: "The ideal market positioning is trying to cater to all customer desires across all segments simultaneously", isCorrect: false, trapId: "trap_mkt_1" },
+          { key: "B", text: "Targeting specific consumer segments with tailored value propositions is essential; competing on price without scale-driven cost leadership or differentiated brand equity risks being 'stuck in the middle'", isCorrect: true },
+          { key: "C", text: "In the 4Ps mix, 'Promotion' represents the totality of marketing, while product design and pricing are unrelated to marketing strategy", isCorrect: false, trapId: "trap_mkt_2" },
+          { key: "D", text: "For low-involvement FMCG items, consumers routinely conduct multi-week academic research before every purchase", isCorrect: false, trapId: "trap_mkt_3" }
+        ],
+        explanation: "1. Strategy requires trade-offs; targeting everyone dilutes positioning. 2. Price wars require sustainable supply chain cost leadership or differentiation. 3. 4Ps requires holistic alignment across Product, Price, Place, and Promotion.",
+        traps: {
+          trap_mkt_1: {
+            title: "Positioning Dilution Trap: Catering to Everyone",
+            desc: "Without clear segmentation and target focus, brands become generic and lose competitive differentiation.",
+            prereq: "Prerequisite: STP Model (Segmentation, Targeting, Positioning)",
+            radarHit: "boundary"
+          },
+          trap_mkt_2: {
+            title: "Promotion Reductionism: Equating Marketing to Discounts",
+            desc: "Ignoring Product, Price, and Place while focusing solely on tactical price cuts destroys long-term brand equity.",
+            prereq: "Prerequisite: The 4Ps Marketing Mix & Brand Equity Valuation",
+            radarHit: "recall"
+          },
+          trap_mkt_3: {
+            title: "Involvement Level Mismatch",
+            desc: "Low-involvement everyday goods rely on convenience and habit, not exhaustive evaluation journeys.",
+            prereq: "Prerequisite: Consumer Decision Journey & FCB Grid",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Marketing · STP Positioning & 4Ps Alignment",
+          nodes: [
+            { id: "c1", label: "STP Strategic Positioning", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Cost Leadership Scale", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Low Involvement Funnel", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Target Dilution", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Discount Reductionism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Margin Foundation" },
+            { from: "p2", to: "c1", label: "Behavior Alignment" },
+            { from: "c1", to: "t1", label: "Prone to (Lack of Trade-off)" },
+            { from: "c1", to: "t2", label: "Prone to (Erosion of Margin)" }
+          ]
+        },
+        socraticPrompt: "If a brand wins customers purely through deep price cuts, what happens to customer loyalty the instant a competitor cuts prices by one more dollar?"
+      }
+    ]
+  },
+
+  eng: {
+    name: "Academic English & Scientific Writing",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "eng_1",
+        difficulty: "★★★☆☆",
+        tag: "IMRaD Structure · Epistemic Hedging & Paraphrasing",
+        stem: "In preparing an empirical scientific report or peer-reviewed engineering paper, which statement regarding academic register, hedging, and paraphrasing ethics is strictly correct?",
+        options: [
+          { key: "A", text: "To sound persuasive, researchers should employ categorical absolutes such as 'always, definitely, perfectly proves' and avoid epistemic modals", isCorrect: false, trapId: "trap_eng_1" },
+          { key: "B", text: "IMRaD structure enforces objective communication; hedging devices reflect scientific prudence by calibrating certainty; paraphrasing requires restructuring syntactic logic, as verbatim synonym substitution constitutes patchwriting", isCorrect: true },
+          { key: "C", text: "The Results section should prominently feature speculative interpretations and personal subjective opinions", isCorrect: false, trapId: "trap_eng_2" },
+          { key: "D", text: "Formal academic discourse permits colloquial slang like 'cool stuff' interchangeably with formal terminology", isCorrect: false, trapId: "trap_eng_3" }
+        ],
+        explanation: "1. Hedging (may, suggest, indicate) conveys epistemic modesty and scientific rigor. 2. Paraphrasing requires semantic re-synthesis; synonym replacement is flagged as patchwriting plagiarism. 3. Results present findings objectively; Discussion interprets mechanisms.",
+        traps: {
+          trap_eng_1: {
+            title: "Over-Commitment Trap: Absence of Academic Hedging",
+            desc: "Categorical claims ('proves with 100% certainty') fail peer review because scientific findings are bounded by experimental context.",
+            prereq: "Prerequisite: Academic Register & Epistemic Modality",
+            radarHit: "boundary"
+          },
+          trap_eng_2: {
+            title: "Structural Misplacement: Subjective Speculation in Results",
+            desc: "Results must remain purely descriptive facts and data. Interpretation belongs in the Discussion section.",
+            prereq: "Prerequisite: IMRaD Macro-Structure Functional Boundaries",
+            radarHit: "recall"
+          },
+          trap_eng_3: {
+            title: "Patchwriting Trap: Surface Synonym Swapping",
+            desc: "Merely substituting words while retaining the original sentence syntax is classified as academic misconduct.",
+            prereq: "Prerequisite: Academic Citation & Deep Syntactic Paraphrasing",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Academic English · IMRaD Discourse & Hedging Topology",
+          nodes: [
+            { id: "c1", label: "IMRaD Scientific Discourse", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Epistemic Hedging", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Syntactic Paraphrasing", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Dogmatic Absolutes", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Patchwriting Plagiarism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Rigor Calibration" },
+            { from: "p2", to: "c1", label: "Integrity Compliance" },
+            { from: "c1", to: "t1", label: "Prone to (Overstatement)" },
+            { from: "c1", to: "t2", label: "Prone to (Plagiarism Flags)" }
+          ]
+        },
+        socraticPrompt: "Why does formal science prefer 'the evidence suggests a correlation' over 'this absolutely proves our hypothesis'? How does epistemic modesty protect research integrity?"
+      }
+    ]
   }
 };
 
@@ -1056,10 +1626,15 @@ const I18N = {
     benchmarkTag: "🎯 BENCHMARK TEST",
     loadingStem: "Loading question stem...",
     subjects: {
-      se: "[SE] ⚙️ Software Eng.",
+      or: "[OR] 📐 Operations Research",
+      mis: "[MIS] 🌐 Management Info Sys",
+      prob_stat: "[MATH] 🎲 Probability & Stats",
+      mkt: "[MKT] 🎯 Marketing",
+      eng: "[ENG] ✍️ Academic English",
+      law: "[LAW] ⚖️ Commercial Law",
       cs: "[CS] 💻 Architecture",
       econ: "[ECON] 📈 Econometrics",
-      law: "[LAW] ⚖️ Commercial Law"
+      se: "[SE] ⚙️ Software Eng."
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
     portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br><span class=\"hero-gradient-text\">Exam Distractor Trap Diagnosis System</span>",
@@ -1141,10 +1716,15 @@ const I18N = {
     benchmarkTag: "🎯 BENCHMARK TEST",
     loadingStem: "正在加载题干...",
     subjects: {
-      se: "[SE] ⚙️ 软件工程",
+      or: "[OR] 📐 运筹学",
+      mis: "[MIS] 🌐 管理信息系统",
+      prob_stat: "[MATH] 🎲 概率统计",
+      mkt: "[MKT] 🎯 市场营销",
+      eng: "[ENG] ✍️ 学术英语",
+      law: "[LAW] ⚖️ 民商法学",
       cs: "[CS] 💻 体系结构",
       econ: "[ECON] 📈 计量经济",
-      law: "[LAW] ⚖️ 民商法学"
+      se: "[SE] ⚙️ 软件工程"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
     portalHeroTitle: "把每一次做错题，<br><span class=\"hero-gradient-text\">变成下一次进步的线索</span>",
@@ -1204,7 +1784,7 @@ const API_BASE = (function() {
 // =============================================================================
 // 全局状态机 (Global State)
 // =============================================================================
-const GEMINI_DEFAULT_KEY = "sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083";
+const GEMINI_DEFAULT_KEY = "";
 const GEMINI_DEFAULT_URL = "https://uuapi.net/v1";
 const GEMINI_DEFAULT_MODEL = "gemini-3.8-flash";
 
@@ -1229,7 +1809,11 @@ const DEFAULT_WEAK_LISTS = {
 
 const state = {
   lang: initialLang,
-  currentSubject: localStorage.getItem("smartstudy_subject") || "se",
+  currentSubject: (function() {
+    const saved = localStorage.getItem("smartstudy_subject");
+    if (saved && (DB_ZH[saved] || DB_EN[saved])) return saved;
+    return "or"; // 默认优先加载大二上运筹学核心真题
+  })(),
   currentQIndex: 0,
   activeTab: "home",
   theme: localStorage.getItem("smartstudy_theme") || "light",
@@ -2450,15 +3034,15 @@ function initNavTabs() {
 // =============================================================================
 function initSubjectSelector() {
   const btns = document.querySelectorAll(".subject-btn");
+  // 页面初始化时立即确保当前激活的学科药丸高亮完全与 state.currentSubject 同步
+  syncSubjectButtons(state.currentSubject);
+
   btns.forEach(btn => {
     btn.addEventListener("click", () => {
-      btns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      state.currentSubject = btn.dataset.subject;
-      state.currentQIndex = 0;
-      loadQuestion();
-      renderGraph();
-      resetChatWithContext();
+      const sub = btn.dataset.subject;
+      if (sub) {
+        switchSubject(sub);
+      }
     });
   });
 }
@@ -3708,6 +4292,71 @@ const COMMANDS_REGISTRY = [
     }
   },
   // 学科切换
+  {
+    id: "sub_or",
+    title: "切换学科：📐 运筹学与优化建模 (OR)",
+    subtitle: "大二上核心 · 线性规划标准型、凸集可行域与对偶理论",
+    category: "discipline",
+    keywords: ["运筹学", "运筹", "or", "线性规划", "单纯形法", "大二上"],
+    icon: "📐",
+    shortcut: "Ctrl+O",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("or");
+    }
+  },
+  {
+    id: "sub_mis",
+    title: "切换学科：🌐 管理信息系统 (MIS)",
+    subtitle: "大二上核心 · Laudon四层架构金字塔、C2M与ERP集成",
+    category: "discipline",
+    keywords: ["管理信息系统", "mis", "tps", "erp", "c2m", "大二上"],
+    icon: "🌐",
+    shortcut: "Ctrl+M",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("mis");
+    }
+  },
+  {
+    id: "sub_prob_stat",
+    title: "切换学科：🎲 概率论与数理统计 (Prob/Stat)",
+    subtitle: "大二上核心 · 贝叶斯反转公式、假阳性悖论与事件独立性",
+    category: "discipline",
+    keywords: ["概率统计", "统计", "数学", "概率", "贝叶斯", "大二上"],
+    icon: "🎲",
+    shortcut: "Ctrl+P",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("prob_stat");
+    }
+  },
+  {
+    id: "sub_mkt",
+    title: "切换学科：🎯 市场营销学 (MKT)",
+    subtitle: "大二上核心 · STP战略定位、4Ps营销组合与波特竞争战略",
+    category: "discipline",
+    keywords: ["市场营销", "营销", "mkt", "stp", "4p", "大二上"],
+    icon: "🎯",
+    shortcut: "Ctrl+K",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("mkt");
+    }
+  },
+  {
+    id: "sub_eng",
+    title: "切换学科：✍️ 学术英语与科研论文写作 (Eng)",
+    subtitle: "大二上核心 · IMRaD语篇范式、学术对冲语与深度释义反抄袭",
+    category: "discipline",
+    keywords: ["学术英语", "英语", "eng", "论文", "imrad", "大二上"],
+    icon: "✍️",
+    shortcut: "Ctrl+G",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("eng");
+    }
+  },
   {
     id: "sub_law",
     title: "切换学科：⚖️ 民商法学 (Law)",

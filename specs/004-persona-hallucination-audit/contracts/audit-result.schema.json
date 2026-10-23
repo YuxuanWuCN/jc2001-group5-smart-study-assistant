@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://jc2001.group5.local/schemas/audit-result.schema.json",
+  "title": "Hallucination Audit Verdict",
+  "description": "reports/audit/verdict.json 的严格 schema。由 scripts/audit_hallucination_l1_l3.py 生成，被 speckit 004 审计流程与报告主张契约共同约束。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict_level",
+    "verdict_rationale",
+    "persona_level_min",
+    "l1",
+    "l2",
+    "l3",
+    "l4",
+    "claim_matrix",
+    "env_fingerprint",
+    "determinism_check",
+    "outstanding_reviews"
+  ],
+  "properties": {
+    "verdict_level": {
+      "type": "string",
+      "enum": ["V0", "V1", "V2", "V3"],
+      "description": "必须由证据自动推出，禁止手工填写。V0=未测量; V1=仅离线L1-L3; V2=V1+在线对照含CI; V3=V2+用户侧收益(本规格不可达)"
+    },
+    "verdict_rationale": {
+      "type": "string",
+      "minLength": 20,
+      "description": "为何是当前等级的一段说明，须点名缺哪项证据才够升到下一级"
+    },
+    "persona_level_min": {
+      "type": "string",
+      "enum": ["E0", "E1", "E2", "E3"],
+      "description": "三张 Persona 的核心痛点断言中最差的证据等级"
+    },
+    "l1": { "$ref": "#/definitions/layerReport" },
+    "l2": { "$ref": "#/definitions/layerReport" },
+    "l3": { "$ref": "#/definitions/layerReport" },
+    "l4": { "$ref": "#/definitions/layerReport" },
+    "claim_matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_sentences", "forbidden_sentences", "banned_terms_found"],
+      "properties": {
+        "allowed_sentences": { "type": "array", "items": { "type": "string" } },
+        "forbidden_sentences": { "type": "array", "items": { "type": "string" } },
+        "banned_terms_found": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["term", "file", "line"],
+            "properties": {
+              "term": { "type": "string" },
+              "file": { "type": "string" },
+              "line": { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    },
+    "env_fingerprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "python_version",
+        "pandas_version",
+        "git_commit",
+        "branch",
+        "timestamp_utc",
+        "host_os"
+      ],
+      "properties": {
+        "python_version": { "type": "string" },
+        "pandas_version": { "type": "string" },
+        "git_commit": { "type": "string" },
+        "branch": { "type": "string" },
+        "timestamp_utc": { "type": "string", "format": "date-time" },
+        "host_os": { "type": "string" }
+      }
+    },
+    "determinism_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_1_hash", "run_2_hash", "identical"],
+      "properties": {
+        "run_1_hash": { "type": "string", "minLength": 64 },
+        "run_2_hash": { "type": "string", "minLength": 64 },
+        "identical": { "type": "boolean", "const": true }
+      },
+      "description": "两次独立运行结果的 SHA-256 必须一致（identical=true），否则审计不可复现"
+    },
+    "outstanding_reviews": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "所有 human_verdict=PENDING 的 finding_id。非空时 verdict_level 不得高于 V1"
+    }
+  },
+  "definitions": {
+    "layerReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer", "denominator", "numerator", "rate", "coverage", "status"],
+      "properties": {
+        "layer": {
+          "type": "string",
+          "enum": ["L1_content", "L2_attribution", "L3_leakage", "L4_reasoning"]
+        },
+        "denominator": { "type": "integer", "minimum": 0 },
+        "numerator": { "type": "integer", "minimum": 0 },
+        "rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["measured", "skipped", "na_no_generation_face"],
+          "description": "na_no_generation_face 用于离线路径的 L4：分母为 0 时 rate 必须为 null 而非 0"
+        },
+        "ci_low": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "ci_high": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "ci_method": { "type": ["string", "null"], "enum": ["wilson_95", null] },
+        "note": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "na_no_generation_face" } } },
+          "then": {
+            "properties": {
+              "denominator": { "const": 0 },
+              "rate": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "measured" } } },
+          "then": {
+            "properties": {
+              "denominator": { "type": "integer", "minimum": 1 },
+              "rate": { "type": "number" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
