@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # 1. 核心基建配置
 # ==========================================
 DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "") 
-NEO4J_URI = os.getenv("NEO4J_URI", "neo4j+ssc://5f97bf4d.databases.neo4j.io")
+NEO4J_URI = os.getenv("NEO4J_URI", "")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
 

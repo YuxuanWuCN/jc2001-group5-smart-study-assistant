@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import requests
 import re
@@ -12,11 +13,11 @@ import threading
 # ==========================================
 # 1. 核心配置与升级参数 (已开启 ssc)
 # ==========================================
-NEO4J_URI = "neo4j+ssc://5f97bf4d.databases.neo4j.io"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "JEGZu0b0z6qKT4T29YcOgn8b1RcP333EPmPt1xgI0-Y"
+NEO4J_URI = os.getenv("NEO4J_URI", "")
+NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
 
-ZHIPU_API_KEY = "94f8794590284ebabfc04695450d0c88.ZdDgQcFk0UTaCkk8"
+ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "")
 ZHIPU_URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 
 STRICT_CONFIDENCE_FILTER = True
