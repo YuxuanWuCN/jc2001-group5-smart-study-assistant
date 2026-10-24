@@ -215,7 +215,7 @@ L1 内容幻觉 / L2 归因幻觉 / L3 泄漏幻觉 / L4 推理幻觉。每级�
 - **NFR-1 学术诚信硬约束**：任何数值必须有可点开的产出文件支撑；缺数据一律显式记 `skipped + reason`，禁止补全、插值、估计后写成实测。
 - **NFR-2 离线可复现**：核心审计（L1–L3）必须在无网络、无 API Key 环境下完成，结果确定性可重复。
 - **NFR-3 零破坏兼容**：不修改 `backend/app/` 的业务语义；现有 145 个 pytest 用例 100% 通过（宪法原则 III）。
-- **NFR-4 零根目录污染**：审计脚本放 `scripts/`，临时探针放仓库外（`C:\Users\45607\AppData\Local\Temp`），规格工件归 `specs/004-persona-hallucination-audit/`（宪法原则 V）。
+- **NFR-4 零根目录污染**：审计脚本放 `scripts/`，临时探针放仓库外（`%LOCALAPPDATA%\Temp`），规格工件归 `specs/004-persona-hallucination-audit/`（宪法原则 V）。
 - **NFR-5 零重型依赖**：审计用 Python 标准库 + 已有依赖（pandas/numpy 已在环境内），不引入新三方包。
 - **NFR-6 论文口径一致性**：新增表格编号需与 master plan 的 17 图 / 21 表分配兼容（增补而非重排）。
 - **NFR-7 禁用词**：master plan §禁用词清单全文适用。

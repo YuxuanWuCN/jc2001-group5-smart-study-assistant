@@ -18,7 +18,7 @@
 - 组件设计模块化、高内聚，CSS 采用 CSS Variables 语义化设计 Token，JS 采用事件总线与清晰的状态机控制。
 
 ### 原则 III: 零破坏性兼容与测试门禁 (Zero Regression & Test Preservation)
-- 现有 114 个 pytest 后端自动化测试、FastAPI 端点（`/api/health`, `/api/quiz`, `/api/diagnose`, `/api/graph`, `/api/tutor`）必须 100% 保持通过与协议兼容。
+- 现有 147 个 pytest 后端自动化测试（2026-10-25 实测 145，另加 2 条双命名回归用例；原记 114 为 Cycle 2 时数字，本修订待 PM 确认）、FastAPI 端点（`/api/health`, `/api/quiz`, `/api/diagnose`, `/api/graph`, `/api/tutor`）必须 100% 保持通过与协议兼容。
 - 原有的功能逻辑、学号登录状态、本地缓存 (`localStorage`) 与错因拓扑核心推理链路严禁破坏。
 
 ### 原则 IV: 双模自适应与多端响应式 (Fluid Dual-Theme & Responsive Ergonomics)
