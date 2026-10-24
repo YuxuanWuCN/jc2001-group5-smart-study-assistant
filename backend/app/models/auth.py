@@ -4,10 +4,12 @@ Conforms to specs/001-landing-and-auth-portal/contracts/portal-auth-contracts.md
 """
 
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import Field
+
+from backend.app.models.common import CamelModel
 
 
-class StudentProfile(BaseModel):
+class StudentProfile(CamelModel):
     """Represents a student learner profile with academic metadata."""
     id: str = Field(..., description="Student matriculation ID or identifier", example="50106070")
     name: str = Field(..., description="Student full name", example="吴宇轩")
@@ -18,13 +20,13 @@ class StudentProfile(BaseModel):
     streak_days: int = Field(3, description="Continuous study streak in days", ge=0)
 
 
-class LoginRequest(BaseModel):
+class LoginRequest(CamelModel):
     """Request payload for student login."""
     student_id: str = Field(..., description="Student ID or name", example="50106070")
     password: Optional[str] = Field(None, description="Access credential (optional in PoC demo)", example="123456")
 
 
-class RegisterRequest(BaseModel):
+class RegisterRequest(CamelModel):
     """Request payload for creating a new student profile."""
     student_id: str = Field(..., description="Student ID", example="50106099")
     name: str = Field(..., description="Full student name", example="陈同学")
@@ -32,7 +34,7 @@ class RegisterRequest(BaseModel):
     password: Optional[str] = Field(None, description="Password credential", example="123456")
 
 
-class AuthResponse(BaseModel):
+class AuthResponse(CamelModel):
     """Standard authentication response."""
     status: str = Field("ok", example="ok")
     message: str = Field("Login successful", example="Login successful")
@@ -40,7 +42,7 @@ class AuthResponse(BaseModel):
     user: StudentProfile
 
 
-class DemoUsersResponse(BaseModel):
+class DemoUsersResponse(CamelModel):
     """List of pre-configured group demo student accounts."""
     status: str = Field("ok", example="ok")
     total: int = Field(..., example=11)

@@ -101,3 +101,24 @@ def test_login_missing_field_422():
     """Missing required student_id field returns 422 Unprocessable Entity."""
     res = client.post("/api/auth/login", json={})
     assert res.status_code == 422
+
+
+def test_login_accepts_camel_case_alias():
+    """Dual-naming contract (CamelModel): camelCase payloads map onto snake_case fields."""
+    res = client.post("/api/auth/login", json={"studentId": "50106070"})
+    assert res.status_code == 200
+    data = res.json()
+    assert data["status"] == "ok"
+    assert data["user"]["id"] == "50106070"
+
+
+def test_register_accepts_camel_case_alias():
+    """Registration accepts camelCase studentId/preferredSubject and still serializes snake_case."""
+    res = client.post(
+        "/api/auth/register",
+        json={"studentId": "50999991", "name": "别名测试", "preferredSubject": "law"},
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert data["user"]["id"] == "50999991"
+    assert "preferred_subject" in data["user"]
