@@ -76,6 +76,8 @@ appear, because it documents operation rather than source code.
 
 ```bash
 # 1. unpack and enter the project
+# NOTE (2026-10-25): use the archive rebuilt from the credential-remediated HEAD;
+# the previously committed snapshot was quarantined (nested pre-remediation credentials).
 unzip jc2001-group5-poc.zip && cd jc2001-group5-poc
 
 # 2. create an isolated environment (recommended, not required)
