@@ -26,7 +26,7 @@ Degree Programme: **BSc in Business Management and Information Systems (BSc BMIS
 
 
 
-Academic Supervisor: **Dr. Shahzad Mumtaz** (`shahzad.mumtaz@abdn.ac.uk`)  
+Academic Supervisor: **Dr. Shahzad Mumtaz** (`[redacted]`)  
 
 
 
@@ -122,43 +122,43 @@ Academic Supervisor: **Dr. Shahzad Mumtaz** (`shahzad.mumtaz@abdn.ac.uk`)
 
 
 
-| 1 | **吴宇轩**<br>`50106070` | **Team Leader<br>& Project Manager** | 项目总治理、立项提案统筹、导师 Kick-off 会议组织、WBS 工时治理 | Sprint 迭代规划与风险登记、基线合并管理、UML 交叉审核、004 实证审计 | 前置页（Title/Decl/Abstract/TOC）+ **Ch7** 结论与未来展望 + **附录 A** 全员工时档案统筹 + 全篇总集成提交 | 组长统筹 / Ch7 |
+| 1 | **吴宇轩**<br>（学号已脱敏） | **Team Leader<br>& Project Manager** | 项目总治理、立项提案统筹、导师 Kick-off 会议组织、WBS 工时治理 | Sprint 迭代规划与风险登记、基线合并管理、UML 交叉审核、004 实证审计 | 前置页（Title/Decl/Abstract/TOC）+ **Ch7** 结论与未来展望 + **附录 A** 全员工时档案统筹 + 全篇总集成提交 | 组长统筹 / Ch7 |
 
 
 
-| 2 | **林泳桐**<br>`50106038` | **Lead Business Analyst<br>& 联合课题奠基人** | **Phase 1 Lead**：课题构想发起、痛点调研、考点概念建模、提案背景与目标起草 | 需求规格深化、全局用例图建模、用户旅程图设计、需求追踪矩阵构建 | **Ch1** Introduction and Project Context（5–6 页：问题陈述、竞品矩阵、SMART 目标、认知架构） | [任务包 01](reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md) |
+| 2 | **林泳桐**<br>（学号已脱敏） | **Lead Business Analyst<br>& 联合课题奠基人** | **Phase 1 Lead**：课题构想发起、痛点调研、考点概念建模、提案背景与目标起草 | 需求规格深化、全局用例图建模、用户旅程图设计、需求追踪矩阵构建 | **Ch1** Introduction and Project Context（5–6 页：问题陈述、竞品矩阵、SMART 目标、认知架构） | [任务包 01](reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md) |
 
 
 
-| 3 | **王思鉴**<br>`50106045` | **System Architect<br>(UML & Knowledge Graph)** | 技术可行性分析、GraphRAG 拓扑设计、系统架构范围界定 | **Phase 2 Co-Lead**：UML 2.5 核心模型设计（Class图、Sequence时序图、Component组件图）、Neo4j 知识本体建模 | **Ch4** System Design and Architecture（9–11 页：四层架构、ADR 决策、上下文模型、图拓扑） | [任务包 04](reports/cycle3_task_packs/04-ch4-architecture-wang-sijian.md) |
+| 3 | **王思鉴**<br>（学号已脱敏） | **System Architect<br>(UML & Knowledge Graph)** | 技术可行性分析、GraphRAG 拓扑设计、系统架构范围界定 | **Phase 2 Co-Lead**：UML 2.5 核心模型设计（Class图、Sequence时序图、Component组件图）、Neo4j 知识本体建模 | **Ch4** System Design and Architecture（9–11 页：四层架构、ADR 决策、上下文模型、图拓扑） | [任务包 04](reports/cycle3_task_packs/04-ch4-architecture-wang-sijian.md) |
 
 
 
-| 4 | **江昊**<br>`50106065` | **PoC Lead Developer<br>(GraphRAG & Backend)** | 原型可行性预研、Neo4j AuraDB 云端连通性与 API 压测 | **Phase 3 Co-Lead**：FastAPI 后端脚手架、Pydantic CamelModel 规范契约、Cypher 遍历引擎实现 | **Ch5.1–5.2** 技术栈、软件结构、API 契约、领域模型 + **附录 D** 技术栈规格表（5–6 页） | [任务包 05](reports/cycle3_task_packs/05-ch5-1-2-implementation-jiang-hao.md) |
+| 4 | **江昊**<br>（学号已脱敏） | **PoC Lead Developer<br>(GraphRAG & Backend)** | 原型可行性预研、Neo4j AuraDB 云端连通性与 API 压测 | **Phase 3 Co-Lead**：FastAPI 后端脚手架、Pydantic CamelModel 规范契约、Cypher 遍历引擎实现 | **Ch5.1–5.2** 技术栈、软件结构、API 契约、领域模型 + **附录 D** 技术栈规格表（5–6 页） | [任务包 05](reports/cycle3_task_packs/05-ch5-1-2-implementation-jiang-hao.md) |
 
 
 
-| 5 | **谢炜昕**<br>`50106034` | **Lead QA & Report Lead<br>& 联合课题奠基人** | **课题奠基人**：提案学术规范审核、格式合规检查、学术诚信声明签署 | 测试策略制定、UML 一致性审计、评测引擎基线对比（`systematic_eval_engine.py`） | **Ch3** Use Cases and Requirements Modelling（6–7 页）+ **附录 B** 全量用例规格书 + 全篇格式统稿 | [任务包 09](reports/cycle3_task_packs/09-ch3-use-cases-xie-weixin.md) |
+| 5 | **谢炜昕**<br>（学号已脱敏） | **Lead QA & Report Lead<br>& 联合课题奠基人** | **课题奠基人**：提案学术规范审核、格式合规检查、学术诚信声明签署 | 测试策略制定、UML 一致性审计、评测引擎基线对比（`systematic_eval_engine.py`） | **Ch3** Use Cases and Requirements Modelling（6–7 页）+ **附录 B** 全量用例规格书 + 全篇格式统稿 | [任务包 09](reports/cycle3_task_packs/09-ch3-use-cases-xie-weixin.md) |
 
 
 
-| 6 | **张梓健**<br>`50106035` | **Business Analyst<br>(User Stories & NFR)** | 用户画像（Persona）定义、备考压力问卷分析、系统收益模型 | **Phase 2 Co-Lead**：用户故事拆解、Gherkin 验收标准、非功能需求（NFR）与 MoSCoW 边界矩阵 | **Ch2** Functional and Non-Functional Requirements（6–7 页：14 条 MoSCoW 规格、NFR 度量） | [任务包 02](reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md) |
+| 6 | **张梓健**<br>（学号已脱敏） | **Business Analyst<br>(User Stories & NFR)** | 用户画像（Persona）定义、备考压力问卷分析、系统收益模型 | **Phase 2 Co-Lead**：用户故事拆解、Gherkin 验收标准、非功能需求（NFR）与 MoSCoW 边界矩阵 | **Ch2** Functional and Non-Functional Requirements（6–7 页：14 条 MoSCoW 规格、NFR 度量） | [任务包 02](reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md) |
 
 
 
-| 7 | **习羽赛**<br>`50105989` | **UI/UX Designer<br>& Frontend Engineer** | 初始交互线框草图绘制、交互流程设计、提案 UI 配图 | 高保真交互设计、Cyber Obsidian 深浅双主题、ECharts 五维认知雷达图集成、对比沙盒组件 | **Ch5.5** Graphical User Interface（4–5 页：设计哲学、组件状态机、响应式适配走查） | [任务包 03](reports/cycle3_task_packs/03-ch5-5-gui-xi-yusai.md) |
+| 7 | **习羽赛**<br>（学号已脱敏） | **UI/UX Designer<br>& Frontend Engineer** | 初始交互线框草图绘制、交互流程设计、提案 UI 配图 | 高保真交互设计、Cyber Obsidian 深浅双主题、ECharts 五维认知雷达图集成、对比沙盒组件 | **Ch5.5** Graphical User Interface（4–5 页：设计哲学、组件状态机、响应式适配走查） | [任务包 03](reports/cycle3_task_packs/03-ch5-5-gui-xi-yusai.md) |
 
 
 
-| 8 | **董思钦**<br>`50106060` | **PoC Logic Developer<br>(Diagnosis & Quiz)** | 诊断考点结构调研、SMART 目标细化、MMLU 基准题库收集 | **Phase 3 Co-Lead**：认知陷阱工程与诊断算法、12 题 36 陷阱矩阵设计、苏格拉底追问逻辑实现 | **Ch5.3–5.4** 题库陷阱工程与认知诊断算法（5–6 页：因果拓扑链、算法复杂度分析） | [任务包 06](reports/cycle3_task_packs/06-ch5-3-4-trap-diagnosis-dong-siqin.md) |
+| 8 | **董思钦**<br>（学号已脱敏） | **PoC Logic Developer<br>(Diagnosis & Quiz)** | 诊断考点结构调研、SMART 目标细化、MMLU 基准题库收集 | **Phase 3 Co-Lead**：认知陷阱工程与诊断算法、12 题 36 陷阱矩阵设计、苏格拉底追问逻辑实现 | **Ch5.3–5.4** 题库陷阱工程与认知诊断算法（5–6 页：因果拓扑链、算法复杂度分析） | [任务包 06](reports/cycle3_task_packs/06-ch5-3-4-trap-diagnosis-dong-siqin.md) |
 
 
 
-| 9 | **杨明杰**<br>`50106061` | **Software Testing Lead<br>& User Manual Author** | 质量度量与测试方案规划、pytest 工具链选型与评估 | 自动化测试用例编写、边界与负向测试、HTTP 429 容错与重试测试、**145 个用例全绿基线** | **Ch6** Testing and Evaluation（7–8 页）+ **附录 C** 测试日志 + 8–12 页 PoC User Manual PDF | [任务包 07](reports/cycle3_task_packs/07-ch6-testing-yang-mingjie.md) |
+| 9 | **杨明杰**<br>（学号已脱敏） | **Software Testing Lead<br>& User Manual Author** | 质量度量与测试方案规划、pytest 工具链选型与评估 | 自动化测试用例编写、边界与负向测试、HTTP 429 容错与重试测试、**145 个用例全绿基线** | **Ch6** Testing and Evaluation（7–8 页）+ **附录 C** 测试日志 + 8–12 页 PoC User Manual PDF | [任务包 07](reports/cycle3_task_packs/07-ch6-testing-yang-mingjie.md) |
 
 
 
-| 10 | **梁子铉**<br>`50106037` | **Deployment & Media Lead<br>(DevOps & Video)** | 团队协同环境搭建、演示时间线规划、媒体素材准备 | 环境容器化与部署脚本、Git 工作流守则执行监控、PoC 演示运行环境保障 | **Ch5.6** Deployment and Reproducibility（3–4 页，初稿已就绪）+ 15 分钟演示视频制作 + 演示 PPT | [任务包 08](reports/cycle3_task_packs/08-ch5-6-deployment-liang-zixuan.md) |
+| 10 | **梁子铉**<br>（学号已脱敏） | **Deployment & Media Lead<br>(DevOps & Video)** | 团队协同环境搭建、演示时间线规划、媒体素材准备 | 环境容器化与部署脚本、Git 工作流守则执行监控、PoC 演示运行环境保障 | **Ch5.6** Deployment and Reproducibility（3–4 页，初稿已就绪）+ 15 分钟演示视频制作 + 演示 PPT | [任务包 08](reports/cycle3_task_packs/08-ch5-6-deployment-liang-zixuan.md) |
 
 
 
@@ -488,7 +488,7 @@ Academic Supervisor: **Dr. Shahzad Mumtaz** (`shahzad.mumtaz@abdn.ac.uk`)
 
 
 
-### 根目录清理与工作区卫生治理（已于 2026-10-23 全面闭环）
+### 根目录清理与工作区卫生治理（已于 2026-10-23 全面完成）
 
 
 

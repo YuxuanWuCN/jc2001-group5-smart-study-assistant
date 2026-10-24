@@ -12,23 +12,23 @@
 - **Allocated Group Identifier**: **Group 5**
 - **Programme of Study**: Bachelor of Science in Business Management and Information Systems (**BSc BMIS**)
 - **Date of Submission / Record**: Wednesday, 16 September 2026
-- **Team Leader & Project Manager**: **吴宇轩 (Yuxuan Wu)** | Student ID: **50106070** | Email: `u11yw25@abdn.ac.uk`
-- **Academic Supervisor**: **Dr. Shahzad Mumtaz** | Email: `shahzad.mumtaz@abdn.ac.uk` (Allocated on 18 September 2026)
+- **Team Leader & Project Manager**: **吴宇轩 (Yuxuan Wu)** | Student ID: （学号已脱敏） | Email: `（邮箱已脱敏）`
+- **Academic Supervisor**: **Dr. Shahzad Mumtaz** | Email: `（邮箱已脱敏）` (Allocated on 18 September 2026)
 
 ### Official 10-Member Team Roster & Contact Matrix
 
 | # | Student Full Name (Chinese / Pinyin) | Student ID | Programme | Primary Project Specialisation | University Email |
 | :-: | :--- | :-: | :--- | :--- | :--- |
-| **1** | **吴宇轩** (*Yuxuan Wu*) | **50106070** | BSc (BMIS) | **Project Manager & Team Lead** | `u11yw25@abdn.ac.uk` |
-| **2** | **林泳桐** (*Yongtong Lin*) | **50106038** | BSc (BMIS) | **Principal Concept Co-Originator & Lead Domain Analyst** | `u19yl25@abdn.ac.uk` |
-| **3** | **王思鉴** (*Sijian Wang*) | **50106045** | BSc (BMIS) | **System Architect (UML & Knowledge Graph)** | `u14sw25@abdn.ac.uk` |
-| **4** | **江昊** (*Hao Jiang*) | **50106065** | BSc (BMIS) | **PoC Lead Developer (GraphRAG & Neo4j Engine)** | `h.jiang.25@abdn.ac.uk` |
-| **5** | **谢炜昕** (*Weixin Xie*) | **50106034** | BSc (BMIS) | **Principal Concept Co-Originator & QA Lead** | `u02wx25@abdn.ac.uk` |
-| **6** | **张梓健** (*Zijian Zhang*) | **50106035** | BSc (BMIS) | **Business Analyst (User Stories & Acceptance)** | `u17zz25@abdn.ac.uk` |
-| **7** | **习羽赛** (*Yusai Xi*) | **50105989** | BSc (BMIS) | **UI/UX Designer & Wireframe Lead** | `u02yx25@abdn.ac.uk` |
-| **8** | **董思钦** (*Siqin Dong*) | **50106060** | BSc (BMIS) | **PoC Logic Developer (Diagnostic API & Quiz)** | `u20sd25@abdn.ac.uk` |
-| **9** | **杨明杰** (*Mingjie Yang*) | **50106061** | BSc (BMIS) | **Software Testing & User Manual Lead** | `u05my25@abdn.ac.uk` |
-| **10** | **梁子铉** (*Zixuan Liang*) | **50106037** | BSc (BMIS) | **Presentation, Media & Deployment Lead** | `u14zl25@abdn.ac.uk` |
+| **1** | **吴宇轩** (*Yuxuan Wu*) | （学号已脱敏） | BSc (BMIS) | **Project Manager & Team Lead** | `（邮箱已脱敏）` |
+| **2** | **林泳桐** (*Yongtong Lin*) | （学号已脱敏） | BSc (BMIS) | **Principal Concept Co-Originator & Lead Domain Analyst** | `（邮箱已脱敏）` |
+| **3** | **王思鉴** (*Sijian Wang*) | （学号已脱敏） | BSc (BMIS) | **System Architect (UML & Knowledge Graph)** | `（邮箱已脱敏）` |
+| **4** | **江昊** (*Hao Jiang*) | （学号已脱敏） | BSc (BMIS) | **PoC Lead Developer (GraphRAG & Neo4j Engine)** | `（邮箱已脱敏）` |
+| **5** | **谢炜昕** (*Weixin Xie*) | （学号已脱敏） | BSc (BMIS) | **Principal Concept Co-Originator & QA Lead** | `（邮箱已脱敏）` |
+| **6** | **张梓健** (*Zijian Zhang*) | （学号已脱敏） | BSc (BMIS) | **Business Analyst (User Stories & Acceptance)** | `（邮箱已脱敏）` |
+| **7** | **习羽赛** (*Yusai Xi*) | （学号已脱敏） | BSc (BMIS) | **UI/UX Designer & Wireframe Lead** | `（邮箱已脱敏）` |
+| **8** | **董思钦** (*Siqin Dong*) | （学号已脱敏） | BSc (BMIS) | **PoC Logic Developer (Diagnostic API & Quiz)** | `（邮箱已脱敏）` |
+| **9** | **杨明杰** (*Mingjie Yang*) | （学号已脱敏） | BSc (BMIS) | **Software Testing & User Manual Lead** | `（邮箱已脱敏）` |
+| **10** | **梁子铉** (*Zixuan Liang*) | （学号已脱敏） | BSc (BMIS) | **Presentation, Media & Deployment Lead** | `（邮箱已脱敏）` |
 
 ---
 
@@ -50,7 +50,7 @@ In strict compliance with the JC2001 Practical Session 1 protocol derived from [
 
 ---
 
-### Member 1: 吴宇轩 (Yuxuan Wu) — Student ID: 50106070
+### Member 1: 吴宇轩 (Yuxuan Wu) — Student ID: （学号已脱敏）
 - **Role**: Project Manager & Team Lead
 - **Hometown**: Shenzhen, Guangdong Province (深圳)
 
@@ -76,7 +76,7 @@ When cognitive fatigue sets in, I take my road bicycle on a solitary, two-hour n
 
 ---
 
-### Member 2: 林泳桐 (Yongtong Lin) — Student ID: 50106038
+### Member 2: 林泳桐 (Yongtong Lin) — Student ID: （学号已脱敏）
 - **Role**: Lead Business Analyst (Requirements Capture)
 - **Hometown**: Guangzhou, Guangdong Province (广州)
 
@@ -102,7 +102,7 @@ I retreat to a quiet, plant-filled independent bookstore tucked inside a vintage
 
 ---
 
-### Member 3: 王思鉴 (Sijian Wang) — Student ID: 50106045
+### Member 3: 王思鉴 (Sijian Wang) — Student ID: （学号已脱敏）
 - **Role**: System Architect (UML & Knowledge Graph Architecture)
 - **Hometown**: Hangzhou, Zhejiang Province (杭州)
 
@@ -128,7 +128,7 @@ I take a solitary walk through the bamboo forests surrounding the ancient Faxi a
 
 ---
 
-### Member 4: 江昊 (Hao Jiang) — Student ID: 50106065
+### Member 4: 江昊 (Hao Jiang) — Student ID: （学号已脱敏）
 - **Role**: PoC Lead Developer (GraphRAG & Neo4j Engine)
 - **Hometown**: Wuhan, Hubei Province (武汉)
 
@@ -154,7 +154,7 @@ An 8-kilometer twilight run along the Hankou River Beach park (*Jiangtan*). Watc
 
 ---
 
-### Member 5: 谢炜昕 (Weixin Xie) — Student ID: 50106034
+### Member 5: 谢炜昕 (Weixin Xie) — Student ID: （学号已脱敏）
 - **Role**: QA & Technical Report Lead
 - **Hometown**: Shantou, Guangdong Province (汕头)
 
@@ -180,7 +180,7 @@ I arrange an elaborate Chaoshan Kung Fu tea session in my private study. I boil 
 
 ---
 
-### Member 6: 张梓健 (Zijian Zhang) — Student ID: 50106035
+### Member 6: 张梓健 (Zijian Zhang) — Student ID: （学号已脱敏）
 - **Role**: Business Analyst (User Stories & Acceptance Criteria)
 - **Hometown**: Foshan, Guangdong Province (佛山)
 
@@ -206,7 +206,7 @@ I grab my road bike and ride along the riverside greenway around Qiandeng Lake a
 
 ---
 
-### Member 7: 习羽赛 (Yusai Xi) — Student ID: 50105989
+### Member 7: 习羽赛 (Yusai Xi) — Student ID: （学号已脱敏）
 - **Role**: UI/UX Designer & Wireframe Lead
 - **Hometown**: Chengdu, Sichuan Province (成都)
 
@@ -232,7 +232,7 @@ I pack my fountain pens, watercolor kit, and sketchbook, and find a corner table
 
 ---
 
-### Member 8: 董思钦 (Siqin Dong) — Student ID: 50106060
+### Member 8: 董思钦 (Siqin Dong) — Student ID: （学号已脱敏）
 - **Role**: PoC Logic Developer (Diagnostic API & Quiz Engine)
 - **Hometown**: Xiamen, Fujian Province (厦门)
 
@@ -258,7 +258,7 @@ I walk down to the rocky coastline of Baicheng Beach near sunset. Sitting on the
 
 ---
 
-### Member 9: 杨明杰 (Mingjie Yang) — Student ID: 50106061
+### Member 9: 杨明杰 (Mingjie Yang) — Student ID: （学号已脱敏）
 - **Role**: Software Testing & User Manual Lead
 - **Hometown**: Changsha, Hunan Province (长沙)
 
@@ -284,7 +284,7 @@ I head straight to the university athletic weight room for an intense, ninety-mi
 
 ---
 
-### Member 10: 梁子铉 (Zixuan Liang) — Student ID: 50106037
+### Member 10: 梁子铉 (Zixuan Liang) — Student ID: （学号已脱敏）
 - **Role**: Presentation, Media & Deployment Lead
 - **Hometown**: Zhuhai, Guangdong Province (珠海)
 
@@ -329,16 +329,16 @@ The group project lifecycle for JC2001 spans 12 academic weeks from **14 Septemb
 
 | # | Member & ID | Official Role | Phase 1: Requirements Capture & Proposal (Sep 14 – Sep 25) | Phase 2: System Architecture & UML Design (Sep 28 – Oct 30) | Phase 3: PoC Implementation & Knowledge Graph (Nov 02 – Nov 27) | Phase 4: System Testing, Report, Manual & Video (Nov 30 – Dec 14) |
 | :-: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | **吴宇轩**<br>`50106070` | **Project Manager & Team Lead** | Overall project governance, Proposal coordination, Supervisor Kick-off meeting lead, WBS management | Sprint planning, risk register governance, Project Update 1 submission lead, UML cross-check | PoC build integration, API rate-limit monitoring, Project Update 2 & 3 authoring | Final Technical Report executive review, workload profile arbitration, final submission packaging |
-| **2** | **林泳桐**<br>`50106038` | **Principal Concept Co-Originator & Lead Domain Analyst** | **Phase 1 Lead & Concept Originator**: Stakeholder pain-point elicitation, domain concept modeling, Section 2 & 3 drafting | Functional & non-functional requirements specification, Use Case diagrams, traceability matrix | Requirements validation, edge-case analysis, Socratic dialogue pedagogical review | Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review |
-| **3** | **王思鉴**<br>`50106045` | **System Architect (UML & Knowledge Graph)** | Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope | **Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design | Graph database indexing, Cypher query schema optimization, AuraDB cloud management | Technical Report authoring (System Architecture & Design sections), architectural figures |
-| **4** | **江昊**<br>`50106065` | **PoC Lead Developer (GraphRAG & Engine)** | Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation | Core retrieval engine pipeline design, Cypher graph traversal algorithms | **Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter | Technical Report authoring (Implementation chapters), code structure documentation |
-| **5** | **谢炜昕**<br>`50106034` | **Principal Concept Co-Originator & QA Lead** | **Concept Originator & Review Lead**: Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations | Test strategy formulation, UML consistency audit, quality metrics definition | Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis | **Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile |
-| **6** | **张梓健**<br>`50106035` | **Business Analyst (User Stories & Acceptance)** | User persona formulation, survey analysis on exam stress, Section 5 Benefits drafting | **Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions | User acceptance testing (UAT), student feedback loop coordination, quiz usability checks | Technical Report authoring (Evaluation & User Testing sections), user survey analysis |
-| **7** | **习羽赛**<br>`50105989` | **UI/UX Designer & Wireframe Lead** | Initial interface concept wireframing, user journey mapping, proposal UI figures | High-fidelity interactive wireframes (Figma), component token library, design guidelines | Frontend interface implementation, responsive ECharts radar integration, dark/light themes | Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation |
-| **8** | **董思钦**<br>`50106060` | **PoC Logic Developer (Diagnostic API & Quiz)** | Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives | RESTful API endpoint design, diagnostic JSON schema specification | **Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm | Technical Report authoring (Algorithms & Testing chapters), API reference documentation |
-| **9** | **杨明杰**<br>`50106061` | **Software Testing & User Manual Lead** | Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest) | Test case design, boundary condition planning, stress test scenario scripting | Automated unit test execution, HTTP 429 backoff testing, integration test logging | **Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report |
-| **10** | **梁子铉**<br>`50106037` | **Presentation, Media & Deployment Lead** | Team communication infrastructure setup, presentation timeline planning, media assets | Demonstration scenario scripting, deployment containerization (Docker / Render), audio design | Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging | **Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx) |
+| **1** | **吴宇轩**<br>`（学号已脱敏）` | **Project Manager & Team Lead** | Overall project governance, Proposal coordination, Supervisor Kick-off meeting lead, WBS management | Sprint planning, risk register governance, Project Update 1 submission lead, UML cross-check | PoC build integration, API rate-limit monitoring, Project Update 2 & 3 authoring | Final Technical Report executive review, workload profile arbitration, final submission packaging |
+| **2** | **林泳桐**<br>`（学号已脱敏）` | **Principal Concept Co-Originator & Lead Domain Analyst** | **Phase 1 Lead & Concept Originator**: Stakeholder pain-point elicitation, domain concept modeling, Section 2 & 3 drafting | Functional & non-functional requirements specification, Use Case diagrams, traceability matrix | Requirements validation, edge-case analysis, Socratic dialogue pedagogical review | Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review |
+| **3** | **王思鉴**<br>`（学号已脱敏）` | **System Architect (UML & Knowledge Graph)** | Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope | **Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design | Graph database indexing, Cypher query schema optimization, AuraDB cloud management | Technical Report authoring (System Architecture & Design sections), architectural figures |
+| **4** | **江昊**<br>`（学号已脱敏）` | **PoC Lead Developer (GraphRAG & Engine)** | Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation | Core retrieval engine pipeline design, Cypher graph traversal algorithms | **Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter | Technical Report authoring (Implementation chapters), code structure documentation |
+| **5** | **谢炜昕**<br>`（学号已脱敏）` | **Principal Concept Co-Originator & QA Lead** | **Concept Originator & Review Lead**: Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations | Test strategy formulation, UML consistency audit, quality metrics definition | Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis | **Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile |
+| **6** | **张梓健**<br>`（学号已脱敏）` | **Business Analyst (User Stories & Acceptance)** | User persona formulation, survey analysis on exam stress, Section 5 Benefits drafting | **Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions | User acceptance testing (UAT), student feedback loop coordination, quiz usability checks | Technical Report authoring (Evaluation & User Testing sections), user survey analysis |
+| **7** | **习羽赛**<br>`（学号已脱敏）` | **UI/UX Designer & Wireframe Lead** | Initial interface concept wireframing, user journey mapping, proposal UI figures | High-fidelity interactive wireframes (Figma), component token library, design guidelines | Frontend interface implementation, responsive ECharts radar integration, dark/light themes | Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation |
+| **8** | **董思钦**<br>`（学号已脱敏）` | **PoC Logic Developer (Diagnostic API & Quiz)** | Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives | RESTful API endpoint design, diagnostic JSON schema specification | **Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm | Technical Report authoring (Algorithms & Testing chapters), API reference documentation |
+| **9** | **杨明杰**<br>`（学号已脱敏）` | **Software Testing & User Manual Lead** | Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest) | Test case design, boundary condition planning, stress test scenario scripting | Automated unit test execution, HTTP 429 backoff testing, integration test logging | **Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report |
+| **10** | **梁子铉**<br>`（学号已脱敏）` | **Presentation, Media & Deployment Lead** | Team communication infrastructure setup, presentation timeline planning, media assets | Demonstration scenario scripting, deployment containerization (Docker / Render), audio design | Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging | **Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx) |
 
 ---
 
@@ -476,20 +476,20 @@ The long-term vision of the Smart Study Assistant System extends beyond a single
 =================================================================================================================
 ```
 
-- **From**: 吴宇轩 (Yuxuan Wu) | Student ID: 50106070 | Group Leader, JC2001 Group 5 (BSc BMIS)  
-  *Email*: `u11yw25@abdn.ac.uk`
+- **From**: 吴宇轩 (Yuxuan Wu) | Student ID: （学号已脱敏） | Group Leader, JC2001 Group 5 (BSc BMIS)  
+  *Email*: `（邮箱已脱敏）`
 - **To**: Dr. Shahzad Mumtaz (Academic Supervisor, JC2001 Group 5)  
-  *Email*: `shahzad.mumtaz@abdn.ac.uk`
+  *Email*: `（邮箱已脱敏）`
 - **Cc**: 
-  - `u19yl25@abdn.ac.uk` (林泳桐 / Yongtong Lin)
-  - `u14sw25@abdn.ac.uk` (王思鉴 / Sijian Wang)
-  - `h.jiang.25@abdn.ac.uk` (江昊 / Hao Jiang)
-  - `u02wx25@abdn.ac.uk` (谢炜昕 / Weixin Xie)
-  - `u17zz25@abdn.ac.uk` (张梓健 / Zijian Zhang)
-  - `u02yx25@abdn.ac.uk` (习羽赛 / Yusai Xi)
-  - `u20sd25@abdn.ac.uk` (董思钦 / Siqin Dong)
-  - `u05my25@abdn.ac.uk` (杨明杰 / Mingjie Yang)
-  - `u14zl25@abdn.ac.uk` (梁子铉 / Zixuan Liang)
+  - `（邮箱已脱敏）` (林泳桐 / Yongtong Lin)
+  - `（邮箱已脱敏）` (王思鉴 / Sijian Wang)
+  - `（邮箱已脱敏）` (江昊 / Hao Jiang)
+  - `（邮箱已脱敏）` (谢炜昕 / Weixin Xie)
+  - `（邮箱已脱敏）` (张梓健 / Zijian Zhang)
+  - `（邮箱已脱敏）` (习羽赛 / Yusai Xi)
+  - `（邮箱已脱敏）` (董思钦 / Siqin Dong)
+  - `（邮箱已脱敏）` (杨明杰 / Mingjie Yang)
+  - `（邮箱已脱敏）` (梁子铉 / Zixuan Liang)
 - **Date**: Friday, 18 September 2026 (Dispatched upon official supervisor announcement)
 - **Subject**: Formal Request for Week 1/2 Kick-Off Meeting — Group 5 (BSc BMIS) Project Scope Review: Smart Study Assistant System
 - **Attachments**:
@@ -506,7 +506,7 @@ Dear Dr. Mumtaz,
 
 I hope this email finds you well.
 
-My name is Yuxuan Wu (吴宇轩, Student ID: 50106070), and I am writing to you in my capacity as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. 
+My name is Yuxuan Wu (吴宇轩, Student ID: （学号已脱敏）), and I am writing to you in my capacity as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. 
 
 Following the supervisor allocations published on MyAberdeen today, we are delighted to have you as our academic supervisor for this semester-long software engineering group project.
 
@@ -546,7 +546,7 @@ Yours sincerely,
 Team Leader & Project Manager | Group 5  
 BSc in Business Management and Information Systems (BSc BMIS)  
 School of Natural and Computing Sciences, University of Aberdeen  
-Student ID: 50106070 | Email: `u11yw25@abdn.ac.uk`  
+Student ID: （学号已脱敏） | Email: `（邮箱已脱敏）`  
 Mobile / WeChat: `+86 138-0000-5010`
 
 *On behalf of JC2001 Group 5 Members*:  
@@ -574,7 +574,7 @@ To ensure that this deliverables package satisfies all rigorous course criteria 
 - **Date & Time**: Tuesday, 22 September 2026, 17:12 – 17:40 CST (10:12 – 10:40 BST)
 - **Format**: Video Conference via Microsoft Teams
 - **Attendees**:
-  - **Academic Supervisor**: Dr. Shahzad Mumtaz (`shahzad.mumtaz@abdn.ac.uk`)
+  - **Academic Supervisor**: Dr. Shahzad Mumtaz (`（邮箱已脱敏）`)
   - **Group 5**: Yuxuan Wu (Team Leader / PM) and Group 5 members
 - **Agenda**: Initial Proposal Review, Academic Scope Calibration, Supervisory Feedback, Next Steps
 
