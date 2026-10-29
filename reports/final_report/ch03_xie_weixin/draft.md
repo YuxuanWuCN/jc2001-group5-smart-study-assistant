@@ -18,7 +18,7 @@ Figure 3.1 presents the UML 2.5 Use Case Diagram for StudyGraph, illustrating th
 **Figure 3.1: UML 2.5 Use Case Diagram for the StudyGraph (SmartStudy) proof-of-concept system.**
 (Source: Compiled from `specs/003-cycle3-startup-report/spec.md` and Week 5 UML modelling guidelines.)
 
-![Figure 3.1](figures/fig3_1_use_case.svg)
+![Figure 3.1](figures/fig_use_case_diagram.svg)
 
 ### Formal Semantics of `«include»` vs. `«extend»` (Week 5 Lab Alignment)
 

@@ -23,7 +23,7 @@ A critical architectural insight established during our Week 6 Architecture Revi
 **Figure 4.1: System Context Diagram showing the strict boundary between the single-process offline runtime and the offline GraphRAG research pipeline.**
 (Source: Compiled from `backend/app/main.py`, `graphrag（终）/graphrag_pipeline.py`, and `AD-1`.)
 
-![Figure 4.1](figures/fig4_1_context.svg)
+![Figure 4.1](figures/fig_context_model.svg)
 
 As shown in Figure 4.1:
 - **Left / Centre — Single-Process Offline Runtime (`100% Air-Gapped Capable`)**: The student's browser communicates exclusively over loopback HTTP (`http://127.0.0.1:8000`) with the FastAPI application process (`backend/app/main.py`). FastAPI serves both the RESTful JSON endpoints (`/api/quiz`, `/api/diagnose`, `/api/reports/*`, `/api/auth/*`, `/api/health`) and the static ES6+ frontend (`frontend/index.html`, `app.js`, `styles.css`). Zero outbound sockets are opened at runtime.
@@ -36,7 +36,7 @@ Within the runtime boundary, the application enforces a strict **Four-Layer Arch
 **Figure 4.2: Four-Layer Modular Monolith architecture mapping presentation, routers, domain services/models, and in-memory seed stores.**
 (Source: Verified against `backend/app/` and `frontend/` directory trees.)
 
-![Figure 4.2](figures/fig4_2_layered_arch.svg)
+![Figure 4.2](figures/fig4_1_four_layer_architecture.svg)
 
 1. **Layer 1 — Presentation Layer (`frontend/index.html`, `frontend/app.js`, `frontend/styles.css`)**: A zero-build vanilla ES6+ Single-Page Application (`AD-2`). `index.html` defines semantic workspaces (Question Arena, slide-out Trap Drawer, 5-Axis Radar Analytics, Reasoning Accordion, and Command Palette). `styles.css` implements a tokenised dual-theme design system (`Cyber Obsidian` dark mode and `Academic Daylight` light mode). `app.js` manages client-side state, bilingual DOM re-binding (`I18N`), ECharts/SVG rendering, and `fetch()` calls.
 2. **Layer 2 — API Router & Transport Layer (`backend/app/main.py`, `backend/app/routers/{quiz,diagnose,reports,auth}.py`)**: Thin HTTP controllers responsible solely for route registration, query/body extraction, HTTP status code mapping (`200`, `401`, `404`, `409`, `422`), and delegating business logic to Layer 3. For example, `backend/app/routers/diagnose.py` is 37 lines of code containing zero domain rules.
@@ -47,18 +47,7 @@ Within the runtime boundary, the application enforces a strict **Four-Layer Arch
 
 In multi-language web projects (Python backend + JavaScript frontend), one of the most common integration defects is **field-naming mismatch**: Python PEP 8 mandates `snake_case` (`selected_option`, `radar_hit`, `socratic_prompt_en`), whereas JavaScript/JSON conventions favour `camelCase` (`selectedOption`, `radarHit`, `socraticPromptEn`). Manual dictionary key rewriting across routers introduces brittle boilerplate and silent `undefined` UI bugs.
 
-To eliminate this class of defects structurally (`NFR-07`, `AD-4`), we engineered a shared Pydantic v2 base class, **`CamelModel`**, in `backend/app/models/common.py`:
-
-```python
-from pydantic import BaseModel, ConfigDict
-from pydantic.alias_generators import to_camel
-
-class CamelModel(BaseModel):
-    """Base model accepting both snake_case and camelCase, serializing both keys."""
-    model_config = ConfigDict(populate_by_name=True, alias_generator=to_camel)
-```
-
-Furthermore, `CamelModel.model_dump()` is overridden so that serialised responses include **both** the canonical `snake_case` attribute and its `camelCase` alias whenever they differ (recursively across nested models and lists). Consequently, Python `pytest` suites can assert `resp.json()["radar_scores"]["trap_defense"]` or `resp.json()["socratic_prompt"]`, while the ES6+ frontend directly reads `data.radarScores.trapDefense` or `data.socraticPrompt`. Two dedicated regression tests in `tests/test_reports.py` (`test_camel_and_snake_keys_coexist`) verify this invariant.
+To eliminate this class of defects structurally (`NFR-07`, `AD-4`), we engineered a shared Pydantic v2 base class, **`CamelModel`**, in `backend/app/models/common.py`, configured with `ConfigDict(populate_by_name=True, alias_generator=to_camel)`. Furthermore, `CamelModel.model_dump()` is overridden so that serialised responses include **both** the canonical `snake_case` attribute and its `camelCase` alias whenever they differ (recursively across nested models and lists). Consequently, Python `pytest` suites can assert `resp.json()["radar_scores"]["trap_defense"]` or `resp.json()["socratic_prompt"]`, while the ES6+ frontend directly reads `data.radarScores.trapDefense` or `data.socraticPrompt`. Two dedicated regression tests in `tests/test_reports.py` (`test_camel_and_snake_keys_coexist`) verify this invariant.
 
 Figure 4.3 presents the complete UML 2.5 Domain Class Diagram showing all 14 domain classes inheriting from `CamelModel` and their composition relationships with `diagnostic_service.py` and `seed_questions.py`.
 
