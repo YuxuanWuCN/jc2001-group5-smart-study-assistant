@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" width="800" height="380" font-family="Arial, Helvetica, sans-serif">
+  <rect width="800" height="380" fill="#ffffff"/>
+  <text x="400" y="32" font-size="15.5" font-weight="bold" text-anchor="middle" fill="#0f172a">Figure 2.1: MoSCoW Requirements Distribution (N = 14 Functional Requirements, R01–R14)</text>
+  <line x1="180" y1="65" x2="180" y2="310" stroke="#334155" stroke-width="2"/>
+  <line x1="180" y1="310" x2="740" y2="310" stroke="#334155" stroke-width="2"/>
+  <text x="168" y="108" font-size="13" font-weight="bold" text-anchor="end" fill="#1e3a8a">Must Have (7 / 50%)</text>
+  <rect x="182" y="85" width="420" height="36" rx="4" fill="#1d4ed8"/>
+  <text x="612" y="108" font-size="12" font-weight="bold" fill="#1e3a8a">R01, R02, R03, R04, R05, R06, R09 (100% Delivered)</text>
+  <text x="168" y="168" font-size="13" font-weight="bold" text-anchor="end" fill="#047857">Should Have (3 / 21%)</text>
+  <rect x="182" y="145" width="180" height="36" rx="4" fill="#059669"/>
+  <text x="372" y="168" font-size="12" font-weight="bold" fill="#047857">R07 (i18n), R08 (Themes), R10 (GraphRAG Offline Eval)</text>
+  <text x="168" y="228" font-size="13" font-weight="bold" text-anchor="end" fill="#64748b">Could Have (0 / 0%)</text>
+  <rect x="182" y="205" width="6" height="36" rx="2" fill="#94a3b8"/>
+  <text x="198" y="228" font-size="11.5" fill="#64748b">0 items — Ambiguous nice-to-haves promoted to Should or cut to Won't</text>
+  <text x="168" y="288" font-size="13" font-weight="bold" text-anchor="end" fill="#b91c1c">Won't Have (4 / 29%)</text>
+  <rect x="182" y="265" width="240" height="36" rx="4" fill="#dc2626"/>
+  <text x="432" y="288" font-size="12" font-weight="bold" fill="#b91c1c">R11 (Multi-tenant), R12 (Native App), R13 (Social), R14 (CAT)</text>
+  <text x="450" y="348" font-size="12" text-anchor="middle" fill="#475569">Number of Requirements (Constraint: Must ≤ 7 and Won't ≥ 3 to enforce 10-week lean scoping)</text>
+</svg>

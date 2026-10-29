@@ -1,0 +1,39 @@
+graph TD
+    subgraph UI ["Student Presentation Layer (Frontend / SPA)"]
+        A["Student Selects Option (e.g., Option B)"] --> B{"Is Option Correct?"}
+        B -- "Yes (is_correct=True)" --> C["Direct Positive Feedback<br/>+ Competency Gain (+4 Recall)"]
+        B -- "No (is_correct=False)" --> D["Extract Attached Trap ID<br/>(e.g., trap_law_1)"]
+    end
+
+    subgraph ENGINE ["Deterministic Diagnostic Engine (FastAPI Backend)"]
+        D --> E["O(1) Dictionary Indexing<br/>question.traps[trap_id]"]
+        E --> F["Retrieve Curated TrapDetail Object"]
+        
+        subgraph TRAP ["Tripartite Misconception Metadata"]
+            F --> F1["title: Conceptual Fallacy Label"]
+            F --> F2["desc: Root-Cause Cognitive Conflict"]
+            F --> F3["prereq: Formative Prerequisite Theorem"]
+            F --> F4["radar_hit: Target Competency Dimension"]
+        end
+        
+        F1 & F2 & F3 --> G{"Dual-Mode Scaffolding Router"}
+        G -- "Offline / Key Missing" --> H["Deterministic Socratic Prompt<br/>(Pre-audited in seed_questions.py)"]
+        G -- "Online (Key Configured)" --> I["Qwen-Turbo Socratic Tone Polisher<br/>(Strict 4.0s Timeout Gating)"]
+    end
+
+    subgraph TELEMETRY ["Metacognitive Feedback & Competency Radar"]
+        H & I --> J["Assemble Diagnostic Payload<br/>(Zero Answer Spoiling Guaranteed)"]
+        J --> K["UI Trap Drawer Opens<br/>(Presents Fallacy, Prerequisite & Hints)"]
+        F4 --> L["Update 5D Competency Radar<br/>(Penalty: -6 TrapDefense, -4 Boundary)"]
+        L --> M["Apache ECharts 5.5.1 Radar Redraw<br/>(Zero Network Latency Instant Mutation)"]
+    end
+
+    classDef ui fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef engine fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef trap fill:#1e1e2e,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef telemetry fill:#182234,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+
+    class A,B,C,D ui;
+    class E,F,G,H,I engine;
+    class F1,F2,F3,F4 trap;
+    class J,K,L,M telemetry;

@@ -1,0 +1,16 @@
+claim_id,persona,claim_text,claim_kind,source_type,source_locator,evidence_level,is_core,allowed_usage,auditor
+PA-01,A_突击型考试生,大二/大三，4 门考试集中在 2 周,身份,文献,reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:78,E1,False,依据公开文献/教学场景说明，该群体常见,审计团队
+PA-02,A_突击型考试生,Quizlet 卡片、同学错题本、群里的答案汇总,当前工具,竞品行为,reports/competitor_analysis.md:32,E1,False,竞品提供该功能，暗示需求存在,审计团队
+PA-03,A_突击型考试生,错了不知道为什么错，没时间深究（二元反馈陷阱）,痛点,文献,VanLehn 2011; Hattie & Timperley 2007,E1,True,依据细粒度反馈文献，该痛点在备考中广泛存在,审计团队
+PA-04,A_突击型考试生,5 分钟内知道该补哪一块,期待,组内讨论,reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:37,E2,True,在组内 n=10 讨论中成员表示期待快速诊断（非代表性样本）,审计团队
+PA-05,A_突击型考试生,主要目标用户,是否目标用户,组内讨论,reports/cycle3_master_plan.md:100,E1,False,依据 Lean Scoping 决策确定为主目标用户,审计团队
+PB-01,B_系统复习者,研究生，长期系统性复习,身份,文献,Corbett & Anderson 1994 (BKT),E1,False,依据学术文献与研究生备考模式,审计团队
+PB-02,B_系统复习者,Anki、笔记软件、论文,当前工具,竞品行为,reports/competitor_analysis.md:45,E1,False,竞品观察表明系统备考者偏好间隔记忆工具,审计团队
+PB-03,B_系统复习者,知道自己弱，但看不出弱在哪个能力维度,痛点,文献,Koedinger et al. 2012 (前置知识框架),E1,True,依据认知科学多维能力评估模型,审计团队
+PB-04,B_系统复习者,看到能力维度的长期趋势,期待,组内讨论,reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:37,E2,True,组内讨论形成的学情追踪期待,审计团队
+PB-05,B_系统复习者,主要目标用户,是否目标用户,组内讨论,reports/cycle3_master_plan.md:100,E1,False,定位于长期备考目标用户,审计团队
+PC-01,C_课程教师,本课程讲师 / 助教,身份,组内讨论,reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:78,E1,False,课程背景利益相关者,审计团队
+PC-02,C_课程教师,学习平台后台、Excel,当前工具,竞品行为,reports/competitor_analysis.md:60,E1,False,常见高校教师管理工具,审计团队
+PC-03,C_课程教师,无法在批改之外看到学生的具体误区分布,痛点,文献,Hattie & Timperley 2007,E1,True,文献指出的班级共性诊断盲区,审计团队
+PC-04,C_课程教师,（不直接使用）,期待,组内讨论,reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:81,E1,False,不直接操作系统,审计团队
+PC-05,C_课程教师,明确为非目标用户,是否目标用户,组内讨论,reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:84,E1,True,明确排除出 MVP 目标用户范围（Lean Scoping）,审计团队

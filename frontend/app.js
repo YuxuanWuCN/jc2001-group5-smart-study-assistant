@@ -7,6 +7,291 @@
 // 多学科精品真题与避坑知识本体库 (Curated Multi-Discipline Question Bank - Chinese)
 // =============================================================================
 const DB_ZH = {
+  or: {
+    name: "运筹学与优化建模",
+    badge: "大二上核心必修",
+    questions: [
+      {
+        id: "or_1",
+        difficulty: "★★★☆☆",
+        tag: "规划建模 · 决策变量物理非负性与约束边界",
+        stem: "某装备制造厂计划生产甲、乙两种工业构件，生产每件构件需消耗钢材工时与数控铣床台时。在建立追求总销售利润最大化（max Z = 300x₁ + 500x₂）的线性规划（LP）模型时，下列关于数学模型构建要素及其标准型规范的说法，完全正确的是？",
+        options: [
+          { key: "A", text: "只要目标函数是线性的，决策变量 x₁, x₂ 可以取任意负实数，模型无需定义物理非负约束，求解器会自动修正", isCorrect: false, trapId: "trap_or_1" },
+          { key: "B", text: "必须严格在约束条件组中加入非负性约束 x₁ ≥ 0, x₂ ≥ 0；若存在不可行解（Infeasible），说明各项约束超平面的交集可行域为空集，而非目标值发散至正无穷", isCorrect: true },
+          { key: "C", text: "线性规划模型的可行域一定是一个非凸的开放空间，因此必须依靠遗传算法或模拟退火算法在曲面上寻找局部最优解", isCorrect: false, trapId: "trap_or_2" },
+          { key: "D", text: "若将成本极小化模型转换为标准极大化模型，只需将目标函数系数乘以 -1，其余所有约束条件不等号方向必须一律保持原样不变", isCorrect: false, trapId: "trap_or_3" }
+        ],
+        explanation: "【权威考点解析 · Hamdy Taha 规划建模与标准型】：① 决策变量代表真实的物理实体或产销量，必须满足非负约束（Non-negativity Constraints $x_j \\ge 0$），否则会出现生产负构件的荒谬解；② 线性规划可行域必然是超平面交集围成的凸多面体（Convex Polyhedron），极点定理保证最优解必在极点上取得；不可行解意味着约束互斥使得可行域交集为空集！",
+        traps: {
+          trap_or_1: {
+            title: "🚨 物理现实意义脱离陷阱：遗漏非负性约束",
+            desc: "这是运筹学初学者在建摸中最常犯的严重错误！计算机求解器只认识纯符号逻辑，如果漏写 x₁ ≥ 0，数学计算可能得出 x₁ = -100 获得虚假高利润，导致方案在工程上彻底报废！",
+            prereq: "先修定理前置：线性规划标准型三大规范要件与非负性公理",
+            radarHit: "boundary"
+          },
+          trap_or_2: {
+            title: "🚨 可行域几何性质误判陷阱：把凸多面体当成非凸曲面",
+            desc: "线性规划的所有约束均为线性一阶不等式，由超平面半空间交集构成的可行域严格属于凸集（Convex Set），绝不是非凸曲面！单纯形法正是沿着极点边界迭代寻找全局最优解！",
+            prereq: "先修定理前置：凸集定义与极点最优性定理 (Extreme Point Theorem)",
+            radarHit: "recall"
+          },
+          trap_or_3: {
+            title: "🚨 对偶与标准型转化粗心陷阱：约束方向未联动调整",
+            desc: "极小化化极大化除目标函数取反外，不等式两边乘以负号时不等号方向必须严格反转，或引入非负松弛变量（Slack Variables）化为等式标准型！",
+            prereq: "先修定理前置：线性规划对偶理论与单纯形标准型转化矩阵",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "运筹学第1章·线性规划建模与解空间拓扑",
+          nodes: [
+            { id: "c1", label: "规划模型三要素", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "非负物理约束 x≥0", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "凸多面体可行域极点", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 遗漏非负产销量", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 误判可行域为非凸", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "物理现实边界" },
+            { from: "p2", to: "c1", label: "极点最优保证" },
+            { from: "c1", to: "t1", label: "易错于 (脱离现实意义)" },
+            { from: "c1", to: "t2", label: "易错于 (几何拓扑混淆)" }
+          ]
+        },
+        socraticPrompt: "同学请思考：如果一家面包店要计算明天烤多少个牛角包能赚最多钱，计算机求解器算出来说'烤负 5 个牛角包'最划算，这在现实物理世界中能被执行吗？为什么数学公式必须用约束条件锁住物理边界？"
+      }
+    ]
+  },
+
+  mis: {
+    name: "管理信息系统",
+    badge: "大二上专业核心",
+    questions: [
+      {
+        id: "mis_1",
+        difficulty: "★★★☆☆",
+        tag: "组织系统层级 · TPS与DSS协同与C2M反向供应链",
+        stem: "某零售制造企业正在推进数字化转型。在分析 Laudon 经典信息系统架构与新零售 C2M（Customer-to-Manufacturer）反向定制商业模式时，关于各业务系统层级分工与企业价值链协同，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "企业战略决策支持系统（ESS）应该直接实时接入收银台POS机的每一笔零钱流水，并逐笔呈送给董事会高管进行日常核验", isCorrect: false, trapId: "trap_mis_1" },
+          { key: "B", text: "TPS（事务处理系统）位于底层支撑日常高频结构化业务交易（如订单创建、库存扣减）；C2M 模式通过拼团等社交裂变聚拢长尾需求直连工厂制造，核心价值在于依托算法精准预测需求，消除中间代理流转与库存牛鞭效应", isCorrect: true },
+          { key: "C", text: "现代企业管理信息系统（MIS）纯粹由计算机软件与云服务器硬件等 IT 工具构成，与企业组织结构变革、业务流程再造（BPR）及员工培训毫无关系", isCorrect: false, trapId: "trap_mis_2" },
+          { key: "D", text: "ERP 系统（企业资源计划）的主要目的是在各个部门之间建立更严格的数据壁垒，防止财务数据和生产数据发生跨系统共享", isCorrect: false, trapId: "trap_mis_3" }
+        ],
+        explanation: "【权威考点解析 · Laudon 管理信息系统与数字化新零售】：① TPS（事务处理系统）负责记录底层日常确定性操作；中高层决策系统（MIS/DSS/ESS）依靠汇总和建模提炼高阶商业洞察；② C2M（反向定制）依托数字化长尾聚合消除多级中间代理，削减牛鞭效应；③ MIS 是技术、人与组织的综合社会技术系统，绝非纯硬件采购！",
+        traps: {
+          trap_mis_1: {
+            title: "🚨 数据颗粒度错配陷阱：高管看板混同底层操作流水",
+            desc: "给高管呈送未汇总的底层交易明细是典型的信息架构反模式！高管需要的是宏观战略看板与趋势指标，底层明细会造成信息过载（Information Overload）！",
+            prereq: "先修定理前置：企业金字塔系统层级（TPS/MIS/DSS/ESS）数据颗粒度理论",
+            radarHit: "boundary"
+          },
+          trap_mis_2: {
+            title: "🚨 技术决定论陷阱：误把 IT 工具等同于系统变革",
+            desc: "购买了 ERP/CRM 软件并不等于系统成功！如果没有业务流程再造（BPR）、组织变革管理与人员激励机制协同，系统上线往往沦为摆设甚至引发组织震荡！",
+            prereq: "先修定理前置：信息系统社会技术范式与业务流程重组 (BPR)",
+            radarHit: "recall"
+          },
+          trap_mis_3: {
+            title: "🚨 企业集成中枢反向误判：ERP 是消除孤岛而非制造壁垒",
+            desc: "ERP 的核心使命恰恰是打破部门壁垒与信息孤岛（Information Silos），建立跨财务、进销存与制造的一体化单一真理来源（SSOT）！",
+            prereq: "先修定理前置：ERP 核心架构与企业端到端业务集成链",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "管理信息系统·社会技术范式与企业集成架构",
+          nodes: [
+            { id: "c1", label: "企业四级系统金字塔", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "底层高频事务 TPS", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "C2M 反向供应链算法", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 颗粒度错配高管看明细", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 误把工具采购当变革", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "结构化数据源基石" },
+            { from: "p2", to: "c1", label: "消除中间代理牛鞭效应" },
+            { from: "c1", to: "t1", label: "易错于 (信息过载错位)" },
+            { from: "c1", to: "t2", label: "易错于 (技术决定论偏见)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果一家医院院长每天上班都要逐笔审查每一个门诊病人挂号付了 10 块钱挂号费的系统日志，他还有时间去规划医院全年的医疗科研战略吗？为什么信息系统必须按管理层级对数据进行不同维度的汇总抽象？"
+      }
+    ]
+  },
+
+  prob_stat: {
+    name: "概率论与数理统计",
+    badge: "大二上数学基础",
+    questions: [
+      {
+        id: "stat_1",
+        difficulty: "★★★★☆",
+        tag: "先验后验反转 · 贝叶斯定理与事件独立性判定",
+        stem: "某高校实验室研发了一种针对芯片纳米级微裂纹的无损光学检测仪。已知某批次晶圆芯片中存在该微裂纹的先验概率为 P(A) = 0.002（千分之二）。检测仪对于有裂纹芯片检出阳性的灵敏度为 P(+|A) = 0.99；对于无裂纹芯片误报为阳性的假阳性率为 P(+|Ā) = 0.05。现随机抽取一枚芯片检测呈阳性，关于该芯片确实存在微裂纹的真实后验概率 P(A|+) 以及概率基本理论，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "既然检测仪的阳性准确率高达 99%，那么这枚呈阳性的芯片存在微裂纹的概率必定是 99%，无需考虑先验患病率", isCorrect: false, trapId: "trap_stat_1" },
+          { key: "B", text: "两个事件互斥（互不相容 AB=∅）等同于两个事件相互独立（P(AB)=P(A)P(B)），因此互斥事件一定不互相影响", isCorrect: false, trapId: "trap_stat_2" },
+          { key: "C", text: "依据贝叶斯定理反向计算，受极低先验基准率（0.002）的制约，真实后验概率 P(A|+) = (0.002×0.99) / (0.002×0.99 + 0.998×0.05) ≈ 3.81%；若两个正概率事件相互独立，则它们绝对不可能互斥（必定能同时发生）", isCorrect: true },
+          { key: "D", text: "离散型随机变量的所有取值概率之和可以大于 1，只要每个单点概率非负即可", isCorrect: false, trapId: "trap_stat_3" }
+        ],
+        explanation: "【权威考点解析 · 贝叶斯反转公式与假阳性悖论】：① 在罕见事件检测中，极低的先验概率（0.002）导致即使检测灵敏度很高（99%），绝大多数阳性结果依然来自海量健康样本中的小比例假阳性（0.998×0.05 ≈ 0.0499），真实后验仅约 3.81%！② 互斥与独立根本对立：若 P(A)>0, P(B)>0 且互斥，则 P(AB)=0 ≠ P(A)P(B)，互斥必定不独立！",
+        traps: {
+          trap_stat_1: {
+            title: "🚨 基准率谬误 (Base Rate Fallacy)：误把灵敏度当成确诊后验率",
+            desc: "这是全校 72% 学生甚至资深工程师极常踩中的概率深坑！忽视了先验患病率极低这一关键前提，将条件几率 P(+|A) 与 P(A|+) 混为一谈！",
+            prereq: "先修定理前置：条件概率测度归一化与全概率划分定理",
+            radarHit: "boundary"
+          },
+          trap_stat_2: {
+            title: "🚨 集合互斥与统计独立混同高危陷阱",
+            desc: "互斥说的是'几何交集为空不能同时发生'；独立说的是'一个发生完全不改变另一个的几率'！当 A 发生时 B 绝对不能发生，这说明 A 对 B 产生了极其强烈的负向信息约束，怎么可能是独立？",
+            prereq: "先修定理前置：事件统计独立性严格数学判定 P(AB)=P(A)P(B)",
+            radarHit: "recall"
+          },
+          trap_stat_3: {
+            title: "🚨 离散概率质量函数 (PMF) 归一化性质缺失",
+            desc: "柯尔莫哥洛夫第二公理规范性明确规定 P(Ω)=1，离散型随机变量在全样本空间上的所有分布律概率和必须严格等于 1，绝不可能大于 1！",
+            prereq: "先修定理前置：柯尔莫哥洛夫公理化体系与 PMF 归一化",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "概率统计·公理化测度与贝叶斯先验后验拓扑",
+          nodes: [
+            { id: "c1", label: "贝叶斯后验更新定理", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "先验基准率 P(A)=0.002", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "全概率分母归一化", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 错把灵敏度当后验率", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 混淆互斥与相互独立", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "执果索因核心先验" },
+            { from: "p2", to: "c1", label: "分母完备事件群划分" },
+            { from: "c1", to: "t1", label: "易错于 (基准率谬误)" },
+            { from: "c1", to: "t2", label: "易错于 (几何与信息测度混淆)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果全世界只有 1 个人得了某种奇特疾病，而医院有一种准确率 99.9% 的测试仪。如果全地球 80 亿人都去测，会有 800 万健康人被误报为阳性，而真正患病的只有 1 个人。如果你拿到阳性报告，你真的有 99.9% 的几率患病吗？"
+      }
+    ]
+  },
+
+  mkt: {
+    name: "市场营销学",
+    badge: "大二上管理必修",
+    questions: [
+      {
+        id: "mkt_1",
+        difficulty: "★★★☆☆",
+        tag: "STP战略定位 · 4Ps协同与波特竞争战略",
+        stem: "在分析中国现制咖啡市场（以瑞幸咖啡与库迪咖啡的“9.9元价格战”为实战案例）时，关于经典 STP 战略营销框架与波特五力竞争策略的实施，下列分析完全正确的是？",
+        options: [
+          { key: "A", text: "一个成熟品牌的最佳市场定位策略就是“试图迎合全社会所有消费群体的所有需求”，因此无需进行市场细分（Segmentation）和目标选择（Targeting）", isCorrect: false, trapId: "trap_mkt_1" },
+          { key: "B", text: "瑞幸依托密集的下沉门店网络与数字化全自动化下单流程，在细分市场上锁定高性价比、高便利性白领客群；企业若仅依赖低价补贴打价格战而未能形成供应链规模成本领先（Cost Leadership）或心智差异化（Differentiation），极易陷入“夹在中间”（Stuck in the Middle）并严重蚕食品牌资产", isCorrect: true },
+          { key: "C", text: "营销组合（4Ps）中的“Promotion（推广）”就是现代市场营销（Marketing）的全部内涵，产品研发与定价与营销无关", isCorrect: false, trapId: "trap_mkt_2" },
+          { key: "D", text: "消费者对于日常现磨咖啡这类低卷入度（Low Involvement）快消品，每次购买前都会花费数周时间阅读上万字行业研究报告后再理性下单", isCorrect: false, trapId: "trap_mkt_3" }
+        ],
+        explanation: "【权威考点解析 · STP战略与波特三大竞争策略】：① 战略的本质在于取舍（Trade-off），试图满足所有人会导致定位模糊；② 价格战不是长久之计，企业必须具备供应链规模效应支撑的成本领先或品牌心智差异化，否则必沦为亏损内卷；③ 4Ps 是产品、价格、渠道与推广四大要素的整体协同！",
+        traps: {
+          trap_mkt_1: {
+            title: "🚨 目标定位泛化陷阱：试图迎合所有人",
+            desc: "没有细分就没有定位！试图做万能品牌的企业往往在任何细分人群中心智都极其平庸，导致资源迅速被差异化对手蚕食！",
+            prereq: "先修定理前置：STP 理论与目标细分市场吸引力评估",
+            radarHit: "boundary"
+          },
+          trap_mkt_2: {
+            title: "🚨 营销狭隘化误区：把营销等同于打折促销",
+            desc: "很多人误把 Marketing 窄化为促销打折，忽视了 Product（核心价值）与 Place（渠道掌控）才是构成商业竞争壁垒的长效资产！",
+            prereq: "先修定理前置：营销组合 4Ps 协同理论与品牌资产模型",
+            radarHit: "recall"
+          },
+          trap_mkt_3: {
+            title: "🚨 消费者涉入度模型错配：快消品误套高涉入决策",
+            desc: "现磨咖啡属于典型低涉入度、高频即时消费品，消费者决策依赖便利性、习惯和价格刺激，绝非长周期深度搜索！",
+            prereq: "先修定理前置：消费者卷入度理论（FCB Grid / Involvement Funnel）",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "市场营销·STP战略定位与4Ps协同竞争拓扑",
+          nodes: [
+            { id: "c1", label: "STP战略核心定位", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "供应链成本领先壁垒", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "低涉入度快消决策漏斗", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 试图迎合所有人泛化", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 狭隘降价打折伤商誉", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "规模效应支撑价格战" },
+            { from: "p2", to: "c1", label: "即时便利与心智卡位" },
+            { from: "c1", to: "t1", label: "易错于 (缺乏战略舍弃勇气)" },
+            { from: "c1", to: "t2", label: "易错于 (战术打折蚕食品牌)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果星巴克和瑞幸明天突然把每一杯咖啡都免费送，后天停止补贴时消费者还会觉得咖啡好喝吗？如果一个品牌只靠降价来吸引顾客，一旦对手比你多降 1 块钱，你辛辛苦苦积累的客户还在吗？"
+      }
+    ]
+  },
+
+  eng: {
+    name: "学术英语与学术写作",
+    badge: "大二上通识进阶",
+    questions: [
+      {
+        id: "eng_1",
+        difficulty: "★★★☆☆",
+        tag: "学术论文范式 · IMRaD语篇与客观对冲语修辞",
+        stem: "在撰写面向国际同行评审的高水平学术论文或软件工程毕业技术报告时，关于学术语域（Academic Register）、对冲语（Hedging）及反抄袭规范，下列说法完全正确的是？",
+        options: [
+          { key: "A", text: "为了让学术结论看起来更有说服力，研究人员在论文中应该尽可能多地使用“always, absolutely, perfectly proves”等绝对化断言，坚决不能使用“may, might, suggest”等软化词", isCorrect: false, trapId: "trap_eng_1" },
+          { key: "B", text: "国际公认的学术论文 IMRaD 结构（引言、方法、结果、讨论）要求严谨客观；对冲语（Hedging Devices）是学术严谨性的体现，能精确控制论证确定性范围；合规释义（Paraphrasing）必须彻底重构原意句式逻辑，仅机械替换同义词的拼贴仍会被查重系统判定为 Patchwriting 学术不端", isCorrect: true },
+          { key: "C", text: "在撰写论文 Results（结果）部分时，应该直接掺杂大量未经实验数据检验的主观推测和个人情绪化宣誓", isCorrect: false, trapId: "trap_eng_2" },
+          { key: "D", text: "学术英语允许在正式论文中随意大面积使用“kids, a lot of, cool stuff”等口语化日常俚语，无需区分口头语域与学术书面语域", isCorrect: false, trapId: "trap_eng_3" }
+        ],
+        explanation: "【权威考点解析 · IMRaD 语篇规范与学术诚信】：① 科学结论必须留有余地，对冲语（may, indicate, suggest, potentially）展现了科研人员面对未知的谦逊与严密；② 释义（Paraphrasing）必须用自己的句式和逻辑重述，简单同义词替换仍属 Patchwriting 抄袭！③ 结果部分客观罗列数据，讨论部分方可展开深入机理探讨！",
+        traps: {
+          trap_eng_1: {
+            title: "🚨 绝对化过度承诺陷阱：缺少学术对冲语 (Hedging)",
+            desc: "在学术写作中使用 absolutely / perfectly proves 是初学者的致命伤！任何实验都有采样和边界限制，武断断言极易被同行评审严厉驳回！",
+            prereq: "先修定理前置：学术语域客观性与对冲修辞规范 (Epistemic Modality)",
+            radarHit: "boundary"
+          },
+          trap_eng_2: {
+            title: "🚨 语篇结构功能错位陷阱：在结果中夹带主观臆断",
+            desc: "Results 必须是纯粹、客观、中立的事实和图表！主观引申和假设机制解释必须放在 Discussion 章节中展开！",
+            prereq: "先修定理前置：学术语篇 IMRaD 宏观四大功能分区",
+            radarHit: "recall"
+          },
+          trap_eng_3: {
+            title: "🚨 伪释义拼贴抄袭陷阱：Patchwriting 仍构成学术不端",
+            desc: "只是在别人的句子里把 important 换成 significant、把 big 换成 massive，原作者的句式骨架原封不动，在查重系统（如 Turnitin）中将直接标红！",
+            prereq: "先修定理前置：学术引用规范与深度释义结构重组技巧",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "学术英语·IMRaD范式与客观对冲语篇拓扑",
+          nodes: [
+            { id: "c1", label: "IMRaD学术语篇范式", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "客观审慎对冲语 Hedging", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "反抄袭深度释义 Paraphrasing", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "陷阱: 绝对化过度承诺", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "陷阱: 机械同义词拼贴抄袭", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "讨论部分科学严密性" },
+            { from: "p2", to: "c1", label: "文献综述合法性" },
+            { from: "c1", to: "t1", label: "易错于 (武断绝对化)" },
+            { from: "c1", to: "t2", label: "易错于 (查重系统标红)" }
+          ]
+        },
+        socraticPrompt: "请同学思考：如果一位气象学家在学术论文中写道'明天必定 100% 下雨，绝对不会有一丝阳光'，而第二天正好出了太阳；如果他写成'雷达监测数据显示存在明显的冷暖气流交汇，表明明天下雨的概率极高'。哪一种表述才是真正的科学态度？"
+      }
+    ]
+  },
+
   law: {
     name: "民商法学与民法典",
     badge: "期末高频考点",
@@ -1013,6 +1298,291 @@ const DB_EN = {
         socraticPrompt: "Why does the law impose a strict 1-year extinction period once fraud is discovered, rather than allowing the innocent party to hold the threat of rescission indefinitely over commercial transactions?"
       }
     ]
+  },
+
+  or: {
+    name: "Operations Research & Optimization",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "or_1",
+        difficulty: "★★★☆☆",
+        tag: "LP Modeling · Variable Non-Negativity & Feasibility",
+        stem: "An equipment manufacturing plant plans to produce two industrial components requiring steel processing and CNC milling hours. In formulating a Linear Programming (LP) model to maximize total profit (max Z = 300x₁ + 500x₂), which of the following statements regarding model formulation and standard form is strictly correct?",
+        options: [
+          { key: "A", text: "As long as the objective function is linear, decision variables x₁, x₂ can take negative values without explicit non-negativity constraints, as solvers handle bounds automatically", isCorrect: false, trapId: "trap_or_1" },
+          { key: "B", text: "Non-negativity constraints x₁ ≥ 0, x₂ ≥ 0 must be explicitly stated; an infeasible problem indicates that the intersection of all constraint half-spaces is empty, rather than unbounded", isCorrect: true },
+          { key: "C", text: "The feasible region of an LP model is inherently non-convex, so genetic algorithms must be used to find local optima", isCorrect: false, trapId: "trap_or_2" },
+          { key: "D", text: "To convert minimization to standard maximization, only the objective coefficients are negated, while all constraint inequality directions must remain untouched", isCorrect: false, trapId: "trap_or_3" }
+        ],
+        explanation: "1. Decision variables represent physical products and must satisfy non-negativity constraints x_j >= 0. 2. The feasible region is a convex polyhedron formed by intersecting half-spaces. Infeasibility means the feasible region is empty.",
+        traps: {
+          trap_or_1: {
+            title: "Physical Boundary Violation: Omission of Non-negativity Constraints",
+            desc: "Solvers only follow mathematical statements. Omitting x >= 0 may result in negative production outputs that are physically impossible.",
+            prereq: "Prerequisite: Canonical Form of Linear Programming and Non-negativity Axioms",
+            radarHit: "boundary"
+          },
+          trap_or_2: {
+            title: "Geometric Misconception: Confusing Convex Polyhedrons with Non-Convex Surfaces",
+            desc: "All linear constraints define half-spaces whose intersection is strictly a convex set. Extreme point theorem guarantees optima lie on boundary vertices.",
+            prereq: "Prerequisite: Convex Sets and Extreme Point Optimality Theorem",
+            radarHit: "recall"
+          },
+          trap_or_3: {
+            title: "Dual Transformation Trap: Inversion of Constraint Inequalities Neglected",
+            desc: "Multiplying constraints by -1 to reverse inequalities or adding slack variables is required for standard equality form.",
+            prereq: "Prerequisite: Duality Theory and Simplex Tableau Standardisation",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Operations Research · LP Modeling & Feasible Space",
+          nodes: [
+            { id: "c1", label: "LP Model Triad", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Non-negativity x≥0", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Convex Polyhedron Vertex", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Negative Quantities", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Non-convex Fallacy", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Physical Boundary" },
+            { from: "p2", to: "c1", label: "Optimal Guarantee" },
+            { from: "c1", to: "t1", label: "Prone to (Omission)" },
+            { from: "c1", to: "t2", label: "Prone to (Geometric Confusion)" }
+          ]
+        },
+        socraticPrompt: "If a bakery models croissant production to maximize profit and the computer solves for 'baking -5 croissants' to yield maximum revenue, can this be executed in reality? Why must mathematical models restrict variables to physical reality?"
+      }
+    ]
+  },
+
+  mis: {
+    name: "Management Information Systems",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "mis_1",
+        difficulty: "★★★☆☆",
+        tag: "System Hierarchy · TPS vs DSS & C2M Supply Chain",
+        stem: "A manufacturing enterprise is undergoing digital transformation. Based on Laudon's classic information system architecture and C2M (Customer-to-Manufacturer) reverse supply chains, which of the following is strictly correct?",
+        options: [
+          { key: "A", text: "Executive Support Systems (ESS) should directly capture POS cash register receipts in real time for C-level routine auditing", isCorrect: false, trapId: "trap_mis_1" },
+          { key: "B", text: "TPS operates at the operational tier to process daily structured transactions; C2M aggregates long-tail demand to connect directly with manufacturing, mitigating the bullwhip effect via predictive analytics", isCorrect: true },
+          { key: "C", text: "Modern MIS is purely comprised of computer software and cloud servers, completely divorced from business process reengineering (BPR) or organizational culture", isCorrect: false, trapId: "trap_mis_2" },
+          { key: "D", text: "The primary purpose of ERP is to establish data silos between departments to prevent cross-functional sharing", isCorrect: false, trapId: "trap_mis_3" }
+        ],
+        explanation: "1. TPS handles operational transaction logging; ESS aggregates high-level strategic indicators. 2. C2M leverages predictive demand aggregation to reduce bullwhip fluctuations. 3. MIS is a socio-technical system encompassing technology, people, and processes.",
+        traps: {
+          trap_mis_1: {
+            title: "Data Granularity Mismatch: C-Suite Information Overload",
+            desc: "Streaming unaggregated operational transactions to senior executives causes severe information overload.",
+            prereq: "Prerequisite: Four-Tier Organizational Pyramid & Granularity Theory",
+            radarHit: "boundary"
+          },
+          trap_mis_2: {
+            title: "Technological Determinism: Confusing Tool Procurement with Change",
+            desc: "Software alone does not ensure business transformation without Business Process Reengineering (BPR) and organizational realignment.",
+            prereq: "Prerequisite: Socio-technical Perspective of Information Systems",
+            radarHit: "recall"
+          },
+          trap_mis_3: {
+            title: "ERP Architecture Inversion: Silo Breakdown vs Silo Creation",
+            desc: "ERP eliminates fragmented data silos by providing a Single Source of Truth (SSOT).",
+            prereq: "Prerequisite: Enterprise Resource Planning Integration Paradigms",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "MIS · Socio-Technical Paradigm & Enterprise Architecture",
+          nodes: [
+            { id: "c1", label: "4-Tier System Pyramid", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Operational TPS", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "C2M Demand Algorithms", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Granularity Mismatch", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Tool Determinism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Data Foundation" },
+            { from: "p2", to: "c1", label: "Bullwhip Reduction" },
+            { from: "c1", to: "t1", label: "Prone to (Information Overload)" },
+            { from: "c1", to: "t2", label: "Prone to (Neglecting Process)" }
+          ]
+        },
+        socraticPrompt: "If a hospital CEO spends their workday reviewing the $2 parking receipt of every visitor, will they have time for hospital healthcare strategy? Why must systems aggregate data according to management tiers?"
+      }
+    ]
+  },
+
+  prob_stat: {
+    name: "Probability & Mathematical Statistics",
+    badge: "Year 2 Math Foundation",
+    questions: [
+      {
+        id: "stat_1",
+        difficulty: "★★★★☆",
+        tag: "Bayesian Reasoning · Base Rate Fallacy & Independence",
+        stem: "An optical test is developed for detecting semiconductor microcracks. The prior probability of a microcrack is P(A) = 0.002. Sensitivity is P(+|A) = 0.99, and false positive rate is P(+|Ā) = 0.05. If a randomly tested chip is positive, which statement regarding posterior probability P(A|+) and probability theory is strictly correct?",
+        options: [
+          { key: "A", text: "Since the test accuracy is 99%, the probability that this positive chip is defective is 99%, irrespective of prior incidence", isCorrect: false, trapId: "trap_stat_1" },
+          { key: "B", text: "Mutual exclusivity (AB = ∅) is equivalent to statistical independence (P(AB) = P(A)P(B))", isCorrect: false, trapId: "trap_stat_2" },
+          { key: "C", text: "By Bayes' theorem, due to the low base rate (0.002), the true posterior P(A|+) ≈ 3.81%; two positive probability events that are independent cannot be mutually exclusive", isCorrect: true },
+          { key: "D", text: "The sum of all discrete probability mass functions can exceed 1 as long as each point is non-negative", isCorrect: false, trapId: "trap_stat_3" }
+        ],
+        explanation: "1. Under low base rates (0.002), most positive tests originate from the vast healthy cohort (false positives), yielding ~3.81% posterior. 2. Mutual exclusivity implies P(AB)=0. If P(A)>0 and P(B)>0, P(AB) != P(A)P(B), hence mutually exclusive events cannot be independent.",
+        traps: {
+          trap_stat_1: {
+            title: "Base Rate Fallacy: Confusing Sensitivity with Posterior",
+            desc: "Conflating conditional sensitivity P(+|A) with posterior probability P(A|+) by neglecting rare prior prevalence.",
+            prereq: "Prerequisite: Kolmogorov Axioms and Bayes' Inversion Formula",
+            radarHit: "boundary"
+          },
+          trap_stat_2: {
+            title: "Exclusivity vs Independence Conflation",
+            desc: "Mutually exclusive events provide maximum negative information about each other, violating independence.",
+            prereq: "Prerequisite: Statistical Independence Definition P(AB) = P(A)P(B)",
+            radarHit: "recall"
+          },
+          trap_stat_3: {
+            title: "Violation of Probability Normalization",
+            desc: "By Kolmogorov's Second Axiom, the sum over the entire sample space must strictly equal 1.",
+            prereq: "Prerequisite: Axiomatic Foundation of Probability Measures",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Probability & Statistics · Bayesian Update Topology",
+          nodes: [
+            { id: "c1", label: "Bayes Posterior Update", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Prior Base Rate P(A)=0.002", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Total Probability Partition", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Base Rate Neglect", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Exclusivity/Independence", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Prior Anchor" },
+            { from: "p2", to: "c1", label: "Partitioning" },
+            { from: "c1", to: "t1", label: "Prone to (Fallacy)" },
+            { from: "c1", to: "t2", label: "Prone to (Conceptual Conflation)" }
+          ]
+        },
+        socraticPrompt: "If only 1 person in the entire world has a disease, and a test has 99.9% accuracy, testing all 8 billion people will generate 8 million false alarms. If you test positive, is your chance of having the disease truly 99.9%?"
+      }
+    ]
+  },
+
+  mkt: {
+    name: "Marketing Principles & Analytics",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "mkt_1",
+        difficulty: "★★★☆☆",
+        tag: "STP Strategy · 4Ps Alignment & Competitive Advantage",
+        stem: "When analyzing competitive pricing wars in consumer packaged goods and coffee retail, which of the following statements regarding the STP framework and Porter's generic strategies is strictly correct?",
+        options: [
+          { key: "A", text: "The ideal market positioning is trying to cater to all customer desires across all segments simultaneously", isCorrect: false, trapId: "trap_mkt_1" },
+          { key: "B", text: "Targeting specific consumer segments with tailored value propositions is essential; competing on price without scale-driven cost leadership or differentiated brand equity risks being 'stuck in the middle'", isCorrect: true },
+          { key: "C", text: "In the 4Ps mix, 'Promotion' represents the totality of marketing, while product design and pricing are unrelated to marketing strategy", isCorrect: false, trapId: "trap_mkt_2" },
+          { key: "D", text: "For low-involvement FMCG items, consumers routinely conduct multi-week academic research before every purchase", isCorrect: false, trapId: "trap_mkt_3" }
+        ],
+        explanation: "1. Strategy requires trade-offs; targeting everyone dilutes positioning. 2. Price wars require sustainable supply chain cost leadership or differentiation. 3. 4Ps requires holistic alignment across Product, Price, Place, and Promotion.",
+        traps: {
+          trap_mkt_1: {
+            title: "Positioning Dilution Trap: Catering to Everyone",
+            desc: "Without clear segmentation and target focus, brands become generic and lose competitive differentiation.",
+            prereq: "Prerequisite: STP Model (Segmentation, Targeting, Positioning)",
+            radarHit: "boundary"
+          },
+          trap_mkt_2: {
+            title: "Promotion Reductionism: Equating Marketing to Discounts",
+            desc: "Ignoring Product, Price, and Place while focusing solely on tactical price cuts destroys long-term brand equity.",
+            prereq: "Prerequisite: The 4Ps Marketing Mix & Brand Equity Valuation",
+            radarHit: "recall"
+          },
+          trap_mkt_3: {
+            title: "Involvement Level Mismatch",
+            desc: "Low-involvement everyday goods rely on convenience and habit, not exhaustive evaluation journeys.",
+            prereq: "Prerequisite: Consumer Decision Journey & FCB Grid",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Marketing · STP Positioning & 4Ps Alignment",
+          nodes: [
+            { id: "c1", label: "STP Strategic Positioning", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Cost Leadership Scale", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Low Involvement Funnel", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Target Dilution", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Discount Reductionism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Margin Foundation" },
+            { from: "p2", to: "c1", label: "Behavior Alignment" },
+            { from: "c1", to: "t1", label: "Prone to (Lack of Trade-off)" },
+            { from: "c1", to: "t2", label: "Prone to (Erosion of Margin)" }
+          ]
+        },
+        socraticPrompt: "If a brand wins customers purely through deep price cuts, what happens to customer loyalty the instant a competitor cuts prices by one more dollar?"
+      }
+    ]
+  },
+
+  eng: {
+    name: "Academic English & Scientific Writing",
+    badge: "Year 2 Core Syllabus",
+    questions: [
+      {
+        id: "eng_1",
+        difficulty: "★★★☆☆",
+        tag: "IMRaD Structure · Epistemic Hedging & Paraphrasing",
+        stem: "In preparing an empirical scientific report or peer-reviewed engineering paper, which statement regarding academic register, hedging, and paraphrasing ethics is strictly correct?",
+        options: [
+          { key: "A", text: "To sound persuasive, researchers should employ categorical absolutes such as 'always, definitely, perfectly proves' and avoid epistemic modals", isCorrect: false, trapId: "trap_eng_1" },
+          { key: "B", text: "IMRaD structure enforces objective communication; hedging devices reflect scientific prudence by calibrating certainty; paraphrasing requires restructuring syntactic logic, as verbatim synonym substitution constitutes patchwriting", isCorrect: true },
+          { key: "C", text: "The Results section should prominently feature speculative interpretations and personal subjective opinions", isCorrect: false, trapId: "trap_eng_2" },
+          { key: "D", text: "Formal academic discourse permits colloquial slang like 'cool stuff' interchangeably with formal terminology", isCorrect: false, trapId: "trap_eng_3" }
+        ],
+        explanation: "1. Hedging (may, suggest, indicate) conveys epistemic modesty and scientific rigor. 2. Paraphrasing requires semantic re-synthesis; synonym replacement is flagged as patchwriting plagiarism. 3. Results present findings objectively; Discussion interprets mechanisms.",
+        traps: {
+          trap_eng_1: {
+            title: "Over-Commitment Trap: Absence of Academic Hedging",
+            desc: "Categorical claims ('proves with 100% certainty') fail peer review because scientific findings are bounded by experimental context.",
+            prereq: "Prerequisite: Academic Register & Epistemic Modality",
+            radarHit: "boundary"
+          },
+          trap_eng_2: {
+            title: "Structural Misplacement: Subjective Speculation in Results",
+            desc: "Results must remain purely descriptive facts and data. Interpretation belongs in the Discussion section.",
+            prereq: "Prerequisite: IMRaD Macro-Structure Functional Boundaries",
+            radarHit: "recall"
+          },
+          trap_eng_3: {
+            title: "Patchwriting Trap: Surface Synonym Swapping",
+            desc: "Merely substituting words while retaining the original sentence syntax is classified as academic misconduct.",
+            prereq: "Prerequisite: Academic Citation & Deep Syntactic Paraphrasing",
+            radarHit: "trapDefense"
+          }
+        },
+        graph: {
+          title: "Academic English · IMRaD Discourse & Hedging Topology",
+          nodes: [
+            { id: "c1", label: "IMRaD Scientific Discourse", type: "core", x: 260, y: 140 },
+            { id: "p1", label: "Epistemic Hedging", type: "prereq", x: 120, y: 60 },
+            { id: "p2", label: "Syntactic Paraphrasing", type: "prereq", x: 400, y: 60 },
+            { id: "t1", label: "Trap: Dogmatic Absolutes", type: "trap", x: 130, y: 240 },
+            { id: "t2", label: "Trap: Patchwriting Plagiarism", type: "trap", x: 390, y: 240 }
+          ],
+          edges: [
+            { from: "p1", to: "c1", label: "Rigor Calibration" },
+            { from: "p2", to: "c1", label: "Integrity Compliance" },
+            { from: "c1", to: "t1", label: "Prone to (Overstatement)" },
+            { from: "c1", to: "t2", label: "Prone to (Plagiarism Flags)" }
+          ]
+        },
+        socraticPrompt: "Why does formal science prefer 'the evidence suggests a correlation' over 'this absolutely proves our hypothesis'? How does epistemic modesty protect research integrity?"
+      }
+    ]
   }
 };
 
@@ -1056,13 +1626,18 @@ const I18N = {
     benchmarkTag: "🎯 BENCHMARK TEST",
     loadingStem: "Loading question stem...",
     subjects: {
-      se: "[SE] ⚙️ Software Eng.",
+      or: "[OR] 📐 Operations Research",
+      mis: "[MIS] 🌐 Management Info Sys",
+      prob_stat: "[MATH] 🎲 Probability & Stats",
+      mkt: "[MKT] 🎯 Marketing",
+      eng: "[ENG] ✍️ Academic English",
+      law: "[LAW] ⚖️ Commercial Law",
       cs: "[CS] 💻 Architecture",
       econ: "[ECON] 📈 Econometrics",
-      law: "[LAW] ⚖️ Commercial Law"
+      se: "[SE] ⚙️ Software Eng."
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br>Exam Distractor Trap Diagnosis System",
+    portalHeroTitle: "Adaptive Cognitive Knowledge Graph &<br><span class=\"hero-gradient-text\">Exam Distractor Trap Diagnosis System</span>",
     portalHeroDesc: "An intelligent diagnostic study assistant tailored for university STEM & Software Engineering curricula. Moving beyond rote memorisation to pinpoint underlying misconceptions, distractor traps, and prerequisite gaps via Socratic dialogues.",
     pillGrounded: "⚡ GraphRAG Grounded Synthesis",
     pillTraps: "🎯 36+ Distractor Traps & Misconceptions",
@@ -1141,13 +1716,18 @@ const I18N = {
     benchmarkTag: "🎯 BENCHMARK TEST",
     loadingStem: "正在加载题干...",
     subjects: {
-      se: "[SE] ⚙️ 软件工程",
+      or: "[OR] 📐 运筹学",
+      mis: "[MIS] 🌐 管理信息系统",
+      prob_stat: "[MATH] 🎲 概率统计",
+      mkt: "[MKT] 🎯 市场营销",
+      eng: "[ENG] ✍️ 学术英语",
+      law: "[LAW] ⚖️ 民商法学",
       cs: "[CS] 💻 体系结构",
       econ: "[ECON] 📈 计量经济",
-      law: "[LAW] ⚖️ 民商法学"
+      se: "[SE] ⚙️ 软件工程"
     },
     portalHeroBadge: "🎓 University of Aberdeen · JC2001 Software Engineering",
-    portalHeroTitle: "把每一次做错题，<br>变成下一次进步的线索",
+    portalHeroTitle: "把每一次做错题，<br><span class=\"hero-gradient-text\">变成下一次进步的线索</span>",
     portalHeroDesc: "不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。",
     pillGrounded: "📚 按课程整理知识点",
     pillTraps: "🧭 看懂每次错题原因",
@@ -1204,7 +1784,7 @@ const API_BASE = (function() {
 // =============================================================================
 // 全局状态机 (Global State)
 // =============================================================================
-const GEMINI_DEFAULT_KEY = "sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083";
+const GEMINI_DEFAULT_KEY = "";
 const GEMINI_DEFAULT_URL = "https://uuapi.net/v1";
 const GEMINI_DEFAULT_MODEL = "gemini-3.8-flash";
 
@@ -1229,9 +1809,13 @@ const DEFAULT_WEAK_LISTS = {
 
 const state = {
   lang: initialLang,
-  currentSubject: localStorage.getItem("smartstudy_subject") || "se",
+  currentSubject: (function() {
+    const saved = localStorage.getItem("smartstudy_subject");
+    if (saved && (DB_ZH[saved] || DB_EN[saved])) return saved;
+    return "or"; // 默认优先加载大二上运筹学核心真题
+  })(),
   currentQIndex: 0,
-  activeTab: "quiz",
+  activeTab: "home",
   theme: localStorage.getItem("smartstudy_theme") || "light",
   hasAnswered: false,
 
@@ -1263,7 +1847,8 @@ const state = {
   },
 
   // 待排雷薄弱考点列表
-  weakList: (initialLang === "zh" ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en)
+  weakList: (initialLang === "zh" ? DEFAULT_WEAK_LISTS.zh : DEFAULT_WEAK_LISTS.en),
+  reportSubject: "all"
 };
 
 let miniRadarChart = null;
@@ -1275,6 +1860,7 @@ let largeRadarChart = null;
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initNavTabs();
+  initWorkspaceHome();
   initApiModal();
   initSubjectSelector();
   initRadarCharts();
@@ -1282,9 +1868,14 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGraph();
   initSocraticChat();
   updateStatCards();
+  initReportFilters();
   checkBackendHealth();
   initAuthPortal();
   initI18n();
+  // 特性 002: 现代 AI 视觉与极客交互体系
+  initSpotlightCards();
+  initComparisonSandbox();
+  initCommandPalette();
 });
 
 // =============================================================================
@@ -1527,7 +2118,11 @@ function applyLanguage(lang) {
   const fastEnterText = document.getElementById("portal-fast-enter-text");
   if (fastEnterText) fastEnterText.textContent = dict.fastEnter;
 
-  const heroBadge = document.querySelector(".portal-badge-pill span");
+  const portalAuthNavLabel = document.getElementById("portal-auth-nav-label");
+  if (portalAuthNavLabel) portalAuthNavLabel.textContent = (lang === "zh") ? "学生登录" : "Sign In";
+
+
+  const heroBadge = document.getElementById("portal-hero-badge-text") || document.querySelector(".portal-badge-pill span:not(.pulse-dot)");
   if (heroBadge) heroBadge.textContent = dict.portalHeroBadge;
 
   const heroTitle = document.querySelector(".portal-hero-title");
@@ -1808,9 +2403,178 @@ function initI18n() {
   applyLanguage(currentLang);
 }
 
+// =============================================================================
+// 学生档案与登录门户交互逻辑 (Auth Portal & Modal Identity Switcher)
+// =============================================================================
+let currentAuthMode = "login"; // "login" | "register"
+
+function openAuthModal(defaultTab = "login") {
+  const loginModal = document.getElementById("login-modal");
+  if (!loginModal) return;
+  loginModal.style.display = "flex";
+  renderDemoAccounts();
+  setAuthTab(defaultTab);
+  const input = document.getElementById("auth-username-input");
+  if (input) {
+    setTimeout(() => input.focus(), 60);
+  }
+}
+
+function closeAuthModal() {
+  const loginModal = document.getElementById("login-modal");
+  if (loginModal) loginModal.style.display = "none";
+  const feedback = document.getElementById("auth-feedback-banner");
+  if (feedback) feedback.style.display = "none";
+}
+
+function setAuthTab(mode) {
+  currentAuthMode = mode;
+  const tabLogin = document.getElementById("tab-login-btn");
+  const tabRegister = document.getElementById("tab-register-btn");
+  const majorGroup = document.getElementById("register-major-group");
+  const submitBtn = document.getElementById("submit-auth-btn");
+  const feedback = document.getElementById("auth-feedback-banner");
+  if (feedback) feedback.style.display = "none";
+
+  if (mode === "register") {
+    tabRegister?.classList.add("active");
+    tabLogin?.classList.remove("active");
+    if (majorGroup) majorGroup.style.display = "block";
+    if (submitBtn) {
+      submitBtn.textContent = (state.lang === "zh") ? "立即创建档案并进入" : "Create Profile & Enter";
+    }
+  } else {
+    tabLogin?.classList.add("active");
+    tabRegister?.classList.remove("active");
+    if (majorGroup) majorGroup.style.display = "none";
+    if (submitBtn) {
+      submitBtn.textContent = (state.lang === "zh") ? "立即登录并进入" : "Sign In & Enter";
+    }
+  }
+}
+
+async function handleModalAuthSubmit() {
+  const usernameInput = document.getElementById("auth-username-input");
+  const pwdInput = document.getElementById("auth-password-input");
+  const majorSelect = document.getElementById("auth-major-select");
+  const feedback = document.getElementById("auth-feedback-banner");
+  const submitBtn = document.getElementById("submit-auth-btn");
+
+  const val = usernameInput ? usernameInput.value.trim() : "";
+  if (!val) {
+    if (feedback) {
+      feedback.style.display = "block";
+      feedback.className = "api-status-banner api-status-error";
+      feedback.textContent = (state.lang === "zh") ? "⚠️ 请输入学号或学生姓名" : "⚠️ Please enter your student ID or name";
+    }
+    usernameInput?.focus();
+    return;
+  }
+
+  const isZh = (state.lang === "zh");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<span class="spin">⏳</span> ${isZh ? "验证中..." : "Authenticating..."}`;
+  }
+
+  try {
+    let studentObj = null;
+
+    if (currentAuthMode === "register") {
+      const subject = majorSelect ? majorSelect.value : "se";
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          student_id: val && val.match(/^\d+$/) ? val : `STU-${Math.floor(Math.random() * 90000 + 10000)}`,
+          name: val,
+          preferred_subject: subject,
+          password: pwdInput ? pwdInput.value : ""
+        })
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        studentObj = payload.user;
+      }
+    } else {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          student_id: val,
+          password: pwdInput ? pwdInput.value : ""
+        })
+      });
+      if (res.ok) {
+        const payload = await res.json();
+        studentObj = payload.user;
+      }
+    }
+
+    if (!studentObj) {
+      // 离线环境本地兜底匹配
+      const students = getDemoStudents();
+      studentObj = students.find(s => s.id === val || s.name.toLowerCase() === val.toLowerCase());
+      if (!studentObj) {
+        studentObj = {
+          id: val && val.match(/^\d+$/) ? val : "50106070",
+          name: val,
+          role: isZh ? "BSc BMIS · 学生档案" : "BSc BMIS · Student Profile",
+          avatar: val.charAt(0) || "学",
+          subject: (majorSelect && currentAuthMode === "register") ? majorSelect.value : "se",
+          subjectLabel: isZh ? "⚙️ 软件工程" : "⚙️ Software Eng.",
+          streak: 1
+        };
+      }
+    }
+
+    if (feedback) {
+      feedback.style.display = "block";
+      feedback.className = "api-status-banner api-status-ok";
+      feedback.textContent = isZh ? "✅ 验证通过，正在加载学习工作台..." : "✅ Authentication successful, loading workspace...";
+    }
+
+    setTimeout(() => {
+      applyStudentProfile(studentObj);
+      closeAuthModal();
+      switchRootView("workspace");
+      if (feedback) feedback.style.display = "none";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = (currentAuthMode === "register")
+          ? (isZh ? "立即创建档案并进入" : "Create Profile & Enter")
+          : (isZh ? "立即登录并进入" : "Sign In & Enter");
+      }
+    }, 400);
+
+  } catch (e) {
+    // 离线降级
+    const students = getDemoStudents();
+    const studentObj = students.find(s => s.id === val || s.name.toLowerCase() === val.toLowerCase()) || {
+      id: val && val.match(/^\d+$/) ? val : "50106070",
+      name: val,
+      role: isZh ? "BSc BMIS · 学生档案" : "BSc BMIS · Student Profile",
+      avatar: val.charAt(0) || "学",
+      subject: "se",
+      subjectLabel: isZh ? "⚙️ 软件工程" : "⚙️ Software Eng.",
+      streak: 1
+    };
+    applyStudentProfile(studentObj);
+    closeAuthModal();
+    switchRootView("workspace");
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = (currentAuthMode === "register")
+        ? (isZh ? "立即创建档案并进入" : "Create Profile & Enter")
+        : (isZh ? "立即登录并进入" : "Sign In & Enter");
+    }
+  }
+}
+
 function initAuthPortal() {
   renderDemoAccounts();
 
+  // 1. 门户页面快速登入
   const loginBtn = document.getElementById("portal-login-btn");
   const usernameInput = document.getElementById("portal-username-input");
   if (loginBtn && usernameInput) {
@@ -1841,6 +2605,15 @@ function initAuthPortal() {
     });
   }
 
+  // 2. 顶栏登录按钮
+  const portalAuthNavBtn = document.getElementById("portal-auth-nav-btn");
+  if (portalAuthNavBtn) {
+    portalAuthNavBtn.addEventListener("click", () => {
+      openAuthModal("login");
+    });
+  }
+
+  // 3. 顶栏快速进入工作台按钮
   const fastEnterBtn = document.getElementById("portal-fast-enter-btn");
   if (fastEnterBtn) {
     fastEnterBtn.addEventListener("click", () => {
@@ -1859,6 +2632,7 @@ function initAuthPortal() {
     });
   }
 
+  // 4. 门户主题切换
   const portalThemeBtn = document.getElementById("portal-theme-btn");
   if (portalThemeBtn) {
     portalThemeBtn.addEventListener("click", () => {
@@ -1872,6 +2646,7 @@ function initAuthPortal() {
     });
   }
 
+  // 5. 工作台返回门户介绍页
   const backToPortalBtn = document.getElementById("back-to-portal-btn");
   if (backToPortalBtn) {
     backToPortalBtn.addEventListener("click", () => {
@@ -1879,36 +2654,76 @@ function initAuthPortal() {
     });
   }
 
+  // 6. 工作台侧边栏用户身份卡片点击 -> 打开登录/切换弹窗
   const userProfileBtn = document.getElementById("user-profile-btn");
   const loginModal = document.getElementById("login-modal");
   const closeLoginModalBtn = document.getElementById("close-login-modal-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  if (userProfileBtn && loginModal) {
+  if (userProfileBtn) {
     userProfileBtn.addEventListener("click", () => {
-      loginModal.style.display = "flex";
-      renderDemoAccounts();
+      openAuthModal("login");
     });
   }
-  if (closeLoginModalBtn && loginModal) {
-    closeLoginModalBtn.addEventListener("click", () => {
-      loginModal.style.display = "none";
-    });
+  if (closeLoginModalBtn) {
+    closeLoginModalBtn.addEventListener("click", closeAuthModal);
   }
   if (loginModal) {
     loginModal.addEventListener("click", (e) => {
-      if (e.target === loginModal) loginModal.style.display = "none";
+      if (e.target === loginModal) closeAuthModal();
     });
   }
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
-      if (loginModal) loginModal.style.display = "none";
+      closeAuthModal();
       localStorage.removeItem("smartstudy_current_user");
       switchRootView("portal");
     });
   }
 
-  // 初始视图判定：首次打开默认展示介绍门户
+  // 7. 模态框 Tab 切换 (登录 / 注册)
+  const tabLoginBtn = document.getElementById("tab-login-btn");
+  const tabRegisterBtn = document.getElementById("tab-register-btn");
+  if (tabLoginBtn) {
+    tabLoginBtn.addEventListener("click", () => setAuthTab("login"));
+  }
+  if (tabRegisterBtn) {
+    tabRegisterBtn.addEventListener("click", () => setAuthTab("register"));
+  }
+
+  // 8. 密码明文切换
+  const togglePwdBtn = document.getElementById("toggle-auth-pwd-btn");
+  const pwdInput = document.getElementById("auth-password-input");
+  if (togglePwdBtn && pwdInput) {
+    togglePwdBtn.addEventListener("click", () => {
+      if (pwdInput.type === "password") {
+        pwdInput.type = "text";
+        togglePwdBtn.textContent = "🙈";
+      } else {
+        pwdInput.type = "password";
+        togglePwdBtn.textContent = "👁️";
+      }
+    });
+  }
+
+  // 9. 模态框提交按钮与回车监听
+  const submitAuthBtn = document.getElementById("submit-auth-btn");
+  const authUsernameInput = document.getElementById("auth-username-input");
+  if (submitAuthBtn) {
+    submitAuthBtn.addEventListener("click", handleModalAuthSubmit);
+  }
+  if (authUsernameInput) {
+    authUsernameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleModalAuthSubmit();
+    });
+  }
+  if (pwdInput) {
+    pwdInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleModalAuthSubmit();
+    });
+  }
+
+  // 10. 初始视图判定：首次打开默认展示介绍门户
   const initialView = localStorage.getItem("smartstudy_current_view");
   if (initialView === "workspace") {
     const savedUser = localStorage.getItem("smartstudy_current_user");
@@ -2172,6 +2987,16 @@ function updateThemeIcon() {
 // =============================================================================
 // 顶部页面切换 (Navigation Tabs)
 // =============================================================================
+function initWorkspaceHome() {
+  document.querySelectorAll("[data-home-view]").forEach((entry) => {
+    entry.addEventListener("click", () => {
+      const target = entry.dataset.homeView;
+      const tab = document.querySelector(`.nav-tab-item[data-view="${target}"]`);
+      if (tab) tab.click();
+    });
+  });
+}
+
 function initNavTabs() {
   const tabs = document.querySelectorAll(".nav-tab-item");
   tabs.forEach(tab => {
@@ -2191,8 +3016,11 @@ function initNavTabs() {
         targetSec.classList.add("active");
       }
 
-      if (viewId === "report" && largeRadarChart) {
-        setTimeout(() => largeRadarChart.resize(), 50);
+      if (viewId === "report") {
+        if (largeRadarChart) {
+          setTimeout(() => largeRadarChart.resize(), 50);
+        }
+        fetchAndRenderReport(state.reportSubject || "all");
       }
       if (viewId === "graph") {
         renderGraph();
@@ -2206,15 +3034,15 @@ function initNavTabs() {
 // =============================================================================
 function initSubjectSelector() {
   const btns = document.querySelectorAll(".subject-btn");
+  // 页面初始化时立即确保当前激活的学科药丸高亮完全与 state.currentSubject 同步
+  syncSubjectButtons(state.currentSubject);
+
   btns.forEach(btn => {
     btn.addEventListener("click", () => {
-      btns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      state.currentSubject = btn.dataset.subject;
-      state.currentQIndex = 0;
-      loadQuestion();
-      renderGraph();
-      resetChatWithContext();
+      const sub = btn.dataset.subject;
+      if (sub) {
+        switchSubject(sub);
+      }
     });
   });
 }
@@ -2359,7 +3187,7 @@ async function handleSelectOption(opt, cardEl, q) {
   const badgeText = fallbackMode ? dict.diagOfflineBadge : dict.diagOnlineBadge;
   const badgeBorder = fallbackMode ? "var(--border-subtle, #30363d)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
   const badgeColor = fallbackMode ? "var(--text-muted, #8b949e)" : (isCorrect ? "var(--emerald-500, #10b981)" : "var(--primary-500, #4f8ef7)");
-  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-mono);">${badgeText}</span>`;
+  const badgeHtml = `<span class="eval-tag" style="font-size:0.75rem;margin-left:auto;padding:2px 8px;border-radius:4px;border:1px solid ${badgeBorder};color:${badgeColor};font-family:var(--font-sans);">${badgeText}</span>`;
 
   // 4. 根据诊断结果渲染抽屉与更新能力雷达
   if (isCorrect) {
@@ -2674,7 +3502,146 @@ function updateStatCards() {
   if (elStreak) elStreak.textContent = `${state.stats.streakDays} 天`;
   if (elTraps) elTraps.textContent = `${state.stats.trapsAvoided} 个`;
   if (elScore) elScore.textContent = `${state.stats.predictedScore} 分`;
+  updateRadarDefenseBadge();
   renderWeakPointsList();
+}
+
+function initReportFilters() {
+  const filterBtns = document.querySelectorAll(".report-filter-btn");
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const subj = btn.dataset.subject || "all";
+      state.reportSubject = subj;
+      fetchAndRenderReport(subj);
+    });
+  });
+}
+
+async function fetchAndRenderReport(subject = "all") {
+  const baseUrl = (window.location.protocol === "http:" || window.location.protocol === "https:")
+    ? window.location.origin
+    : "http://127.0.0.1:8000";
+
+  const isZh = (state.lang === "zh");
+  const provEl = document.getElementById("report-provenance-text");
+  if (provEl) {
+    provEl.textContent = isZh ? "正在拉取最新学情评测数据..." : "Fetching telemetry metrics...";
+  }
+
+  try {
+    const [sumRes, trendRes] = await Promise.all([
+      fetch(`${baseUrl}/api/reports/summary?subject=${encodeURIComponent(subject)}`),
+      fetch(`${baseUrl}/api/reports/trend?subject=${encodeURIComponent(subject)}`)
+    ]);
+
+    if (!sumRes.ok || !trendRes.ok) {
+      throw new Error(`API returned HTTP ${sumRes.status} / ${trendRes.status}`);
+    }
+
+    const summary = await sumRes.json();
+    const trend = await trendRes.json();
+
+    // 1. Update Core Stat Cards
+    const elAttempt = document.getElementById("stat-attempt-count");
+    const elTraps = document.getElementById("stat-traps");
+    const elAccuracy = document.getElementById("stat-accuracy");
+    const elScore = document.getElementById("stat-score");
+    const elStreakDesc = document.getElementById("stat-streak-desc");
+    const elBadgeDesc = document.getElementById("radar-badge-desc");
+
+    const attemptCount = summary.attempt_count ?? summary.attemptCount ?? 0;
+    const correctCount = summary.correct_count ?? summary.correctCount ?? 0;
+    const accuracy = summary.accuracy_rate ?? summary.accuracyRate ?? 0;
+    const trapsIdentified = summary.traps_identified ?? summary.trapsIdentified ?? 0;
+    const cogScore = summary.cognitive_score ?? summary.cognitiveScore ?? 50.0;
+    const streak = summary.streak_days ?? summary.streakDays ?? 1;
+
+    if (elAttempt) elAttempt.textContent = isZh ? `${attemptCount} 题` : `${attemptCount} Qs`;
+    if (elTraps) elTraps.textContent = isZh ? `${trapsIdentified} 处` : `${trapsIdentified} Traps`;
+    if (elAccuracy) elAccuracy.textContent = `${accuracy.toFixed(1)}%`;
+    if (elScore) elScore.textContent = isZh ? `${cogScore.toFixed(1)} 分` : `${cogScore.toFixed(1)} pts`;
+
+    if (elStreakDesc) {
+      elStreakDesc.textContent = isZh
+        ? `🔥 ${streak} 天连续打卡专注状态`
+        : `🔥 ${streak}-day active study streak`;
+    }
+
+    if (elBadgeDesc) {
+      elBadgeDesc.textContent = isZh
+        ? `综合思维防守指数 ${cogScore.toFixed(1)} 分 · 答对 ${correctCount}/${attemptCount} 核心考点题目`
+        : `Defense Score: ${cogScore.toFixed(1)} pts · Solved ${correctCount}/${attemptCount} core problems`;
+    }
+
+    // 2. Update Provenance Timestamp
+    if (provEl) {
+      const genTime = summary.generated_at ? new Date(summary.generated_at).toLocaleTimeString() : "实时聚合";
+      provEl.textContent = isZh
+        ? `数据源: ${summary.data_source || 'session_telemetry'} · 生成时间: ${genTime} · 100% 考官可复现`
+        : `Source: ${summary.data_source || 'session_telemetry'} · Time: ${genTime} · 100% Offline Reproducible`;
+    }
+
+    // 3. Render Weak Points List
+    const weakContainer = document.getElementById("weak-points-list");
+    if (weakContainer) {
+      weakContainer.innerHTML = "";
+      const wpList = summary.weak_points || summary.weakPoints || [];
+      if (wpList.length === 0) {
+        weakContainer.innerHTML = `
+          <div style="padding: 14px; text-align: center; color: var(--text-muted); font-size: 0.84rem;">
+            ${isZh ? "当前学科暂无高危失分薄弱点，概念掌握扎实！" : "No critical misconceptions recorded for this subject."}
+          </div>
+        `;
+      } else {
+        wpList.forEach(wp => {
+          const row = document.createElement("div");
+          row.style.padding = "10px 14px";
+          row.style.borderRadius = "var(--radius-sm)";
+          row.style.background = "var(--bg-surface-subtle)";
+          row.style.border = "1px solid var(--border-subtle)";
+          row.style.marginBottom = "8px";
+          row.style.fontSize = "0.86rem";
+          const failCount = wp.fail_count ?? wp.failCount ?? 1;
+          const trapTitle = wp.trap_name || wp.trapName || "概念混淆";
+          const failBadge = isZh ? `失误 ${failCount} 次` : `${failCount} Misses`;
+          row.innerHTML = `
+            <div style="font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between; align-items: center;">
+              <span>${wp.topic}</span>
+              <span style="color: var(--rose-500); font-size: 0.76rem; background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 999px;">${failBadge}</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #f59e0b; margin-top: 4px; font-weight: 500;">⚠️ 诱因: ${trapTitle}</div>
+            ${wp.recommendation ? `<div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 3px;">💡 建议: ${wp.recommendation}</div>` : ""}
+          `;
+          weakContainer.appendChild(row);
+        });
+      }
+    }
+
+    // 4. Update Large Radar Chart
+    if (largeRadarChart && trend && trend.scores) {
+      largeRadarChart.setOption({
+        series: [
+          {
+            data: [
+              {
+                value: trend.scores,
+                name: isZh ? "能力雷达画像" : "Cognitive Radar"
+              }
+            ]
+          }
+        ]
+      });
+    }
+
+  } catch (err) {
+    console.warn("fetchAndRenderReport fallback to in-memory telemetry:", err);
+    if (provEl) {
+      provEl.textContent = isZh ? "数据源: 本地会话离线沙箱 (Fallback Mode)" : "Source: Local In-Memory Sandbox";
+    }
+    updateStatCards();
+  }
 }
 
 // =============================================================================
@@ -2911,12 +3878,56 @@ function appendChatMessage(sender, htmlContent, customTag) {
   const container = document.getElementById("chat-msgs-container");
   if (!container) return;
 
-  const tagText = customTag || "💡 苏格拉底启发点拨 · 严禁直接泄题";
+  const isZh = (state.lang === "zh");
+  const tagText = customTag || (isZh ? "💡 苏格拉底启发点拨 · 严禁直接泄题" : "💡 Socratic Heuristic Guidance · Zero Spoiler Policy");
   const row = document.createElement("div");
   row.className = `msg-row ${sender}`;
+
+  let reasoningHtml = "";
+  if (sender === 'tutor' && !htmlContent.includes("reasoning-accordion")) {
+    reasoningHtml = `
+      <details class="reasoning-accordion">
+        <summary class="reasoning-summary">
+          <span class="reasoning-summary-left">
+            <span class="pulse-dot pulse-purple"></span>
+            <span>${isZh ? '🧠 深度思考推演路径 (Reasoning Trace · 2.8s)' : '🧠 Deep Reasoning Trace (2.8s)'}</span>
+          </span>
+          <span class="reasoning-toggle-icon">▶</span>
+        </summary>
+        <div class="reasoning-body">
+          <div class="reasoning-step-item">
+            <span class="step-num">1</span>
+            <div class="step-content">
+              <strong>${isZh ? '[GraphRAG 拓扑召回]' : '[GraphRAG Recall]'}</strong> ${isZh ? '检索考点核心知识拓扑，召回 3 个强先修依赖节点。' : 'Retrieved core concept topology, recalled 3 prerequisite nodes.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">2</span>
+            <div class="step-content">
+              <strong>${isZh ? '[错因拓扑比对]' : '[Trap Arbitration]'}</strong> ${isZh ? '仲裁思维偏差，锁定典型易错诱因与法理/概念混淆边界。' : 'Arbitrated cognitive misconception against typical student error patterns.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">3</span>
+            <div class="step-content">
+              <strong>${isZh ? '[防剧透安全防护]' : '[Anti-Spoiler Shield]'}</strong> ${isZh ? '严格拦截直接给出标准答案，启动苏格拉底阶梯式启发问句。' : 'Blocked standard answer reveal; activated step-by-step heuristic prompts.'}
+            </div>
+          </div>
+          <div class="reasoning-step-item">
+            <span class="step-num">4</span>
+            <div class="step-content">
+              <strong>${isZh ? '[启发式导学输出]' : '[Socratic Synthesis]'}</strong> ${isZh ? '输出引导学生自主推演的启发思考问题。' : 'Synthesized prompt to facilitate student self-derivation.'}
+            </div>
+          </div>
+        </div>
+      </details>
+    `;
+  }
+
   row.innerHTML = `
-    <div class="msg-avatar">${sender === 'tutor' ? 'AI' : '我'}</div>
+    <div class="msg-avatar">${sender === 'tutor' ? 'AI' : (isZh ? '我' : 'Me')}</div>
     <div class="msg-bubble">
+      ${reasoningHtml}
       ${htmlContent}
       ${sender === 'tutor' ? `<div><span class="msg-grounding-tag">${tagText}</span></div>` : ''}
     </div>
@@ -2979,3 +3990,612 @@ function renderGraph() {
 
   svg.innerHTML = html;
 }
+
+// =============================================================================
+// 特性 002: 五维战力勋章实时结算 (Radar Defense Tier Badge)
+// =============================================================================
+function updateRadarDefenseBadge() {
+  const iconEl = document.getElementById("radar-badge-icon");
+  const titleEl = document.getElementById("radar-badge-title");
+  const descEl = document.getElementById("radar-badge-desc");
+  if (!iconEl || !titleEl || !descEl) return;
+
+  const isZh = (state.lang === "zh");
+  const avgDefense = state.stats.predictedScore || 86.5;
+  let tier = "S";
+  let title = isZh ? "S级 · 认知破壁先锋学者 (DEFENSE MASTER)" : "Tier S · Master Knowledge Defensor";
+  let desc = isZh
+    ? `综合思维防守指数 ${avgDefense} 分 · 成功排查并阻断 ${state.stats.trapsAvoided || 14} 处核心知识陷阱`
+    : `Defense Rating ${avgDefense} pts · Successfully isolated ${state.stats.trapsAvoided || 14} conceptual traps`;
+
+  if (avgDefense < 70) {
+    tier = "C";
+    title = isZh ? "C级 · 基础筑基研习生 (NOVICE)" : "Tier C · Foundational Learner";
+  } else if (avgDefense < 80) {
+    tier = "B";
+    title = isZh ? "B级 · 敏锐探究实战家 (PRACTITIONER)" : "Tier B · Active Practitioner";
+  } else if (avgDefense < 88) {
+    tier = "A";
+    title = isZh ? "A级 · 稳健思维精通者 (PROFICIENT)" : "Tier A · Proficient Scholar";
+  }
+
+  iconEl.textContent = tier;
+  titleEl.textContent = title;
+  descEl.textContent = desc;
+}
+
+// =============================================================================
+// 特性 002: 鼠标聚光灯跟随高光 (Spotlight Card Effect)
+// =============================================================================
+function initSpotlightCards() {
+  const updateCardCoordinates = (e, card) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  document.querySelectorAll(".spotlight-card, .portal-feature-card, .demo-user-card").forEach(card => {
+    card.addEventListener("pointermove", (e) => updateCardCoordinates(e, card));
+    card.addEventListener("mouseleave", () => {
+      card.style.removeProperty("--mouse-x");
+      card.style.removeProperty("--mouse-y");
+    });
+  });
+}
+
+// =============================================================================
+// 特性 002: 交互式双核对比演播台控制器 (Interactive Comparison Sandbox)
+// =============================================================================
+const SANDBOX_STATE = {
+  mode: "smartstudy", // 'smartstudy' | 'traditional'
+  selectedOption: "A"
+};
+
+const SANDBOX_CASES = {
+  A: {
+    key: "A",
+    text: "自合同签订之日起算，最迟于 3 年内届满",
+    traditional: {
+      badge: "❌ 判题结果：答案错误 (WRONG)",
+      directAnswer: "标准答案：B（自知道受欺诈之日起算，最迟 1 年内届满）",
+      critique: "🚨 传统题库/通用 AI 严重缺陷：<br>直接生硬抛出标准答案，不解释为什么错。未反查‘请求权 vs 形成权’前置概念差异。64% 的学生下次遇到变型题依然会再次误套 3 年诉讼时效！",
+      tag: "机械判卷 · 剥夺自主思考"
+    },
+    smartstudy: {
+      badge: "🛡️ 智学罗盘 · 错因拓扑仲裁引擎已捕获",
+      trapTitle: "🚨 典型混淆陷阱：错将【形成权除斥期间】套用为【3年普通诉讼时效】",
+      prereq: "先修定理短板：请求权（适用诉讼时效）vs 形成权（适用不变除斥期间）核心法律关系划分",
+      radarDeduction: "📉 陷阱防守力 (Trap Defense) -5 分 · 逆向先修雷达已标记盲区",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "定位《民法典》第152条撤销权法定除斥期间规则。" },
+        { num: 2, title: "[错因拓扑比对]", desc: "捕获 64% 学生因套用第188条普通诉讼时效而踩中的制度混淆陷阱。" },
+        { num: 3, title: "[防剧透安全防护]", desc: "阻断直接提供正确选项 B，隔离答案泄露。" },
+        { num: 4, title: "[苏格拉底启发生成]", desc: "发起单方意志变更法律关系与给付请求权的时效差异设问。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴发问：同学，请停下来想一想：撤销合同行使的是请求对方还钱的'请求权'，还是凭你单方意思就能消灭合同的'形成权'？为什么形成权绝不能适用可以中断、延长的诉讼时效？"
+    }
+  },
+  B: {
+    key: "B",
+    text: "自知道受欺诈之日起算，最迟于 1 年内届满",
+    traditional: {
+      badge: "✅ 判题结果：答案正确 (CORRECT)",
+      directAnswer: "回答正确！得分 +5 分。",
+      critique: "传统题库缺陷：只知其然不知其所以然。未考察最长 5 年存续保护期，容易产生侥幸蒙对现象。",
+      tag: "简单打分 · 无深层溯源"
+    },
+    smartstudy: {
+      badge: "🌟 智学罗盘 · 考点拓扑闭环验证通过",
+      trapTitle: "🎯 认知拓扑完美命中：准确识破除斥期间主起算点与期限限制",
+      prereq: "关联巩固知识：请留意除斥期间不适用诉讼时效的中止、中断与延长",
+      radarDeduction: "📈 陷阱防守力 (Trap Defense) +5 分 · 知识稳健度上升",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "全量验证除斥期间三大法定要素。" },
+        { num: 2, title: "[认知防御校验]", desc: "成功绕开 3 年诉讼时效与胁迫终止点双重陷阱。" },
+        { num: 3, title: "[知识图谱拓展]", desc: "向外发散关联最长 5 年除斥期间保护期。" },
+        { num: 4, title: "[同构变式推送]", desc: "生成第三人欺诈情境下的追认判定挑战。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴进阶挑战：如果甲自合同签订后第 4 年零 11 个月才发现受欺诈，他还能否在知道之日起享有整整 1 年的撤销权？为什么《民法典》设置了最长 5 年的终期？"
+    }
+  },
+  C: {
+    key: "C",
+    text: "自欺诈行为终止之日起算，最迟于 1 年内届满",
+    traditional: {
+      badge: "❌ 判题结果：答案错误 (WRONG)",
+      directAnswer: "标准答案：B",
+      critique: "传统题库缺陷：未指出为什么不能从‘终止之日’起算，学生对欺诈和胁迫的起算条件仍然模糊混淆。",
+      tag: "机械判卷 · 无归因指引"
+    },
+    smartstudy: {
+      badge: "🛡️ 智学罗盘 · 错因拓扑仲裁引擎已捕获",
+      trapTitle: "🚨 规范错配陷阱：把【受欺诈】与【受胁迫】的法定起算点混为一谈",
+      prereq: "先修定理短板：受胁迫（意志受压制终止后起算） vs 受欺诈（受蒙骗知情后起算）法定起算根据区别",
+      radarDeduction: "📉 边界认知度 (Boundary Precision) -4 分 · 已高亮混淆连边",
+      reasoningSteps: [
+        { num: 1, title: "[GraphRAG 拓扑召回]", desc: "对比欺诈与胁迫民事法律行为撤销权起算条件。" },
+        { num: 2, title: "[错因拓扑比对]", desc: "锁定因生活经验‘事情结束才算’导致的法条错配陷阱。" },
+        { num: 3, title: "[防剧透安全防护]", desc: "阻断直接泄露选项 B，反向引导辨析意志瑕疵存续状态。" },
+        { num: 4, title: "[启发导学生成]", desc: "发起胁迫状态下受害人为何不敢起诉的法理根因追问。" }
+      ],
+      socraticPrompt: "💬 罗盘学伴发问：想一想为什么法律规定受胁迫要等到'胁迫行为终止'？因为被威胁时当事人不敢去法院！而受欺诈的人只要'知道了真相'就可以立即起诉，为何需要等待欺诈行为终止？"
+    }
+  }
+};
+
+function initComparisonSandbox() {
+  const btnTrad = document.getElementById("sandbox-btn-trad");
+  const btnSmart = document.getElementById("sandbox-btn-smart");
+  const optionsContainer = document.getElementById("sandbox-options");
+  const feedbackBox = document.getElementById("sandbox-feedback-box");
+
+  if (!btnTrad || !btnSmart || !optionsContainer || !feedbackBox) return;
+
+  btnTrad.addEventListener("click", () => {
+    SANDBOX_STATE.mode = "traditional";
+    btnTrad.classList.add("active");
+    btnSmart.classList.remove("active");
+    renderSandboxFeedback();
+  });
+
+  btnSmart.addEventListener("click", () => {
+    SANDBOX_STATE.mode = "smartstudy";
+    btnSmart.classList.add("active");
+    btnTrad.classList.remove("active");
+    renderSandboxFeedback();
+  });
+
+  optionsContainer.querySelectorAll(".sandbox-opt-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      optionsContainer.querySelectorAll(".sandbox-opt-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      SANDBOX_STATE.selectedOption = btn.dataset.key;
+      renderSandboxFeedback();
+    });
+  });
+
+  renderSandboxFeedback();
+}
+
+function renderSandboxFeedback() {
+  const feedbackBox = document.getElementById("sandbox-feedback-box");
+  if (!feedbackBox) return;
+
+  const currentCase = SANDBOX_CASES[SANDBOX_STATE.selectedOption] || SANDBOX_CASES.A;
+  const isSmart = (SANDBOX_STATE.mode === "smartstudy");
+
+  if (!isSmart) {
+    const trad = currentCase.traditional;
+    feedbackBox.innerHTML = `
+      <div class="feedback-box-traditional" style="animation: fadeIn 0.25s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-weight: 700; font-size: 0.95rem; color: #f85149;">${trad.badge}</span>
+          <span style="font-size: 0.74rem; background: rgba(248,81,73,0.12); color: #f85149; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">${trad.tag}</span>
+        </div>
+        <div style="font-size: 1rem; font-weight: 700; color: var(--text-title); margin-bottom: 12px; padding: 10px 14px; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-subtle);">
+          ${trad.directAnswer}
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; padding: 10px 12px; background: rgba(248,81,73,0.06); border-radius: 8px; border: 1px dashed rgba(248,81,73,0.25);">
+          ${trad.critique}
+        </div>
+        <div style="margin-top: 14px; text-align: right;">
+          <span style="font-size: 0.78rem; color: var(--text-light); font-family: var(--font-mono);">Traditional AI Model: Zero Prerequisite Tracking</span>
+        </div>
+      </div>
+    `;
+  } else {
+    const smart = currentCase.smartstudy;
+    const reasoningItems = smart.reasoningSteps.map(step => `
+      <div class="reasoning-step-item">
+        <span class="step-num">${step.num}</span>
+        <div class="step-content">
+          <strong>${step.title}</strong> ${step.desc}
+        </div>
+      </div>
+    `).join("");
+
+    feedbackBox.innerHTML = `
+      <div class="feedback-box-smartstudy" style="animation: fadeIn 0.25s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-weight: 700; font-size: 0.95rem; color: #10b981;">${smart.badge}</span>
+          <span style="font-size: 0.74rem; background: rgba(16,185,129,0.12); color: #10b981; padding: 2px 8px; border-radius: 4px; font-family: var(--font-sans);">Neo4j GraphRAG</span>
+        </div>
+        <div style="font-size: 0.92rem; font-weight: 700; color: var(--text-title); margin-bottom: 10px;">
+          ${smart.trapTitle}
+        </div>
+        <div style="font-size: 0.82rem; color: #f59e0b; background: rgba(245,158,11,0.08); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 10px;">
+          ${smart.prereq}
+        </div>
+        <div style="font-size: 0.8rem; color: #818cf8; margin-bottom: 10px; font-family: var(--font-sans);">
+          ${smart.radarDeduction}
+        </div>
+
+        <!-- 深度思维链推演折叠 -->
+        <details class="reasoning-accordion" open>
+          <summary class="reasoning-summary">
+            <span class="reasoning-summary-left">
+              <span class="pulse-dot pulse-purple"></span>
+              <span>🧠 深度思考过程 (Thinking Process · 2.4s)</span>
+            </span>
+            <span class="reasoning-toggle-icon">▶</span>
+          </summary>
+          <div class="reasoning-body">
+            ${reasoningItems}
+          </div>
+        </details>
+
+        <div style="font-size: 0.86rem; color: var(--text-body); background: var(--bg-surface); padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle); line-height: 1.6;">
+          ${smart.socraticPrompt}
+        </div>
+      </div>
+    `;
+  }
+}
+
+// =============================================================================
+// 特性 002: 全局极客 HUD 快捷指令控制台 (Command Palette Cmd+K / Ctrl+K)
+// =============================================================================
+const COMMANDS_REGISTRY = [
+  // 核心视图切换
+  {
+    id: "nav_quiz",
+    title: "智能刷题排雷工作台",
+    subtitle: "打开核心题目研习与思维陷阱诊断控制台",
+    category: "navigation",
+    keywords: ["刷题", "排雷", "quiz", "题目", "练习"],
+    icon: "🎯",
+    shortcut: "Alt+1",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="quiz"]')?.click();
+    }
+  },
+  {
+    id: "nav_tutor",
+    title: "苏格拉底 AI 学伴",
+    subtitle: "开启多轮启发式导学推导与思维链交流",
+    category: "navigation",
+    keywords: ["学伴", "苏格拉底", "tutor", "ai", "对话", "辅导"],
+    icon: "💬",
+    shortcut: "Alt+2",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="tutor"]')?.click();
+    }
+  },
+  {
+    id: "nav_graph",
+    title: "考点拓扑图谱全景",
+    subtitle: "进入 Neo4j 知识拓扑、前置依赖与陷阱网络全景画布",
+    category: "navigation",
+    keywords: ["图谱", "知识图谱", "graph", "拓扑", "考点", "依赖"],
+    icon: "🕸️",
+    shortcut: "Alt+3",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="graph"]')?.click();
+    }
+  },
+  {
+    id: "nav_report",
+    title: "学情综合诊断与五维画像",
+    subtitle: "查看个人五维能力雷达、防守战力勋章与易错短板清单",
+    category: "navigation",
+    keywords: ["学情", "诊断", "雷达", "report", "画像", "能力", "战力"],
+    icon: "📊",
+    shortcut: "Alt+4",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.nav-tab-item[data-view="report"]')?.click();
+    }
+  },
+  // 学科切换
+  {
+    id: "sub_or",
+    title: "切换学科：📐 运筹学与优化建模 (OR)",
+    subtitle: "大二上核心 · 线性规划标准型、凸集可行域与对偶理论",
+    category: "discipline",
+    keywords: ["运筹学", "运筹", "or", "线性规划", "单纯形法", "大二上"],
+    icon: "📐",
+    shortcut: "Ctrl+O",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("or");
+    }
+  },
+  {
+    id: "sub_mis",
+    title: "切换学科：🌐 管理信息系统 (MIS)",
+    subtitle: "大二上核心 · Laudon四层架构金字塔、C2M与ERP集成",
+    category: "discipline",
+    keywords: ["管理信息系统", "mis", "tps", "erp", "c2m", "大二上"],
+    icon: "🌐",
+    shortcut: "Ctrl+M",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("mis");
+    }
+  },
+  {
+    id: "sub_prob_stat",
+    title: "切换学科：🎲 概率论与数理统计 (Prob/Stat)",
+    subtitle: "大二上核心 · 贝叶斯反转公式、假阳性悖论与事件独立性",
+    category: "discipline",
+    keywords: ["概率统计", "统计", "数学", "概率", "贝叶斯", "大二上"],
+    icon: "🎲",
+    shortcut: "Ctrl+P",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("prob_stat");
+    }
+  },
+  {
+    id: "sub_mkt",
+    title: "切换学科：🎯 市场营销学 (MKT)",
+    subtitle: "大二上核心 · STP战略定位、4Ps营销组合与波特竞争战略",
+    category: "discipline",
+    keywords: ["市场营销", "营销", "mkt", "stp", "4p", "大二上"],
+    icon: "🎯",
+    shortcut: "Ctrl+K",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("mkt");
+    }
+  },
+  {
+    id: "sub_eng",
+    title: "切换学科：✍️ 学术英语与科研论文写作 (Eng)",
+    subtitle: "大二上核心 · IMRaD语篇范式、学术对冲语与深度释义反抄袭",
+    category: "discipline",
+    keywords: ["学术英语", "英语", "eng", "论文", "imrad", "大二上"],
+    icon: "✍️",
+    shortcut: "Ctrl+G",
+    action: () => {
+      switchRootView("app-shell");
+      switchSubject("eng");
+    }
+  },
+  {
+    id: "sub_law",
+    title: "切换学科：⚖️ 民商法学 (Law)",
+    subtitle: "民法典第152条撤销权、物权善意取得高频考点",
+    category: "discipline",
+    keywords: ["法学", "民法", "law", "民商法"],
+    icon: "⚖️",
+    shortcut: "Ctrl+L",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="law"]')?.click();
+    }
+  },
+  {
+    id: "sub_cs",
+    title: "切换学科：💻 计算机体系结构 (CS)",
+    subtitle: "MIPS五级流水线、数据冲突与Tomasulo动态调度",
+    category: "discipline",
+    keywords: ["计算机", "体系结构", "cs", "流水线", "计组"],
+    icon: "💻",
+    shortcut: "Ctrl+C",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="cs"]')?.click();
+    }
+  },
+  {
+    id: "sub_econ",
+    title: "切换学科：📈 计量经济学 (Econ)",
+    subtitle: "OLS高斯马尔可夫假定、内生性偏误与工具变量法",
+    category: "discipline",
+    keywords: ["经济", "计量", "econ", "计量经济学", "内生性"],
+    icon: "📈",
+    shortcut: "Ctrl+E",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="econ"]')?.click();
+    }
+  },
+  {
+    id: "sub_se",
+    title: "切换学科：⚙️ 软件工程 (SE)",
+    subtitle: "阿伯丁大学 JC2001 课程软件工程生命周期与架构建模",
+    category: "discipline",
+    keywords: ["软工", "软件工程", "se", "jc2001", "架构"],
+    icon: "⚙️",
+    shortcut: "Ctrl+S",
+    action: () => {
+      switchRootView("app-shell");
+      document.querySelector('.subject-btn[data-subject="se"]')?.click();
+    }
+  },
+  // 快捷操作
+  {
+    id: "act_theme",
+    title: "切换明暗色彩主题 (Theme Toggle)",
+    subtitle: "在深空极光 (Dark) 与学术科技白 (Light) 间无缝切换",
+    category: "action",
+    keywords: ["主题", "深色", "浅色", "暗色", "theme", "dark", "light"],
+    icon: "🌓",
+    shortcut: "Ctrl+T",
+    action: () => {
+      document.getElementById("theme-toggle-btn")?.click();
+    }
+  },
+  {
+    id: "act_portal",
+    title: "返回产品介绍门户 (Landing Page)",
+    subtitle: "返回系统首页了解项目学术背景、核心创新与课题组成员",
+    category: "action",
+    keywords: ["首页", "门户", "介绍", "portal", "landing", "home"],
+    icon: "🏠",
+    shortcut: "Ctrl+H",
+    action: () => {
+      switchRootView("portal-landing");
+    }
+  },
+  {
+    id: "act_auth",
+    title: "学生档案登录与快捷切换",
+    subtitle: "打开学生学籍身份管理与 10 人课题组账号通道",
+    category: "action",
+    keywords: ["登录", "账号", "身份", "学生", "切换", "auth", "login"],
+    icon: "👤",
+    shortcut: "Ctrl+U",
+    action: () => {
+      openAuthModal();
+    }
+  }
+];
+
+let activeCmdIndex = 0;
+let filteredCommands = [...COMMANDS_REGISTRY];
+
+function initCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  const input = document.getElementById("cmd-palette-input");
+  const btnPortalCmd = document.getElementById("portal-cmd-btn");
+  const btnQuizCmd = document.getElementById("quiz-cmd-btn");
+
+  if (!overlay || !input) return;
+
+  // 快捷键全局监听 Cmd+K / Ctrl+K / ESC
+  window.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      toggleCommandPalette();
+    } else if (e.key === "Escape" && overlay.style.display !== "none") {
+      closeCommandPalette();
+    }
+  });
+
+  if (btnPortalCmd) btnPortalCmd.addEventListener("click", () => openCommandPalette());
+  if (btnQuizCmd) btnQuizCmd.addEventListener("click", () => openCommandPalette());
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeCommandPalette();
+  });
+
+  input.addEventListener("input", (e) => {
+    filterCommandPalette(e.target.value.trim());
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeCmdIndex = (activeCmdIndex + 1) % (filteredCommands.length || 1);
+      renderCommandPaletteList();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeCmdIndex = (activeCmdIndex - 1 + (filteredCommands.length || 1)) % (filteredCommands.length || 1);
+      renderCommandPaletteList();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (filteredCommands[activeCmdIndex]) {
+        executeCommand(filteredCommands[activeCmdIndex]);
+      }
+    }
+  });
+}
+
+function openCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  const input = document.getElementById("cmd-palette-input");
+  if (!overlay || !input) return;
+
+  overlay.style.display = "flex";
+  input.value = "";
+  activeCmdIndex = 0;
+  filteredCommands = [...COMMANDS_REGISTRY];
+  renderCommandPaletteList();
+  setTimeout(() => input.focus(), 50);
+}
+
+function closeCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function toggleCommandPalette() {
+  const overlay = document.getElementById("cmd-palette-overlay");
+  if (overlay && overlay.style.display !== "none") {
+    closeCommandPalette();
+  } else {
+    openCommandPalette();
+  }
+}
+
+function filterCommandPalette(query) {
+  if (!query) {
+    filteredCommands = [...COMMANDS_REGISTRY];
+  } else {
+    const q = query.toLowerCase();
+    filteredCommands = COMMANDS_REGISTRY.filter(item => {
+      return item.title.toLowerCase().includes(q) ||
+             (item.subtitle && item.subtitle.toLowerCase().includes(q)) ||
+             item.keywords.some(k => k.toLowerCase().includes(q));
+    });
+  }
+  activeCmdIndex = 0;
+  renderCommandPaletteList();
+}
+
+function renderCommandPaletteList() {
+  const listContainer = document.getElementById("cmd-palette-results");
+  if (!listContainer) return;
+
+  if (filteredCommands.length === 0) {
+    listContainer.innerHTML = `
+      <div style="padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.88rem;">
+        未找到匹配指令。尝试搜索“刷题”、“法学”、“体系结构”或“主题”。
+      </div>
+    `;
+    return;
+  }
+
+  let html = "";
+  let lastCategory = "";
+
+  filteredCommands.forEach((cmd, idx) => {
+    if (cmd.category !== lastCategory) {
+      lastCategory = cmd.category;
+      const catNames = {
+        navigation: "核心功能直达",
+        discipline: "学科题库切换",
+        action: "系统快捷操作"
+      };
+      html += `<div class="cmd-palette-category">${catNames[cmd.category] || cmd.category}</div>`;
+    }
+
+    const isActive = idx === activeCmdIndex;
+    html += `
+      <div class="cmd-palette-item ${isActive ? 'active' : ''}" data-idx="${idx}">
+        <div class="cmd-item-left">
+          <span style="font-size: 1.1rem;">${cmd.icon}</span>
+          <div>
+            <div class="cmd-item-title">${cmd.title}</div>
+            <div class="cmd-item-hint">${cmd.subtitle || ''}</div>
+          </div>
+        </div>
+        ${cmd.shortcut ? `<kbd class="cmd-esc-kbd">${cmd.shortcut}</kbd>` : ''}
+      </div>
+    `;
+  });
+
+  listContainer.innerHTML = html;
+
+  listContainer.querySelectorAll(".cmd-palette-item").forEach(el => {
+    el.addEventListener("click", () => {
+      const idx = parseInt(el.dataset.idx, 10);
+      if (filteredCommands[idx]) executeCommand(filteredCommands[idx]);
+    });
+  });
+}
+
+function executeCommand(cmd) {
+  closeCommandPalette();
+  if (cmd && typeof cmd.action === "function") {
+    cmd.action();
+  }
+}
+

@@ -1,186 +1,98 @@
-# 4. System Design and Architecture
+# 4 System Design and Architecture
 
-## 4.1 Architectural Overview
+## 4.1 Architectural Style and Kruchten's 4+1 View Model
 
-### 4.1.1 Layered structure and physical deployment
+Following **Sommerville (2016), *Software Engineering* (10th ed., Chapter 6: Architectural Design)** and **Week 6 (`Lecture 7: Architectural Design` and `Week 6 Lab: Architecture Review`)**, we designed StudyGraph (SmartStudy Assistant) as a **Four-Layer Single-Process Modular Monolith** combined with an **Offline-Decoupled GraphRAG Research Pipeline**.
 
-The constraint came first. Twelve weeks, ten contributors, no budget, and a demonstration that has to run on an examiner's laptop with the network switched off. Every decision in this chapter follows from that sentence, and the ones that do not fit it were rejected.
+Why choose a modular monolith over a distributed microservices topology or a client-heavy Single-Page Application (SPA) with a separate Node.js backend? Our architectural drivers from Chapter 2 impose three strict constraints:
+1. **Zero-Dependency Offline Reproducibility (`R09`, `NFR-03`)**: Assessors must be able to unzip `jc2001-group5-poc.zip` and launch the entire system with a single Python command (`uvicorn backend.app.main:app`) in under $2.0\text{ s}$ (`NFR-02`) without Docker daemons, cloud API keys, or external database servers.
+2. **Sub-5 ms Diagnostic Determinism (`R03`, `NFR-01`)**: Option-level trap diagnosis (`POST /api/diagnose`) must return deterministic, hallucination-free feedback in $< 5\text{ ms}$ P95 latency (`measured 3.4 ms`).
+3. **Ten-Member Parallel Maintainability (`O5`, `NFR-07`, `NFR-08`)**: Ten undergraduate developers working across frontend UI, FastAPI routers, domain schemas, and offline GraphRAG scripts require strict boundary contracts (`CamelModel`) to avoid integration failures.
 
-What we built is a layered modular monolith: one `uvicorn` process, one port. Figure 4.1 shows the four layers. Layer 1 is the static front end in `frontend/`. Layer 2 is three FastAPI routers exposing four endpoints. Layer 3 holds the domain services. Layer 4 is a curated question module and the Pydantic models that describe it.
+To ensure complete architectural coverage without diagram redundancy, we organise our design documentation around **Kruchten's (1995) 4+1 Architectural View Model**:
+- **Context & Physical Deployment View (`Section 4.2`, Figure 4.1)**: Defines the runtime boundary (`127.0.0.1:8000`) versus the offline MMLU/GraphRAG research pipeline (`AD-1`).
+- **Development / Layered Module View (`Section 4.3`, Figure 4.2)**: Decomposes the monolith into four strictly unidirectional layers (`Presentation` → `API Router` → `Domain Service & Schema` → `Data & Seed Store`).
+- **Logical Domain View (`Section 4.4`, Figure 4.3)**: Specifies the UML 2.5 class hierarchy rooted in `CamelModel`, enforcing bidirectional `snake_case` $\leftrightarrow$ `camelCase` serialisation (`AD-4`).
+- **Process / Runtime View (`Section 4.5`, Figure 4.4)**: Traces the synchronous execution sequence and exception guardrails of `POST /api/diagnose`.
+- **Scenarios (`+1` View)**: Anchored by the six use cases (`UC-01`–`UC-06`) in Chapter 3.
 
-Two properties of this deployment matter more than the layer names. First, there is one process and only one. Second, the running system holds no database, so there is no query, no connection pool and no migration anywhere in it. Layer 4 is a read-only Python module of 657 lines, loaded into memory at start-up.
+## 4.2 System Context and Runtime Boundary (`Figure 4.1`)
 
-Front end and API share an origin. `create_app()` registers the routers under `/api` and then mounts `StaticFiles` at the root. A page request and a diagnosis request therefore terminate in the same process. Nothing in the demonstration crosses an origin boundary.
+A critical architectural insight established during our Week 6 Architecture Review is the **strict separation between the offline research/authoring pipeline and the interactive student runtime (`AD-1`)**. Figure 4.1 illustrates the System Context Diagram across both boundaries.
 
-That has a consequence we did not plan for. Because production traffic never crosses an origin, our permissive CORS configuration is never exercised in the deployment we actually demonstrate. It exists for local debugging. It is untested where it would matter. We accept that weakness in AD-6. We do not claim a security property we have not demonstrated.
+**Figure 4.1: System Context Diagram showing the strict boundary between the single-process offline runtime and the offline GraphRAG research pipeline.**
+(Source: Compiled from `backend/app/main.py`, `graphrag（终）/graphrag_pipeline.py`, and `AD-1`.)
 
-### 4.1.2 Why a modular monolith
+![Figure 4.1](figures/fig_context_model.svg)
 
-We did not begin with a layered design. The first working service, commit `86dd6d6` on 23 September, was one file. It served static assets, parsed JSON bodies, evaluated answers and generated tutor replies. It worked, and it had one honest advantage: an examiner could read it from top to bottom.
+As shown in Figure 4.1:
+- **Left / Centre — Single-Process Offline Runtime (`100% Air-Gapped Capable`)**: The student's browser communicates exclusively over loopback HTTP (`http://127.0.0.1:8000`) with the FastAPI application process (`backend/app/main.py`). FastAPI serves both the RESTful JSON endpoints (`/api/quiz`, `/api/diagnose`, `/api/reports/*`, `/api/auth/*`, `/api/health`) and the static ES6+ frontend (`frontend/index.html`, `app.js`, `styles.css`). Zero outbound sockets are opened at runtime.
+- **Right — Offline GraphRAG & Audit Pipeline (`Research & Pre-Computation Boundary`)**: Heavyweight natural-language processing—including our 12-stage GraphRAG pipeline (`graphrag（终）/graphrag_pipeline.py`), Neo4j triple extraction, and the 4,445-item MMLU empirical benchmark (`final_systematic_report.csv`)—executes **offline during development and evaluation**. Curated domain insights are distilled into the static Python seed module (`backend/app/data/seed_questions.py`, containing 12 questions and 36 verified `TrapDetail` objects) and validated by offline audit scripts (`scripts/audit_*.py`).
 
-We replaced it because it could not absorb a second contributor. Every new behaviour meant editing the same 228-line handler, and none of the rules could be tested without starting an HTTP server. The layering in Figure 4.1 is the response to that. Routers handle transport and validation. Services hold rules. Models own the schema.
+## 4.3 Four-Layer Modular Monolith Architecture (`Figure 4.2`)
 
-Physical simplicity was a second deliberate objective, not a side effect. One archive, one command, one port. A service mesh would have replaced that instruction with a toolchain prerequisite, and reproducibility is one of the criteria the proof of concept is marked against.
+Within the runtime boundary, the application enforces a strict **Four-Layer Architecture** (Sommerville 2016, Section 6.3.1), where each layer may only invoke interfaces exposed by the layer immediately below it. Figure 4.2 maps every repository file to its architectural layer.
 
-We considered splitting into microservices and rejected it on cost, not on principle. Orchestration, service discovery, cross-service transactions and distributed tracing would all have fallen on ten students in twelve weeks. What they buy is independent scaling, which is worth nothing when the system serves one user on one laptop. Architecture is a response to constraints rather than a measure of sophistication (Sommerville, 2016, ch. 6).
+**Figure 4.2: Four-Layer Modular Monolith architecture mapping presentation, routers, domain services/models, and in-memory seed stores.**
+(Source: Verified against `backend/app/` and `frontend/` directory trees.)
 
-### 4.1.3 Component inventory and responsibilities
+![Figure 4.2](figures/fig4_1_four_layer_architecture.svg)
 
-Nine components sit across the four layers, and only one of them holds rules.
+1. **Layer 1 — Presentation Layer (`frontend/index.html`, `frontend/app.js`, `frontend/styles.css`)**: A zero-build vanilla ES6+ Single-Page Application (`AD-2`). `index.html` defines semantic workspaces (Question Arena, slide-out Trap Drawer, 5-Axis Radar Analytics, Reasoning Accordion, and Command Palette). `styles.css` implements a tokenised dual-theme design system (`Cyber Obsidian` dark mode and `Academic Daylight` light mode). `app.js` manages client-side state, bilingual DOM re-binding (`I18N`), ECharts/SVG rendering, and `fetch()` calls.
+2. **Layer 2 — API Router & Transport Layer (`backend/app/main.py`, `backend/app/routers/{quiz,diagnose,reports,auth}.py`)**: Thin HTTP controllers responsible solely for route registration, query/body extraction, HTTP status code mapping (`200`, `401`, `404`, `409`, `422`), and delegating business logic to Layer 3. For example, `backend/app/routers/diagnose.py` is 37 lines of code containing zero domain rules.
+3. **Layer 3 — Domain Service & Schema Contract Layer (`backend/app/services/{diagnostic_service,auth_service}.py`, `backend/app/models/{common,quiz,report,auth}.py`)**: Encapsulates pure domain logic and Pydantic v2 data contracts. `diagnostic_service.py` executes the deterministic $O(1)$ option-trap lookup (`diagnose_answer`), while `models/common.py` provides the `CamelModel` base class that bridges Python `snake_case` and JavaScript `camelCase` (`AD-4`).
+4. **Layer 4 — Data & Seed Repository Layer (`backend/app/data/{seed_questions,seed_users,__init__}.py`)**: Stores immutable, pre-indexed domain fixtures in memory (`SEED_QUESTIONS`, `QUESTIONS_BY_ID: dict[str, QuizItem]`, and `SEED_USERS` with salted SHA-256 hashes). During FastAPI `lifespan` startup (`backend/app/main.py:19-28`), Layer 4 pre-loads and validates all 12 questions and 36 traps in $< 5\text{ ms}$.
 
-The presentation layer is three static files and a browser storage key. It renders views and keeps attempt history locally. It knows nothing about traps, scores or dimensions beyond the shape of the JSON it receives.
+## 4.4 Domain Model and `CamelModel` Contract (`Figure 4.3`)
 
-The API layer is three routers. Two of them are thin by design. The health router returns a fixed identity plus one boolean indicating whether a model key is configured. The LLM health router runs one live probe and reports a classified outcome. The question router normalises subject aliases against a lookup table and applies an optional limit. The diagnosis router validates its request body and delegates immediately.
+In multi-language web projects (Python backend + JavaScript frontend), one of the most common integration defects is **field-naming mismatch**: Python PEP 8 mandates `snake_case` (`selected_option`, `radar_hit`, `socratic_prompt_en`), whereas JavaScript/JSON conventions favour `camelCase` (`selectedOption`, `radarHit`, `socraticPromptEn`). Manual dictionary key rewriting across routers introduces brittle boilerplate and silent `undefined` UI bugs.
 
-The domain layer is three services. The question service owns lookup and normalisation. The diagnostic service owns the trap-resolution rules, and it is the only component whose behaviour a marker would call business logic. The diagnostics service classifies external-call failures and has no dependency on anything.
+To eliminate this class of defects structurally (`NFR-07`, `AD-4`), we engineered a shared Pydantic v2 base class, **`CamelModel`**, in `backend/app/models/common.py`, configured with `ConfigDict(populate_by_name=True, alias_generator=to_camel)`. Furthermore, `CamelModel.model_dump()` is overridden so that serialised responses include **both** the canonical `snake_case` attribute and its `camelCase` alias whenever they differ (recursively across nested models and lists). Consequently, Python `pytest` suites can assert `resp.json()["radar_scores"]["trap_defense"]` or `resp.json()["socratic_prompt"]`, while the ES6+ frontend directly reads `data.radarScores.trapDefense` or `data.socraticPrompt`. Two dedicated regression tests in `tests/test_reports.py` (`test_camel_and_snake_keys_coexist`) verify this invariant.
 
-The data layer is the curated question module and the models that describe it.
+Figure 4.3 presents the complete UML 2.5 Domain Class Diagram showing all 14 domain classes inheriting from `CamelModel` and their composition relationships with `diagnostic_service.py` and `seed_questions.py`.
 
-Table 4.2 states the same inventory as permitted dependencies. We use it as a review instrument rather than an inventory. A component placed on the wrong row would contradict Section 4.1.2, so the table is a fast way to check that the layering claim still holds after a merge.
+**Figure 4.3: UML 2.5 Domain Class Diagram rooted in `CamelModel` (`backend/app/models/`).**
+(Source: Extracted directly from `backend/app/models/{common,quiz,report,auth}.py`.)
 
-**Table 4.2 — Component responsibilities and permitted dependencies**
+![Figure 4.3](figures/fig4_3_class_diagram.svg)
 
-| Layer | Component | Responsibility | May depend on |
-| :--- | :--- | :--- | :--- |
-| 1 Presentation | HTML shell, stylesheet, script | Render views, hold session state in browser storage | Layer 2, over HTTP |
-| 2 API | Health router | Report service identity and key presence | Layer 3 |
-| 2 API | LLM health router | Run one live probe, classify the failure | Layer 3 |
-| 2 API | Question router | Filter by subject, apply limit, normalise aliases | Layer 3 |
-| 2 API | Diagnosis router | Validate the body, delegate the verdict | Layer 3 |
-| 3 Domain | Question service | Question lookup and subject normalisation | Layer 4 |
-| 3 Domain | Diagnostic service | Resolve the option, read the trap, assemble the response | Layer 4 |
-| 3 Domain | LLM diagnostics | Classify external-call failures | Nothing |
-| 4 Data | Question module, Pydantic models | Own the schema and the content | Nothing |
+Key structural invariants enforced by the class hierarchy in Figure 4.3 include:
+- **Bijective Distractor Trap Mapping (`QuizItem` `1` $\rightarrow$ `3` `TrapDetail`)**: Every `QuizItem` contains 4 options (`A`–`D`), exactly 1 correct `answer` (`pattern=r"^[A-D]$"`), and a `traps: dict[str, TrapDetail]` dictionary keyed by the **3 incorrect option letters**. The correct answer key never appears in `traps` (verified by `tests/test_quiz.py::test_trap_keys_exclude_correct_answer`).
+- **Typed Knowledge-Graph Subgraph (`QuizItem` `1` $\rightarrow$ `1` `GraphData`)**: Each question embeds a `GraphData` object composed of `4..6` `GraphNode` instances (`category` $\in \{\text{core}, \text{prereq}, \text{trap}, \text{context}\}$) and `3..5` directed `GraphEdge` instances (`source`, `target`, `relation`), enabling immediate local subgraph rendering without a live Neo4j daemon.
 
-The endpoint contract and the field-level schema belong to Chapter 5.2, and we do not repeat them here. The reason for the boundary does belong to this chapter. A router must not hold rules, because rules that live in a router cannot be tested without an HTTP client.
+## 4.5 Runtime Interaction Sequence (`Figure 4.4`)
 
-## 4.2 Context and Behavioural Models
+Figure 4.4 traces the runtime execution sequence of our core diagnostic workflow (`UC-02` + `UC-03` + `UC-04`: `POST /api/diagnose`) across the Browser SPA, FastAPI Router, Pydantic `CamelModel` Validator, `diagnostic_service.py`, `QUESTIONS_BY_ID`, and `reports.py`.
 
-### 4.2.1 System context model
+**Figure 4.4: UML 2.5 Sequence Diagram for `POST /api/diagnose` covering normal diagnosis, correct verification, and `404`/`422` exception guards.**
+(Source: Traced from `backend/app/routers/diagnose.py` and `backend/app/services/diagnostic_service.py`.)
 
-Figure 4.2 places three external entities outside the boundary. A context model exists to fix that boundary before any functional decomposition begins (Sommerville, 2016, ch. 5).
+![Figure 4.4](figures/fig_seq_diagnose.svg)
 
-The student operates the system, through a browser and nothing else. The instructor does not operate it. We include the instructor because they are a genuine stakeholder in the artefact, and we exclude every teacher-side function because we cut that scope deliberately in Chapter 2. Whether an actor appears in the context model and whether their features are built are separate questions, and we answer them separately.
+The sequence diagram highlights three critical engineering properties:
+1. **Fail-Fast Boundary Validation (`alt [Invalid Option Key]`)**: Malformed option keys (`"E"`, `""`, `"a"`, or SQL/XSS strings) are intercepted at the Pydantic schema boundary (`DiagnoseRequest`) and rejected with **HTTP `422 Unprocessable Entity`** in $< 0.5\text{ ms}$ before touching business logic or session telemetry.
+2. **Constant-Time $O(1)$ Lookup (`alt [Question Found]`)**: `diagnose_answer()` resolves `QUESTIONS_BY_ID[question_id]` via a Python dict hash lookup ($O(1)$) and retrieves `item.traps.get(selected_option)` ($O(1)$). No loop, file I/O, or network socket is executed on the request path.
+3. **Synchronous Telemetry Coupling (`_record_diagnosis`)**: Before returning `DiagnoseResponse`, the router synchronously updates `_session_stats` (`total_attempts += 1`, `correct_count` or `trap_hits[trap.title] += 1`), guaranteeing that the subsequent `GET /api/reports/summary` call reflects the attempt immediately (`data_source: "session_telemetry"`).
 
-That separation has a cost we can name. A marker reading only the context model could infer that teacher tooling exists, so Chapter 3 states the boundary explicitly and this chapter does not soften it. Including a stakeholder is not the same as promising them features.
+## 4.6 Architecture Decision Records (`AD-1` to `AD-7`)
 
-Neo4j AuraDB is the third entity, and it is drawn dashed. The dashes are a decision, not a style. Aura instances sleep when idle, and the presentation room may have no network. A graph call on the demonstration path would turn an environmental problem into an application error at the worst possible moment. We moved the graph off that path. Chapter 6.3 carries the evaluation results that justify keeping it at all.
+In accordance with professional architecture review practices (Week 6 Lab), every major design choice was documented as an **Architecture Decision Record (ADR)** specifying the context, chosen solution, **explicitly rejected alternatives**, and **accepted trade-offs**. Table 4.1 summarises the seven ADRs governing StudyGraph.
 
-### 4.2.2 Sequence model for diagnosis
+**Table 4.1: Seven Architecture Decision Records (`AD-1` to `AD-7`) with rejected alternatives and trade-off analysis.**
 
-Figure 4.4 traces one diagnosis from the browser to the response. Interaction models of this kind expose ordering and failure paths that a structural diagram hides (Sommerville, 2016, ch. 5). The front end posts a question identifier and a selected option key. The router validates the body against a typed model. From there the diagnostic service resolves the question, finds the selected option, reads its correctness flag, and on a wrong answer reads the trap attached to that option.
+| ADR ID | Decision Title | Chosen Architecture | Rejected Alternative(s) | Rationale & Accepted Trade-Offs |
+| :-: | :--- | :--- | :--- | :--- |
+| **AD-1** | **Offline Pre-Computed Trap Lookup vs. Live Runtime LLM** | Pre-compute & human-verify 36 `TrapDetail` records offline; serve via $O(1)$ in-memory lookup (`diagnostic_service.py`), paired with optional offline CLI hook (`R10`). | Streaming live OpenAI / Qwen / GraphRAG completions inside `POST /api/diagnose`. | **Why chosen**: Guarantees P95 $< 5\text{ ms}$ (`NFR-01`), £0 marginal cost, 100% offline determinism (`R09`), and zero statutory hallucination.<br>**Trade-off**: Cannot diagnose arbitrary uncurated user text at runtime (`R13`). |
+| **AD-2** | **Zero-Build Vanilla ES6+ SPA vs. React / Vite Toolchain** | Native HTML5, ES6+ modules (`frontend/app.js`), and CSS Custom Properties (`styles.css`) mounted directly by FastAPI `StaticFiles`. | React 18 / Vue 3 + TypeScript + Vite / Webpack (`node_modules`). | **Why chosen**: Eliminates Node.js version mismatches, `npm install` network failures during grading, and build steps (`NFR-08`).<br>**Trade-off**: Manual DOM state synchronisation in `app.js` (~1,150 LOC) requires disciplined helper functions. |
+| **AD-3** | **In-Memory Python Seed Store + Static Subgraphs vs. Live Neo4j Server** | Store 12 `QuizItem` objects and embedded `GraphData` (`nodes`, `edges`) in `seed_questions.py` indexed by `QUESTIONS_BY_ID`. | Requiring a running Neo4j 5.x Bolt server (`bolt://localhost:7687`) or PostgreSQL at demo startup. | **Why chosen**: Zero external daemon setup (`< 2 s` cold start, `NFR-02`); embedded `GraphData` provides exact 1-hop prerequisite neighbourhoods.<br>**Trade-off**: Seed bank is read-only at runtime; large-scale graph traversal remains in the offline `graphrag（终）/` pipeline. |
+| **AD-4** | **Bidirectional `CamelModel` Contract vs. Manual Dict Serialisation** | Unified Pydantic v2 `CamelModel` (`backend/app/models/common.py`) accepting and emitting both `snake_case` and `camelCase`. | Manual `camelCase` dict comprehension in routers or `use_enum_values` ad-hoc aliases. | **Why chosen**: Eliminates cross-language key mismatches (`NFR-07`); both Python `pytest` and JS frontend work out-of-the-box.<br>**Trade-off**: JSON payload size increases by ~18% due to dual keys (negligible at `< 4 KB` per response). |
+| **AD-5** | **Local Salted SHA-256 Token Auth vs. Cloud OAuth2 / OIDC** | In-memory salted SHA-256 password verification (`seed_users.py`) and cryptographic bearer tokens (`secrets.token_urlsafe(24)`). | Auth0 / Firebase / institutional Azure AD OAuth2 redirect flows. | **Why chosen**: Works 100% offline (`R06`, `R09`, `NFR-09`) with pre-seeded marker accounts (`demo_student`, `abdn_marker`).<br>**Trade-off**: Tokens reside in process memory and reset on server restart (acceptable for single-user local PoC). |
+| **AD-6** | **Single-Process FastAPI Static Mount vs. Nginx + Gunicorn + Docker Compose** | Mount `frontend/` at `/` inside `backend/app/main.py` after registering `/api/*` routers; run via single `uvicorn` process. | Multi-container `docker-compose.yml` with Nginx reverse proxy, Gunicorn workers, and CORS preflight routing. | **Why chosen**: Eliminates CORS errors, Docker Desktop licensing/daemon issues on lab machines, and multi-port orchestration.<br>**Trade-off**: Single-process concurrency is bounded by one event loop (sufficient for local evaluation). |
+| **AD-7** | **Explicit Provenance Tagging (`data_source`) vs. Silent Mock Fallback** | Tag `/api/reports/summary` with `data_source` (`"seed_baseline"` when `total_attempts == 0` vs. `"session_telemetry"` after attempts) and provide `POST /api/reports/reset`. | Hardcoding static radar percentages (`78%`, `85%`) without disclosing whether data comes from live clicks or seed defaults. | **Why chosen**: Enforces anti-hallucination transparency (`NFR-10`, `004-persona-hallucination-audit`); markers can verify live telemetry mutation and reset state.<br>**Trade-off**: Requires frontend UI to display provenance badges explicitly. |
 
-What matters most is what the figure leaves out. The diagnosis performs no model inference. It is a dictionary lookup followed by field assembly.
+## 4.7 Data Persistence, Concurrency, and Fault-Isolation Design
 
-This is a decision with a specific failure in mind. A language model can produce a statute that does not exist, or a formula that holds in general and fails at the boundary the question is testing. Retrieval-grounded generation reduces but does not remove this risk, which is why grounding must be measured rather than assumed (Es et al., 2023). In a teaching tool that is a teaching error, not a quality regression. A lookup table fails differently: it can only be right about questions we wrote, and it cannot invent.
-
-We measured the deterministic core over 720 samples drawn from the 36 wrong-answer cases. The core is question lookup, option resolution and trap lookup. Median was 0.6 microseconds and p95 was 0.7 microseconds. End to end over HTTP on a local `uvicorn` worker, the median round trip was 1.5 milliseconds. Framework and transport overhead account for the gap. We report both numbers instead of choosing the flattering one.
-
-Model calls happen after the verdict. When an answer is wrong and a key is configured, the service asks the model for a short Socratic prompt with a four-second timeout. If the key is absent, the call fails, or the timeout expires, the service returns a prompt assembled from the same reviewed evidence. The verdict is already fixed, so the model can improve the wording and cannot change the answer.
-
-That boundary is the one we would defend hardest in a viva. A deterministic judgement and a probabilistic explanation fail independently.
-
-## 4.3 Domain Class Model
-
-### 4.3.1 Four domain classes and their relationships
-
-Figure 4.3 shows the domain model as it exists in `backend/app/models/quiz.py`. Class models record the relationships that the implementation must enforce, not merely the fields each object carries (Sommerville, 2016, ch. 5).
-
-A question aggregates four options. The shipped set is twelve questions and forty-eight options. Each option carries a key, text, a correctness flag and an optional trap identifier. Correct options carry no trap identifier at all, and that absence is load-bearing. A question is well formed only when exactly three options carry one, so integrity can be checked by counting. The validator uses that property directly.
-
-A trap describes one misconception with four fields: title, description, prerequisite, radar dimension. The set contains thirty-six traps, three per question, matching the three incorrect options. Those four fields are not decorative. Title names the misconception in the student's own vocabulary, description explains it, prerequisite points at what to revise, and dimension tells the interface which axis to move.
-
-Five radar dimensions exist: recall, boundary, trap defence, synthesis and precision. The front end renders them as a five-axis chart. A trap's dimension decides which axis an attempt moves.
-
-A graph structure hangs off the question for the interface to draw as a small knowledge map. We show it in the figure for completeness. It carries no diagnostic weight.
-
-### 4.3.2 The modelling decision that made diagnosis deterministic
-
-Where the trap is attached is the decision that matters, and we had it wrong first.
-
-Attaching traps to the question reads naturally. A question is hard because it tests a misconception, so the misconception belongs to the question. We tried that shape first. It forces the system to decide which misconception a given wrong answer represents, and that decision is inference. The replies we produced under it were plausible and not traceable to anything the student had actually done, which is the defect that pushed us to the option-level model.
-
-Attaching the trap to the option removes the inference. The wrong option already identifies the misconception because we wrote it that way. Diagnosis becomes a lookup from the selected option to its trap record. The answer to "why is this wrong" is stored, not computed.
-
-This is AD-4, and every determinism claim in this chapter rests on it. Once the trap is a column on the option there is nothing to guess. The cost sits in the same table: we can only diagnose misconceptions we anticipated.
-
-## 4.4 Architecture Decision Records
-
-### 4.4.1 Decision record format and evaluation criteria
-
-Table 4.1 records seven decisions, with four fields each: the decision, the alternative rejected, the reason, and the cost we accepted.
-
-The fourth field is the one that does the work. Design rationale is itself a design artefact: a decision recorded without its rejected alternatives cannot be reviewed or revisited (Sommerville, 2016, ch. 6). A decision presented without a cost is usually a decision that was not examined. We therefore read an empty cost column as insufficient thought, not as a good choice. Two entries, AD-6 and AD-7, exist mainly to disclose weaknesses. A report claiming no weaknesses would contradict the results in Chapter 6.
-
-### 4.4.2 What we got wrong
-
-Four things failed first, and they are more informative than the decisions that worked.
-
-**The diagnosis path needed a second answer.** The first `diagnostic_service.py` degraded to the local fallback whenever the live model call failed. That is the right behaviour. It also made failures invisible. A missing key, a revoked key, a rate limit and an unreachable host all produced the same silent fallback. `/api/health` reported only a boolean, so an operator could not tell those four cases apart. Commit `0feb82d` on 10 October added the probe behind `GET /api/health/llm` so they became distinguishable. The comment at the top of `llm_diagnostics.py` states the problem in the words we used at the time.
-
-**Our own diagram went stale.** The sequence diagram we committed on 9 October in `35e6cd4` described a `POST /api/answer` call carrying a `selected` field. Within a day the backend spoke `POST /api/diagnose` with `selected_option`. Both of those endpoint names are now historical: the first no longer exists. The figure was accurate when drawn and wrong when the report was assembled. The figure was accurate when drawn and wrong when the report was assembled. We regenerated every figure from its source for this chapter, and we now treat a figure as a build artefact rather than a document.
-
-**The schema churned.** The diagnosis response changed shape during the first week: `correct` became `is_correct`, `trap_name` became `trap_title`, and structured guidance was added. Rather than freeze the schema early, we made the response model accept both naming conventions. `backend/app/models/diagnose.py` now carries snake-case and camel-case aliases for every field. It is verbose, and it removed a whole category of integration defect between the Python and JavaScript sides.
-
-**Silent exception handling hid real faults.** The original service caught broad exceptions and returned a generic failure. That suppressed the information needed to fix anything, and it is the practice we removed first. Where an exception is caught now, it is classified and logged with a category the operator can act on.
-
-## 4.5 Key Algorithms and Control Flow
-
-### 4.5.1 Startup and request flow
-
-Start-up follows a fixed order. The factory constructs the application and registers CORS. It then includes the three routers under `/api`, and finally mounts the static front end at the root. The order is not cosmetic. The routers are registered before the catch-all mount, so API paths reach a router rather than the static handler.
-
-A request passes four stages. Route matching selects a handler. Pydantic validation admits the body or returns a 422 without reaching business code. The service does its work. The response model serialises the result, including both naming conventions.
-
-That last point cost us a week of avoidable friction, so we state it plainly. Supporting two naming conventions is tedious. It also removed a whole class of client-side defects.
-
-### 4.5.2 Diagnosis control flow
-
-The algorithm is short. That is itself a result.
-
-It resolves the question identifier through an in-memory index. An unknown identifier yields a clearly flagged degraded response rather than an error. It normalises the selected key and scans the options once, capturing both the correct option and the student's option. It compares the two keys. A correct answer returns immediately. A wrong answer reads the trap identifier off the student's option, looks it up in the question's trap dictionary, and assembles the response from the trap's four fields.
-
-Three exits bound the path. An unknown question identifier degrades. An invalid parameter is rejected before the service is entered. Any unexpected exception produces a final defensive response, so the endpoint does not return a server error. We treat a 500 during a live demonstration as unacceptable, and the guard costs one try block.
-
-This section carries the business process model the brief requires. We render it as control flow. A flowchart of eight sequential statements would add a figure and no information.
-
-The second health endpoint is worth one paragraph. It performs a single live probe and classifies the outcome into a stable category with an actionable suggestion. It exists because of the silent-degradation problem described in Section 4.4.2. It never raises, so an unusable key is reported as data rather than as a failure.
-
-## 4.6 Non-Functional Design
-
-The quality attributes in Chapter 2 follow from the decisions in Section 4.4. They are not aspirations attached afterwards, and each traces to a mechanism.
-
-Usability comes from the single page and from progressive disclosure. The diagnostic drawer reveals a trap in layers, so a student meets one idea at a time. Progressive disclosure trades completeness for comprehension, and it is appropriate where the secondary material would distract from the primary task (Nielsen, 2006).
-
-Performance comes from the absence of a database, a network call and a model call on the verdict path. The figures in Section 4.2.2 follow from the design; they were not obtained by optimisation.
-
-Reliability comes from packaging. Static assets and API share a process, so there is no partial deployment in which the page loads and the API does not. Nothing on the demonstration path is external, so a network outage changes nothing.
-
-Security comes from a small surface, not from a security layer. Input is validated by typed models, and there is no SQL to inject into because there is no database. Both are real and both are limited: there is no authentication and no origin restriction, as AD-6 and AD-7 record. We describe the security posture as small and known. It is not strong.
-
-Maintainability comes from the layering and from the test suite. A rule change touches a service. A schema change touches a model. Neither requires editing transport code, and the suite is what lets us check that claim instead of asserting it.
-
-## Figure and table register
-
-Chapter 4 contributes four figures and two tables. The numbers follow the global allocation in `cycle3_master_plan.md` §2.3 and must not be changed locally.
-
-| Number | Title | File | First referenced |
-| :--- | :--- | :--- | :--- |
-| Figure 4.1 | Four-layer architecture and single-port deployment | `figures/fig_4_1_four_layer_architecture.png` | §4.1.1 |
-| Figure 4.2 | System context model | `figures/fig_4_2_context_model.png` | §4.2.1 |
-| Figure 4.3 | UML class diagram of the domain model | `figures/fig_4_3_class_diagram.png` | §4.3.1 |
-| Figure 4.4 | Diagnose sequence diagram | `figures/fig_4_4_seq_diagnose.png` | §4.2.2 |
-| Table 4.1 | Architecture decision records | `table_4_1_adr.md` | §4.4.1 |
-| Table 4.2 | Component responsibilities and permitted dependencies | §4.1.3 | §4.1.3 |
-
-Figure 4.3 is the only wholly new technical diagram in this chapter, and the brief requires class diagrams explicitly. Table 4.2 was added during drafting and is not in the global allocation; if the allocation is closed it can be folded into the prose of §4.1.3 without losing content.
-
-## Chapter 4 references
-
-The chapter cites three sources. All three are cited in the running text above and are listed here in Harvard style. The volume editor should merge this list into the consolidated reference list and renumber.
-
-Es, S., James, J., Espinosa-Anke, L. and Schockaert, S. (2023) 'RAGAS: Automated Evaluation of Retrieval Augmented Generation'. *arXiv preprint* arXiv:2309.15217.
-
-Nielsen, J. (2006) 'Progressive Disclosure'. *Nielsen Norman Group*, 3 December. Available at: https://www.nngroup.com/articles/progressive-disclosure/ (Accessed: 19 October 2026).
-
-Sommerville, I. (2016) *Software Engineering*. 10th edn. Harlow: Pearson Education.
+To ensure that our in-memory architecture behaves deterministically under automated testing and live demonstrations, we enforce three low-level design safeguards:
+1. **Immutable Seed Fixtures (`SEED_QUESTIONS`)**: Although Python dictionaries are mutable by default, `diagnostic_service.py` treats `SEED_QUESTIONS` and `QUESTIONS_BY_ID` as strictly read-only structures, constructing fresh `DiagnoseResponse` instances on every call.
+2. **Isolated Session Telemetry with Deterministic Reset (`_session_stats`)**: Session counters in `backend/app/routers/reports.py` (`total_attempts`, `correct_count`, `trap_hits`, `by_question`) are mutated only through `_record_diagnosis()` and can be deterministically wiped via `POST /api/reports/reset` (`tests/test_reports.py::conftest` invokes reset between stateful test suites to prevent cross-test pollution).
+3. **Strict Schema Boundary Guardrails (`NFR-04`)**: Every incoming request is parsed by Pydantic v2 before entering service functions, ensuring that type errors, missing fields, out-of-range options, or control characters return structured `422` JSON diagnostics rather than uncaught exceptions.

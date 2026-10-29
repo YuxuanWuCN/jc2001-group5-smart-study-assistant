@@ -1,0 +1,13 @@
+{
+  "status": "skipped",
+  "reason": "QWEN_API_KEY not set",
+  "timestamp_utc": "2026-10-23T03:08:57Z",
+  "env_fingerprint": {
+    "python_version": "3.13.14",
+    "git_commit": "b482e16567aa229e6ab21e9d3ad37dec96580b5f",
+    "branch": "main"
+  },
+  "what_would_have_run": "3 groups x 12 questions x 2 repeats = 72 samples",
+  "how_to_run": "set QWEN_API_KEY=<your key> && python scripts/audit_online_baseline.py",
+  "report_usage": "L4 记为 N/A（未测量），结论等级停在 V1"
+}

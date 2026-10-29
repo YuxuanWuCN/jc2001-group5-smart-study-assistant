@@ -20,7 +20,7 @@ head `626d46707f4d3296b354b47c3fcba5d8a80ba1fc`
 | `sources.md` | Every claim traced to a repository file, with the measurement conditions | — |
 | `supervisor_summary.md` | One-page standalone summary, for sending to the supervisor on its own | — |
 | `presentation.md` | §9 production pack: running order, 14-slide deck outline, the 90-second deployment script | — |
-| `jc2001-group5-poc.zip` | The PoC archive built to the brief's structure and verified by unpacking | 1.05 MB, 48 entries |
+| `jc2001-group5-poc.zip` | The PoC archive built to the brief's structure and verified by unpacking. **Quarantined 2026-10-25:** the previously committed snapshot contained a nested archive with pre-remediation hardcoded credentials; rebuild from the credential-remediated HEAD and run the secret scan before distribution. | removed from repo |
 
 ## 2. How to use it
 

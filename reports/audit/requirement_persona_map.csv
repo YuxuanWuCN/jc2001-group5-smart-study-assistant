@@ -1,0 +1,15 @@
+requirement_id,requirement_text,moscow,served_personas,served_pain_points,assumption_driven,hallucination_layers,external_falsifiable_claim,gap_reason
+R01,按学科浏览题目列表并加载对应选项与陷阱标签,Must,"A, B","PA-01, PB-01",False,L1,,
+R02,提交作答并记录正误状态,Must,"A, B","PA-03, PB-03",False,L1,,
+R03,选项级陷阱诊断抽屉（误区命名/错因解释/前置盲区/雷达归因）,Must,A,PA-03,True,"L1, L2, L3",若学生只拿到对错二元反馈，其重复同类概念错误的概率显著高于拿到选项级归因的学生,
+R04,五维雷达能力趋势展示（按答题结果实时更新能力分值）,Must,B,"PB-03, PB-04",True,L1,多维雷达图能够有效揭示单项总分掩盖的局部定理认知短板,
+R05,学情卡与薄弱知识点摘要（作答次数/掌握率/核心易错前置点）,Must,"A, B","PA-04, PB-04",False,L1,,
+R06,学号免密/密码登录与会话隔离（含预设 demo 账号快速切换）,Must,"A, B","PA-01, PB-01",False,,,
+R07,界面中英双语国际化切换,Should,"A, B",PA-01,False,,,
+R08,深色控制台与浅色学术双主题（符合 WCAG AA 对比度）,Should,"A, B",PA-01,False,,,
+R09,完全离线、零外部云依赖单端口运行（StaticFiles 挂载与本地字典）,Must,A,PA-01,True,L4,在离线确定性查表条件下，系统在消除网络波动的同时间接消除了自由生成面的推理幻觉,
+R10,GraphRAG 离线准确率增强与基准验证,Should,B,PB-03,True,L4,在概念与法条密集学科中，先验图谱能够提供结构化约束以提高检索准确度,
+R11,多租户与教师端班级监控大屏,Won't,,,False,,,非核心学生闭环，超出12周零预算团队容量，已主动剪枝
+R12,移动端原生 App 开发（iOS / Android）,Won't,,,False,,,Web 端已支持移动视口响应式，原生 App 维护成本高
+R13,社交化错题分享与讨论社区,Won't,,,False,,,容易引入内容审核与隐私风险，背离独立沉浸复习场景
+R14,AI 自动实时无限出题组卷,Won't,,,False,,,缺乏专家审核机制时极易引发高频幻觉，威胁备考严肃性

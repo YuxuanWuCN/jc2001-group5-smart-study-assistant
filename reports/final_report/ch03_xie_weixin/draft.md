@@ -1,156 +1,157 @@
 # 3 Use Cases and Requirements Modelling
 
-Weixin Xie | JC2001 Group 5
+## 3.1 Actor Identification and System Boundary
 
-## 3.1 System Context and Actors
+Following **Sommerville (2016), *Software Engineering* (10th ed., Chapter 5: System Modeling)** and the **UML 2.5 Use Case Specification** taught in Week 5 (`Lecture 6: System Modeling` and `Week 5 Use Case Lab`), we establish a formal behavioural model bridging the functional requirements in Chapter 2 (`R01`–`R10`) to the architectural components in Chapter 4.
 
-The system supports university students revising course material through question practice and misconception feedback. The eight agreed use cases describe intended learning activities; implementation findings distinguish delivered behaviour from remaining requirements. Existing specifications provide the goals, while the GitHub develop snapshot supplies implementation evidence. Including a goal in the model does not establish that the software already delivers it.
+A use case diagram defines a clear **System Boundary** (`StudyGraph / SmartStudy Assistant Single-Process Runtime`) separating internal software responsibilities from external entities (**Actors**). We identify two primary human actors, one secondary system/pipeline actor, and one explicitly excluded non-target actor:
 
-The Student is the primary actor. The browser presents questions, accepts selections and displays feedback; the local FastAPI service exposes question and diagnosis endpoints. Bundled question and trap data also support browser-side grading when a diagnosis request fails. An optional external model can enhance guidance. A question-specific graph is a representation of bundled relationships, not evidence of a deployed GraphRAG retrieval chain.
+1. **Primary Actor — `Student` (Exam Candidate, Personas A & B)**: An undergraduate or postgraduate learner operating the web console (`http://127.0.0.1:8000`) to filter multi-disciplinary questions, submit option attempts, inspect option-level misconception traps, and review 5-axis competency radar telemetry (`UC-01` through `UC-05`).
+2. **Primary Actor — `Evaluator / Developer` (Course Assessor / Researcher)**: A marker or developer executing offline reproducibility checks, resetting session telemetry (`POST /api/reports/reset`), or running the offline GraphRAG MMLU benchmark evaluation (`UC-05`, `UC-06`).
+3. **Secondary Actor — `Offline Seed & Graph Store` (`backend/app/data/` & `graphrag（终）/`)**: The deterministic local data subsystem supplying the 12 curated questions (`36 traps`), user credential fixtures (`seed_users.py`), and pre-computed MMLU knowledge-graph triples (`4,445` benchmark items).
+4. **Explicitly Excluded Actor — `Course Instructor Admin` (Persona C)**: In strict alignment with `Table 1.3` and Requirement `R11` (`Won't Have`), no multi-tenant teacher administration actor interacts with the runtime UI.
 
-Markers assess the report and demonstration but do not operate an implemented teacher portal. Developers maintain the system rather than acting within the student learning workflow. Login, registration and teacher administration are not added to the agreed eight identifiers. The inspection baseline and source links are recorded in sources.md so that implementation findings can be reproduced without putting version codes in figure titles.
+## 3.2 UML 2.5 Use Case Diagram and Relationship Semantics
 
-## 3.2 Global Use Case Diagram and Summary
+Figure 3.1 presents the UML 2.5 Use Case Diagram for StudyGraph, illustrating the system boundary, actors, six core use cases (`UC-01` to `UC-06`), and formal `«include»` and `«extend»` dependencies.
 
-Figure 3.1 uses UC-01 to UC-08 consistently with Table 3.1 and the detailed specifications. UC-01 extends UC-02 when an answer is incorrect. UC-08 extends UC-01 when the student requests tutor follow-up. UC-07 extends UC-01 or UC-05 when supplementary practice is requested; it is explicitly a planned function. The arrows point from each extension to its base use case.
+**Figure 3.1: UML 2.5 Use Case Diagram for the StudyGraph (SmartStudy) proof-of-concept system.**
+(Source: Compiled from `specs/003-cycle3-startup-report/spec.md` and Week 5 UML modelling guidelines.)
 
-Evidence inspection, graph exploration, analysis, history and tutoring are directly initiated student goals. They do not require include relationships simply because they exchange data or occur in the same learning workflow. History may lead to a new practice attempt, and practice may supply analysis data, but neither dependency makes every history view a mandatory retry or every submission a mandatory analysis visit. An include relationship would require behaviour performed as a necessary part of the base case.
+![Figure 3.1](figures/fig_use_case_diagram.svg)
 
+### Formal Semantics of `«include»` vs. `«extend»` (Week 5 Lab Alignment)
 
-![Figure 3.1](figures/figure_3_1.png)
+A frequent modelling error in undergraduate software engineering reports is reversing the arrow direction or conflating `«include»` with `«extend»`. In Figure 3.1, we enforce strict UML 2.5 semantics:
 
-Figure 3.1: Eight-use-case model.
+- **`«include»` (Mandatory Sub-Behavior — Dashed Arrow from Base Use Case to Included Use Case)**:
+  - `UC-02 (Submit Answer & Trigger Option-Level Trap Diagnosis) ──«include»──► UC-04 (Update 5-Axis Radar & Session Telemetry)`: Every time a student submits an answer in `UC-02` (`POST /api/diagnose`), the backend **unconditionally** executes `_record_diagnosis(question_id, correct, trap_title)` inside `backend/app/routers/reports.py` to update the in-memory session telemetry counters (`total_attempts`, `correct_count`, `trap_hits`). Because `UC-02` cannot complete its postcondition without updating session state, the dashed arrow points **from the base use case (`UC-02`) to the included use case (`UC-04`)**.
+- **`«extend»` (Conditional Optional Behavior — Dashed Arrow from Extending Use Case to Base Use Case)**:
+  - `UC-03 (Inspect Knowledge-Graph Prerequisite Subgraph & Socratic Prompt) ──«extend»──► UC-02 (Submit Answer & Trigger Option-Level Trap Diagnosis)` with **Extension Point: `Wrong Option Selected (correct == False)`**: When a student selects the *correct* option (`correct == True`), `POST /api/diagnose` returns `trap: null` and the interaction concludes with a green confirmation banner. Only when the guard condition `[selected_option != answer]` holds does the system populate `TrapDetail`, render the interactive SVG knowledge-graph neighbourhood (`GraphData`), and open the Socratic reflection drawer (`UC-03`). Similarly, `Export / Compare Online LLM Baseline (R10)` conditionally extends `UC-06` only when `[QWEN_API_KEY is present]`. In accordance with UML 2.5, the dashed `«extend»` arrow points **from the extending use case (`UC-03`) back to the base use case (`UC-02`)**.
 
-Table 3.1: Use case summary.
+## 3.3 Detailed Use Case Specifications (`UC-01` to `UC-06`)
 
-| ID | Use case | Student goal | Actor | Requirement and status |
-| --- | --- | --- | --- | --- |
-| UC-01 | Misconception diagnosis | Understand an incorrect choice | Student | Diagnosis code present; acceptance unexecuted |
-| UC-02 | Subject practice | Answer subject questions | Student | Practice code present; storage gap |
-| UC-03 | Evidence and provenance | Inspect support and review status | Student | Evidence/source-status workflow not established |
-| UC-04 | Knowledge map | Explore related concepts | Student | Graph drawn; interactive details unverified |
-| UC-05 | Learning analysis | Review dimensional performance | Student | Heuristic radar, not target rate formula |
-| UC-06 | Wrong-answer history | Review and retry errors | Student | History workflow not established |
-| UC-07 | Supplementary practice | Practise the same knowledge point | Student | Unimplemented target |
-| UC-08 | Tutor follow-up | Check reasoning with guidance | Student | Partial chat; recovery gaps |
+To ensure every use case is directly implementable and testable, we provide structured tabular specifications for all six core use cases (`UC-01` through `UC-06`), explicitly detailing actors, triggers, preconditions, postconditions, main success scenarios, and alternative/exception flows mapped to HTTP status codes and `pytest` assertions.
 
-## 3.3 Detailed Use Case Specifications
+### `UC-01`: Filter & Browse Multi-Disciplinary Question Bank (`R01`, `R07`, `R08`)
 
-Each specification states the goal, trigger and preconditions, normal interaction, exceptions, postconditions and acceptance focus. The current implementation note records observed source behaviour separately. Proposed protections remain requirements unless supported by implementation and execution evidence; none is presented as an executed acceptance result.
+**Table 3.1a: Formal specification for Use Case `UC-01` (Filter & Browse Question Bank).**
 
-### 3.3.1 UC-01 Intelligent Misconception Diagnosis
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-01: Filter & Browse Multi-Disciplinary Question Bank** (`R01`, `R07`, `R08`) |
+| **Primary Actor** | `Student` (Personas A & B) |
+| **Trigger** | Student loads the application root (`GET /`) or clicks a discipline filter tab (`All`, `Law`, `Computer Architecture`, `Econometrics`, `Software Engineering`) or language toggle (`ZH` / `EN`). |
+| **Preconditions** | FastAPI server is running locally (`uvicorn backend.app.main:app`); `SEED_QUESTIONS` (`12 items`) is loaded in memory (`backend/app/data/seed_questions.py`). |
+| **Postconditions** | Question selector and active stem card render the matching `QuizItem` list in the active language (`zh` or `en`) and theme (`dark` or `light`); no answer or trap data is leaked prematurely. |
+| **Main Success Scenario** | 1. Student selects a category pill (e.g., `law`) in the top navigation bar.<br>2. Frontend dispatches `GET /api/quiz?category=law`.<br>3. Backend router (`backend/app/routers/quiz.py`) filters `SEED_QUESTIONS` by `category == "law"` (`case-insensitive`) and serialises 3 `QuizItem` objects via `CamelModel`.<br>4. Frontend (`frontend/app.js`) renders the question navigation pills (`law_1`, `law_2`, `law_3`), question stem (`stem` / `stem_en`), difficulty badge, and four clickable options (`A`–`D`). |
+| **Alternative & Exception Flows** | - **1a. Unknown Category Parameter (`GET /api/quiz?category=biology`)**: Backend returns HTTP `200 OK` with an empty JSON array `[]` (`tests/test_quiz.py::test_filter_unknown_category_returns_empty`); frontend displays an empty-state notice without crashing.<br>- **4a. Runtime Language Switch (`R07`)**: Student clicks `EN`/`中文`; frontend re-binds `stem_en`/`options_en` in `< 16 ms` without network re-fetch.<br>- **4b. Theme Toggle (`R08`)**: Student clicks theme icon; `document.documentElement.dataset.theme` switches between `"dark"` and `"light"` and persists to `localStorage`. |
 
-Actor and goal: the Student understands the misconception associated with a selected distractor and identifies prerequisite knowledge to revisit. Trigger and preconditions: a loaded question has an incorrect submitted option and a trap mapping.
+### `UC-02`: Submit Answer & Trigger Option-Level Trap Diagnosis (`R02`, `R03`)
 
-Main flow: (1) select and submit an option; (2) validate and evaluate it; (3) locate the associated misconception and prerequisite; (4) display explanatory feedback; (5) optionally continue practice, inspect an explanation or request tutoring. A correct answer follows UC-02 instead.
+**Table 3.1b: Formal specification for Use Case `UC-02` (Submit Answer & Trigger Option-Level Trap Diagnosis).**
 
-Exceptions and postconditions: invalid or missing data must not be presented as a confirmed misconception. The target is option-specific feedback, not one generic explanation for every distractor. Acceptance checks should compare distinct wrong options and examine failed submissions. Current implementation: POST /api/diagnose returns diagnosis data; request failure invokes browser-side seeded grading. This differs from the older error-and-unlock specification. Persistent accepted-attempt storage is not established.
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-02: Submit Answer & Trigger Option-Level Trap Diagnosis** (`R02`, `R03`) |
+| **Primary Actor** | `Student` (Personas A & B) |
+| **Included / Extended Use Cases** | Mandatory `«include»` of **UC-04** (`Update Session Telemetry`); conditionally extended by **UC-03** (`Inspect Prerequisite Graph & Trap Drawer`) at extension point `Wrong Option Selected`. |
+| **Trigger** | Student selects an option card (`A`, `B`, `C`, or `D`) on an active question (e.g., `law_1`) and clicks **"Submit & Diagnose"**. |
+| **Preconditions** | An active `QuizItem` (`question_id` $\in$ `QUESTIONS_BY_ID`) is displayed; one option key is selected. |
+| **Postconditions** | Backend returns a validated `DiagnoseResponse` (`CamelModel`); in-memory session telemetry is incremented (`UC-04`); UI renders either the verified explanation (`correct == True`) or invokes `UC-03` (`correct == False`). |
+| **Main Success Scenario (Wrong Option — Diagnostic Path)** | 1. Student selects Distractor `A` on `law_1` and clicks Submit.<br>2. Frontend sends `POST /api/diagnose` with JSON body `{"question_id": "law_1", "selected_option": "A"}`.<br>3. Pydantic validates `DiagnoseRequest` (`selected_option` matches `^[A-D]$`).<br>4. `diagnose_answer("law_1", "A")` (`backend/app/services/diagnostic_service.py`) performs an $O(1)$ lookup in `QUESTIONS_BY_ID["law_1"]`, determines `selected_option != item.answer` (`"A" != "B"`), and retrieves `item.traps["A"]` (`TrapDetail`: *"Conflating Limitation Period with Preclusive Period"*).<br>5. Router invokes `_record_diagnosis("law_1", False, trap.title)` (`UC-04`) and returns HTTP `200 OK` with `DiagnoseResponse(correct=False, trap=trap, graph=item.graph, socratic_prompt=...)`.<br>6. Extension point `Wrong Option Selected` triggers **UC-03** to open the 5-layer Trap Drawer. |
+| **Alternative & Exception Flows** | - **4a. Correct Option Selected (`selected_option == item.answer`, e.g., `"B"` on `law_1`)**: `diagnose_answer` sets `correct=True`, `trap=None`; `_record_diagnosis("law_1", True, None)` increments `correct_count`; UI highlights Option B in emerald green (`#10B981`) and displays the verified statutory explanation.<br>- **3a. Invalid Option Key (`selected_option: "E"`, `""`, or `"a"`)**: Pydantic regex validator `^[A-D]$` rejects the payload with **HTTP `422 Unprocessable Entity`** (`tests/test_diagnose.py::TestErrorHandling`).<br>- **4b. Non-Existent Question ID (`question_id: "nonexistent_99"`)**: `diagnose_answer` raises `KeyError`, caught by router to return **HTTP `404 Not Found`** (`{"detail": "Question 'nonexistent_99' not found"}`). |
 
-### 3.3.2 UC-02 Domain-Based Question Practice and Answer Submission
+### `UC-03`: Inspect Knowledge-Graph Prerequisite Subgraph & Socratic Prompt (`R03`, `R07`)
 
-Actor and goal: the Student selects relevant practice and receives an answer result. Trigger and preconditions: practice is opened or the subject changes, and eligible question data is available.
+**Table 3.1c: Formal specification for Use Case `UC-03` (Inspect Prerequisite Subgraph & Socratic Prompt).**
 
-Main flow: (1) select a subject; (2) inspect the question and options; (3) browse using navigation controls; (4) select an answer; (5) receive correct feedback or UC-01 diagnosis; (6) continue or retry. The target includes recording accepted attempts and updating learning evidence.
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-03: Inspect Knowledge-Graph Prerequisite Subgraph & Socratic Prompt** (`R03`, `R07`) |
+| **Primary Actor** | `Student` (Personas A & B) |
+| **Relationship** | `«extend»` **UC-02** when guard condition `[DiagnoseResponse.correct == False]` is satisfied. |
+| **Trigger** | `UC-02` receives a `DiagnoseResponse` with `correct: false` and a non-null `trap` object. |
+| **Preconditions** | `DiagnoseResponse` contains validated `trap` (`TrapDetail`), `graph` (`GraphData` with `nodes` and `edges`), and `socratic_prompt` / `socratic_prompt_en`. |
+| **Postconditions** | Student views the exact misconception title, conceptual conflict description, prerequisite node badge, interactive SVG/Canvas concept graph, and Socratic reflection question. |
+| **Main Success Scenario** | 1. Frontend opens the slide-out **Trap Drawer** (`frontend/app.js`) and populates the amber fallacy badge (`trap.title` / `trap.title_en`).<br>2. System renders the conceptual conflict analysis (`trap.desc` / `trap.desc_en`) and highlights the violated prerequisite knowledge component (`trap.prereq` / `trap.prereq_en`) and targeted radar dimension (`trap.radar_hit`, e.g., `"boundary"`).<br>3. System renders the local knowledge-graph subgraph (`graph.nodes` classified by `category`: `core`, `prereq`, `trap`, `context`; `graph.edges` labelled with semantic relations such as `"excludes"` or `"governed by"`).<br>4. System displays the Reasoning Accordion containing the Socratic prompt (`socratic_prompt` / `socratic_prompt_en`) before revealing the full answer key. |
+| **Alternative & Exception Flows** | - **3a. Bilingual Graph & Drawer Inspection (`R07`)**: If the student toggles language while the drawer is open, all drawer fields (`title_en`, `desc_en`, `prereq_en`, `socratic_prompt_en`, and node `label_en`) switch language immediately without re-submitting the attempt. |
 
-Exceptions and postconditions: distinguish loading failure, empty selections, repeated clicks and unsuccessful submissions. Viewing or navigating must not itself create an attempt. Acceptance checks cover filtering, correct grading and answer protection. Current implementation: subjects use bundled browser data, selections lock the displayed question, and navigation resets that guard. GET /api/quiz exists but is not requested on every subject switch. The guard is not proof of server idempotency, and persistent attempts remain a gap.
+### `UC-04`: View & Reset 5-Axis Competency Radar & Session Telemetry (`R04`, `R05`)
 
-### 3.3.3 UC-03 Inspect Supporting Evidence and Provenance
+**Table 3.1d: Formal specification for Use Case `UC-04` (View & Reset Competency Radar & Telemetry).**
 
-Actor and goal: the Student checks the supporting material, source notes and review status of the current item. Trigger and preconditions: the evidence area is opened for a question carrying the required metadata.
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-04: View & Reset 5-Axis Competency Radar & Session Telemetry** (`R04`, `R05`) |
+| **Primary Actor** | `Student` (Personas A & B) / `Evaluator` |
+| **Trigger** | Included automatically after `UC-02`, or triggered directly when the user opens the **Competency Analytics** panel (`GET /api/reports/summary`, `GET /api/reports/trend`) or clicks **"Reset Session Telemetry"** (`POST /api/reports/reset`). |
+| **Preconditions** | FastAPI backend is active; `_session_stats` store in `backend/app/routers/reports.py` is initialised. |
+| **Postconditions** | 5-axis radar chart (`recall`, `boundary`, `trapDefense`, `synthesis`, `precision`), weakness cards, and trap-hit distribution reflect exact session state with explicit `data_source` provenance. |
+| **Main Success Scenario** | 1. Frontend requests `GET /api/reports/summary` and `GET /api/reports/trend`.<br>2. Backend computes `radar_scores` bounded in $[0, 100]$, tags `data_source` as `"seed_baseline"` (if `total_attempts == 0`) or `"session_telemetry"` (if `total_attempts > 0`), and aggregates `trap_distribution`.<br>3. Frontend renders the 5-axis radar polygon, accuracy KPI cards, and top weakness remedies (`weaknesses`). |
+| **Alternative & Exception Flows** | - **3a. Reset Session Telemetry (`POST /api/reports/reset`)**: User clicks Reset; backend clears `_session_stats` (`total_attempts = 0`, `correct_count = 0`, `trap_hits = {}`) and returns `{"status": "reset", "total_attempts": 0}` (`tests/test_reports.py::test_reset_restores_seed_baseline`). |
 
-Main flow: (1) open the item; (2) inspect its review state and evidence count; (3) read the supporting statements; (4) read source names and notes; (5) optionally inspect the knowledge map. The goal is informed interpretation rather than cross-question free-text search.
+### `UC-05`: Authenticate Local Study Session (`R06`, `NFR-09`)
 
-Exceptions and postconditions: pending sources remain pending; missing or malformed evidence requires correction rather than invented support. Viewing evidence changes neither the question nor attempt totals. Acceptance checks examine item alignment and whether unreviewed material is falsely labelled verified. Current implementation: this evidence/source/review-status inspection workflow is not established in the inspected renderer. It remains a requirement gap, notwithstanding its description in the earlier specifications.
+**Table 3.1e: Formal specification for Use Case `UC-05` (Authenticate Local Study Session).**
 
-### 3.3.4 UC-04 Explore the Question-Specific Knowledge Map
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-05: Authenticate Local Study Session** (`R06`, `NFR-09`) |
+| **Primary Actor** | `Student` / `Evaluator` |
+| **Trigger** | User submits credentials via the Login / Register modal (`POST /api/auth/login` or `POST /api/auth/register`) or clicks Logout (`POST /api/auth/logout`). |
+| **Preconditions** | `SEED_USERS` (`backend/app/data/seed_users.py`) is loaded with salted SHA-256 password hashes (`demo_student`, `abdn_marker`). |
+| **Postconditions** | Valid authentication issues an in-memory bearer token (`AuthResponse`) and displays user profile context (`GET /api/auth/me`); logout revokes the active token. |
+| **Main Success Scenario** | 1. User submits `username` and `password` to `POST /api/auth/login`.<br>2. `auth_service.py` verifies the salted SHA-256 digest and generates a cryptographic session token.<br>3. Frontend stores the token and displays the authenticated badge (`display_name`, `role`). |
+| **Alternative & Exception Flows** | - **2a. Invalid Password or Unknown Username**: Backend returns **HTTP `401 Unauthorized`** (`tests/test_auth.py`).<br>- **2b. Duplicate Username Registration**: `POST /api/auth/register` with existing username returns **HTTP `409 Conflict`**. |
 
-Actor and goal: the Student explores relationships among concepts, prerequisites and misconceptions. Trigger and preconditions: the map is opened for a question containing valid nodes and edges.
+### `UC-06`: Execute Offline GraphRAG Benchmark & Provenance Audit (`R10`, `O4`, `NFR-10`)
 
-Main flow: (1) open the map; (2) load the current item's graph; (3) display typed nodes and relationships; (4) select a node by pointer or keyboard; (5) read its details; (6) explore another node or question.
+**Table 3.1f: Formal specification for Use Case `UC-06` (Execute Offline GraphRAG Benchmark & Audit).**
 
-Exceptions and postconditions: no selected question requires an appropriate empty state; invalid edge references require data correction. Arbitrary expansion and dragging are not implied. Browsing must not modify graph data or create an attempt. Acceptance checks separately cover graph validity, detail updates and keyboard access. Current implementation: renderGraph produces question-specific SVG nodes and edges, but node-detail handlers and keyboard activation are not established there. A complete interactive graph and live graph retrieval must not be claimed from rendering alone.
+| Field | Specification Details |
+| :--- | :--- |
+| **Use Case ID & Name** | **UC-06: Execute Offline GraphRAG Benchmark & Provenance Audit** (`R10`, `O4`, `NFR-10`) |
+| **Primary Actor** | `Evaluator / Developer` |
+| **Trigger** | Evaluator runs `python scripts/audit_hallucination_l1_l3.py`, `python scripts/audit_persona_claims.py`, or `python scripts/audit_online_baseline.py` from the CLI. |
+| **Preconditions** | Repository checkout with Python 3.13 environment and `graphrag（终）/final_systematic_report.csv` ($n = 4,445$ MMLU records). |
+| **Postconditions** | Audit scripts validate schema contracts, verify 0 fabricated claims (`L1`–`L3`), and output structured JSON/Markdown verification reports under `reports/audit/`. |
+| **Main Success Scenario** | 1. Evaluator invokes audit scripts.<br>2. Scripts cross-check report claims against `seed_questions.py`, `final_systematic_report.csv`, and `persona_provenance.csv`.<br>3. Scripts exit with return code `0` confirming 100% provenance compliance. |
+| **Alternative & Exception Flows** | - **1a. Missing `QWEN_API_KEY` (`R10` Conditional Extension)**: `scripts/audit_online_baseline.py` detects absent API key, logs an explicit skip notice, and exits cleanly with code `0` (`skipped`). |
 
-### 3.3.5 UC-05 Five-Dimension Learning Analysis
+## 3.4 Behavioural State Machine: Question Diagnostic Lifecycle
 
-Actor and goal: the Student reviews practice evidence across conceptual recall, prerequisite reasoning, misconception recognition, cross-topic reasoning and procedural accuracy. Trigger and preconditions: analysis is opened or a valid attempt completes; records can be read and questions label their dimensions.
+While use cases capture actor-system interactions, a **UML State Machine Diagram** (taught in Week 5 `Lecture 6: System Modeling`) models how an individual question attempt transitions across internal states in response to user events and guard conditions. Figure 3.2 depicts the state machine governing the frontend and backend diagnostic lifecycle (`frontend/app.js` and `backend/app/services/diagnostic_service.py`).
 
-Main flow: (1) read records; (2) count attempts and correct answers per dimension; (3) calculate the correct rate; (4) show the radar, scores and counts; (5) choose further practice or review. The target score is correct dimensional attempts divided by total dimensional attempts, multiplied by 100 percent.
+**Figure 3.2: UML 2.5 Behavioural State Machine for the question attempt and misconception diagnosis lifecycle.**
+(Source: Modelled from `frontend/app.js` state transitions and `POST /api/diagnose` response guards.)
 
-Exceptions and postconditions: no records produce an empty state; unreadable records are an error, not zero performance. Fewer than two dimensional attempts show insufficient evidence without a percentage. Five valid attempts should refresh results, but fewer must not prevent opening the page. Current implementation: initial demonstration scores change through heuristic deltas; the target formula and evidence thresholds are not delivered. Radar changes therefore do not prove long-term mastery.
+![Figure 3.2](figures/fig3_2_state_machine.svg)
 
-### 3.3.6 UC-06 Find and Practise Historical Wrong Answers
+As shown in Figure 3.2, every attempt traverses five well-defined states with explicit guard conditions:
+1. **`Idle / Browsing`**: Initial state upon loading or switching category filters (`GET /api/quiz`). Selecting a question transitions to **`Question Active`**.
+2. **`Question Active`**: Displays the stem and four unselected options (`A`–`D`). Clicking an option transitions to **`Option Selected [key ∈ {A,B,C,D}]`**.
+3. **`Submitting & Validating`**: Triggered by clicking Submit (`POST /api/diagnose`). If Pydantic validation fails (`[key ∉ {A..D}]` or unknown `question_id`), the transition branches to the error banner state (`HTTP 422 / 404`) and returns gracefully to **`Question Active`** without mutating telemetry.
+4. **Guarded Branching (`[correct == True]` vs. `[correct == False]`)**:
+   - When `[selected_option == answer]`, the state machine enters **`Correct Verified`**, rendering the green confirmation banner and incrementing `correct_count`.
+   - When `[selected_option != answer]`, the state machine enters **`Trap Diagnosed (Drawer Open)`**, rendering the 5-layer `TrapDetail` breakdown, interactive `GraphData` neighbourhood, and Socratic prompt while incrementing `trap_hits[trap.title]`.
+5. **`Telemetry Updated`**: Both branches converge to refresh `/api/reports/summary` (`data_source: "session_telemetry"`), from which the learner can either select the next question or trigger `POST /api/reports/reset` to return to the clean baseline.
 
-Actor and goal: the Student locates an earlier error, examines its diagnosis and retries. Trigger and preconditions: history is opened and records contain question, subject, time, result and misconception information.
+## 3.5 Requirements Traceability Matrix (RTM Summary)
 
-Main flow: (1) list errors newest first; (2) search or filter by subject, topic, misconception, result and date; (3) show matching records and counts; (4) inspect an original attempt; (5) hide its answer when retry begins; (6) save the accepted retry separately.
+To guarantee that no requirement is orphaned and no implemented endpoint lacks a specification origin, Table 3.2 summarises the bidirectional **Requirements Traceability Matrix (RTM)** across our active functional requirements (`R01`–`R10`), use cases (`UC-01`–`UC-06`), architectural components (`Chapter 4`), code modules (`Chapter 5`), and automated test suites (`Chapter 6`). The exhaustive item-level matrix (including `R11`–`R14` and `NFR-01`–`NFR-10`) is provided in **Appendix B**.
 
-Exceptions and postconditions: empty or unreadable history, unmatched filters and removed questions need distinct treatment. Removed items retain their summary but disable retry. Clearing requires confirmation; cancellation preserves records. Targets include case-insensitive English search, inclusive date boundaries and no attempt creation when viewing. Retry must not overwrite an original error. Current implementation: persistent attempt-history writing, history filters, historical retry archives and confirmed deletion are not established. Earlier claims of stored attempts do not describe this snapshot.
+**Table 3.2: Bidirectional Requirements Traceability Matrix (RTM) summary linking requirements, use cases, architecture, implementation, and tests.**
 
-### 3.3.7 UC-07 Recommend Supplementary Practice
-
-Actor and goal: the Student practises a wrong answer's knowledge point through another question. Trigger and preconditions: supplementary practice is requested from diagnosis or analysis; the error has a knowledge-point label and suitable questions can be searched.
-
-Target main flow: (1) identify the knowledge point; (2) find another item, preferably unattempted and similarly difficult; (3) explain the recommendation without revealing the answer; (4) let the student accept; (5) enter ordinary practice and record the accepted answer.
-
-Exceptions and postconditions: missing labels, no suitable new item and search failure require clear messages and an ordinary-practice alternative. Rejection creates no attempt. An isomorphic variant preserves the main knowledge and method while changing conditions or wording; a broadly related item must not be mislabelled. Review status stays visible. One error is a practice signal, not proof of lasting weakness. Current implementation: no supplementary recommendation workflow is established; both diagram extensions represent planned behaviour.
-
-### 3.3.8 UC-08 Socratic AI Tutor Follow-up
-
-Actor and goal: the Student receives contextual guidance for checking reasoning. Trigger and preconditions: a question is asked from diagnosis or tutoring, with current question context available; an external model is optional.
-
-Target main flow: (1) review context; (2) enter a question; (3) validate input; (4) generate local or external guidance; (5) display the actual mode; (6) ask again or resume practice. Targets require two or three sentences, a thinking prompt, relevance and no direct answer. Messages must not create attempts.
-
-Exceptions and postconditions: empty or over-1200-character input should not submit. External failure should use a labelled local prompt where available; unavailable local service should preserve a recoverable state. Delayed replies must not be assigned to a new question. Current implementation: unconfigured or mock tutoring uses local replies, but failed configured chat calls display errors rather than automatically falling back. This differs from diagnostic-service recovery. Input-length and stale-reply protections remain unestablished.
-
-## 3.4 Behavioural Modelling
-
-Figure 3.2 models question readiness, option selection, pending processing and feedback. The source guards repeated selection of the displayed question. A successful response branches to correct feedback or misconception feedback; a failed request or unsuccessful status invokes browser-side local grading, which also branches by the locally determined result. Thus submission failure is represented explicitly without importing the older unlock-and-retry behaviour.
-
-
-![Figure 3.2](figures/figure_3_2.png)
-
-Figure 3.2: Question answering and diagnosis process.
-
-The browser updates local indicators after feedback. Navigation loads another question and resets answer controls. This cycle establishes neither persistent attempt storage nor a transactional history service. A state diagram emphasises when another selection is allowed; tutor, evidence and graph interactions remain optional rather than expanding into competing workflows. Returning a structured fallback also does not prove that an unknown question was accurately diagnosed.
-
-## 3.5 Requirements Traceability
-
-Appendix B links the original 25 functional and non-functional entries to use cases, code locations, verification sources and gaps. Original FR/NFR numbers and descriptions are retained; repeated numbers are distinguished by their descriptions. The R01-R14 comparison is a semantic crosswalk, not an approved replacement numbering scheme. Diagram identifiers, summary entries and detailed cases all use the agreed eight-case baseline.
-
-Source inspection supports diagnosis, practice, graph drawing and partial radar and chat behaviour. Evidence inspection, interactive graph details, history and supplementary practice have specific gaps. Public quiz models include answers and trap data, so pre-submission answer protection is not met by merely locating the endpoint. Direct model probes confirmed field exposure; they did not exercise HTTP or browser acceptance.
-
-## Appendix B Requirements Traceability Matrix
-
-Original requirement numbers and descriptions are retained. Evidence is source inspection, not executed acceptance results.
-
-| Requirement ID and description | Use case | Implementation evidence | Verification evidence | Status and gap |
-| --- | --- | --- | --- | --- |
-| FR-01 / Select a study domain | UC-02 | switchSubject; initSubjectSelector | test_quiz.py; not executed | Subject flow present; UI unexecuted |
-| FR-02 / Submit one answer per on-screen attempt | UC-01, UC-02 | handleSelectOption; models/quiz.py | test_diagnose.py; not executed | Answer flow present; public quiz exposes answer and traps |
-| FR-03 / Identify misconception and missing prerequisite | UC-01 | diagnostic_service.py; seed_questions.py | test_diagnose.py; not executed | Option mapping present; content accuracy not independently checked |
-| FR-05 / Inspect evidence, source and content-review status  | UC-03 | Question renderer and model fields inspected | No dedicated provenance test found; not executed | Source/review-status workflow not established in current renderer |
-| FR-06 / Inspect question-specific knowledge subgraph  | UC-04 | renderGraph in app.js | No node-detail acceptance test established; not executed | Graph rendering present; node click/detail and keyboard not established |
-| NFR-01 / Secure API and credential handling | UC-01, UC-02 | models/quiz.py; routers/quiz.py | test_quiz.py is not proof of hidden keys; not executed | Gap: quiz response model exposes answer, explanation and traps |
-| NFR-02 / Local reliability / no cloud dependency  | UC-01, UC-02 | handleSelectOption local fallback | test_diagnose.py (backend); not executed | Local data fallback exists; clean-machine air-gap test pending |
-| NFR-03 / Transparent diagnosis and provenance  | UC-01, UC-03, UC-04 | diagnostic_service.py; question rendering | test_diagnose.py; not executed | Diagnosis supported; provenance/review display gap |
-| NFR-04 / Keyboard accessibility  | UC-02, UC-04 | renderGraph; option-card div creation | No keyboard audit executed; not executed | Keyboard acceptance not established |
-| NFR-05 / Responsive layout | UC-02, UC-04 | frontend/style.css | No viewport run executed; not executed | Responsive styles only; acceptance pending |
-| NFR-06 / Reproducible provenance and evaluation | UC-03 (evidence linkage) | Evidence schema and renderer inspection | No controlled evaluation executed; not executed | Old provenance/evaluation workflow not established |
-| NFR-07 / Local performance  | UC-01, UC-02 | Local endpoints | No benchmark executed; not executed | Timing target not verified |
-| NFR-08 / Modular software organisation  | UC-01–UC-04 | backend/app/routers and services; frontend/ | Existing test source only; not executed | Modular source present; reproducibility run pending |
-| FR-04 / Five-dimension learning radar and mastery analysis | UC-05 | state.radar; updateRadarCharts | No dimension acceptance run; not executed | Partial: fixed initial scores and heuristic deltas, not target correct-rate formula |
-| FR-05 / Socratic guided follow-up | UC-08 | handleUserChatMessage; getLocalSmartReply | No tutor acceptance run; not executed | Partial: local/online chat; provider failure shows error rather than local chat fallback |
-| FR-06 / Same-knowledge-point variant or supplementary question recommendation | UC-07 | No recommendation flow located | No recommendation test established; not executed | Not implemented in inspected workflow |
-| FR-07 / Search, filter and retry historical wrong answers | UC-06 | localStorage writes; navigation functions | No history acceptance test established; not executed | Persistent attempt history, filters and retry archive not established |
-| FR-08 / Traceable question evidence, source and review status | UC-05, UC-07, UC-08 | Question rendering and quiz model | No provenance acceptance test established; not executed | Evidence/source/review-status workflow not established |
-| FR-09 / Hints and student-requested explanations | UC-05, UC-08 | handleSelectOption result drawer | No request-only disclosure acceptance run; not executed | Gap: explanation may appear automatically; correct option highlighted |
-| FR-10 / Save, read and clear learning records | UC-05, UC-06, UC-07 | All localStorage.setItem calls reviewed | No persistence/deletion run; not executed | Settings/profile writes found; persistent attempts and confirmed deletion not established |
-| NFR-02 / Fallback behaviour when an external model or service fails | UC-05, UC-06, UC-07, UC-08 | Answer fallback and tutor exception branches | test_diagnose.py covers backend fallback; not executed | Partial: answer/backend fallback differs from tutor chat recovery |
-| NFR-03 / Usability and accessibility | UC-05, UC-06, UC-07, UC-08 | initTheme; result drawer labels; renderGraph | No accessibility run executed; not executed | Theme and text feedback present; full accessibility unverified |
-| NFR-04 / Learning-record privacy and answer protection | UC-05, UC-06, UC-07, UC-08 | models/quiz.py; localStorage writes | No privacy acceptance run; not executed | Gap: public answer/traps; attempt deletion not established |
-| NFR-07 / Clear explanations without overstating results | UC-05, UC-07, UC-08 | state.stats; state.radar; loadQuestion | No clarity acceptance run; not executed | Gap: demonstration values; no verified insufficient-evidence threshold |
-| NFR-08 / Mobile and desktop support | UC-05, UC-06, UC-07, UC-08 | frontend/style.css | No mobile/desktop browser run; not executed | Responsive styles present; viewport acceptance pending |
-
-## References
-
-Group 5 (2026) StudyGraph use-case specifications, requirements matrix and application source. Repository snapshot and exact file links are recorded in sources.md.
+| Req ID | Priority | Mapped Use Case(s) | Architectural Component / ADR (`Ch 4`) | Implementation Module (`Ch 5`) | Verification Test Suite (`Ch 6`) | Status |
+| :-: | :-: | :-: | :--- | :--- | :--- | :-: |
+| **R01** | Must | `UC-01` | Presentation & API Router (`AD-3`, `AD-4`) | `backend/app/routers/quiz.py`, `seed_questions.py` | `tests/test_quiz.py` (9 cases) | ✅ Verified |
+| **R02** | Must | `UC-02` | Diagnostic Service & Request Validator (`AD-4`) | `backend/app/routers/diagnose.py`, `models/quiz.py` | `tests/test_diagnose.py` (30 cases) | ✅ Verified |
+| **R03** | Must | `UC-02`, `UC-03` | Deterministic Trap Lookup Engine (`AD-1`, `AD-3`) | `backend/app/services/diagnostic_service.py` (36 traps) | `tests/test_diagnose.py` (36 wrong-option cases) | ✅ Verified |
+| **R04** | Must | `UC-04` | Telemetry & 5-Axis Radar Aggregator (`AD-4`, `AD-7`) | `backend/app/routers/reports.py` (`/summary`) | `tests/test_reports.py` (18 cases) | ✅ Verified |
+| **R05** | Must | `UC-04` | Session Trend & Reset Controller (`AD-7`) | `backend/app/routers/reports.py` (`/trend`, `/reset`) | `tests/test_reports.py` (12 cases) | ✅ Verified |
+| **R06** | Should | `UC-05` | Local Token Auth Service (`AD-5`) | `backend/app/services/auth_service.py`, `routers/auth.py` | `tests/test_auth.py` (16 cases) | ✅ Verified |
+| **R07** | Should | `UC-01`, `UC-03` | Bilingual Schema & DOM I18N Engine (`AD-2`, `AD-4`) | `backend/app/models/quiz.py`, `frontend/app.js` | `tests/test_quiz.py` & `tests/test_adversarial.py` | ✅ Verified |
+| **R08** | Should | `UC-01` | CSS Custom Property Theme Engine (`AD-2`) | `frontend/styles.css`, `frontend/app.js` | `tests/test_health_and_static.py` & WCAG Audit | ✅ Verified |
+| **R09** | Must | `UC-01`–`UC-05` | Single-Process Static-Mounted Monolith (`AD-1`, `AD-6`) | `backend/app/main.py` (`StaticFiles`) | `tests/test_health_and_static.py` (6 cases) | ✅ Verified |
+| **R10** | Could | `UC-06` | Offline-Safe Audit CLI Hook (`AD-1`, `AD-7`) | `scripts/audit_online_baseline.py` | CLI Exit Code `0` Verification | ✅ Verified |

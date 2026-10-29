@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 560" width="1100" height="560" font-family="'Segoe UI', Arial, sans-serif">
+  <rect width="1100" height="560" fill="#0f172a" rx="12" stroke="#334155" stroke-width="2"/>
+  <text x="550" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#f8fafc">Figure 5.4: SmartStudy Diagnostic Analytics Console &amp; 5-Axis Cognitive Mastery Radar</text>
+  <text x="550" y="54" text-anchor="middle" font-size="12" fill="#94a3b8">Dual-mode telemetry rendering (seed_baseline for zero attempts vs session_telemetry for active learners)</text>
+
+  <!-- Top Navigation Bar -->
+  <rect x="28" y="72" width="1044" height="44" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="48" y="99" font-size="13" font-weight="700" fill="#38bdf8">SmartStudy Compass · Diagnostic Analytics</text>
+  <rect x="690" y="81" width="140" height="26" rx="13" fill="#052e16" stroke="#22c55e"/>
+  <text x="760" y="98" text-anchor="middle" font-size="11" font-weight="600" fill="#86efac">Mode: session_telemetry</text>
+  <rect x="844" y="81" width="105" height="26" rx="6" fill="#334155"/>
+  <text x="896" y="98" text-anchor="middle" font-size="11" fill="#e2e8f0">Theme: Dark/Light</text>
+  <rect x="960" y="81" width="96" height="26" rx="6" fill="#334155"/>
+  <text x="1008" y="98" text-anchor="middle" font-size="11" fill="#e2e8f0">Lang: EN / 中文</text>
+
+  <!-- KPI Summary Cards -->
+  <rect x="28" y="132" width="246" height="90" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="46" y="158" font-size="11" fill="#94a3b8">OVERALL MASTERY SCORE</text>
+  <text x="46" y="194" font-size="28" font-weight="700" fill="#f8fafc">82.5%</text>
+  <text x="145" y="194" font-size="11" fill="#38bdf8">+6.4% vs seed baseline</text>
+
+  <rect x="294" y="132" width="246" height="90" rx="8" fill="#1e293b" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="312" y="158" font-size="11" fill="#94a3b8">QUESTIONS ATTEMPTED</text>
+  <text x="312" y="194" font-size="28" font-weight="700" fill="#86efac">12 / 12</text>
+  <text x="425" y="194" font-size="11" fill="#94a3b8">4 Disciplines Covered</text>
+
+  <rect x="560" y="132" width="246" height="90" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="578" y="158" font-size="11" fill="#94a3b8">TRAPS DIAGNOSED</text>
+  <text x="578" y="194" font-size="28" font-weight="700" fill="#fbbf24">3 Traps</text>
+  <text x="688" y="194" font-size="11" fill="#fcd34d">Prereq Chains Resolved</text>
+
+  <rect x="826" y="132" width="246" height="90" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="844" y="158" font-size="11" fill="#94a3b8">DIAGNOSTIC LATENCY (P95)</text>
+  <text x="844" y="194" font-size="28" font-weight="700" fill="#d8b4fe">4.2 ms</text>
+  <text x="955" y="194" font-size="11" fill="#cbd5e1">O(1) Deterministic Path</text>
+
+  <!-- Left Panel: 5-Axis Radar Chart -->
+  <rect x="28" y="238" width="490" height="294" rx="10" fill="#1e293b" stroke="#475569"/>
+  <text x="48" y="266" font-size="13" font-weight="700" fill="#f8fafc">5-Axis Cognitive Capability Radar (SVG Polygon)</text>
+
+  <!-- Radar Pentagon Grid -->
+  <polygon points="273,295 368,364 332,475 214,475 178,364" fill="none" stroke="#475569" stroke-width="1"/>
+  <polygon points="273,325 340,373 314,452 232,452 206,373" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- Radar Data Polygon -->
+  <polygon points="273,305 356,368 318,458 222,462 195,369" fill="rgba(56, 189, 248, 0.28)" stroke="#38bdf8" stroke-width="2.5"/>
+
+  <text x="273" y="286" text-anchor="middle" font-size="11" font-weight="700" fill="#7dd3fc">Concept Recall (86)</text>
+  <text x="382" y="366" font-size="11" font-weight="700" fill="#7dd3fc">Boundary (81)</text>
+  <text x="345" y="494" font-size="11" font-weight="700" fill="#fbbf24">Trap Defense (78)</text>
+  <text x="195" y="494" text-anchor="end" font-size="11" font-weight="700" fill="#7dd3fc">Synthesis (80)</text>
+  <text x="165" y="366" text-anchor="end" font-size="11" font-weight="700" fill="#86efac">Precision (88)</text>
+
+  <!-- Right Panel: Trend & Weak Knowledge Nodes -->
+  <rect x="538" y="238" width="534" height="294" rx="10" fill="#1e293b" stroke="#475569"/>
+  <text x="558" y="266" font-size="13" font-weight="700" fill="#f8fafc">Session Accuracy Trend &amp; Priority Remediation Queue</text>
+
+  <!-- Trend Chart Box -->
+  <rect x="558" y="282" width="494" height="110" rx="6" fill="#0f172a" stroke="#334155"/>
+  <polyline points="585,365 655,352 725,335 795,342 865,315 935,304 1015,296" fill="none" stroke="#22c55e" stroke-width="3"/>
+  <text x="575" y="302" font-size="10.5" fill="#94a3b8">GET /api/reports/trend — Rolling Mastery Progression (W1 → W7)</text>
+  <text x="575" y="382" font-size="10" fill="#64748b">Zero-Attempt Guard: Returns seed_baseline (0 NaN / 0 division-by-zero) on fresh boot</text>
+
+  <!-- Remediation Table -->
+  <rect x="558" y="406" width="494" height="108" rx="6" fill="#0f172a" stroke="#334155"/>
+  <text x="574" y="428" font-size="11" font-weight="700" fill="#fca5a5">Priority Misconception Clusters (from session_telemetry):</text>
+  <text x="574" y="450" font-size="11" fill="#e2e8f0">1. [Law · q101] Woollin Oblique Intention vs Cunningham Recklessness</text>
+  <text x="574" y="472" font-size="11" fill="#e2e8f0">2. [CS · q202] Quicksort Worst-Case O(n²) Pivot Partitioning</text>
+  <text x="574" y="494" font-size="11" fill="#e2e8f0">3. [SE · q401] UML «include» Mandatory vs «extend» Conditional Arrow Direction</text>
+</svg>

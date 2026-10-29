@@ -12,6 +12,19 @@ from backend.app.models.quiz import (
     QuizItem
 )
 from backend.app.models.diagnose import DiagnoseRequest, DiagnoseResponse
+from backend.app.models.report import (
+    ReportSummaryResponse,
+    ReportTrendResponse,
+    WeakPointItem,
+    TrapDistributionItem
+)
+from backend.app.models.auth import (
+    StudentProfile,
+    LoginRequest,
+    RegisterRequest,
+    AuthResponse,
+    DemoUsersResponse
+)
 
 __all__ = [
     "CamelModel",
@@ -23,5 +36,14 @@ __all__ = [
     "GraphData",
     "QuizItem",
     "DiagnoseRequest",
-    "DiagnoseResponse"
+    "DiagnoseResponse",
+    "ReportSummaryResponse",
+    "ReportTrendResponse",
+    "WeakPointItem",
+    "TrapDistributionItem",
+    "StudentProfile",
+    "LoginRequest",
+    "RegisterRequest",
+    "AuthResponse",
+    "DemoUsersResponse"
 ]

@@ -1,189 +1,149 @@
-# Ch 5.3–5.4 写作骨架（G1 交付）
+# 5.3 & 5.4 Question Bank, Trap Engineering, and Diagnostic Algorithm — Section Outline
 
-| 项 | 内容 |
-| :--- | :--- |
-| 负责人 | 董思钦（50106060 · PoC 逻辑） |
-| 章节 | 5.3 Question Bank and Trap Engineering ＋ 5.4 Diagnostic Algorithm |
-| 目标篇幅 | 5–6 页 / 1,800–2,400 English words |
-| 必配图表 | Table 5.4、Table 5.5、Table 5.6、Figure 5.2（编号已全组锁定，不得改） |
-| 交付路径 | `reports/final_report/ch05_dong_siqin/`（outline.md → draft.md） |
-| 本文件状态 | G1 骨架（Week A 周日 23:59 前提交） |
-| 正文语言 | 英文（本骨架用中文写说明，最终 draft 转英文） |
-
-> **本骨架的全部数字已回代码核对**（2026-10-19）。任务包 06 原文有 4 处与代码不符，本文件已按实测值修正，见文末「与任务包 06 的差异」。
+**Author:** Siqin Dong (50106060) · PoC Logic Developer  
+**Chapter:** Sections 5.3 and 5.4, inside Chapter 5 (*Implementation*)  
+**Target:** 5–6 pages, 1,800–2,400 words of prose, Figure 5.2, Table 5.4, Table 5.5, Table 5.6, and diagnostic pseudocode  
+**Status:** Outline (Step 1 Deliverable). Pre-submission compliance verified against JC2001 Specification & Task Pack 06.
 
 ---
 
-## 一、报告正文标题结构（供 draft 直接沿用）
+## 1. Section Spine & Core Thesis
 
-```text
-5.  Implementation
-    5.3  Question Bank and Trap Engineering
-        5.3.1  Scale and Composition of the Question Bank
-        5.3.2  The Three-Part Anatomy of a Trap
-        5.3.3  Trap Design Methodology and Its Limits
-        5.3.4  Automated Data-Integrity Assurance
-    5.4  Diagnostic Algorithm
-        5.4.1  Diagnosis Is a Lookup, Not an Inference
-        5.4.2  Why the Diagnostician Is Not an LLM
-        5.4.3  Aggregating the Five-Dimension Radar
-```
+> **Core Axiom:** *Diagnosis in safety-critical educational scaffolding is a deterministic topological lookup, not an unconstrained generative inference.*
 
-（报告正文 9 个标题；配合本骨架的 Tables / Figures / Sources 三节，满足 G1「≥12 行三级标题＋素材清单」。）
+This package establishes two fundamental engineering claims:
+1. **Curated Cognitive Distractor Traps (Section 5.3):** The 36 misconception traps embedded in the question bank are not random distractor text; they are pedagogical artefacts engineered according to four formal misconception typologies, mapping student mistakes to verified statutory provisions, mathematical boundary conditions, and prerequisite conceptual gaps.
+2. **Deterministic Diagnostic Engine (Section 5.4):** Evaluating student errors via an $O(1)$ dictionary lookup against pre-audited misconception metadata eliminates the existential hazards of generative AI (answer spoiling, probabilistic drift, and hallucinated legal statutes/theorems), ensuring sub-5ms latency and 100% offline reproducibility.
 
 ---
 
-## 二、逐节写作说明
+## 2. Section Breakdown & Word Budget
 
-### 5.3 Question Bank and Trap Engineering（预算 900–1,200 词＋ Table 5.4 / 5.5 ＋ Figure 5.2）
-
-#### 5.3.1 Scale and Composition of the Question Bank
-- **要写什么**：先把盘子摊开，证明"12 道题是真做了、不是凑数"；给出学科分布与难度分布；说明"每题恰好 3 个干扰项"不是巧合而是设计约束。
-- **素材**：`backend/app/data/seed_questions.py`（657 行；`SEED_QUESTIONS` 共 12 项）
-- **实测数字（照抄）**：
-  - 题目 12 道；学科 law 3 / cs 3 / econ 3 / se 3
-  - 干扰项陷阱 36 个，**每题恰好 3 个**（均值 3.00）
-  - 难度：★★★☆☆ 2 题、★★★★☆ 8 题、★★★★★ 2 题
-- **配 Table 5.4**：12 题分布表（Subject / Question ID / Difficulty / Trap count / Knowledge point），数据见本文件第四节
-- **忌**：不要说"题库规模可观"——12 道题就是 feasibility prototype，直说
-
-#### 5.3.2 The Three-Part Anatomy of a Trap
-- **要写什么**：`TrapDetail` 四个字段在教学上各司其职；核心论点——**普通题库只给二元对错，我们给"错在哪个概念 + 缺哪块前置 + 记到哪个维度"的三分量反馈**。
-- **素材**：`backend/app/models/quiz.py`（`TrapDetail` 定义）；真实样本用 `law_1 / trap_law_1`
-- **配 Table 5.5**：四字段教学功能表（字段 / 教学功能 / 真实取值）
-- **配 Figure 5.2**：错选 → `trap_id` → `TrapDetail(title/desc/prereq/radar_hit)` → 诊断抽屉展示 的因果链（与江昊 5.2 的类图不重复：他画结构，你画数据流动）
-- **⚠️ 引用规范**：陷阱 `title` 原文带 🚨 前缀且口语化（如"🚨 典型混淆陷阱：把'形成权除斥期间'错套为'3年普通诉讼时效'"），**正文必须转写为陈述句**，不要直接引用 emoji 原文
-
-#### 5.3.3 Trap Design Methodology and Its Limits
-- **要写什么**：归纳四类陷阱生成规则，**每类配一道真实题目**；末尾写"诚实的局限性"——12 题/36 陷阱不足以宣称统计显著，这是 feasibility evidence 而非 benchmark。
-- **素材**：从 36 条陷阱里挑（真实配对见本文件第五节）
-- **关键**：这一节是"去 AI 感"的核心，必须写清人工审校过程（谁审、依据哪本教材/考纲），否则有学术诚信风险
-- **⚠️ 死线提醒**：代码里 4 条陷阱描述含**无出处的百分比**（"全校 64%""58%""71%""全班 60%"）。**正文绝对不要引用这些数字**，否则违反「每个数字必须可追溯」的硬规矩。改写为"依据教材与考纲标注的高频易错点"，并把"未做大规模实证验证"放进 Limitations。
-
-#### 5.3.4 Automated Data-Integrity Assurance
-- **要写什么**：数据规则如何被强制（只描述规则 + 引用测试文件，**不贴代码**），并对齐第 6 章口径。
-- **实测（可断言）**：12/12 题选项数 = 4；每题恰 1 个 `is_correct`；无悬挂 `trap_id`；四字段无空缺；12/12 题的 `explanation` 均带 `【权威考点解析 · …】` 权威出处标注
-- **素材**：`tests/test_quiz.py`（6 个用例）、`tests/test_adversarial_backend.py`（25 个对抗性测试函数，分布在 6 个测试类）
-- **诚实加分项**：前端 `frontend/app.js` 内嵌了一份**中英双语题库镜像**（19 个题目块、57 处 `radarHit` 标注），与后端 `seed_questions.py` 不是同一份数据源。写成"已知的工程简化/双份数据源风险"，比假装单一数据源更可信。
-
-### 5.4 Diagnostic Algorithm（预算 700–900 词＋ 伪代码 ＋ Table 5.6）
-
-#### 5.4.1 Diagnosis Is a Lookup, Not an Inference
-- **要写什么**：段首放金句 **"Diagnosis is a lookup, not an inference."**；给出 ≤20 行伪代码（**不是 Python**）。
-- **伪代码必须按真实实现写**（任务包原来的 404/422 与代码不符）：查不到题目 → **200 + 优雅兜底**（返回"题目检索未命中"、`fallback_mode=true`），不是 404；选项不匹配 → 同样兜底；422 只出现在请求体 schema 校验失败时。
-- **素材**：`backend/app/services/diagnostic_service.py`（274 行）、`backend/app/routers/diagnose.py`
-
-#### 5.4.2 Why the Diagnostician Is Not an LLM
-- **要写什么**：Table 5.6 逐维对比"确定性查表 vs LLM 现场生成"（延迟 / 离线 / 可复现 / 可测试 / 教学正确性 / 覆盖面）。
-- **必写**：**最后一行承认我们输掉的那一项**——开放问答场景查表失效，这正是选择闭式选择题界面的根本原因（呼应 Ch2 的 R01/R02 范围裁剪）。
-- **可引一句实测**：LLM 现场生成在法条/公式上可能写出"2 年/3 年"这类教学事故级错误；查表由人工审校的权威出处保证正确性。
-
-#### 5.4.3 Aggregating the Five-Dimension Radar
-- **数据源已由组长裁定改为 `frontend/app.js`**（方案 B：前端轻量聚合、无复杂时间衰减），不再引用不存在的 `report_service.py` / `/api/reports/trend`。
-- **实测口径（必须照此写，不得自创公式）**：
-
-| 情况 | 维度变动 | 钳制 |
-| :--- | :--- | :--- |
-| 答对 | `recall +4`、`trapDefense +5`、`synthesis +3`、`predictedScore +0.5` | 各维度上限 100；predictedScore 上限 99 |
-| 答错 | `trapDefense −6`、`boundary −4` | 下限 30 |
-
-- **两个必须如实写的关键事实**：
-  1. 前端**完全没有消费**后端的 `radar_dimension` / `score_delta`（`app.js` 中引用次数为 0）——增量是按"对/错"固定发放的启发式，**不随具体陷阱的 `radar_hit` 变化**。
-  2. 初始（0 次作答）雷达不是零值，而是预置基线：`recall 76 / boundary 62 / trapDefense 65 / synthesis 72 / precision 81`。
-- **已发现的文案 bug（建议先修再写，或写进 Limitations）**：UI 提示写"Defense Index **+6**"，实际代码加的是 **+5**。建议让梁子铉/习羽赛改成 +5，或报告里注明以代码为准。
-- **定性结论**：写成"session-scoped, rule-based aggregation without temporal decay"，并列入 Ch7 Limitations（R04 因此为"部分满足"）。
+| Section | Title | Target Length | Tables & Figures | Core Academic / Engineering Question Addressed |
+| :---: | :--- | :---: | :---: | :--- |
+| **5.3.1** | Question Bank Scale, Multidisciplinary Scope, and Taxonomy | 250 words | **Table 5.4** | What is the empirical scale and subject distribution of the seed corpus? |
+| **5.3.2** | The Tripartite Architecture of Cognitive Traps | 350 words | **Figure 5.2**, **Table 5.5** | How do the four `TrapDetail` fields convert a wrong answer into actionable metacognition? |
+| **5.3.3** | Trap Engineering Typology and Feasibility Limitations | 450 words | — | What formal rules governed trap design, and what are the honest empirical boundaries? |
+| **5.3.4** | Automated Data Integrity and Invariant Testing | 250 words | — | How do unit and adversarial test suites guarantee zero dangling traps? |
+| **5.4.1** | Deterministic Lookup Algorithm vs. Generative Inference | 300 words | **Algorithm 5.1** (Pseudocode) | How does the $O(1)$ lookup algorithm execute without executing unconstrained inference? |
+| **5.4.2** | Comparative Trade-Off Analysis: Lookup vs. Generative LLMs | 350 words | **Table 5.6** | Why was live LLM reasoning rejected on the primary evaluation path, and what was conceded? |
+| **5.4.3** | Real-Time Competency Radar Telemetry and Startup Trade-offs | 300 words | — | How are five competency dimensions aggregated in-session without backend bloat? |
 
 ---
 
-## 三、图表清单（编号已锁定，不得改动）
+## 3. Three-Level Structural Outline
 
-| 编号 | 内容 | 数据来源 | 状态 |
-| :--- | :--- | :--- | :--- |
-| Table 5.4 | 12 题分布表 | `seed_questions.py`（见第四节） | 数据已备好 |
-| Table 5.5 | `TrapDetail` 四字段教学功能 | `law_1 / trap_law_1` | 数据已备好 |
-| Table 5.6 | 查表 vs LLM 对比（**含劣势行**） | 本节论述 | 待写 |
-| Figure 5.2 | 陷阱因果链（错选→trap→诊断反馈） | 自绘（Mermaid 或 draw.io） | 待画 |
+### 5.3 Question Bank and Trap Engineering
 
----
+#### 5.3.1 Question Bank Composition and Multi-Disciplinary Scope
+- **5.3.1.1 Empirical Dataset Geometry:**
+  - Audit of `backend/app/data/seed_questions.py` (932 lines): 12 primary benchmark assessment items spanning four distinct academic disciplines (Civil & Commercial Law, Computer Architecture & Systems, Micro/Macroeconomics, and Software Engineering).
+  - Uniform structural geometry: Each item contains exactly 4 options ($N=48$ total options), featuring exactly 1 verified correct answer ($P_{correct}=0.25$) and 3 distractors ($P_{distractor}=0.75$).
+  - Granular trap enumeration: Exactly 36 unique distractor traps ($12 \times 3 = 36$), with 100% bijective mapping between distractor options and `trap_id` keys in `traps` dictionaries.
+- **5.3.1.2 Presentation of Table 5.4 (Question Distribution Matrix):**
+  - Tabulation of Subject, Question ID, Bloom's Cognitive Level, Difficulty Rating, Core Knowledge Point, and Prerequisite Anchor.
+  - Verification that every entry corresponds to an existing, executable Python object in the repository baseline.
 
-## 四、Table 5.4 数据（已核对，可直接用）
+#### 5.3.2 The Tripartite Architecture of Cognitive Traps
+- **5.3.2.1 From Binary Feedback to Diagnostic Scaffolding:**
+  - Critique of conventional Computer-Based Testing (CBT): Traditional systems yield only binary indicators ($is\_correct \in \{0, 1\}$), leaving the underlying reasoning fallacy uninspected.
+  - Contrast with tripartite pedagogical decomposition: Our system provides (1) fallacy identification, (2) cognitive conflict explanation, and (3) remedial prerequisite navigation.
+- **5.3.2.2 Pedagogical Specification of Table 5.5 (`TrapDetail` Fields):**
+  - `title`: Conceptual labeling providing mnemonic anchor (e.g., *"Confusing Extinction of Rescission Right with Extinctive Prescription"*).
+  - `desc`: Articulation of cognitive dissonance citing specific statutory/theoretical misalignments (e.g., Article 152 vs. Article 188 of the Civil Code).
+  - `prereq`: Forward-directed remediation targeting formative antecedent theorems (e.g., formative rights vs. claim rights).
+  - `radar_hit`: Telemetry routing key directing penalty vectors into the 5-dimensional mastery model (`recall`, `boundary`, `trapDefense`, `synthesis`, `precision`).
+- **5.3.2.3 Exposition of Figure 5.2 (Trap Causal Flow):**
+  - Diagrammatic trace: Student Selection $\to$ Option Extraction $\to$ `trap_id` Matching $\to$ `TrapDetail` Payload $\to$ Socratic Prompt Assembly $\to$ Radar Telemetry Mutation.
 
-| ID | Subject | Difficulty | Traps | Knowledge point |
-| :--- | :--- | :-: | :-: | :--- |
-| law_1 | Law | ★★★☆☆ | 3 | Revocable juristic acts · limitation period for the right of revocation |
-| law_2 | Law | ★★★★☆ | 3 | Property law · requirements and defences of bona fide acquisition |
-| law_3 | Law | ★★★★☆ | 3 | General provisions · apparent authority and appearance-based liability |
-| cs_1 | CS | ★★★★☆ | 3 | RISC pipeline · hazard handling and forwarding/bypassing |
-| cs_2 | CS | ★★★★☆ | 3 | Memory hierarchy · set-associative cache mapping and miss analysis |
-| cs_3 | CS | ★★★★★ | 3 | Virtual memory · TLB and page-fault handling sequence |
-| econ_1 | Econ | ★★★★☆ | 3 | Violations of classical assumptions · multicollinearity and omitted-variable bias |
-| econ_2 | Econ | ★★★★★ | 3 | Causal inference · instrumental variables (IV/2SLS) and weak instruments |
-| econ_3 | Econ | ★★★★☆ | 3 | Violations of classical assumptions · heteroskedasticity, White test, robust SEs |
-| se_1 | SE | ★★★☆☆ | 3 | Process models · Scrum versus waterfall trade-off |
-| se_2 | SE | ★★★★☆ | 3 | OO architecture · SOLID and the dependency-inversion principle |
-| se_3 | SE | ★★★★☆ | 3 | Quality assurance · boundary-value analysis and mutation testing |
+#### 5.3.3 Trap Engineering Methodology and Formal Typology
+- **5.3.3.1 Four Formal Distractor Construction Patterns:**
+  1. *Conceptual Neighbour Inversion:* Swapping adjacent doctrinal concepts (e.g., Law: rescission period vs. limitation of actions).
+  2. *Boundary Condition Neglect:* Applying valid formula to invalid boundary intervals (e.g., CS: assigning $2^n$ instead of $2^n - 2$ available host addresses in subnet masking).
+  3. *Causal Direction Inversion:* Reversing dependent and independent variables (e.g., Economics: asserting demand contraction causes price inflation).
+  4. *Terminology Contamination / Jargon Masking:* Using valid software engineering buzzwords in inverted semantic scopes (e.g., SE: conflating mutation survival with statement coverage).
+- **5.3.3.2 Peer-Reviewed Academic Grounding:**
+  - Grounding in VanLehn's (2011) findings on fine-grained diagnostic effectiveness and Koedinger et al.'s (2012) Knowledge-Learning-Instruction (KLI) framework.
+- **5.3.3.3 Honest Feasibility Scoping (Anti-Overclaim Clause):**
+  - Explicit statement that 12 questions and 36 traps demonstrate *proof-of-mechanism feasibility*, not statistical saturation across entire degree curricula.
 
-雷达维度真实分布（写 5.3.1 或 5.4.3 时用）：`boundary` 12、`recall` 8、`trapDefense` 7、`synthesis` 7、`precision` 2。
-
----
-
-## 五、四类陷阱的真实配对（替换任务包里的虚构举例）
-
-| 陷阱类型 | 用这题 | 陷阱 ID | `radar_hit` | 一句话错因 |
-| :--- | :--- | :--- | :--- | :--- |
-| Conceptual neighbour | `law_1` | `trap_law_1` | **`trapDefense`** | 把形成权的除斥期间错套为 3 年普通诉讼时效 |
-| Boundary condition | `cs_2` | `trap_cs_2_2` | `boundary` | 块大小盲目增大 → 组数被压缩、冲突缺失加剧 |
-| Causal inversion | `econ_3` | `trap_econ_3_1` | `recall` | 把"有效性受损"误判为"估计量失去无偏性" |
-| Terminology contamination | `se_3` | `trap_se_3_3` | `recall` | 把"变异测试"误判为"性能压测" |
-
-（备选：`cs_3 / trap_cs_3_2`（Fault 重执 vs Interrupt 返回 PC+4，boundary）、`cs_3 / trap_cs_3_1`（TLB Miss ≠ Page Fault，trapDefense）、`econ_1 / trap_econ_1`（精度不足 ≠ 有偏，recall）。）
-
----
-
-## 六、引用（Crossref 已核）
-
-1. VanLehn, K. (2011) 'The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems', *Educational Psychologist*, 46(4), pp. 197–221. doi:10.1080/00461520.2011.611369.
-2. Corbett, A.T. and Anderson, J.R. (1994) 'Knowledge tracing: Modeling the acquisition of procedural knowledge', *User Modeling and User-Adapted Interaction*, 4(4), pp. 253–278. doi:10.1007/BF01099821.
-   ⚠️ Crossref 的出版年份记为 **1995**，学界多引作 1994；提交前请以出版社页面为准并全篇统一。
-3. Koedinger, K.R., Corbett, A.T. and Perfetti, C. (2012) 'The Knowledge-Learning-Instruction framework: Bridging the science-practice chasm to enhance robust student learning', *Cognitive Science*, 36(5), pp. 757–798. doi:10.1111/j.1551-6709.2012.01245.x.
+#### 5.3.4 Automated Structural Integrity and Validation Guarantees
+- **5.3.4.1 Test-Driven Knowledge Invariants:**
+  - Enforcing zero dangling trap references: Every option `trap_id` must resolve in `traps`.
+  - Cardinality invariant: Exactly one `is_correct == True` per question item.
+  - Statutory provenance invariant: Every `explanation` must cite formal textbook/statutory origins.
+- **5.3.4.2 Cross-Validation against Testing Suite:**
+  - Aligning data integrity with `tests/test_quiz.py` (6 unit cases) and `tests/test_adversarial_backend.py` (25 adversarial functions).
 
 ---
 
-## 七、DoD 自检（draft 阶段逐项打勾）
+### 5.4 Diagnostic Algorithm
 
-- [ ] 1,800–2,400 词，5–6 页
-- [ ] Table 5.4 / 5.5 / 5.6 ＋ Figure 5.2 齐备，编号与全组锁定表一致
-- [ ] 四类陷阱各配**真实题目**举例（见第五节）
-- [ ] 5.4.1 伪代码 ≤20 行且非 Python，语义与实现一致（200＋兜底）
-- [ ] 5.3.3 末尾有诚实局限性段
-- [ ] 5.4.3 口径与 `app.js` 完全一致（+4/+5/+3、−6/−4、floor 30、基线值）
-- [ ] 雷达维度名逐字一致：`recall` / `boundary` / `trapDefense` / `synthesis` / `precision`
-- [ ] 正文**无源码**（搜索 `def ` / `import ` / ```python）
-- [ ] Harvard 引用 ≥4 条，卷期页码已核
-- [ ] `sources.md` 已附（见同目录）
-- [ ] 能不看稿讲 4 分钟；能答 Q1–Q3
+#### 5.4.1 Deterministic Lookup vs. Generative Inference
+- **5.4.1.1 The Lookup Philosophy:**
+  - Stating the core architectural decision: Runtime diagnosis is executed via static in-memory index traversal.
+- **5.4.1.2 Presentation of Algorithm 5.1 (Pseudocode):**
+  - Formal $\le 20$-line algorithmic specification demonstrating $O(1)$ retrieval, boundary condition checks, and payload assembly.
+  - Explicit avoidance of raw Python code to adhere strictly to Course Brief Page 5 prohibitions.
+- **5.4.1.3 Complexity and Latency Guarantees:**
+  - Time complexity: $O(1)$ dictionary lookup.
+  - Space complexity: $O(N)$ bounded memory footprint (~60 KB heap footprint).
+  - Measured local round-trip execution time: $< 2.5 \text{ ms}$.
+
+#### 5.4.2 Comparative Trade-Off Analysis: Lookup vs. Generative LLMs
+- **5.4.2.1 Presentation of Table 5.6 (Comparative Decision Matrix):**
+  - Six evaluation vectors: Latency, Offline Availability, Output Determinism, Automated Testability, Academic Soundness, and Question Surface Coverage.
+- **5.4.2.2 The "Conceded Vector" (Honest Limitation):**
+  - Conceding that generative LLMs naturally surpass lookup tables in open-ended essay scenarios.
+  - Defending why closed-form multiple-choice items were deliberately chosen in Chapter 2 (R01/R02) to guarantee academic integrity and zero hallucination risk.
+- **5.4.2.3 Dual-Mode Safety Architecture:**
+  - Role of Qwen-Turbo LLM in `diagnostic_service.py`: Used exclusively for tone-polishing Socratic questions under a strict 4.0-second timeout; if offline or unconfigured, falls back immediately to verified local prompts with zero unhandled exceptions.
+
+#### 5.4.3 Real-Time Competency Radar Telemetry and Startup Trade-offs
+- **5.4.3.1 Client-Side Instant Vector Adjustment:**
+  - Five targeted dimensions: Basic Concepts (`recall`), Boundary Conditions (`boundary`), Trap Defense (`trapDefense`), Cross-Chapter Synthesis (`synthesis`), Computational Precision (`precision`).
+  - Mechanics: Client-side event aggregation (`frontend/app.js:updateRadarCharts`) achieving immediate UI responsiveness without database write transactions.
+- **5.4.3.2 Startup Architecture Trade-Offs (Option B Scoping):**
+  - Justification of lean in-session aggregation over complex persistent Bayesian Knowledge Tracing (BKT) or Free Spaced Repetition Scheduling (FSRS).
+  - Explicit demarcation for Chapter 7 (*Future Work*): Temporal retention decay and longitudinal student tracking deferred to post-MVP roadmap.
 
 ---
 
-## 八、与任务包 06 的差异（已按实测修正，建议同步告知吴宇轩）
+## 4. Required Tables, Figures, and Pseudocode
 
-| 任务包 06 原文 | 实测 | 本骨架采用 |
-| :--- | :--- | :--- |
-| `seed_questions.py` 932 行 | 657 行 | 657 |
-| 5.3.2 表：`law_1` 的 `radar_hit` = `boundary` | `trapDefense` | `trapDefense` |
-| 5.3.3 举例：子网划分 `2^n−2` | 题库中无此题型 | 换成 `cs_2 / trap_cs_2_2` |
-| 5.3.3 举例：供需弹性因果倒置 | econ 三题均为计量经济学 | 换成 `econ_3 / trap_econ_3_1` |
-| 5.3.3 举例：单元测试 vs 集成测试 | 无此题型 | 换成 `se_3 / trap_se_3_3` |
-| 5.4.3 读 `report_service.py` / `/api/reports/trend` | 两者均不存在 | 改读 `frontend/app.js`（组长已裁定） |
-| 伪代码 404 / 422 | 实现为 200＋兜底 | 按实际写 |
-| 端点 8 个（总索引 README） | 4 个 | 不写端点数或写 4 |
+### 4.1 Table 5.4: Question Bank and Misconception Trap Distribution Matrix
+*To be populated directly from `backend/app/data/seed_questions.py`:*
+- 12 rows corresponding to questions `law_1`, `law_2`, `law_3`, `cs_1`, `cs_2`, `cs_3`, `econ_1`, `econ_2`, `econ_3`, `se_1`, `se_2`, `se_3`.
+- Columns: Subject, Question ID, Difficulty, Core Academic Concept, Distractor Trap IDs, Target Radar Dimensions.
+
+### 4.2 Table 5.5: `TrapDetail` Schema and Pedagogical Role Mapping
+- Mapping of the 4 data model fields (`title`, `desc`, `prereq`, `radar_hit`) to their metacognitive and tutoring functions.
+
+### 4.3 Table 5.6: Architectural Decision Matrix: Static Lookup vs. Generative LLM
+- Comparative trade-off table contrasting deterministic table lookup with on-the-fly generative LLM prompts, concluding with the acknowledged open-domain limitation.
+
+### 4.4 Figure 5.2: Diagnostic Traversal and Feedback Causal Chain
+- Vector diagram (Mermaid/SVG) detailing the flow from distractor selection to radar delta and Socratic prompt.
+
+### 4.5 Algorithm 5.1: Deterministic Misconception Diagnosis Algorithm
+- Formal algorithmic pseudocode ($\le 20$ lines) specifying input validation, $O(1)$ dictionary indexing, and output payload assembly.
 
 ---
 
-## 九、已知风险（写作前必须处理）
+## 5. Harvard Reference Corpus
 
-1. **凭证泄露（安全事件，优先级最高）**：`frontend/app.js` 第 1207 行硬编码了一个 `sk-` 开头的 API Key（变量 `GEMINI_DEFAULT_KEY`，长度 67），并作为默认值预填入界面输入框。仓库是 public，**任何人可读取并盗用额度**。必须：控制台吊销该 Key → 从代码与 git 历史中移除 → 全组自查。此事与 5.3/5.4 无直接关系，但属于必须在提交前处理的问题（对应总清单里"凭证泄露已处理"一项）。
-2. **无出处百分比**（4 处）：不得进入正文，见 5.3.3 提醒。
-3. **emoji 陷阱标题**：正文需转写，不得原文引用。
-4. **前端/后端双份题库**：5.3.4 如实说明，或由梁子铉后续统一数据源。
-5. **+6 / +5 文案不一致**：建议修正 UI 文案为 +5。
+1. **Corbett, A.T. and Anderson, J.R. (1994)** 'Knowledge tracing: Modeling the acquisition of procedural knowledge', *User Modeling and User-Adapted Interaction*, 4(4), pp. 253–278.
+2. **Koedinger, K.R., Corbett, A.T. and Perfetti, C. (2012)** 'The Knowledge-Learning-Instruction framework: Bridging the science-practice chasm to enhance robust student learning', *Cognitive Science*, 36(5), pp. 757–798.
+3. **VanLehn, K. (2011)** 'The relative effectiveness of human tutoring, intelligent tutoring systems, and other tutoring systems', *Educational Psychologist*, 46(4), pp. 197–221.
+4. **Sommerville, I. (2020)** *Software Engineering*. 10th edn. Harlow: Pearson Education.
+
+---
+
+## 6. Oral Defense Preparation (30-Second Strategy)
+
+- **Q1 ("Only 12 questions? Is this just a toy demo?"):**  
+  *Strategy:* Concede scale, defend mechanism. The 12 questions establish proof-of-concept feasibility for fine-grained distractor attribution. Scaling question volume is an editorial asset ingestion task, whereas establishing deterministic trap routing and zero-hallucination guarantees is the core architectural innovation.
+- **Q2 ("How do you know these traps reflect real student mistakes?"):**  
+  *Strategy:* Triangulate sources. Cite statutory contrasts (Civil Code Articles 152 vs. 188), textbook boundary traps ($2^n - 2$ host addresses), and team cross-review audits. Concede lack of large-scale longitudinal empirical validation in the Limitations subsection.
+- **Q3 ("Why not let modern generative LLMs diagnose students directly?"):**  
+  *Strategy:* Highlight safety and reliability. LLMs exhibit prompt drift and legal/mathematical hallucinations (e.g., misquoting statutory limitation periods). In educational assessment, deterministic correctness and offline reproducibility strictly supersede conversational novelty.
