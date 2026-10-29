@@ -64,8 +64,33 @@
     "banned_terms_found": [
       {
         "term": "闭环",
-        "file": "reports/assumptions.md",
-        "line": 24
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 8
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 58
+      },
+      {
+        "term": "闭环",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 66
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 72
+      },
+      {
+        "term": "闭环",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 110
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 135
       },
       {
         "term": "闭环",
@@ -211,6 +236,31 @@
         "term": "综上所述",
         "file": "reports/cycle3_master_plan.md",
         "line": 178
+      },
+      {
+        "term": "赋能",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "闭环",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "生态",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "leverage",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
       },
       {
         "term": "闭环",
@@ -361,15 +411,135 @@
         "term": "闭环",
         "file": "reports/figures/README.md",
         "line": 83
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
       }
     ]
   },
   "env_fingerprint": {
     "python_version": "3.13.14",
     "pandas_version": "3.0.3",
-    "git_commit": "b482e16567aa229e6ab21e9d3ad37dec96580b5f",
+    "git_commit": "32a583dd5e89b6e403d0dd85bb934684e4bd252f",
     "branch": "main",
-    "timestamp_utc": "2026-10-23T03:08:56Z",
+    "timestamp_utc": "2026-10-29T03:06:25Z",
     "host_os": "Windows 11"
   },
   "determinism_check": {

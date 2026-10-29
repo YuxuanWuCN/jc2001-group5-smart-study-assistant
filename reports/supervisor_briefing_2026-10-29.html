@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JC2001 Group 5 — Supervisor Meeting Briefing, 29 October 2026</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 14mm 15mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+    font-size: 9.4pt; line-height: 1.31; color: #1f2937; margin: 0;
+  }
+  .zh { color: #5b6675; }
+  h1 { font-size: 15.5pt; color: #1b365d; margin: 0 0 2px 0; line-height: 1.22; }
+  h1 .zh { display: block; font-size: 11pt; font-weight: normal; margin-top: 3px; }
+  h2 {
+    font-size: 10.8pt; color: #1b365d; margin: 10px 0 4px 0;
+    padding-bottom: 3px; border-bottom: 1.6px solid #1b365d;
+  }
+  h2 span.n { color: #1e3a8a; }
+  h2 { page-break-after: avoid; }
+  h2 .zh { font-size: 9.2pt; font-weight: normal; color: #5b6675; }
+  p { margin: 4px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 4px 0 5px 0; }
+  th, td { border: 0.6px solid #cbd5e1; padding: 2.7px 4.5px; vertical-align: top; text-align: left; }
+  th { background: #eef2f7; color: #1b365d; font-size: 8.8pt; }
+  td.c, th.c { text-align: center; }
+  .meta { width: 100%; border: none; margin: 6px 0 2px 0; font-size: 8.7pt; }
+  .meta td { border: none; padding: 1px 6px 1px 0; }
+  .meta td.k { color: #1b365d; font-weight: bold; white-space: nowrap; width: 27%; }
+  .rule { border: none; border-top: 2.4px solid #1b365d; margin: 6px 0 8px 0; }
+  .lead { background: #f7f9fc; border-left: 3px solid #1e3a8a; padding: 6px 9px; margin: 6px 0; }
+  .anchors { margin: 4px 0 0 0; padding-left: 0; list-style: none; counter-reset: a; }
+  .anchors li { counter-increment: a; margin: 4px 0; padding-left: 22px; position: relative; }
+  .anchors li::before {
+    content: counter(a); position: absolute; left: 0; top: 1px;
+    background: #1b365d; color: #fff; width: 15px; height: 15px;
+    font-size: 8pt; text-align: center; line-height: 15px;
+  }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ok { color: #059669; font-weight: bold; }
+  .warn { color: #d97706; font-weight: bold; }
+  .bad { color: #b42318; font-weight: bold; }
+  .q { margin: 5px 0 0 0; padding-left: 0; list-style: none; counter-reset: q; }
+  .q li { counter-increment: q; margin: 4px 0; padding-left: 20px; position: relative; }
+  .q li::before {
+    content: "Q" counter(q); position: absolute; left: 0; top: 0;
+    color: #1e3a8a; font-weight: bold; font-size: 9pt;
+  }
+  .q .ask { color: #1b365d; font-weight: bold; }
+  .small { font-size: 8.2pt; }
+  .foot { border-top: 0.9px solid #cbd5e1; margin-top: 10px; padding-top: 5px; font-size: 7.9pt; color: #5b6675; }
+  .keep { page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 8.4pt; background: #f1f5f9; padding: 0 2px; }
+  .tag { display: inline-block; font-size: 7.6pt; border: 0.6px solid #1e3a8a; color: #1e3a8a; padding: 0 3px; }
+</style>
+</head>
+<body>
+
+<h1>Supervisor Meeting Briefing — 29 October 2026
+<span class="zh">导师组会汇报简报（中英双语 · 面向 Dr. Mumtaz 的英文口径 + 组内中文提示）</span></h1>
+<hr class="rule">
+
+<table class="meta">
+<tr><td class="k">Course / Group</td><td>JC2001 Introduction to Software Engineering (2026–27) · Group 5, BSc BMIS · 10 members</td></tr>
+<tr><td class="k">Project</td><td>Smart Study Assistant System (SmartStudy Console) — misconception diagnosis on the chosen distractor</td></tr>
+<tr><td class="k">Supervisor / Presenter</td><td>Dr. Shahzad Mumtaz · Presented by Yuxuan Wu (Group Lead / PM); each chapter answered by its own author (§8)</td></tr>
+<tr><td class="k">Position in plan</td><td>Cycle 3 (Reports cycle), Week A closed 25 Oct, Week B (first drafts) running — internal schedule, Week A/B/C per <code>reports/cycle3_master_plan.md</code> §5</td></tr>
+<tr><td class="k">Evidence baseline</td><td>Repository HEAD <code>32a583d</code>, working tree clean, all figures below re-measured on <strong>25 Oct 2026</strong> (see §9 index)</td></tr>
+<tr><td class="k">Next assessment event</td><td>Mandatory Project Update 2 — team deadline held at 2 Nov 2026; the exact date on the MyAberdeen course page is being re-confirmed this week (our internal proposal file lists 6 Nov)</td></tr>
+<tr><td class="k">Privacy note</td><td><span class="zh">本册不含学号与邮箱（25 Oct 脱敏提交 <code>61eba90</code> 已执行）；如需带学号版本，我们会按官方模板单独出一版。</span></td></tr>
+</table>
+
+<h2><span class="n">1.</span> Three opening anchors <span class="zh">— 定场三句：先定义、再对比、后划边界</span></h2>
+<ol class="anchors">
+<li><strong>What it is.</strong> “We built a practice quiz tool whose feedback is attached to the <em>wrong option the student picked</em>, not to the question.”
+<br><span class="zh small">不要从技术栈讲起。这句是全部讨论的落点。</span></li>
+<li><strong>What is different.</strong> “Quizlet tells you right or wrong; a general LLM spoils the answer and can invent the statute. We name the concept that was mixed up and the prerequisite that is missing.”</li>
+<li><strong>Where the boundary is.</strong> “It is a feasibility prototype: 17 questions across 9 disciplines, 51 traps, one offline command, no cloud dependency during the demo — not a product.”</li>
+</ol>
+
+<h2><span class="n">2.</span> Verified status — what changed since the Cycle 2 review <span class="zh">— 只报能当场复测的数字</span></h2>
+<table class="keep">
+<thead><tr><th style="width:23%">Measure</th><th style="width:16%">Reported 15 Oct</th><th style="width:25%">Verified 25 Oct</th><th>How to re-check it</th></tr></thead>
+<tr><td>Automated tests</td><td class="num">114 passed</td><td class="num ok">147 passed, 0 failed<br>(17 warnings, 3.11 s)</td><td><code>python -m pytest tests/ -q</code> · 9 files, <strong>80</strong> test functions, 147 cases after parametrised expansion</td></tr>
+<tr><td>API surface</td><td class="num">8 endpoints</td><td class="num">8 endpoints <span class="tag">frozen</span></td><td>No new features since 18 Oct; feature freeze is a deliberate scoping decision (§3, item 4)</td></tr>
+<tr><td>Graph-augmentation evidence</td><td class="num">not in Cycle 2 pack</td><td class="num">MMLU 12 subsets:<br><span class="ok">7 gains</span> / 3 ties / <span class="bad">2 losses</span></td><td><code>graphrag（终）/final_systematic_report.csv</code> · best +2.5 pp (Professional Law), worst −1.3 pp (High School Physics), −1.0 pp (HS US History)</td></tr>
+<tr><td>Git history</td><td class="num">47 commits</td><td class="num">66 commits, 7 authors</td><td><code>git log --all --pretty=%an</code> · lead 39 / 66 = 59% — declared openly, see §4C</td></tr>
+<tr><td>Report chapters with material</td><td class="num">0 / 7</td><td class="num warn">2 / 7</td><td><code>reports/final_report/</code> · 5.3–5.4 (outline, sources, Figure 5.2) and 5.6 (draft, Figure 5.5) received</td></tr>
+<tr><td>Numbered figures available</td><td class="num">3 UML</td><td class="num">5</td><td>Context model, global use case, diagnose sequence + Figure 5.2 trap causal chain + Figure 5.5 deployment</td></tr>
+<tr><td>Secrets / PII hygiene</td><td class="num bad">credential in repo</td><td class="num ok">remediated 25 Oct</td><td>Commits <code>6ca027c</code> (purge), <code>47c0d95</code> (quarantine legacy ZIP), <code>61eba90</code> (PII redaction); Aura password rotated</td></tr>
+<tr><td>Question bank</td><td class="num">4 disciplines / 12 Q / 36 traps</td><td class="num">9 disciplines / 17 Q / <strong>51</strong> traps</td><td><code>backend/app/data/seed_questions.py</code> (932 lines): counted 17 <code>QuizItem(</code> entries and 51 <code>TrapDetail(</code> entries — our own documentation still quotes the old figures, see §4E</td></tr>
+</table>
+<p class="zh small">口径说明：10 月 19 日的一次记录为 150 passed，今天 HEAD 上实测为 147 —— 两个数字至少有一个是错的，见 §4E；本周起每次会前重新实测，旧数字不再引用。</p>
+
+<h2><span class="n">3.</span> Decisions and what each one cost us <span class="zh">— 每条都有被否决的方案和代价，这是报告第 4 章 ADR 矩阵的浓缩</span></h2>
+<table class="keep">
+<thead><tr><th style="width:27%">Decision</th><th style="width:29%">Alternative we rejected</th><th>What it costs us (stated in the report)</th></tr></thead>
+<tr><td>Single process, single port, no database, no build step</td><td>Microservices + hosted demo so the reviewer sees a “modern” stack</td><td>No scaling or multi-tenancy to discuss; the examiner runs it offline on one command. Recorded as ADR-01, Ch 5.6.</td></tr>
+<tr><td>Diagnosis by table lookup on the chosen distractor</td><td>Let the LLM write the misconception feedback at run time</td><td>Only the 51 predefined traps are covered. Ch 5.4.2 keeps a comparison table <em>including the row we lose</em>: on open-ended questions lookup fails completely.</td></tr>
+<tr><td>Hand-written vanilla front end (72 KB CSS, 253 KB JS)</td><td>React plus a bundler</td><td>No component library, no reuse; every screen is manual. Chosen so the submitted ZIP runs without <code>npm</code>.</td></tr>
+<tr><td>Reports-first: feature freeze from 18 Oct</td><td>Keep adding features (teacher dashboard, cohort heatmap, dynamic question generation)</td><td>Two of five SMART objectives stay partially met; teacher view moved to “Won't have” in the MoSCoW matrix.</td></tr>
+<tr><td>Learner data kept as labelled session/mock with <code>source</code> returned in the payload</td><td>Silently seed realistic-looking data so the screen looks “alive”</td><td>The reviewer sees the word <em>mock</em>. Accepted: ASM-02 in <code>reports/assumptions.md</code> records it as an assumption to be replaced, not a result.</td></tr>
+</table>
+
+<h2><span class="n">4.</span> What went wrong — reported before being asked <span class="zh">— 四条负面事实，主动交出</span></h2>
+<table class="keep">
+<thead><tr><th style="width:17%">Item</th><th>Fact and current state</th></tr></thead>
+<tr><td><strong>A. Credential leak</strong></td><td>An evaluation script held a literal Neo4j Aura username and password, committed and pushed during prototyping. Remediated 25 Oct: constants purged (<code>6ca027c</code>), the legacy PoC ZIP that still embeds the pre-remediation copy quarantined out of the deliverable path (<code>47c0d95</code>), password rotated. We want to write this up as a short security case study in Ch 5.6 — see Q4.</td></tr>
+<tr><td><strong>B. Negative empirical result</strong></td><td>Graph augmentation did not help on 5 of 12 MMLU subsets: 3 unchanged, High School Physics −1.3 pp, HS US History −1.0 pp. We read this as expected behaviour on reasoning-type and free-association items, and as a single-sample run with no significance testing. The negatives stay in Ch 6.3 and Figure 6.2.</td></tr>
+<tr><td><strong>C. Contribution concentration</strong></td><td>39 of 66 commits are by the group lead: the code base is effectively one-authored. Report writing is being distributed to break this — one chapter per member, plus random questioning of any author in meetings (§8). Appendix A will show the skew as it is. See Q1.</td></tr>
+<tr><td><strong>D. Gate G1 partially missed</strong></td><td>The internal gate required all 9 chapter outlines by 25 Oct; <strong>2 of 9 landed</strong>. Per the published rule the late chapters are reclaimed to the PM unless the author confirms this week, and the non-submission is recorded in Appendix A. Applying this against five teammates is the point — see Q1.</td></tr>
+<tr><td><strong>E. Documentation lags the code</strong></td><td>Two verified examples, found by re-measuring on 25 Oct: (1) the Ch 5.6 draft states <em>150 passed in 1.79 s</em> while the repository measures <em>147 passed in 3.11 s</em> from the same 80 test functions — at least one of the two is wrong and we have not yet established which; (2) every plan and report file still describes the bank as 12 questions / 36 traps in 4 disciplines, whereas the code now contains 17 questions / 51 traps in 9 disciplines. Fix in progress: one number registry (<code>reports/final_report/_evidence/number_registry.md</code>), every figure tied to a re-runnable command, no cross-chapter number copied by hand, and a re-measure before each meeting.</td></tr>
+</table>
+<p class="zh small">补充：RAGAS 指标未跑完（依赖已轮换的云端实例），第 6 章表 6.4 将如实写 “not run”，不放我们自己不信的分数 —— 见 Q3。</p>
+
+<h2><span class="n">5.</span> Report against the official chapter order <span class="zh">— 结构不改、顺序不改，Week B 目标：各章达到目标页数的 60%</span></h2>
+<table class="keep">
+<thead><tr><th style="width:30%">Official chapter</th><th style="width:16%">Author</th><th class="c" style="width:10%">Target pp.</th><th class="c" style="width:12%">Status</th><th>Next concrete step (before 2 Nov)</th></tr></thead>
+<tr><td>1 Introduction &amp; project context</td><td>Lin Yongtong</td><td class="c num">5–6</td><td class="c warn">no outline</td><td>Competitor table (≥5 products × 4 dimensions) from <code>competitor_analysis.md</code> + 3 personas</td></tr>
+<tr><td>2 Functional &amp; non-functional requirements</td><td>Zhang Zijian</td><td class="c num">6–7</td><td class="c warn">no outline</td><td>14-row MoSCoW with ≥3 “Won't”, 5-class NFR table with measurable indicators</td></tr>
+<tr><td>3 Use cases &amp; requirements modelling</td><td>Xie Weixin</td><td class="c num">6–7</td><td class="c warn">no outline</td><td>Reuse Figure 3.1 use case diagram; 6 Cockburn-style descriptions incl. exception flows</td></tr>
+<tr><td>4 System design &amp; architecture</td><td>Wang Sijian</td><td class="c num">9–11</td><td class="c warn">no outline</td><td>Class diagram to draw; ADR matrix ≥6 rows with rejected option + cost filled in</td></tr>
+<tr><td>5 Implementation</td><td>Jiang Hao (5.1–5.2) · Dong Siqin (5.3–5.4) · Xi Yusai (5.5) · Liang Zixuan (5.6)</td><td class="c num">14–16</td><td class="c ok">2 parts in</td><td>5.3–5.4 to draft body from delivered outline; 5.1–5.2 and 5.5 outlines overdue</td></tr>
+<tr><td>6 Testing &amp; evaluation</td><td>Yang Mingjie</td><td class="c num">7–8</td><td class="c warn">no outline</td><td>Evidence already measured: 147 cases, 25 adversarial functions in 6 groups, MMLU 12-subset table, NFR-by-NFR scoring</td></tr>
+<tr><td>7 Conclusions &amp; future work</td><td>Wu Yuxuan</td><td class="c num">3–4</td><td class="c">Week C</td><td>Settle the 5 SMART objectives one by one, ≥5 limitations, ≥3 “what failed”</td></tr>
+<tr><td>Appendix A Group Workload Profile</td><td>Official MyAberdeen template, 10 signatures</td><td class="c">1–2</td><td class="c">—</td><td>Completed once chapter ownership is settled after this meeting</td></tr>
+</table>
+
+<h2><span class="n">6.</span> Plan to the Project Update 2 date <span class="zh">— 26 Oct – 2 Nov</span></h2>
+<table class="keep">
+<thead><tr><th style="width:14%" class="c">Date</th><th>Action</th><th style="width:20%">Owner</th></tr></thead>
+<tr><td class="c">26–27 Oct</td><td>Confirm the real Update 2 deadline on the course page; issue the 24-hour pre-meeting rule (each member takes 5 questions from the Q&amp;A defence library and answers them in writing)</td><td>PM + all</td></tr>
+<tr><td class="c">28 Oct</td><td>Late chapters either claimed or reclaimed; first drafts of 5.1–5.2 and Ch 6 reach 60% of target</td><td>Jiang Hao, Yang Mingjie</td></tr>
+<tr><td class="c">29 Oct</td><td><strong>This meeting.</strong> Six rulings requested (§7); answers become the acceptance criteria for Week C</td><td>Supervisor + team</td></tr>
+<tr><td class="c">30 Oct–1 Nov</td><td>Cross-review, ≥5 written comments per reviewer; number registry reconciled so no figure in the draft contradicts the repository</td><td>Assigned pairs</td></tr>
+<tr><td class="c">2 Nov</td><td>Project Update 2 submitted on MyAberdeen as one group entry: WBS activity, owner, deadline, current status — including the missed gate and the concentration in git history</td><td>PM (Yuxuan Wu)</td></tr>
+</table>
+
+<h2><span class="n">7.</span> Six decisions we want your ruling on <span class="zh">— 主动把纠结点交给导师：这是最有效的一条“去 AI 感”动作</span></h2>
+<ol class="q">
+<li><span class="ask">Appendix A: how honest is “honest”?</span> Our git history is 59% one author and 5 of 9 outlines are late. We intend to record the skew as it is (0% / +X% / −X% per the official template) rather than smooth it.
+<br><span class="zh small">请裁决：如实倾斜的档案在评分与“小组工作”认定上会不会被当成不合格？还是平滑过的档案更容易被质疑？我们准备按你说的执行，并让全员签字。</span></li>
+<li><span class="ask">Do negative results earn credit or cost marks?</span> Ch 6.3 will show 7 gains, 3 ties and 2 losses with the bars coloured. Is that the level of critical evaluation you expect, or should the framing stress the mechanism rather than the score change?
+<br><span class="zh small">我们倾向如实呈现（§4B）。想确认它在你眼里是“评估能力”，不是“功能失败”。</span></li>
+<li><span class="ask">RAGAS: state “not run”, or re-run a smaller subset offline?</span> The metrics depend on the cloud instance whose credential we rotated. A partial re-run costs an estimated 4–6 hours and would compete with Week C merging.
+<br><span class="zh small">请给一个优先级：诚实留空，还是补一小块带保留说明的数字？</span></li>
+<li><span class="ask">Put the credential incident inside the assessed report?</span> It is verifiable and human. We are unsure whether describing a security mistake in a submitted artefact reads as reflection (good) or as an admission that should be handled privately with the coordinator instead.
+<br><span class="zh small">若可以写，我们会限制在 Ch 5.6 半页：事件、检测、补救、复查；不写凭证本身、不写平台名。</span></li>
+<li><span class="ask">How explicit should the AI-use declaration be?</span> Our process used spec-kit and multi-agent scaffolding for code and drafting. Every submission passes Turnitin and we follow University academic-integrity guidance. We want the declaration to match how the marker actually reads it.
+<br><span class="zh small">请给一个可操作边界：写“工具清单 + 人的决策清单”够不够，还是需要逐章标注？</span></li>
+<li><span class="ask">How much business framing is safe?</span> The brief asks for intended users and practical/business value, so Ch 1.6 and 7.3 include three pricing scenarios marked as assumptions. Where is the point at which that reads like invented market claims?
+<br><span class="zh small">我们目前的边界：不编用户调研（没有 n=200 问卷这种东西），只写文献、竞品分析和组内 10 人的非正式验证。</span></li>
+</ol>
+
+<h2><span class="n">8.</span> Who answers which line of questioning <span class="zh">— 固定应答顺序，组长不抢答</span></h2>
+<table class="keep">
+<thead><tr><th style="width:32%">Topic raised by supervisor</th><th>Answers first</th></tr></thead>
+<tr><td>Architecture, diagrams, design decisions</td><td>Wang Sijian (Ch 4)</td></tr>
+<tr><td>Testing, empirical evaluation, validity threats</td><td>Yang Mingjie (Ch 6)</td></tr>
+<tr><td>Problem, competitors, users, business value</td><td>Lin Yongtong (Ch 1)</td></tr>
+<tr><td>Requirements, MoSCoW scoping, use cases</td><td>Xie Weixin (Ch 3) · Zhang Zijian (Ch 2)</td></tr>
+<tr><td>Implementation, algorithms, question bank, GUI, deployment</td><td>Jiang Hao · Dong Siqin · Xi Yusai · Liang Zixuan (Ch 5)</td></tr>
+<tr><td>Plan, workload, submission mechanics</td><td>Yuxuan Wu (PM) — summary and fallback only, never first</td></tr>
+</table>
+<div class="lead small"><strong>If we cannot answer.</strong> The agreed form of words is: “That evidence is not ready today; we are collecting it this week and it will appear in chapter X, and we will bring the measured number next meeting.” No placeholder, no “a teammate did this”.
+<br><span class="zh">答不上来的标准动作：承认 + 给出落在第几章 + 下周带实测数字。不推给组员，不编。</span></div>
+
+<h2><span class="n">9.</span> Evidence index <span class="zh">— 简报里每个数字都能在五分钟内复现</span></h2>
+<p class="small">
+<code>tests/</code> (9 files, 80 functions → 147 cases, 3.11 s) ·
+<code>backend/app/routers/</code> (8 endpoints) ·
+<code>backend/app/data/seed_questions.py</code> (17 questions, 51 traps, 9 disciplines) ·
+<code>graphrag（终）/final_systematic_report.csv</code> (12 MMLU subsets) ·
+<code>reports/final_report/</code> (chapter material as of 25 Oct) ·
+<code>reports/figures/</code> (3 UML) + <code>reports/final_report/*/figures/</code> (Figures 5.2, 5.5) ·
+<code>reports/cycle3_master_plan.md</code> (chapter map, gates G1/G2, 17 figures / 21 tables pre-allocated) ·
+<code>reports/cycle3_task_packs/</code> (9 author packs) ·
+<code>reports/supervisor_qa_defense_library.md</code> (Q&amp;A drills, §7 integrity lines) ·
+<code>reports/assumptions.md</code> (ASM-01…ASM-06) ·
+<code>reports/phase2_cycle2_progress_report.md</code> (Cycle 2 baseline, 15 Oct) ·
+<code>docs/course/2026-27-GroupProjectDescription-and-Requirements.txt</code> (official brief: chapter order, 40–60 pages, A4/2.54 cm/12 pt/1.5, no source code in body, ≥3 of 4 project updates)
+</p>
+<p class="small"><strong>Formatting compliance for the report itself:</strong> A4, 2.54 cm margins, single column, 12 pt Arial or Times New Roman, 1.5 line spacing, 40–60 pages of body text, no source code, Harvard references (≥25), Appendix A on the official MyAberdeen template with all 10 signatures.</p>
+
+<div class="foot">
+Group 5 · JC2001 (2026–27) · Supervisor meeting 29 Oct 2026 · measured against repository HEAD <code>32a583d</code>, 25 Oct 2026 · no student IDs or e-mail addresses in this pack (redaction <code>61eba90</code>) · 中文仅为汇报提示，交给导师的正文为英文。
+</div>
+
+</body>
+</html>
