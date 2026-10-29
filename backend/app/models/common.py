@@ -2,7 +2,8 @@
 Common Base Models and Schemas
 """
 
-from typing import Optional
+import re
+from typing import Any, Optional
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
@@ -15,6 +16,20 @@ class CamelModel(BaseModel):
         populate_by_name=True,
         extra="allow"
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _normalize_camel_input(cls, data: Any) -> Any:
+        """Accept camelCase payloads for snake_case fields (dual-norm sync)."""
+        if isinstance(data, dict):
+            fields = set(cls.model_fields)
+            for key in list(data):
+                if not isinstance(key, str):
+                    continue
+                snake = re.sub(r"(?<!^)(?=[A-Z])", "_", key).lower()
+                if snake != key and snake in fields and data.get(snake) is None:
+                    data[snake] = data[key]
+        return data
 
 
 class HealthResponse(CamelModel):

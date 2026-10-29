@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480" font-family="Arial, Helvetica, sans-serif">
+  <rect width="860" height="480" fill="#ffffff"/>
+  <text x="430" y="30" font-size="15.5" font-weight="bold" text-anchor="middle" fill="#0f172a">Figure 1.2: Competitive Positioning Map — Diagnostic Granularity vs. Offline Determinism</text>
+  <rect x="90" y="55" width="710" height="360" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="445" y1="55" x2="445" y2="415" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <line x1="90" y1="235" x2="800" y2="235" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="446" y="56" width="353" height="178" fill="#ecfdf5" opacity="0.65"/>
+  <text x="622" y="80" font-size="12" font-weight="bold" text-anchor="middle" fill="#047857">Target Feasibility Niche: Offline + Per-Distractor Attribution</text>
+  <text x="445" y="450" font-size="13" font-weight="bold" text-anchor="middle" fill="#1e293b">X-Axis: Diagnostic Granularity (Answer-Level Binary ➔ Item Solution ➔ Option-Level Misconception)</text>
+  <text x="30" y="235" font-size="13" font-weight="bold" text-anchor="middle" fill="#1e293b" transform="rotate(-90 30 235)">Y-Axis: Offline Availability &amp; Determinism</text>
+  <text x="110" y="432" font-size="11" fill="#64748b">Low: Answer ✔/✘ Only</text>
+  <text x="710" y="432" font-size="11" fill="#64748b">High: Per-Option Trap Attribution</text>
+  <text x="82" y="405" font-size="11" text-anchor="end" fill="#64748b">Cloud-Only</text>
+  <text x="82" y="75" font-size="11" text-anchor="end" fill="#64748b">100% Offline</text>
+  <circle cx="195" cy="105" r="9" fill="#3b82f6"/>
+  <text x="212" y="102" font-size="12.5" font-weight="bold" fill="#1e3a8a">Anki (Free, Offline)</text>
+  <text x="212" y="118" font-size="11" fill="#475569">Self-rated spaced repetition; no misconception diagnosis</text>
+  <circle cx="175" cy="285" r="9" fill="#6366f1"/>
+  <text x="192" y="282" font-size="12.5" font-weight="bold" fill="#312e81">Quizlet (Freemium)</text>
+  <text x="192" y="298" font-size="11" fill="#475569">Binary flashcard matching; offline locked behind paywall</text>
+  <circle cx="340" cy="355" r="9" fill="#f59e0b"/>
+  <text x="357" y="352" font-size="12.5" font-weight="bold" fill="#92400e">Chegg (Paid Subscription)</text>
+  <text x="357" y="368" font-size="11" fill="#475569">Static worked solutions; does not diagnose why a distractor was chosen</text>
+  <circle cx="485" cy="370" r="9" fill="#ef4444"/>
+  <text x="502" y="367" font-size="12.5" font-weight="bold" fill="#991b1b">ChatGPT / General LLMs</text>
+  <text x="502" y="383" font-size="11" fill="#475569">Immediate explanation spoils answers; prone to statutory hallucination</text>
+  <circle cx="575" cy="300" r="9" fill="#8b5cf6"/>
+  <text x="592" y="297" font-size="12.5" font-weight="bold" fill="#4c1d95">Khanmigo (Paid Cloud AI)</text>
+  <text x="592" y="313" font-size="11" fill="#475569">Socratic hints via cloud LLM; requires network &amp; subscription</text>
+  <circle cx="715" cy="115" r="12" fill="#059669" stroke="#064e3b" stroke-width="2.5"/>
+  <text x="705" y="142" font-size="13" font-weight="bold" text-anchor="end" fill="#064e3b">SmartStudy PoC (Group 5)</text>
+  <text x="705" y="158" font-size="11" text-anchor="end" fill="#047857">36 curated option traps • O(1) offline lookup • £0 marginal cost</text>
+</svg>

@@ -1,0 +1,551 @@
+{
+  "verdict_level": "V1",
+  "verdict_rationale": "在离线确定性路径上完成 L1-L3 全量审计（分母 84/36/12）；L4 因离线路径无自由文本生成面按契约记为 N/A。当前证据达到 V1 级，待在线对照实验后可升级为 V2。",
+  "persona_level_min": "E1",
+  "l1": {
+    "layer": "L1_content",
+    "denominator": 84,
+    "numerator": 0,
+    "rate": 0.0,
+    "coverage": 1.0,
+    "status": "measured",
+    "ci_low": null,
+    "ci_high": null,
+    "ci_method": null,
+    "note": "48 选项 + 36 陷阱事实判定完成"
+  },
+  "l2": {
+    "layer": "L2_attribution",
+    "denominator": 36,
+    "numerator": 0,
+    "rate": 0.0,
+    "coverage": 1.0,
+    "status": "measured",
+    "ci_low": null,
+    "ci_high": null,
+    "ci_method": null,
+    "note": "36 个选项陷阱归因逻辑区分度一致"
+  },
+  "l3": {
+    "layer": "L3_leakage",
+    "denominator": 12,
+    "numerator": 0,
+    "rate": 0.0,
+    "coverage": 1.0,
+    "status": "measured",
+    "ci_low": null,
+    "ci_high": null,
+    "ci_method": null,
+    "note": "12 题苏格拉底启发引导语均未剧透答案"
+  },
+  "l4": {
+    "layer": "L4_reasoning",
+    "denominator": 0,
+    "numerator": 0,
+    "rate": null,
+    "coverage": 1.0,
+    "status": "na_no_generation_face",
+    "ci_low": null,
+    "ci_high": null,
+    "ci_method": null,
+    "note": "离线确定性查表路径无大模型自由文本生成面，按契约定义 L4 幻觉率为 null (N/A)"
+  },
+  "claim_matrix": {
+    "allowed_sentences": [
+      "在离线确定性路径上，我们对 84 个选项/陷阱事实断言、36 条归因映射、12 道题的引导语做了全覆盖审计，未发现事实性错误；在线自由生成路径的幻觉率未测量。",
+      "选项级诊断机制通过离散规则映射消除了关键归因链上的模型幻觉自由度。"
+    ],
+    "forbidden_sentences": [
+      "本系统有效降低了 AI 幻觉率",
+      "本系统实现了 0% 幻觉率",
+      "MMLU 准确率提升证明了幻觉率降低",
+      "145 个测试全通证明了输出内容客观真实"
+    ],
+    "banned_terms_found": [
+      {
+        "term": "闭环",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 8
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 58
+      },
+      {
+        "term": "闭环",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 66
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 72
+      },
+      {
+        "term": "闭环",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 110
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/afternoon_supervisor_questions.md",
+        "line": 135
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 48
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 88
+      },
+      {
+        "term": "赋能",
+        "file": "reports/competitor_analysis.md",
+        "line": 92
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 92
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 376
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 493
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 494
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 519
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 520
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 524
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 572
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 584
+      },
+      {
+        "term": "深度融合",
+        "file": "reports/competitor_analysis.md",
+        "line": 585
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 612
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 634
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 677
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 759
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 964
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 1679
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 1864
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 1869
+      },
+      {
+        "term": "闭环",
+        "file": "reports/competitor_analysis.md",
+        "line": 1894
+      },
+      {
+        "term": "赋能",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "闭环",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "生态",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "全方位",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "深度融合",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "显著提升",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "综上所述",
+        "file": "reports/cycle3_master_plan.md",
+        "line": 178
+      },
+      {
+        "term": "赋能",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "闭环",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "生态",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "leverage",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/cycle3_supervisor_briefing.md",
+        "line": 51
+      },
+      {
+        "term": "闭环",
+        "file": "reports/report_data_contract.md",
+        "line": 2
+      },
+      {
+        "term": "零幻觉",
+        "file": "reports/report_data_contract.md",
+        "line": 14
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_plan.md",
+        "line": 7
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_plan.md",
+        "line": 49
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_plan.md",
+        "line": 241
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_plan.md",
+        "line": 272
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 58
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 88
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 93
+      },
+      {
+        "term": "闭环",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 130
+      },
+      {
+        "term": "leverage",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 236
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/week3_supervisor_briefing_and_qa.md",
+        "line": 236
+      },
+      {
+        "term": "leverage",
+        "file": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md",
+        "line": 157
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md",
+        "line": 157
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md",
+        "line": 157
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md",
+        "line": 157
+      },
+      {
+        "term": "显著提升",
+        "file": "reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md",
+        "line": 124
+      },
+      {
+        "term": "生态",
+        "file": "reports/cycle3_task_packs/04-ch4-architecture-wang-sijian.md",
+        "line": 105
+      },
+      {
+        "term": "赋能",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "闭环",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "生态",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "全方位",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "深度融合",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "综上所述",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "leverage",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/cycle3_task_packs/README.md",
+        "line": 94
+      },
+      {
+        "term": "闭环",
+        "file": "reports/figures/README.md",
+        "line": 36
+      },
+      {
+        "term": "闭环",
+        "file": "reports/figures/README.md",
+        "line": 83
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch01_lin_yongtong/evidence.md",
+        "line": 27
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch02_zhang_zijian/evidence.md",
+        "line": 30
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch03_xie_weixin/evidence.md",
+        "line": 36
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch04_wang_sijian/evidence.md",
+        "line": 28
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch05_dong_siqin/evidence.md",
+        "line": 26
+      },
+      {
+        "term": "leverage",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "cutting-edge",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "seamlessly",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      },
+      {
+        "term": "revolutionise",
+        "file": "reports/final_report/ch06_yang_mingjie/evidence.md",
+        "line": 42
+      }
+    ]
+  },
+  "env_fingerprint": {
+    "python_version": "3.13.14",
+    "pandas_version": "3.0.3",
+    "git_commit": "32a583dd5e89b6e403d0dd85bb934684e4bd252f",
+    "branch": "main",
+    "timestamp_utc": "2026-10-29T03:06:25Z",
+    "host_os": "Windows 11"
+  },
+  "determinism_check": {
+    "run_1_hash": "ad4aa00aa5371512650e1c6de5575c9e787b08b15fe1229499b189ebd0758cd0",
+    "run_2_hash": "ad4aa00aa5371512650e1c6de5575c9e787b08b15fe1229499b189ebd0758cd0",
+    "identical": true
+  },
+  "outstanding_reviews": []
+}

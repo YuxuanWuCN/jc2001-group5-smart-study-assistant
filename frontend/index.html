@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>智学罗盘｜大学生学习助手</title>
   
+  <!-- 智学罗盘专属矢量图标 (SVG Favicon) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231d4ed8'/%3E%3Ccircle cx='12' cy='12' r='8' stroke='%2338bdf8' stroke-width='1.2' stroke-dasharray='2 2' fill='none'/%3E%3Cpath d='M12 4L14 11L12 10L10 11Z' fill='%23ffffff'/%3E%3Cpath d='M12 20L10 13L12 14L14 13Z' fill='%2360a5fa'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%2338bdf8'/%3E%3C/svg%3E">
+  
   <!-- 预先应用持久化主题（默认深色，避免刷新闪烁） -->
   <script>
     (function() {
@@ -20,13 +23,13 @@
     })();
   </script>
 
-  <!-- 预加载 Monospace 字体 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- 智学罗盘学生端样式表 -->
-  <link rel="stylesheet" href="style.css?v=20261008_4">
+  <!-- 禁用浏览器磁盘强缓存，确保每次加载最新题库与脚本 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <!-- 智学罗盘学生端样式表 (含强制缓存失效刷新) -->
+  <link rel="stylesheet" href="style.css?v=20261017_daershang_v3">
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
     .spin { animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
@@ -37,33 +40,74 @@
 </head>
 <body>
 
+  <!-- 全景旗舰手机官网级动态极光氛围光场 (Global Flagship Aurora Ambient Mesh) -->
+  <div class="aurora-bg" aria-hidden="true">
+    <div class="aurora-blob aurora-blob-1"></div>
+    <div class="aurora-blob aurora-blob-2"></div>
+    <div class="aurora-blob aurora-blob-3"></div>
+  </div>
+
   <!-- ====================================================================
        迎新与产品介绍门户 (Landing & Auth Portal)
        ==================================================================== -->
   <div id="portal-landing" class="portal-landing">
+
     <!-- 顶部导航 -->
     <header class="portal-navbar">
       <div class="portal-brand">
-        <div class="brand-logo" style="width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2563eb, #38bdf8); color: #fff;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
+        <div class="brand-logo" style="width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); border: 1px solid rgba(56, 189, 248, 0.35); flex-shrink: 0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SmartStudy Compass Logo">
+            <defs>
+              <linearGradient id="portalLogoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#38bdf8"/>
+                <stop offset="50%" stop-color="#60a5fa"/>
+                <stop offset="100%" stop-color="#818cf8"/>
+              </linearGradient>
+              <linearGradient id="portalNeedleGrad" x1="12" y1="3" x2="16" y2="12" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#93c5fd"/>
+              </linearGradient>
+            </defs>
+            <!-- 罗盘外圈虚线刻度 -->
+            <circle cx="12" cy="12" r="9.5" stroke="url(#portalLogoGrad)" stroke-width="1.4" stroke-dasharray="2 2.5" opacity="0.65"/>
+            <circle cx="12" cy="12" r="7.2" stroke="url(#portalLogoGrad)" stroke-width="0.75" opacity="0.25"/>
+            <!-- 知识图谱星座节点连边 -->
+            <line x1="5.5" y1="14" x2="12" y2="12" stroke="#38bdf8" stroke-width="1" stroke-dasharray="1.5 1.5" opacity="0.65"/>
+            <line x1="18.5" y1="14" x2="12" y2="12" stroke="#818cf8" stroke-width="1" stroke-dasharray="1.5 1.5" opacity="0.65"/>
+            <circle cx="5.5" cy="14" r="1.4" fill="#38bdf8"/>
+            <circle cx="18.5" cy="14" r="1.4" fill="#818cf8"/>
+            <circle cx="12" cy="19.5" r="1.2" fill="#6366f1"/>
+            <!-- 罗盘向上导航主指尖 (北向钻面指针) -->
+            <path d="M12 3.2L14.2 11.2L12 10.2L9.8 11.2L12 3.2Z" fill="url(#portalNeedleGrad)"/>
+            <path d="M12 3.2L9.8 11.2L12 10.2Z" fill="#bae6fd" opacity="0.9"/>
+            <!-- 罗盘下方平衡副翼 -->
+            <path d="M12 20.8L9.8 12.8L12 13.8L14.2 12.8L12 20.8Z" fill="#3b82f6" opacity="0.55"/>
+            <!-- 核心考点锚定中枢节点 -->
+            <circle cx="12" cy="12" r="2.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.2"/>
+            <circle cx="12" cy="12" r="0.8" fill="#2563eb"/>
           </svg>
         </div>
         <div class="portal-brand-text">
-          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">SmartStudy AI <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500); font-family: var(--font-mono);">智学罗盘</span></div>
+          <div style="font-weight: 700; font-size: 1.18rem; color: var(--text-title); letter-spacing: -0.01em;">SmartStudy AI <span style="font-weight: 600; font-size: 0.88rem; color: var(--primary-500);">智学罗盘</span></div>
           <div style="font-size: 0.76rem; color: var(--text-muted);" id="portal-brand-sub">University of Aberdeen · JC2001 Group 5 Honours Project</div>
         </div>
       </div>
 
-      <div class="portal-nav-actions" style="display: flex; align-items: center; gap: 12px;">
-        <button id="portal-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 12px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-weight: 600; font-size: 0.85rem; font-family: var(--font-mono);">
+      <div class="portal-nav-actions" style="display: flex; align-items: center; gap: 10px;">
+        <button id="portal-cmd-btn" class="cmd-pill-btn" type="button" title="Open Command Palette / 唤起快捷指令 (Ctrl+K)">
+          <span>⌘K</span>
+          <span>指令台</span>
+        </button>
+        <button id="portal-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 12px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-weight: 600; font-size: 0.85rem;">
           <span>🌐</span>
           <span class="lang-label">English</span>
         </button>
         <button id="portal-theme-btn" class="theme-toggle-btn" type="button" title="Toggle Dark/Light Mode" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg-surface); cursor: pointer; color: var(--text-body);">
           🌓
+        </button>
+        <button id="portal-auth-nav-btn" class="btn-secondary" type="button" title="学生学籍登入 / 身份管理" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 14px; height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg-surface); cursor: pointer; color: var(--text-title); font-weight: 600; font-size: 0.85rem;">
+          <span>👤</span>
+          <span id="portal-auth-nav-label">学生登录</span>
         </button>
         <button id="portal-fast-enter-btn" class="btn-main" type="button" style="padding: 8px 18px; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
           <span id="portal-fast-enter-text">Enter Study Workspace</span>
@@ -75,20 +119,77 @@
     <!-- 核心 Hero 标语区 -->
     <section class="portal-hero">
       <div class="portal-badge-pill">
-        <span>给大学生用的学习助手 · 先理解，再做题</span>
+        <span class="pulse-dot pulse-blue" aria-hidden="true"></span>
+        <span id="portal-hero-badge-text">✨ University of Aberdeen · JC2001 Group 5 Honours Project</span>
       </div>
       <h1 class="portal-hero-title">
-        把每一次做错题，<br>变成下一次进步的线索
+        基于认知图谱与出题陷阱拓扑的<br><span class="hero-gradient-text">大学生理工科智能助学系统</span>
       </h1>
       <p class="portal-hero-desc">
-        不只告诉你答案对不对，还会帮你看懂错在哪里、该补哪一块。每天花一点时间，按自己的节奏练习、复习和回顾。
+        深度融合 <strong>GraphRAG 知识图谱</strong>、<strong>错因拓扑溯源</strong> 与 <strong>苏格拉底启发式导学</strong>。直击易错深坑，动态反查先修短板，告别死记硬背的机械式标准答案倾倒。
       </p>
 
-      <div class="portal-highlights-row">
-        <span class="portal-pill-chip">📚 按课程整理知识点</span>
-        <span class="portal-pill-chip">🧭 看懂每次错题原因</span>
-        <span class="portal-pill-chip">💬 一步步提示，不直接剧透</span>
-        <span class="portal-pill-chip">📈 记录自己的学习进度</span>
+      <div class="portal-telemetry-strip">
+        <div class="telemetry-pill"><span class="pulse-dot pulse-blue"></span> <span><strong>142+</strong> 核心考点依赖拓扑</span></div>
+        <div class="telemetry-pill"><span class="pulse-dot pulse-amber"></span> <span><strong>38+</strong> 高频思维陷阱阻断</span></div>
+        <div class="telemetry-pill"><span class="pulse-dot pulse-green"></span> <span><strong>98.4%</strong> GraphRAG 仲裁精度</span></div>
+        <div class="telemetry-pill"><span class="pulse-dot pulse-purple"></span> <span><strong>0</strong> 剧透式答案倾倒</span></div>
+      </div>
+    </section>
+
+    <!-- 核心交互式演播沙盒：传统刷题 vs 智学罗盘 (Interactive Comparison Sandbox) -->
+    <section class="portal-sandbox-section">
+      <div class="sandbox-header">
+        <div class="sandbox-badge">INTERACTIVE COMPARISON SANDBOX · 实时交互演播台</div>
+        <h2 class="sandbox-title">为什么传统的刷题方式正在毁掉深度学习？</h2>
+        <p class="sandbox-subtitle">试着在下方真实期末真题中点击一个易错选项，一键切换对比两种助学范式带来的认知跃迁差距：</p>
+      </div>
+
+      <div class="sandbox-container spotlight-card border-beam-card">
+        <!-- 模式切换控制器 -->
+        <div class="sandbox-mode-switch">
+          <button id="sandbox-btn-trad" class="sandbox-tab-btn" type="button">
+            <span class="mode-title"><span>🔴</span> 传统题库 / 普通 AI 模式</span>
+            <span class="mode-tag">死记硬背 · 机械判卷 · 直接剧透答案</span>
+          </button>
+          <button id="sandbox-btn-smart" class="sandbox-tab-btn active" type="button">
+            <span class="mode-title"><span>🟢</span> 智学罗盘 GraphRAG 模式</span>
+            <span class="mode-tag">错因拓扑 · 先修溯源 · 苏格拉底导学</span>
+          </button>
+        </div>
+
+        <!-- 演示题目与交互视窗 -->
+        <div class="sandbox-body-grid">
+          <!-- 左侧：题目与选项 -->
+          <div class="sandbox-question-col">
+            <div class="sandbox-q-badge">民商法学期末真题 · 可撤销民事法律行为除斥期间</div>
+            <div class="sandbox-q-stem">
+              甲于2023年3月1日因受欺诈与乙签订二手车买卖合同，同年5月1日甲知道该欺诈事由。甲请求人民法院撤销该合同的除斥期间应当自何时起算？最迟于何时届满？
+            </div>
+            <div class="sandbox-options-list" id="sandbox-options">
+              <button class="sandbox-opt-btn active" data-key="A" type="button">
+                <span class="opt-label">A</span>
+                <span class="opt-text">自合同签订之日起算，最迟于 3 年内届满</span>
+                <span class="opt-hint text-red">（高频错选陷阱）</span>
+              </button>
+              <button class="sandbox-opt-btn" data-key="B" type="button">
+                <span class="opt-label">B</span>
+                <span class="opt-text">自知道受欺诈之日起算，最迟于 1 年内届满</span>
+                <span class="opt-hint text-green">（正确答案）</span>
+              </button>
+              <button class="sandbox-opt-btn" data-key="C" type="button">
+                <span class="opt-label">C</span>
+                <span class="opt-text">自欺诈行为终止之日起算，最迟于 1 年内届满</span>
+                <span class="opt-hint text-amber">（混淆胁迫起算点）</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 右侧：动态对比输出视窗 -->
+          <div class="sandbox-feedback-col" id="sandbox-feedback-box">
+            <!-- 由 JS 动态渲染 传统 vs 罗盘 反馈 -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -124,7 +225,7 @@
     <!-- 痛点对比与四大核心功能展示 -->
     <section class="portal-features-section">
       <div style="text-align: center; margin-bottom: 28px;">
-        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-mono);">你可以这样使用</div>
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--primary-500); text-transform: uppercase; letter-spacing: 0.08em;">你可以这样使用</div>
         <h2 style="font-size: 1.6rem; font-weight: 700; color: var(--text-title); margin-top: 6px;">把学习拆成四件容易开始的小事</h2>
       </div>
 
@@ -200,11 +301,31 @@
       <!-- 品牌区与控制台环境标识 -->
       <div class="sidebar-header">
         <a class="nav-brand" href="#view-quiz" title="智学罗盘 SmartStudy AI">
-          <div class="brand-logo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-              <polyline points="2 17 12 22 22 17"></polyline>
-              <polyline points="2 12 12 17 22 12"></polyline>
+          <div class="brand-logo" aria-label="SmartStudy Compass Logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sidebarLogoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="50%" stop-color="#60a5fa"/>
+                  <stop offset="100%" stop-color="#818cf8"/>
+                </linearGradient>
+                <linearGradient id="sidebarNeedleGrad" x1="12" y1="3" x2="16" y2="12" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="100%" stop-color="#93c5fd"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9.5" stroke="url(#sidebarLogoGrad)" stroke-width="1.4" stroke-dasharray="2 2.5" opacity="0.75"/>
+              <circle cx="12" cy="12" r="7.2" stroke="url(#sidebarLogoGrad)" stroke-width="0.75" opacity="0.3"/>
+              <line x1="5.5" y1="14" x2="12" y2="12" stroke="#38bdf8" stroke-width="1" stroke-dasharray="1.5 1.5" opacity="0.7"/>
+              <line x1="18.5" y1="14" x2="12" y2="12" stroke="#818cf8" stroke-width="1" stroke-dasharray="1.5 1.5" opacity="0.7"/>
+              <circle cx="5.5" cy="14" r="1.3" fill="#38bdf8"/>
+              <circle cx="18.5" cy="14" r="1.3" fill="#818cf8"/>
+              <circle cx="12" cy="19.5" r="1.1" fill="#6366f1"/>
+              <path d="M12 3.2L14.2 11.2L12 10.2L9.8 11.2L12 3.2Z" fill="url(#sidebarNeedleGrad)"/>
+              <path d="M12 3.2L9.8 11.2L12 10.2Z" fill="#bae6fd" opacity="0.9"/>
+              <path d="M12 20.8L9.8 12.8L12 13.8L14.2 12.8L12 20.8Z" fill="#3b82f6" opacity="0.6"/>
+              <circle cx="12" cy="12" r="2.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.2"/>
+              <circle cx="12" cy="12" r="0.8" fill="#2563eb"/>
             </svg>
           </div>
           <div class="brand-meta">
@@ -230,7 +351,7 @@
       <nav class="nav-tabs" aria-label="核心功能导航">
         <div class="nav-group-heading">学习功能</div>
         
-        <button class="nav-tab-item active" data-view="quiz" type="button">
+        <button class="nav-tab-item" data-view="quiz" type="button">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           <span class="tab-label">智能刷题排雷</span>
           <span class="nav-tab-badge">01</span>
@@ -298,7 +419,7 @@
 
           <div style="display: flex; align-items: center; gap: 6px;">
             <!-- 语言切换 -->
-            <button id="sidebar-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 8px; height: 32px; display: flex; align-items: center; gap: 4px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono);">
+            <button id="sidebar-lang-btn" class="lang-toggle-btn" type="button" title="Switch Language / 切换语言" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0 8px; height: 32px; display: flex; align-items: center; gap: 4px; background: var(--bg-surface); cursor: pointer; color: var(--text-body); font-size: 0.78rem; font-weight: 600;">
               <span>🌐</span>
               <span class="lang-label">EN</span>
             </button>
@@ -332,9 +453,50 @@
     <main class="app-container main-content">
 
       <!-- ====================================================================
+           工作台首页：先选择学习目标，再进入具体功能
+           ==================================================================== -->
+      <section id="view-home" class="view-section active workspace-home-view">
+        <div class="workspace-home-header">
+          <p class="workspace-home-kicker">SMARTSTUDY WORKSPACE</p>
+          <h1>今天想从哪里开始？</h1>
+          <p class="workspace-home-intro">先选择学习目标，再进入对应工具。你的学习记录会在练习、诊断和报告之间保持连贯。</p>
+        </div>
+        <div class="workspace-home-grid">
+          <button class="workspace-entry-card" data-home-view="quiz" type="button">
+            <span class="workspace-entry-icon" aria-hidden="true">✦</span>
+            <span class="workspace-entry-title">开始刷题 · 大二上精选题库</span>
+            <span class="workspace-entry-desc">已上线大二上 5 门专业核心（运筹学、MIS、概率统计、市场营销、学术英语），点击直击认知陷阱。</span>
+            <span class="workspace-entry-action">进入练习 <span aria-hidden="true">→</span></span>
+          </button>
+          <button class="workspace-entry-card" data-home-view="tutor" type="button">
+            <span class="workspace-entry-icon" aria-hidden="true">◌</span>
+            <span class="workspace-entry-title">和苏格拉底学伴聊聊</span>
+            <span class="workspace-entry-desc">带着一个具体困惑开始追问，不直接跳到答案。</span>
+            <span class="workspace-entry-action">打开学伴 <span aria-hidden="true">→</span></span>
+          </button>
+          <button class="workspace-entry-card" data-home-view="graph" type="button">
+            <span class="workspace-entry-icon" aria-hidden="true">⌘</span>
+            <span class="workspace-entry-title">探索知识图谱</span>
+            <span class="workspace-entry-desc">从核心概念、先修知识和常见陷阱之间找到联系。</span>
+            <span class="workspace-entry-action">查看图谱 <span aria-hidden="true">→</span></span>
+          </button>
+          <button class="workspace-entry-card" data-home-view="report" type="button">
+            <span class="workspace-entry-icon" aria-hidden="true">▥</span>
+            <span class="workspace-entry-title">查看我的学习报告</span>
+            <span class="workspace-entry-desc">回顾正确率、薄弱考点和近期的排雷表现。</span>
+            <span class="workspace-entry-action">打开报告 <span aria-hidden="true">→</span></span>
+          </button>
+        </div>
+        <div class="workspace-home-note">
+          <span class="pulse-dot pulse-green" aria-hidden="true"></span>
+          <span>当前学习档案已准备好，你可以按自己的节奏开始。</span>
+        </div>
+      </section>
+
+      <!-- ====================================================================
            视图 1：智能刷题排雷主视窗 (Student Core Quiz View)
            ==================================================================== -->
-      <section id="view-quiz" class="view-section active">
+      <section id="view-quiz" class="view-section">
         <div class="quiz-layout">
 
           <!-- 左侧：题卡与排雷交互主区 -->
@@ -342,13 +504,26 @@
             <!-- 题卡顶栏：学科切换 Pill 与进度 -->
             <div class="quiz-topbar">
               <div class="subject-pills">
-                <button class="subject-btn active" data-subject="law" type="button">[LAW] ⚖️ 民商法学</button>
+                <!-- 大二上核心专业学科 -->
+                <button class="subject-btn active" data-subject="or" type="button">[OR] 📐 运筹学</button>
+                <button class="subject-btn" data-subject="mis" type="button">[MIS] 🌐 管理信息系统</button>
+                <button class="subject-btn" data-subject="prob_stat" type="button">[MATH] 🎲 概率统计</button>
+                <button class="subject-btn" data-subject="mkt" type="button">[MKT] 🎯 市场营销</button>
+                <button class="subject-btn" data-subject="eng" type="button">[ENG] ✍️ 学术英语</button>
+                <!-- 基础通识学科 -->
+                <button class="subject-btn" data-subject="law" type="button">[LAW] ⚖️ 民商法学</button>
                 <button class="subject-btn" data-subject="cs" type="button">[CS] 💻 体系结构</button>
                 <button class="subject-btn" data-subject="econ" type="button">[ECON] 📈 计量经济</button>
                 <button class="subject-btn" data-subject="se" type="button">[SE] ⚙️ 软件工程</button>
               </div>
-              <div id="q-counter" class="quiz-progress-text">
-                第 1 / 3 题 · 今日已练 18 题
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div id="q-counter" class="quiz-progress-text">
+                  第 1 / 3 题 · 今日已练 18 题
+                </div>
+                <button id="quiz-cmd-btn" class="cmd-pill-btn" type="button" title="Open Command Palette (Ctrl+K)">
+                  <span>⌘K</span>
+                  <span>指令</span>
+                </button>
               </div>
             </div>
 
@@ -517,26 +692,51 @@
            ==================================================================== -->
       <section id="view-report" class="view-section">
         
+        <!-- 报表学科筛选器与数据审计栏 (Discipline Filter & Provenance Bar) -->
+        <div class="report-header-toolbar" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; padding: 12px 16px; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+          <div class="report-filter-group" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted);">DISCIPLINE / 筛选学科:</span>
+            <button class="report-filter-btn active" data-subject="all" type="button">全部学科 (All)</button>
+            <button class="report-filter-btn" data-subject="law" type="button">民商法学 (Law)</button>
+            <button class="report-filter-btn" data-subject="econ" type="button">经管计量 (Econ)</button>
+            <button class="report-filter-btn" data-subject="cs" type="button">计算机体系 (CS)</button>
+            <button class="report-filter-btn" data-subject="se" type="button">软件工程 (SE)</button>
+          </div>
+          <div class="report-provenance-info" style="font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
+            <span class="pulse-dot pulse-green"></span>
+            <span id="report-provenance-text">数据来源: 本地自测聚合 (session_telemetry) · 考官可复现</span>
+          </div>
+        </div>
+
+        <!-- 五维防守战力勋章看板 -->
+        <div id="radar-defense-badge-card" class="radar-defense-badge-card">
+          <div id="radar-badge-icon" class="radar-badge-icon">S</div>
+          <div class="radar-badge-content">
+            <div id="radar-badge-title" class="radar-badge-title">S级 · 认知排雷先锋 (DEFENSE MASTER)</div>
+            <div id="radar-badge-desc" class="radar-badge-desc">综合思维防守指数 86.5 分 · 成功排查并阻断多处核心考点思维陷阱</div>
+          </div>
+        </div>
+
         <!-- 核心评测指标卡片 (2-column / 4-column Data Grid) -->
         <div class="analytics-grid">
           <div class="stat-card">
-            <span class="stat-label">CONSECUTIVE DAYS / 连续打卡</span>
-            <div id="stat-streak" class="stat-value">5 天</div>
-            <span class="stat-diff">🔥 备考冲刺专注状态极佳</span>
+            <span class="stat-label">QUESTIONS ATTEMPTED / 累计答题</span>
+            <div id="stat-attempt-count" class="stat-value">18 题</div>
+            <span id="stat-streak-desc" class="stat-diff">🔥 5 天连续打卡专注状态</span>
           </div>
           <div class="stat-card">
             <span class="stat-label">TRAPS IDENTIFIED / 识破陷阱</span>
-            <div id="stat-traps" class="stat-value">14 个</div>
-            <span class="stat-diff">🛡️ 排雷防御成功率 77.8%</span>
+            <div id="stat-traps" class="stat-value">9 处</div>
+            <span class="stat-diff">🛡️ 触发认知排雷诊断 4 次</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">PREDICTED SCORE / 模拟预测</span>
-            <div id="stat-score" class="stat-value">86.5 分</div>
-            <span class="stat-diff">📈 较入模诊断分 +14.2 分</span>
+            <span class="stat-label">ACCURACY RATE / 正确率</span>
+            <div id="stat-accuracy" class="stat-value">77.8%</div>
+            <span class="stat-diff">📈 答对 14/18 核心考点题目</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">GROUNDING CONFIDENCE / 仲裁可信度</span>
-            <div class="stat-value text-blue">99.2%</div>
+            <span class="stat-label">COGNITIVE DEFENSE / 综合掌握度</span>
+            <div id="stat-score" class="stat-value text-blue">86.5 分</div>
             <span class="stat-diff">🔒 权威事实锚定 · 零幻觉</span>
           </div>
         </div>
@@ -613,10 +813,10 @@
         <div id="api-key-group" class="form-group">
           <label class="form-label" for="api-key-input">
             <span>大模型 API Key 密钥</span>
-            <span id="key-status-hint" class="form-label-sub">已预配 Gemini Key</span>
+            <span id="key-status-hint" class="form-label-sub">本地安全存储</span>
           </label>
           <div class="input-with-action">
-            <input id="api-key-input" class="form-input" type="password" value="sk-6a8d40733e5f0db6cd679d4562480edee4fdcaad5e7e1510bc73945df46d9083" placeholder="请输入你的 API Key (例如 sk-xxxxxxxxxxxxxxxx)" />
+            <input id="api-key-input" class="form-input" type="password" value="" placeholder="请输入你的 API Key (例如 sk-xxxxxxxxxxxxxxxx)" />
             <button id="toggle-key-visibility-btn" class="btn-secondary" type="button" style="padding: 0 14px;" title="查看/隐藏明文">
               👁️
             </button>
@@ -752,7 +952,29 @@
     </div>
   </div>
 
-  <!-- 前端逻辑控制器 (严格保证未受改动) -->
-  <script src="app.js?v=20261008_2"></script>
+  <!-- ====================================================================
+       全局 HUD 快捷指令控制台 (Command Palette Cmd+K / Ctrl+K)
+       ==================================================================== -->
+  <div id="cmd-palette-overlay" class="cmd-palette-overlay" style="display: none;">
+    <div class="cmd-palette-modal">
+      <div class="cmd-palette-search">
+        <span class="cmd-search-icon">🔍</span>
+        <input id="cmd-palette-input" type="text" placeholder="键入指令或搜索学科、考点、身份... (↑↓ 选择，Enter 确认，Esc 关闭)" autocomplete="off" />
+        <kbd class="cmd-esc-kbd">ESC</kbd>
+      </div>
+      <div class="cmd-palette-list" id="cmd-palette-results">
+        <!-- 由 JS 动态渲染匹配项 -->
+      </div>
+      <div class="cmd-palette-footer">
+        <span>按 <kbd>↑</kbd> <kbd>↓</kbd> 导航</span>
+        <span>按 <kbd>↵</kbd> 执行</span>
+        <span>按 <kbd>ESC</kbd> 退出</span>
+        <span style="margin-left: auto; color: var(--primary-500); font-family: var(--font-mono);">JC2001 HUD v2.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 前端逻辑控制器 (强制缓存失效刷新) -->
+  <script src="app.js?v=20261017_daershang_v3"></script>
 </body>
 </html>

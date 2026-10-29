@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 480" width="1120" height="480" font-family="'Segoe UI', Arial, sans-serif">
+  <rect width="1120" height="480" fill="#f8fafc" rx="12" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="560" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Figure 7.1: SmartStudy 12-Month Post-PoC Evolution &amp; Commercialisation Roadmap</text>
+  <text x="560" y="56" text-anchor="middle" font-size="12" fill="#475569">Addressing PoC constraints (manual trap authoring cost, cohort crossover evaluation, and persistent institutional telemetry)</text>
+
+  <!-- Timeline Axis -->
+  <line x1="60" y1="95" x2="1060" y2="95" stroke="#3b82f6" stroke-width="4"/>
+  <circle cx="210" cy="95" r="9" fill="#1d4ed8"/>
+  <text x="210" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Months 1–4 (Phase 1)</text>
+  <circle cx="560" cy="95" r="9" fill="#059669"/>
+  <text x="560" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">Months 5–8 (Phase 2)</text>
+  <circle cx="910" cy="95" r="9" fill="#7c3aed"/>
+  <text x="910" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">Months 9–12 (Phase 3)</text>
+
+  <!-- Phase 1 Card -->
+  <rect x="45" y="120" width="330" height="330" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="45" y="120" width="330" height="38" rx="10" fill="#2563eb"/>
+  <text x="210" y="144" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Phase 1: Semi-Automated Trap Authoring</text>
+  <text x="65" y="182" font-size="12" font-weight="700" fill="#1e3a8a">Objective: Cut authoring from 45 min → 8 min/item</text>
+  <text x="65" y="208" font-size="11.5" fill="#334155">• Human-in-the-Loop (HITL) Distractor Studio:</text>
+  <text x="75" y="226" font-size="11" fill="#475569">Offline GraphRAG proposes candidate TrapDetail</text>
+  <text x="75" y="242" font-size="11" fill="#475569">payloads from textbook subgraphs.</text>
+  <text x="65" y="268" font-size="11.5" fill="#334155">• Confidence-Gated Subgraph Pruning:</text>
+  <text x="75" y="286" font-size="11" fill="#475569">Suppresses multi-hop graph retrieval when</text>
+  <text x="75" y="302" font-size="11" fill="#475569">entity link density &lt; τ (fixes Physics -1.32 pp).</text>
+  <text x="65" y="328" font-size="11.5" fill="#334155">• SQLite / PostgreSQL Persistence Adapter:</text>
+  <text x="75" y="346" font-size="11" fill="#475569">Replaces volatile in-memory session dict while</text>
+  <text x="75" y="362" font-size="11" fill="#475569">retaining O(1) read cache.</text>
+  <rect x="65" y="395" width="290" height="38" rx="6" fill="#dbeafe"/>
+  <text x="210" y="418" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Milestone M1: 200 Verified Items (600 Traps)</text>
+
+  <!-- Phase 2 Card -->
+  <rect x="395" y="120" width="330" height="330" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <rect x="395" y="120" width="330" height="38" rx="10" fill="#059669"/>
+  <text x="560" y="144" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Phase 2: Longitudinal Cohort Trial &amp; FSRS</text>
+  <text x="415" y="182" font-size="12" font-weight="700" fill="#065f46">Objective: Elevate Personas E1/E2 → E3 Empirical</text>
+  <text x="415" y="208" font-size="11.5" fill="#334155">• Ethics-Approved Crossover Study (N ≥ 50):</text>
+  <text x="425" y="226" font-size="11" fill="#475569">2-week pre/post delayed retention trial comparing</text>
+  <text x="425" y="242" font-size="11" fill="#475569">Trap Drawer vs standard answer-key feedback.</text>
+  <text x="415" y="268" font-size="11.5" fill="#334155">• Trap-Weighted Spaced Repetition (FSRS):</text>
+  <text x="425" y="286" font-size="11" fill="#475569">Schedules review intervals based on diagnosed</text>
+  <text x="425" y="302" font-size="11" fill="#475569">prerequisite root nodes rather than binary score.</text>
+  <text x="415" y="328" font-size="11.5" fill="#334155">• Multi-Seed Statistical Benchmark (5 Runs):</text>
+  <text x="425" y="346" font-size="11" fill="#475569">Adds 95% confidence intervals and McNemar p-values</text>
+  <text x="425" y="362" font-size="11" fill="#475569">across all 12 MMLU subjects.</text>
+  <rect x="415" y="395" width="290" height="38" rx="6" fill="#d1fae5"/>
+  <text x="560" y="418" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Milestone M2: Controlled Empirical Validation</text>
+
+  <!-- Phase 3 Card -->
+  <rect x="745" y="120" width="330" height="330" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <rect x="745" y="120" width="330" height="38" rx="10" fill="#7c3aed"/>
+  <text x="910" y="144" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Phase 3: Institutional Pilot &amp; B2B Analytics</text>
+  <text x="765" y="182" font-size="12" font-weight="700" fill="#5b21b6">Objective: Course-Level Misconception Heatmaps</text>
+  <text x="765" y="208" font-size="11.5" fill="#334155">• Instructor Cohort Dashboard:</text>
+  <text x="775" y="226" font-size="11" fill="#475569">Aggregates anonymised Trap Drawer triggers</text>
+  <text x="775" y="242" font-size="11" fill="#475569">to reveal top lecture misconceptions before exams.</text>
+  <text x="765" y="268" y2="268" font-size="11.5" fill="#334155">• LTI 1.3 LMS Integration (MyAberdeen / Canvas):</text>
+  <text x="775" y="286" font-size="11" fill="#475569">Single sign-on and gradebook passback for</text>
+  <text x="775" y="302" font-size="11" fill="#475569">joint-institute tutorial modules.</text>
+  <text x="765" y="328" font-size="11.5" fill="#334155">• Hybrid Commercialisation Model:</text>
+  <text x="775" y="346" font-size="11" fill="#475569">Open-source core + B2C Pro (£4.99/mo) +</text>
+  <text x="775" y="362" font-size="11" fill="#475569">University Departmental Site Licensing.</text>
+  <rect x="765" y="395" width="290" height="38" rx="6" fill="#ede9fe"/>
+  <text x="910" y="418" text-anchor="middle" font-size="11" font-weight="700" fill="#5b21b6">Milestone M3: Joint-Institute Pilot Deployment</text>
+</svg>
