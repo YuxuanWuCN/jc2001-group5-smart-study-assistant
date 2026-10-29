@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" width="920" height="440" font-family="Arial, Helvetica, sans-serif">
+  <rect width="920" height="440" fill="#ffffff"/>
+  <text x="460" y="32" font-size="16" font-weight="bold" text-anchor="middle" fill="#0f172a">Figure 1.1: Value Proposition Canvas — SmartStudy Assistant (Persona A &amp; B)</text>
+  <rect x="35" y="55" width="400" height="350" rx="10" fill="#f8fafc" stroke="#1e40af" stroke-width="2.2"/>
+  <rect x="35" y="55" width="400" height="38" rx="10" fill="#1e40af"/>
+  <text x="235" y="79" font-size="14" font-weight="bold" text-anchor="middle" fill="#ffffff">Value Map (SmartStudy PoC Architecture)</text>
+  <text x="55" y="118" font-size="13" font-weight="bold" fill="#1e3a8a">1. Products &amp; Services</text>
+  <text x="65" y="138" font-size="11.5" fill="#334155">• 12-question curated multi-disciplinary bank (Law, CS, Econ, SE)</text>
+  <text x="65" y="156" font-size="11.5" fill="#334155">• 36 option-level misconception traps (O(1) deterministic lookup)</text>
+  <text x="65" y="174" font-size="11.5" fill="#334155">• 5-dimension competency radar &amp; progressive Trap Drawer UI</text>
+  <line x1="55" y1="188" x2="415" y2="188" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="55" y="212" font-size="13" font-weight="bold" fill="#047857">2. Pain Relievers</text>
+  <text x="65" y="232" font-size="11.5" fill="#334155">• Eliminates binary ✔/✘ blindness via per-distractor attribution</text>
+  <text x="65" y="250" font-size="11.5" fill="#334155">• Prevents LLM answer spoiling via Socratic follow-up prompts</text>
+  <text x="65" y="268" font-size="11.5" fill="#334155">• Zero hallucinated statutes/formulas (100% pre-verified corpus)</text>
+  <text x="65" y="286" font-size="11.5" fill="#334155">• Zero cloud/network dependency (&lt; 2.5 ms local lookup, £0 cost)</text>
+  <line x1="55" y1="300" x2="415" y2="300" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="55" y="324" font-size="13" font-weight="bold" fill="#7c3aed">3. Gain Creators</text>
+  <text x="65" y="344" font-size="11.5" fill="#334155">• Pinpoints exact prerequisite theorem/article within 5 seconds</text>
+  <text x="65" y="362" font-size="11.5" fill="#334155">• Visualises longitudinal cognitive strengths across 5 dimensions</text>
+  <text x="65" y="380" font-size="11.5" fill="#334155">• Instant bilingual (ZH/EN) &amp; dual-theme revision environment</text>
+  <polygon points="442,225 462,213 462,221 478,221 478,213 498,225 478,237 478,229 462,229 462,237" fill="#dc2626"/>
+  <text x="470" y="204" font-size="11" font-weight="bold" text-anchor="middle" fill="#dc2626">FIT</text>
+  <rect x="505" y="55" width="380" height="350" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="2.2"/>
+  <rect x="505" y="55" width="380" height="38" rx="10" fill="#b45309"/>
+  <text x="695" y="79" font-size="14" font-weight="bold" text-anchor="middle" fill="#ffffff">Customer Profile (University Exam Candidates)</text>
+  <text x="525" y="118" font-size="13" font-weight="bold" fill="#92400e">1. Customer Jobs (Persona A &amp; B)</text>
+  <text x="535" y="138" font-size="11.5" fill="#334155">• Pass high-stakes university exams under 2–3 week deadlines</text>
+  <text x="535" y="156" font-size="11.5" fill="#334155">• Distinguish adjacent statutory rules &amp; boundary conditions</text>
+  <text x="535" y="174" font-size="11.5" fill="#334155">• Track which underlying competency dimension remains fragile</text>
+  <line x1="525" y1="188" x2="865" y2="188" stroke="#fcd34d" stroke-dasharray="4 3"/>
+  <text x="525" y="212" font-size="13" font-weight="bold" fill="#b91c1c">2. Customer Pains</text>
+  <text x="535" y="232" font-size="11.5" fill="#334155">• Binary feedback Trap: knowing an answer is wrong, not why</text>
+  <text x="535" y="250" font-size="11.5" fill="#334155">• General LLMs spoil the final answer immediately or hallucinate</text>
+  <text x="535" y="268" font-size="11.5" fill="#334155">• Repeating the exact same conceptual mistake ≥ 3 times</text>
+  <text x="535" y="286" font-size="11.5" fill="#334155">• Paywalls &amp; unstable campus Wi-Fi blocking cloud AI tutors</text>
+  <line x1="525" y1="300" x2="865" y2="300" stroke="#fcd34d" stroke-dasharray="4 3"/>
+  <text x="525" y="324" font-size="13" font-weight="bold" fill="#065f46">3. Expected Gains</text>
+  <text x="535" y="344" font-size="11.5" fill="#334155">• Target revision towards missing prerequisites, not rote re-reading</text>
+  <text x="535" y="362" font-size="11.5" fill="#334155">• Zero-cost, zero-setup, offline-capable study tool</text>
+  <text x="535" y="380" font-size="11.5" fill="#334155">• Clear self-assessment of readiness before sitting exams</text>
+</svg>
