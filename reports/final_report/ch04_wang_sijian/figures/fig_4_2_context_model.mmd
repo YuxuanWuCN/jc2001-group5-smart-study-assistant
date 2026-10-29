@@ -1,0 +1,48 @@
+%% Figure 4.2 — System Context Model
+%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant / Chapter 4.2.1
+%% 
+%% 设计约束（勿违反）：
+%%   1. 三个外部实体按任务包要求齐备：Student（主参与者）、Instructor / Marker
+%%      （次要受益方，不直接操作系统）、Neo4j AuraDB（仅离线评估）。
+%%   2. Neo4j 必须虚线 + 显式标注 "offline evaluation only" —— 这是 AD-05 的
+%%      视觉证据。它不参与在线演示链路，断网演示不受影响。
+%%   3. Qwen-Turbo 标注为 [可选]：仅在答错后生成提示语时由环境变量启用，
+%%      是提示语增强器，不属于诊断判定路径（与 Figure 4.4 一致）。
+%%   4. 代码地址与当前实现一致：backend/app/main.py、backend/app/data/seed_questions.py。
+%%   5. 实线双向 = 同步请求/响应；虚线单向 = 单向依赖或非直接交互。
+%% 
+%% 注意：节点标签内不可出现 ASCII 半角括号（它是 flowchart 的节点形状定界符，
+%%       会导致解析失败）；本图统一使用全角（）。
+flowchart TB
+    subgraph Actors["外部参与者　External Actors"]
+        direction LR
+        Student(["在校大学生 Student<br/>「主参与者 · Web 浏览器」"])
+        Teacher(["课程教师 / 评分人 Instructor<br/>「次要受益方 · 不直接操作」"])
+    end
+
+    subgraph Boundary["智学罗盘系统边界　Smart Study Assistant"]
+        direction LR
+        Frontend["SPA 前端控制台<br/><i>HTML5 / CSS3 / Vanilla ES6</i><br/><i>frontend/index.html + app.js</i>"]
+        Backend["FastAPI 业务中枢<br/><i>Python 3.10+ / 模块化分层</i><br/><i>backend/app/main.py</i>"]
+        Store[("策展题库与先修知识<br/><i>backend/app/data/seed_questions.py</i><br/><i>12 题 · 4 学科 · 36 陷阱</i>")]
+        Frontend <-->|"RESTful API /api/*<br/>同源 · 单端口"| Backend
+        Backend <-->|"读取题目与陷阱映射"| Store
+    end
+
+    DB[("Neo4j AuraDB<br/><i>考点 / 错因拓扑图谱</i><br/><b>offline evaluation only</b>")]
+    LLM["阿里云通义千问 Qwen-Turbo<br/><i>答错后生成提示语 [可选]</i>"]
+
+    Student <-->|"HTTPS / JSON<br/>人机操作交互"| Frontend
+    Teacher -.->|"评审产物：报告与 PoC<br/>不直接调用 API"| Boundary
+    Backend -.->|"Cypher 查询<br/>[离线评估脚本 · 无在线依赖]"| DB
+    Backend -.->|"兼容协议调用<br/>[可选 · 由环境变量启用]"| LLM
+
+    style Student fill:#fff7ed,stroke:#c2410c,stroke-width:2px,color:#7c2d12
+    style Teacher fill:#f5f3ff,stroke:#6d28d9,stroke-width:2px,color:#4c1d95
+    style Frontend fill:#e8f0fe,stroke:#1a56db,stroke-width:2px
+    style Backend fill:#e8f0fe,stroke:#1a56db,stroke-width:2px
+    style Store fill:#ecfdf5,stroke:#047857,stroke-width:2px
+    style DB fill:#f3f4f6,stroke:#4b5563,stroke-width:2px,stroke-dasharray:5 4
+    style LLM fill:#fff1f2,stroke:#be123c,stroke-width:2px,stroke-dasharray:5 4
+    style Boundary fill:#f8fafc,stroke:#334155,stroke-width:2px
+    style Actors fill:#fafafa,stroke:#78716c,stroke-width:1.5px,stroke-dasharray:4 3

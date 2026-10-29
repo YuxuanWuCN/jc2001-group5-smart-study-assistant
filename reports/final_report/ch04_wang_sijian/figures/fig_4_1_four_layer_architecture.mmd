@@ -1,0 +1,64 @@
+%% Figure 4.1 — Four-layer architecture and single-port deployment
+%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant / Chapter 4.1.1
+%% 
+%% 必须让评委看见的三个事实（任务包 §4.1.1 硬性要求）：
+%%   1. 只有一个进程、一个端口 —— uvicorn 同时提供 API 与静态文件；
+%%   2. 前端与 API 同源 —— 因此生产路径上不需要 CORS（CORS 通配仅为本地调试）；
+%%   3. 没有数据库 —— Layer 4 是只读 Python 源文件，这是 AD-03 的直接后果。
+%% 
+%% 数字已核实（develop@626d467）：
+%%   frontend: index.html 40 KB · app.js 167 KB · style.css 50 KB
+%%   backend/app/routers: 3 个（health / quiz / diagnose）· 4 个端点
+%%   backend/app/services: 3 个（diagnostic / quiz / llm_diagnostics）
+%%   backend/app/models: 3 个（common / diagnose / quiz）
+%%   backend/app/data/seed_questions.py: 657 行 · 12 题 · 4 学科 · 36 陷阱
+%% 
+%% 渲染注意（Mermaid 11 实测）：
+%%   1. 节点标签内不可出现 ASCII 半角括号 —— 它是 flowchart 的节点形状定界符；统一用全角（）；
+%%   2. 注释行不可只写 "%%"，必须写成 "%% "（仅两个百分号会破坏 flowchart 预处理）；
+%%   3. 每层的组件用不可见连线连接成一行，层与层之间用有向边，得到「横向层带」效果。
+flowchart TB
+    Deploy["单进程 uvicorn　:8000<br/><i>StaticFiles html=True 挂载根路径</i><br/><b>单进程 · 单端口 · 前端与 API 同源</b>"]
+
+    subgraph L1["Layer 1 · Presentation　（frontend/ · 零构建原生 ES6）"]
+        direction LR
+        F1["index.html<br/><i>40 KB · 单页外壳</i>"]
+        F2["app.js<br/><i>167 KB · 视图与诊断交互</i>"]
+        F3["style.css<br/><i>50 KB · CSS 变量 · 双主题</i>"]
+        F4["localStorage<br/><i>作答记录</i>"]
+        F1 ~~~ F2 ~~~ F3 ~~~ F4
+    end
+
+    subgraph L2["Layer 2 · API / Interface　（backend/app/routers · 3 个 router）"]
+        direction LR
+        E1["GET /api/health<br/>GET /api/health/llm"]
+        E2["GET /api/quiz<br/><i>subject 与 limit</i>"]
+        E3["POST /api/diagnose<br/><i>Pydantic 校验入口</i>"]
+        E1 ~~~ E2 ~~~ E3
+    end
+
+    subgraph L3["Layer 3 · Domain Services　（backend/app/services · 3 个 service）"]
+        direction LR
+        S1["quiz_service<br/><i>题目检索 · 学科归一化</i>"]
+        S2["diagnostic_service<br/><i>选项级陷阱查表</i>"]
+        S3["llm_diagnostics<br/><i>失败分类 · 提示语增强</i>"]
+        S1 ~~~ S2 ~~~ S3
+    end
+
+    subgraph L4["Layer 4 · Data / Knowledge　（backend/app/data · 无数据库）"]
+        direction LR
+        D1[("seed_questions.py<br/><i>657 行 · 12 题 · 4 学科 · 36 陷阱</i>")]
+        D2["Pydantic 模型<br/><i>QuizItem / OptionItem / TrapDetail</i>"]
+        D1 ~~~ D2
+    end
+
+    Deploy -.->|"挂载静态资源"| L1
+    L1 -->|"HTTP / JSON　<b>同源</b>"| L2
+    L2 -->|"进程内 service 调用"| L3
+    L3 -->|"内存字典查找 · 零网络 I/O"| L4
+
+    style Deploy fill:#fff7ed,stroke:#c2410c,stroke-width:2.5px
+    style L1 fill:#eff6ff,stroke:#1d4ed8,stroke-width:2px
+    style L2 fill:#f0fdf4,stroke:#15803d,stroke-width:2px
+    style L3 fill:#fefce8,stroke:#a16207,stroke-width:2px
+    style L4 fill:#faf5ff,stroke:#7e22ce,stroke-width:2px
