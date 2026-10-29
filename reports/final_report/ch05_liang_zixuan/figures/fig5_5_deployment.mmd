@@ -1,0 +1,19 @@
+%%{init: {"flowchart": {"subGraphTitleMargin": {"top": 6, "bottom": 22}, "nodeSpacing": 55, "rankSpacing": 90}}}%%
+flowchart TB
+    subgraph Machine["Examiner's machine · no network required"]
+        direction TB
+        Browser["Web browser<br/>127.0.0.1:8000"]
+
+        subgraph Proc["one uvicorn process · :8000"]
+            direction LR
+            API["API routers at /api<br/>health · health/llm<br/>quiz · diagnose"]
+            Static["StaticFiles at /<br/>index.html<br/>style.css · app.js"]
+        end
+    end
+
+    Neo[("Neo4j Aura (cloud)<br/>offline evaluation only")]
+
+    Browser -->|"same-origin HTTP"| Proc
+    API -.->|"only when evaluation<br/>scripts are run by hand"| Neo
+
+    style Neo stroke-dasharray: 6 4
