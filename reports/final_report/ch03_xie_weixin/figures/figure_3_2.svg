@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1320"><rect width="100%" height="100%" fill="white"/>
+<text x="850" y="53.64" font-family="DejaVu Sans, sans-serif" font-size="27" text-anchor="middle">Question Answering and Diagnosis Process</text>
+<rect x="600" y="120" width="500" height="100" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="850.0" y="177.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Question ready</text>
+<rect x="600" y="310" width="500" height="110" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="850.0" y="357.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Option selected</text>
+<text x="850.0" y="388.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Answer controls locked</text>
+<rect x="600" y="510" width="500" height="100" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="850.0" y="567.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Await service response</text>
+<rect x="50" y="510" width="350" height="100" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="225.0" y="567.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Local fallback</text>
+<rect x="300" y="810" width="450" height="110" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="525.0" y="872.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Correct feedback</text>
+<rect x="950" y="810" width="450" height="110" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="1175.0" y="872.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Misconception feedback</text>
+<rect x="600" y="1110" width="500" height="100" rx="12" fill="white" stroke="black" stroke-width="3"/>
+<text x="850.0" y="1152.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Next question</text>
+<text x="850.0" y="1183.68" font-family="DejaVu Sans, sans-serif" font-size="24" text-anchor="middle">Reset answer controls</text>
+<polyline points="850,220 850,310" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="841.3703403051244,294.2035138859733 850,310 858.6296596948756,294.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="850,420 850,510" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="841.3703403051244,494.2035138859733 850,510 858.6296596948756,494.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="600,560 400,560" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="415.7964861140267,551.3703403051244 400,560 415.7964861140267,568.6296596948756" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="700,610 525,810" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="528.907578124603,792.4292620189099 525,810 541.8965396638323,803.7946033657355" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1000,610 1175,810" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1158.1034603361677,803.7946033657355 1175,810 1171.0924218753971,792.4292620189099" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="225,610 225,700 425,700 425,810" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="416.37034030512433,794.2035138859733 425,810 433.62965969487567,794.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="225,700 1275,700 1275,810" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1266.3703403051243,794.2035138859733 1275,810 1283.6296596948757,794.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="525,920 525,1015 700,1015 700,1110" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="691.3703403051244,1094.2035138859733 700,1110 708.6296596948756,1094.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1175,920 1175,1015 1000,1015 1000,1110" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="991.3703403051244,1094.2035138859733 1000,1110 1008.6296596948756,1094.2035138859733" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1100,1160 1580,1160 1580,170 1100,170" fill="none" stroke="black" stroke-width="3"/>
+<polyline points="1115.7964861140267,161.37034030512433 1100,170 1115.7964861140267,178.62965969487564" fill="none" stroke="black" stroke-width="3"/>
+<text x="495" y="521.4" font-family="DejaVu Sans, sans-serif" font-size="20" text-anchor="middle">Request fails</text>
+<text x="525" y="762.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Correct</text>
+<text x="1165" y="762.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Incorrect</text>
+<text x="850" y="667.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Response classification</text>
+<text x="850" y="987.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Update local display indicators</text>
+<text x="850" y="1277.04" font-family="DejaVu Sans, sans-serif" font-size="22" text-anchor="middle">Failure is a branch to local grading; no persistent attempt write is established.</text>
+</svg>
