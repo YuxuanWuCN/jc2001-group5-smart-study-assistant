@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" width="1100" height="580" font-family="'Segoe UI', Arial, sans-serif">
+  <rect width="1100" height="580" fill="#0f172a" rx="12" stroke="#334155" stroke-width="2"/>
+  <text x="550" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#f8fafc">Figure 5.3: Split-Screen Trap Drawer Architecture (60% Question Stem + 40% 5-Layer Diagnostic Drawer)</text>
+  <text x="550" y="54" text-anchor="middle" font-size="12" fill="#94a3b8">Preserves original question context (Principle P1 &amp; P2) while progressively disclosing structured misconception diagnostics</text>
+
+  <!-- Left 60% Question Workspace -->
+  <rect x="28" y="74" width="610" height="476" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="48" y="104" font-size="13" font-weight="700" fill="#38bdf8">LEFT WORKSPACE (60% Viewport Width) — Active Question &amp; Options</text>
+  <rect x="48" y="120" width="570" height="78" rx="6" fill="#0f172a" stroke="#334155"/>
+  <text x="64" y="145" font-size="12" font-weight="700" fill="#e2e8f0">Question q101 [Criminal Law · Mens Rea]:</text>
+  <text x="64" y="166" font-size="11" fill="#cbd5e1">A defendant foresees a virtual certainty of death from an act taken to</text>
+  <text x="64" y="184" font-size="11" fill="#cbd5e1">achieve another purpose. Under English criminal law (Woollin), how is this classified?</text>
+
+  <!-- Options -->
+  <rect x="48" y="216" width="570" height="48" rx="6" fill="#0f172a" stroke="#334155"/>
+  <text x="66" y="245" font-size="12" fill="#94a3b8">[A] Direct intention (Mohan test)</text>
+
+  <rect x="48" y="276" width="570" height="54" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="66" y="301" font-size="12" font-weight="700" fill="#fca5a5">[B] Subjective recklessness (Cunningham) — SELECTED DISTRACTOR</text>
+  <text x="66" y="319" font-size="10" fill="#f87171">Triggers POST /api/diagnose → Opens Trap Drawer without hiding stem</text>
+
+  <rect x="48" y="342" width="570" height="48" rx="6" fill="#052e16" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="66" y="371" font-size="12" font-weight="600" fill="#86efac">[C] Oblique intention (Woollin virtual certainty threshold)</text>
+
+  <rect x="48" y="402" width="570" height="48" rx="6" fill="#0f172a" stroke="#334155"/>
+  <text x="66" y="431" font-size="12" fill="#94a3b8">[D] Gross negligence (Adomako test)</text>
+
+  <text x="48" y="485" font-size="11" fill="#94a3b8">Why Slide-Over Drawer instead of Modal Dialog?</text>
+  <text x="48" y="505" font-size="11" fill="#e2e8f0">• A centered modal obscures the 4 options, forcing working-memory reload (Sweller, 1988).</text>
+  <text x="48" y="523" font-size="11" fill="#e2e8f0">• Side-by-side layout enables direct visual comparison between Option B and Option C.</text>
+
+  <!-- Right 40% Trap Drawer -->
+  <rect x="654" y="74" width="418" height="476" rx="10" fill="#111827" stroke="#f59e0b" stroke-width="2"/>
+  <text x="674" y="102" font-size="13" font-weight="700" fill="#fbbf24">RIGHT TRAP DRAWER (40% Width) — 5 Diagnostic Layers</text>
+
+  <!-- Layer 1 -->
+  <rect x="672" y="116" width="382" height="54" rx="6" fill="#1e293b" stroke="#ef4444"/>
+  <text x="686" y="136" font-size="11" font-weight="700" fill="#fca5a5">Layer 1: Selected Option &amp; Misconception Badge</text>
+  <text x="686" y="155" font-size="11" fill="#e2e8f0">trap.selectedOption = "B" | trap.title = "Threshold Confusion"</text>
+
+  <!-- Layer 2 -->
+  <rect x="672" y="180" width="382" height="66" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+  <text x="686" y="200" font-size="11" font-weight="700" fill="#fcd34d">Layer 2: Cognitive Mechanism (trap.desc)</text>
+  <text x="686" y="219" font-size="10.5" fill="#cbd5e1">Confuses foresight of an unreasonable risk (recklessness) with</text>
+  <text x="686" y="235" font-size="10.5" fill="#cbd5e1">foresight of virtual certainty required for oblique intention.</text>
+
+  <!-- Layer 3 -->
+  <rect x="672" y="256" width="382" height="58" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="686" y="276" font-size="11" font-weight="700" fill="#7dd3fc">Layer 3: Prerequisite Concept Anchor (trap.prereq)</text>
+  <text x="686" y="296" font-size="10.5" fill="#cbd5e1">Prerequisite: R v Woollin [1999] vs R v Cunningham [1957] Mens Rea</text>
+
+  <!-- Layer 4 -->
+  <rect x="672" y="324" width="382" height="106" rx="6" fill="#1e293b" stroke="#a855f7"/>
+  <text x="686" y="344" font-size="11" font-weight="700" fill="#d8b4fe">Layer 4: Local Knowledge Subgraph (graph.nodes / edges)</text>
+  <circle cx="725" cy="385" r="22" fill="#7f1d1d" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="725" y="389" text-anchor="middle" font-size="9.5" fill="#ffffff">Opt B</text>
+  <line x1="747" y1="385" x2="815" y2="385" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="781" y="377" text-anchor="middle" font-size="8.5" fill="#cbd5e1">confuses</text>
+  <circle cx="840" cy="385" r="24" fill="#1e3a8a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="840" y="389" text-anchor="middle" font-size="9.5" fill="#ffffff">Woollin</text>
+  <line x1="864" y1="385" x2="932" y2="385" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="898" y="377" text-anchor="middle" font-size="8.5" fill="#cbd5e1">requires</text>
+  <circle cx="962" cy="385" r="26" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="962" y="389" text-anchor="middle" font-size="9" fill="#ffffff">Virtual Cert.</text>
+
+  <!-- Layer 5 -->
+  <rect x="672" y="440" width="382" height="94" rx="6" fill="#1e293b" stroke="#10b981"/>
+  <text x="686" y="460" font-size="11" font-weight="700" fill="#6ee7b7">Layer 5: Remedies &amp; Socratic Follow-up Prompt</text>
+  <text x="686" y="479" font-size="10.5" fill="#cbd5e1">• Explanation: Contrasts probability degree (unjustified risk vs virtual certainty).</text>
+  <text x="686" y="497" font-size="10.5" fill="#a7f3d0">• Socratic Prompt: "If the defendant only foresaw a 20% probability of harm,</text>
+  <text x="686" y="513" font-size="10.5" fill="#a7f3d0">  which mens rea standard would apply instead?"</text>
+</svg>

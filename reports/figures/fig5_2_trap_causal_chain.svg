@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" width="100%" height="100%" style="background:#0f172a; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="gradUI" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="gradEngine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1e38"/>
+      <stop offset="100%" stop-color="#111122"/>
+    </linearGradient>
+    <linearGradient id="gradTrap" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d2218"/>
+      <stop offset="100%" stop-color="#1a140f"/>
+    </linearGradient>
+    <linearGradient id="gradTelemetry" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#132822"/>
+      <stop offset="100%" stop-color="#0c1a16"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrowEmerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="450" y="36" fill="#f8fafc" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="0.5">Figure 5.2: Diagnostic Traversal &amp; Misconception Feedback Causal Chain</text>
+  <text x="450" y="58" fill="#94a3b8" font-size="12" text-anchor="middle">Bijective Distractor Mapping to Tripartite Fallacy Metadata &amp; 5D Telemetry Adjustments</text>
+
+  <!-- Container 1: Presentation Layer -->
+  <rect x="40" y="80" width="820" height="110" rx="10" fill="url(#gradUI)" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="55" y="102" fill="#60a5fa" font-size="12" font-weight="700" letter-spacing="1">1. PRESENTATION LAYER (CLIENT-SIDE SPA / FRONTEND)</text>
+
+  <!-- Node 1: Option Selection -->
+  <rect x="60" y="118" width="220" height="52" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="170" y="140" fill="#f1f5f9" font-size="12" font-weight="600" text-anchor="middle">Student Selects Distractor</text>
+  <text x="170" y="156" fill="#94a3b8" font-size="10" text-anchor="middle">e.g. Option B (is_correct=False)</text>
+
+  <!-- Node 2: Distractor Mapping -->
+  <rect x="360" y="118" width="220" height="52" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+  <text x="470" y="140" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">Option-Bound Trap Extraction</text>
+  <text x="470" y="156" fill="#94a3b8" font-size="10" text-anchor="middle">Extracts trap_id: "trap_law_1"</text>
+
+  <!-- Node 3: Correct branch callout -->
+  <rect x="650" y="118" width="190" height="52" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="745" y="140" fill="#4ade80" font-size="11" font-weight="600" text-anchor="middle">[If Correct: is_correct=True]</text>
+  <text x="745" y="156" fill="#86efac" font-size="10" text-anchor="middle">+4 Recall / Direct Success</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 280 144 L 350 144" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 280 144 Q 615 100 642 135" fill="none" stroke="#22c55e" stroke-width="1" stroke-dasharray="2 2" marker-end="url(#arrowEmerald)"/>
+
+  <!-- Arrow 2 down to Container 2 -->
+  <path d="M 470 170 L 470 212" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Container 2: Diagnostic Engine -->
+  <rect x="40" y="220" width="820" height="230" rx="10" fill="url(#gradEngine)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="55" y="242" fill="#c084fc" font-size="12" font-weight="700" letter-spacing="1">2. DETERMINISTIC DIAGNOSTIC ENGINE (FASTAPI BACKEND: POST /api/diagnose)</text>
+
+  <!-- Inner Engine Sub-nodes -->
+  <rect x="60" y="258" width="220" height="48" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1"/>
+  <text x="170" y="280" fill="#e9d5ff" font-size="12" font-weight="600" text-anchor="middle">O(1) Dictionary Indexing</text>
+  <text x="170" y="295" fill="#a855f7" font-size="10" text-anchor="middle">question.traps[trap_id]</text>
+
+  <rect x="330" y="258" width="510" height="110" rx="6" fill="url(#gradTrap)" stroke="#f59e0b" stroke-width="1"/>
+  <text x="345" y="278" fill="#fbbf24" font-size="11" font-weight="700">TRIPARTITE COGNITIVE METADATA PAYLOAD (TrapDetail Model)</text>
+
+  <!-- Field tags inside payload -->
+  <rect x="345" y="288" width="230" height="32" rx="4" fill="#181512" stroke="#78350f" stroke-width="1"/>
+  <text x="355" y="303" fill="#fef08a" font-size="10" font-weight="600">title:</text>
+  <text x="382" y="303" fill="#cbd5e1" font-size="10">Conceptual Fallacy Label (Mnemonic)</text>
+  <text x="355" y="315" fill="#94a3b8" font-size="8.5">"Confusing Extinctive Prescription w/ Rescission"</text>
+
+  <rect x="590" y="288" width="235" height="32" rx="4" fill="#181512" stroke="#78350f" stroke-width="1"/>
+  <text x="600" y="303" fill="#fef08a" font-size="10" font-weight="600">desc:</text>
+  <text x="632" y="303" fill="#cbd5e1" font-size="10">Root Misconception Conflict</text>
+  <text x="600" y="315" fill="#94a3b8" font-size="8.5">"Article 152 1-yr limit vs Article 188 3-yr limit"</text>
+
+  <rect x="345" y="326" width="230" height="32" rx="4" fill="#181512" stroke="#78350f" stroke-width="1"/>
+  <text x="355" y="341" fill="#fef08a" font-size="10" font-weight="600">prereq:</text>
+  <text x="398" y="341" fill="#cbd5e1" font-size="10">Remedial Anchor Theorem</text>
+  <text x="355" y="352" fill="#94a3b8" font-size="8.5">"Difference between Formative Rights &amp; Claims"</text>
+
+  <rect x="590" y="326" width="235" height="32" rx="4" fill="#181512" stroke="#78350f" stroke-width="1"/>
+  <text x="600" y="341" fill="#fef08a" font-size="10" font-weight="600">radar_hit:</text>
+  <text x="655" y="341" fill="#cbd5e1" font-size="10">Target Telemetry Key</text>
+  <text x="600" y="352" fill="#38bdf8" font-size="9" font-weight="600">"boundary" / "trapDefense"</text>
+
+  <!-- Connect Indexing to Payload -->
+  <path d="M 280 282 L 320 282" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Router for dual mode -->
+  <rect x="60" y="380" width="370" height="52" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+  <text x="75" y="401" fill="#a5b4fc" font-size="11" font-weight="700">DUAL-MODE SOCRATIC SCAFFOLDING ROUTER</text>
+  <text x="75" y="418" fill="#cbd5e1" font-size="10">Offline Fallback: Pre-audited prompts | Online: Qwen (4.0s timeout)</text>
+
+  <rect x="470" y="380" width="370" height="52" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+  <text x="485" y="401" fill="#a5b4fc" font-size="11" font-weight="700">ZERO ANSWER-SPOILING SAFETY GUARANTEE</text>
+  <text x="485" y="418" fill="#cbd5e1" font-size="10">Prompts strictly interrogate underlying premise without revealing key</text>
+
+  <path d="M 460 368 L 460 376" stroke="#fbbf24" stroke-width="1.5"/>
+
+  <!-- Arrow down to Container 3 -->
+  <path d="M 245 432 L 245 470" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+  <path d="M 655 432 L 655 470" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+
+  <!-- Container 3: Telemetry & UI Mutation -->
+  <rect x="40" y="480" width="820" height="160" rx="10" fill="url(#gradTelemetry)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="55" y="502" fill="#34d399" font-size="12" font-weight="700" letter-spacing="1">3. METACOGNITIVE REMEDIATION &amp; TELEMETRY MUTATION</text>
+
+  <!-- Left box: Trap Drawer -->
+  <rect x="60" y="518" width="370" height="100" rx="6" fill="#0f291e" stroke="#059669" stroke-width="1"/>
+  <text x="80" y="540" fill="#6ee7b7" font-size="12" font-weight="700">UI Trap Drawer Activation (P0 Scaffolding)</text>
+  <text x="80" y="560" fill="#e2e8f0" font-size="10.5">• Diagnostic Badge: Displays Fallacy Name ("除斥期间误判")</text>
+  <text x="80" y="578" fill="#e2e8f0" font-size="10.5">• Socratic Interrogation: Guided reflection on statutory premise</text>
+  <text x="80" y="596" fill="#e2e8f0" font-size="10.5">• Prerequisite Card: Remedial link to Chapter 3 Doctrine</text>
+
+  <!-- Right box: Radar Telemetry -->
+  <rect x="470" y="518" width="370" height="100" rx="6" fill="#0f291e" stroke="#059669" stroke-width="1"/>
+  <text x="490" y="540" fill="#6ee7b7" font-size="12" font-weight="700">5D Competency Radar Telemetry (ECharts 5.5.1)</text>
+  <text x="490" y="560" fill="#e2e8f0" font-size="10.5">• Penalty Mutation: -6 TrapDefense, -4 Boundary Condition</text>
+  <text x="490" y="578" fill="#e2e8f0" font-size="10.5">• In-Session Client Aggregation: Zero DB transaction overhead</text>
+  <text x="490" y="596" fill="#e2e8f0" font-size="10.5">• Immediate Redraw: Instant visual feedback to student</text>
+
+  <!-- Bottom caption -->
+  <text x="450" y="662" fill="#64748b" font-size="11" text-anchor="middle">Source: backend/app/models/quiz.py, backend/app/services/diagnostic_service.py, frontend/app.js</text>
+</svg>

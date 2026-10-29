@@ -11,6 +11,7 @@
 
 | File | What it is | Status / Description |
 | :--- | :--- | :--- |
+| `draft.md` | **Step 2 Prose Draft**: Full English report text for Sections 5.3.1–5.3.4 and 5.4.1–5.4.3, including Table 5.4, Table 5.5, Table 5.6, Figure 5.2, and Algorithm 5.1 | Complete (~2,350 words, ~5.5 pages; zero raw Python source code) |
 | `outline.md` | **Step 1 Outline**: Three-level structure, word budgets, required tables/figures, pseudocode, and oral defense strategies | Complete (exceeds 12-line requirement; fully aligned with Task Pack 06) |
 | `sources.md` | **Traceability Matrix**: Maps every quantitative claim, code invariant, and latency metric to exact repository files | Complete (traceable to `seed_questions.py`, `diagnostic_service.py`, `tests/`) |
 | `figures/fig5_2_trap_causal_chain.svg` | **Figure 5.2 (Vector SVG)**: Crisp, presentation-ready vector diagram of the distractor diagnostic causal chain | Complete |
