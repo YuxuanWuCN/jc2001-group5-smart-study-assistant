@@ -1,0 +1,10 @@
+stateDiagram-v2
+ [*] --> QuestionReady
+ QuestionReady --> Pending: Select option and lock
+ Pending --> LocalFallback: Request fails or returns unsuccessful status
+ Pending --> CorrectFeedback: Correct
+ Pending --> MisconceptionFeedback: Incorrect
+ LocalFallback --> CorrectFeedback: Correct local result
+ LocalFallback --> MisconceptionFeedback: Incorrect local result
+ CorrectFeedback --> QuestionReady: Next question and reset
+ MisconceptionFeedback --> QuestionReady: Next question and reset
