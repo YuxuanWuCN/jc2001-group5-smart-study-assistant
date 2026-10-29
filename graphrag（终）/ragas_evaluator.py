@@ -9,7 +9,7 @@ from tqdm import tqdm
 # ==========================================
 # 1. 配置区
 # ==========================================
-ZHIPU_API_KEY = "d6c738d591a64632888c63d1edc44261.kahWg8fUJh9SU2kT"
+ZHIPU_API_KEY = os.getenv("ZHIPU_API_KEY", "")
 ZHIPU_URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
 HEADERS = {"Authorization": f"Bearer {ZHIPU_API_KEY}", "Content-Type": "application/json"}
 
@@ -52,6 +52,10 @@ def ask_model(question, model_name):
 # 3. 主循环：多模型对比评测
 # ==========================================
 def main():
+    if not ZHIPU_API_KEY:
+        print("❌ 未设置 ZHIPU_API_KEY 环境变量（或写入 .env），无法调用智谱 API。")
+        return
+
     if not os.path.exists("benchmark_math_questions.csv"):
         print("❌ 未找到 benchmark_math_questions.csv，请先运行数据清洗脚本！")
         return

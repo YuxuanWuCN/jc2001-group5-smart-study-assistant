@@ -12,6 +12,16 @@ ENV/
 # Environment Variables & Secrets (CRITICAL for Academic Integrity)
 .env
 *.local.env
+.env.*
+!.env.example
+
+# Binary archives that may embed credential snapshots.
+# The legacy PoC archive and the GraphRAG prototype archive were quarantined on
+# 2026-10-25 and 2026-10-29: both carried literal API keys from the prototype
+# phase. Rebuild any release archive from the credential-remediated HEAD and run
+# a secret scan (0 hits) before distribution.
+*.zip
+!reports/ui-design/assets/*.zip
 
 # IDE & Editor Specific
 .vscode/

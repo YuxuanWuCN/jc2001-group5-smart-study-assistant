@@ -137,7 +137,7 @@ items in our run, so no database export has to be restored before the applicatio
 demonstrated.
 
 The evaluation data are shipped but only partly re-runnable, and we state the boundary explicitly.
-The archive `graphrag(终).zip` contains the twelve MMLU subject files and one result snapshot,
+The directory `graphrag(终)/` contains the twelve MMLU subject files and one result snapshot,
 `final_systematic_report.csv` (741 bytes), which records the before-and-after figures quoted in
 Chapter 6. Re-running the evaluation, however, requires a live Neo4j Aura instance whose credential
 has since been rotated; the free-tier instance may also be dormant. We therefore do not claim that
@@ -148,20 +148,20 @@ the first inspection of the evaluation scripts.
 
 ## 5.6.5 Packaging for Submission
 
-The archive follows the structure required by the course brief. The evaluation scripts are carried
-inside it but remain outside the demonstration path; the interface manual is the one required member
-that is still missing (see below).
+The submission tree follows the structure required by the course brief. The evaluation scripts are
+carried inside it but remain outside the demonstration path; the interface manual is the one required
+member that is still missing (see below).
 
 ```text
-jc2001-group5-poc.zip
+<submission tree>
 ├── backend/                  # FastAPI service and seed data
 ├── frontend/                 # HTML, CSS and JavaScript, no build step
-├── tests/                    # 150 cases, runs offline
+├── tests/                    # automated regression suite, runs offline
 ├── requirements.txt          # 12 direct dependencies
 ├── README.md                 # quick start
 ├── docs/
 │   └── User_Manual.pdf       # 8–12 pages
-├── graphrag(终).zip          # offline evaluation scripts and CSVs
+├── graphrag（终）/            # offline evaluation scripts and CSVs
 └── .env.example              # optional keys, placeholder values only
 ```
 
@@ -171,23 +171,31 @@ credential, so the packaging step greps the extracted tree for the strings `sk-`
 `password` before the archive is written, and the result of that scan is recorded in the submission
 checklist.
 
-We built the archive from the snapshot: 48 entries, 1.05 MB, one top-level directory so that the
-documented `cd` step works. Unpacking it into an empty directory and running the suite and the
-service from there produced 150 passes, a healthy `/api/health` and a 40,390-byte shell, so the
-procedure in Section 5.6.3 was verified against the archive rather than against the working copy.
+The archive itself is not a repository artefact. It is built at submission time from the HEAD that
+is being submitted, and `.gitignore` now refuses every `*.zip` so that a stale snapshot cannot be
+committed again. The version we measured while preparing this chapter carried 48 entries and
+1.05 MB and unpacked into a single top-level directory so that the documented `cd` step works;
+unpacking it into an empty directory and running the suite and the service from there produced a
+passing suite at the time, a healthy `/api/health` and a 40,390-byte shell, so the procedure in
+Section 5.6.3 was verified against an unpacked archive rather than against the working copy. Those
+counts date from 25 October 2026 and the tree has moved since; the numbers to quote in the viva are
+the ones the packaging script prints on the day.
 
-That check is not cosmetic for this project. At the time of writing, the three exploratory scripts
-inside `graphrag(终).zip` (`real_graph_engine.py`, `auto_builder.py` and
-`systematic_eval_engine.py`) still embed a literal DashScope key and a literal Neo4j URI and
-password inherited from the prototype phase, and none of them imports `os`. The remediation is to
-read these values through `os.getenv` as `backend/app/config.py` already does, and to rotate both
-credentials in their respective consoles; the rotation is owned by the project leader and the code
-change must land before the archive is built. The scripts are not imported by the backend, are not
-exercised by the test suite and are not part of the demonstration, so the exposure is confined to
-the evaluation archive — but it is the single most damaging defect a submission of this kind can
-carry, and it is scheduled first in the packaging checklist.
+That check is not cosmetic for this project. The four exploratory scripts in `graphrag（终）/`
+(`real_graph_engine.py`, `auto_builder.py`, `systematic_eval_engine.py` and `ragas_evaluator.py`)
+once embedded a literal DashScope key, a literal Neo4j URI and password, and two literal Zhipu keys
+inherited from the prototype phase. All four now read them through `os.getenv` as
+`backend/app/config.py` already does, and `ragas_evaluator.py` refuses to start when
+`ZHIPU_API_KEY` is unset. Two binary snapshots of the pre-remediation tree — `graphrag(终).zip` and
+`jc2001-group5-poc.zip` — were committed in September and October and were deleted from the tree on
+29 October 2026; they remain in the git history and must be assumed public. Because deleting a file
+cannot un-publish a credential, rotating the five keys in their provider consoles is the only
+effective remedy, and it is scheduled first in the packaging checklist. The scripts are not imported
+by the backend, are not exercised by the test suite and are not part of the demonstration, so the
+runtime exposure was confined to the evaluation archive — but a leaked key is the single most
+damaging defect a submission of this kind can carry.
 
 One required member is still outstanding. The brief requires an 8–12 page user manual as a PDF
-inside the archive; no PDF exists in the repository at the time of writing, and the manual is owned
-by the testing chapter (Chapter 6). Until it is added, the archive is complete with respect to
+inside the archive; no such PDF exists in the repository at the time of writing, and the manual is
+owned by the testing chapter (Chapter 6). Until it is added, the archive is complete with respect to
 source, tests and documentation, but not with respect to the assessed packaging requirements.

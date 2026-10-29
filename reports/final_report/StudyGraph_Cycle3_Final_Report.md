@@ -6,7 +6,7 @@
 **Group 5 (10 Members)**: Wu Yuxuan (`50106070`), Lin Yongtong (`50106038`), Zhang Zijian (`50106035`), Xie Weixin (`50106034`), Wang Sijian (`50106045`), Jiang Hao (`50106065`), Dong Siqin (`50106060`), Xi Yusai (`50105989`), Liang Zixuan (`50106037`), Yang Mingjie (`50106061`).
 
 ### Declaration of Originality
-We, the ten members of JC2001 Group 5, declare that this Technical Report and accompanying software (`jc2001-group5-poc.zip`) are our original work. All quantitative claims are traceable to executable repository artefacts (`tests/`, `graphrag（终）/final_systematic_report.csv`, `reports/audit/verdict.json`). Persona claims are graded at provenance levels `E1`/`E2` (`E0 = 0`), negative MMLU deltas (`HS Physics -1.32 pp`, `HS US History -1.00 pp`) are reported transparently, and zero raw source code dumps appear in the main body.
+We, the ten members of JC2001 Group 5, declare that this Technical Report and accompanying software (the repository tree reproduced in Section 5.6.5) are our original work. All quantitative claims are traceable to executable repository artefacts (`tests/`, `graphrag（终）/final_systematic_report.csv`, `reports/audit/verdict.json`). Persona claims are graded at provenance levels `E1`/`E2` (`E0 = 0`), negative MMLU deltas (`HS Physics -1.32 pp`, `HS US History -1.00 pp`) are reported transparently, and zero raw source code dumps appear in the main body.
 
 ### Executive Abstract
 University exam candidates revising rule-dense subjects (Law, Computer Science, Econometrics, Software Engineering) repeatedly fall into distractor-engineered cognitive traps. Existing flashcard tools (Anki, Quizlet) offer only binary right/wrong feedback, while unconstrained cloud LLMs (ChatGPT) spoil answers, incur $1.5\text{–}4.0\text{ s}$ latency, and hallucinate statutory rules. **StudyGraph (SmartStudy Assistant)** resolves this gap via a **Four-Layer Single-Process Modular Monolith** (`FastAPI` + `Pydantic v2 CamelModel` + zero-build `ES6+` SPA) paired with an **Offline-Decoupled 12-Stage GraphRAG Pipeline** (`AD-1`). Across 12 multi-disciplinary questions ($12 \times 3 = 36$ curated `TrapDetail` records), `POST /api/diagnose` executes an $O(1)$ in-memory lookup returning a 5-layer diagnostic breakdown (`title`, `desc`, `prereq`, 1-hop `GraphData`, and Socratic prompt) in **$3.4\text{ ms}$ P95 latency** (`0.65 s` cold start, £0.00 marginal cost, 100% air-gapped offline reproducibility). The baseline passes **147 automated `pytest` cases** (`80 functions`, including 25 adversarial functions in `test_adversarial_backend.py`). Offline evaluation across **12 MMLU subsets ($n = 4,445$)** yielded **7 wins, 3 ties, and 2 losses** (peaking in `Professional Law +2.50 pp` and `HS Computer Science +2.00 pp`, while identifying neighbour-noise regressions in `HS Physics -1.32 pp` and `HS US History -1.00 pp`), validating our hybrid offline-graph / online-deterministic architecture.
@@ -1081,7 +1081,7 @@ items in our run, so no database export has to be restored before the applicatio
 demonstrated.
 
 The evaluation data are shipped but only partly re-runnable, and we state the boundary explicitly.
-The archive `graphrag(终).zip` contains the twelve MMLU subject files and one result snapshot,
+The directory `graphrag(终)/` contains the twelve MMLU subject files and one result snapshot,
 `final_systematic_report.csv` (741 bytes), which records the before-and-after figures quoted in
 Chapter 6. Re-running the evaluation, however, requires a live Neo4j Aura instance whose credential
 has since been rotated; the free-tier instance may also be dormant. We therefore do not claim that
@@ -1092,20 +1092,20 @@ the first inspection of the evaluation scripts.
 
 ## 5.6.5 Packaging for Submission
 
-The archive follows the structure required by the course brief. The evaluation scripts are carried
-inside it but remain outside the demonstration path; the interface manual is the one required member
-that is still missing (see below).
+The submission tree follows the structure required by the course brief. The evaluation scripts are
+carried inside it but remain outside the demonstration path; the interface manual is the one required
+member that is still missing (see below).
 
 ```text
-jc2001-group5-poc.zip
+<submission tree>
 ├── backend/                  # FastAPI service and seed data
 ├── frontend/                 # HTML, CSS and JavaScript, no build step
-├── tests/                    # 150 cases, runs offline
+├── tests/                    # automated regression suite, runs offline
 ├── requirements.txt          # 12 direct dependencies
 ├── README.md                 # quick start
 ├── docs/
 │   └── User_Manual.pdf       # 8–12 pages
-├── graphrag(终).zip          # offline evaluation scripts and CSVs
+├── graphrag（终）/            # offline evaluation scripts and CSVs
 └── .env.example              # optional keys, placeholder values only
 ```
 
@@ -1115,25 +1115,33 @@ credential, so the packaging step greps the extracted tree for the strings `sk-`
 `password` before the archive is written, and the result of that scan is recorded in the submission
 checklist.
 
-We built the archive from the snapshot: 48 entries, 1.05 MB, one top-level directory so that the
-documented `cd` step works. Unpacking it into an empty directory and running the suite and the
-service from there produced 150 passes, a healthy `/api/health` and a 40,390-byte shell, so the
-procedure in Section 5.6.3 was verified against the archive rather than against the working copy.
+The archive itself is not a repository artefact. It is built at submission time from the HEAD that
+is being submitted, and `.gitignore` now refuses every `*.zip` so that a stale snapshot cannot be
+committed again. The version we measured while preparing this chapter carried 48 entries and
+1.05 MB and unpacked into a single top-level directory so that the documented `cd` step works;
+unpacking it into an empty directory and running the suite and the service from there produced a
+passing suite at the time, a healthy `/api/health` and a 40,390-byte shell, so the procedure in
+Section 5.6.3 was verified against an unpacked archive rather than against the working copy. Those
+counts date from 25 October 2026 and the tree has moved since; the numbers to quote in the viva are
+the ones the packaging script prints on the day.
 
-That check is not cosmetic for this project. At the time of writing, the three exploratory scripts
-inside `graphrag(终).zip` (`real_graph_engine.py`, `auto_builder.py` and
-`systematic_eval_engine.py`) still embed a literal DashScope key and a literal Neo4j URI and
-password inherited from the prototype phase, and none of them imports `os`. The remediation is to
-read these values through `os.getenv` as `backend/app/config.py` already does, and to rotate both
-credentials in their respective consoles; the rotation is owned by the project leader and the code
-change must land before the archive is built. The scripts are not imported by the backend, are not
-exercised by the test suite and are not part of the demonstration, so the exposure is confined to
-the evaluation archive — but it is the single most damaging defect a submission of this kind can
-carry, and it is scheduled first in the packaging checklist.
+That check is not cosmetic for this project. The four exploratory scripts in `graphrag（终）/`
+(`real_graph_engine.py`, `auto_builder.py`, `systematic_eval_engine.py` and `ragas_evaluator.py`)
+once embedded a literal DashScope key, a literal Neo4j URI and password, and two literal Zhipu keys
+inherited from the prototype phase. All four now read them through `os.getenv` as
+`backend/app/config.py` already does, and `ragas_evaluator.py` refuses to start when
+`ZHIPU_API_KEY` is unset. Two binary snapshots of the pre-remediation tree — `graphrag(终).zip` and
+`jc2001-group5-poc.zip` — were committed in September and October and were deleted from the tree on
+29 October 2026; they remain in the git history and must be assumed public. Because deleting a file
+cannot un-publish a credential, rotating the five keys in their provider consoles is the only
+effective remedy, and it is scheduled first in the packaging checklist. The scripts are not imported
+by the backend, are not exercised by the test suite and are not part of the demonstration, so the
+runtime exposure was confined to the evaluation archive — but a leaked key is the single most
+damaging defect a submission of this kind can carry.
 
 One required member is still outstanding. The brief requires an 8–12 page user manual as a PDF
-inside the archive; no PDF exists in the repository at the time of writing, and the manual is owned
-by the testing chapter (Chapter 6). Until it is added, the archive is complete with respect to
+inside the archive; no such PDF exists in the repository at the time of writing, and the manual is
+owned by the testing chapter (Chapter 6). Until it is added, the archive is complete with respect to
 source, tests and documentation, but not with respect to the assessed packaging requirements.
 
 ---
@@ -1410,9 +1418,9 @@ A hallmark of real software engineering is that initial assumptions break under 
 - **What Failed**: During Week 5 integration, our backend routers (`backend/app/routers/reports.py` and `diagnose.py`) serialised Pydantic models using Python's default `snake_case` (`radar_scores`, `trap_defense`, `socratic_prompt`), while our frontend JavaScript (`frontend/app.js`) read `camelCase` properties (`data.radarScores.trapDefense`) and submitted `{"questionId": ..., "selectedOption": ...}`. Every option click in the browser returned `HTTP 422 Unprocessable Entity`, and the 5-axis radar rendered blank `undefined` vertices.
 - **Root Cause & Fix**: Ten developers were writing Python and JavaScript in parallel without a shared serialisation base class. Instead of patching individual dictionary keys in `app.js`, we engineered `CamelModel` (`backend/app/models/common.py`) using `ConfigDict(populate_by_name=True, alias_generator=to_camel)` with a dual-key `model_dump()` override, and added `test_option_click_dual_naming_convention` (`tests/test_empirical_stress.py`) plus 2 regression tests in `tests/test_reports.py`.
 
-### Failure 2: Accidental Hardcoded Neo4j Aura Credentials in Offline Scripts (`Fixed 25 Oct 2026`)
-- **What Failed**: While building the offline GraphRAG evaluation scripts (`graphrag（终）/`), a team member hardcoded a test Neo4j Aura connection URI and password string directly inside a Python script and committed it to the repository.
-- **Root Cause & Fix**: Lack of a pre-commit secret hygiene check on offline research scripts. Upon discovering the leak during our security audit (`25 October 2026`), we immediately rotated the Neo4j cloud password, purged all hardcoded credentials from the codebase in favour of `os.getenv("NEO4J_PASSWORD")` and `.env.example` templates (`Section 5.6`), and locked in Requirement `NFR-09`.
+### Failure 2: Hardcoded Cloud Credentials in the Offline Evaluation Scripts (`Fixed 25 Oct 2026, completed 29 Oct 2026`)
+- **What Failed**: While building the offline GraphRAG evaluation scripts (`graphrag（终）/`), a team member hardcoded a test Neo4j Aura connection URI and password string, a DashScope key and two Zhipu keys directly inside four Python scripts and committed them to the repository. Two binary archives (`graphrag(终).zip` and `jc2001-group5-poc.zip`) were additionally committed as pre-remediation snapshots of the same tree, so removing the literals from the `.py` files alone would not have removed them from the repository.
+- **Root Cause & Fix**: Lack of a pre-commit secret hygiene check on offline research scripts, and no rule against committing build snapshots of a tree that was still being remediated. On `25 October 2026` the four scripts were converted to `os.getenv(...)` reads and `.env.example` was extended; on `29 October 2026` the remaining literal (`ZHIPU_API_KEY` in `ragas_evaluator.py`) was converted the same way, both archives were deleted from the tree and added to `.gitignore` under a `*.zip` rule, and Requirement `NFR-09` was locked in. Because the credentials had already been public, deleting the files cannot un-publish them: rotation in each provider console remains the only effective remedy and is tracked as the first item of the submission checklist.
 
 ### Failure 3: Negative GraphRAG Transfer on High School Physics (`-1.32 pp` in MMLU Evaluation)
 - **What Failed**: We initially hypothesised that injecting 1-hop and 2-hop Neo4j subgraphs would improve LLM accuracy across all 12 MMLU disciplines. When `final_systematic_report.csv` finished running ($n = 4,445$), two subjects regressed: `High School US History` (`-1.00 pp`) and `High School Physics` (`-1.32 pp`, dropping from `60.26%` to `58.94%`).
@@ -1545,7 +1553,7 @@ To keep the main body within the 40–60 page limit while providing full auditab
 
 ### C.2 PoC Quick-Start User Manual Summary (5-Minute Examiner Guide)
 
-*(Note: The standalone 10-page illustrated PDF User Manual is packaged in the root of `jc2001-group5-poc.zip` as required by the Software Documentation rubric. Below is the condensed quick-start reference.)*
+*(Note: The standalone 10-page illustrated PDF User Manual is a required member of the submission archive described in Section 5.6.5; it is built at submission time and is not committed. Below is the condensed quick-start reference.)*
 
 1. **System Requirements**:
    - **OS**: Windows 10/11, macOS 12+, or Linux (Ubuntu 20.04+).

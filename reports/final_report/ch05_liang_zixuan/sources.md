@@ -19,7 +19,7 @@ by execution rather than by reading, the measurement conditions are stated. Repo
 | `tests/*.py` (9 test files) | — | 5.6.4 | 80 test functions → 150 collected cases |
 | `backend/app/data/seed_questions.py` | 59,653 B / 657 lines | 5.6.1, 5.6.4 | The question bank is source code, not a database export |
 | `frontend/index.html` | 40,390 B | 5.6.1 | Size match with the `GET /` response |
-| `graphrag(终).zip` (contents) | 954,707 B | 5.6.4, 5.6.5 | 12 MMLU subject CSVs; `final_systematic_report.csv` (741 B); the three scripts holding literal credentials |
+| `graphrag(终)/` (directory) | 17 files | 5.6.4, 5.6.5 | 12 MMLU subject CSVs; `final_systematic_report.csv` (741 B); the evaluation scripts, now reading credentials from the environment |
 
 ## 2. Measurements taken by execution
 

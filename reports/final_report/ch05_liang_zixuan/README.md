@@ -20,7 +20,7 @@ head `626d46707f4d3296b354b47c3fcba5d8a80ba1fc`
 | `sources.md` | Every claim traced to a repository file, with the measurement conditions | — |
 | `supervisor_summary.md` | One-page standalone summary, for sending to the supervisor on its own | — |
 | `presentation.md` | §9 production pack: running order, 14-slide deck outline, the 90-second deployment script | — |
-| `jc2001-group5-poc.zip` | The PoC archive built to the brief's structure and verified by unpacking. **Quarantined 2026-10-25:** the previously committed snapshot contained a nested archive with pre-remediation hardcoded credentials; rebuild from the credential-remediated HEAD and run the secret scan before distribution. | removed from repo |
+| `jc2001-group5-poc.zip` | The PoC archive. **Quarantined 2026-10-25 and again 2026-10-29:** every committed snapshot carried a nested archive with pre-remediation hardcoded credentials, so the archive is no longer a repository artefact. Build it from the submission HEAD and run the secret scan (0 hits) before distribution. | not tracked |
 
 ## 2. How to use it
 
@@ -46,7 +46,7 @@ head `626d46707f4d3296b354b47c3fcba5d8a80ba1fc`
 | Item | Owner | Why it matters |
 | :--- | :--- | :--- |
 | `docs/User_Manual.pdf` (8–12 pages) does not exist anywhere in the repository | Chapter 6 author | the brief requires it inside the PoC archive |
-| Three exploration scripts still carry a literal DashScope key and Neo4j password; both credentials need rotating in their consoles | project leader + the script owner | the packaging step greps for these before submission |
+| Five credentials (DashScope, Neo4j, two Zhipu, one Gemini) were committed in 2026-09 and remain in the git history; only console-side rotation retires them | project leader + the script owner | deleting the files cannot un-publish a key; the packaging step greps for the literal prefixes before submission |
 | Endpoint count circulating as 8 (PR description), 5 (task-pack sketch) and 4 (OpenAPI) | project leader | until it is fixed, the deck should defer to Section 5.2 rather than print a fourth number |
 
 ## 5. Conventions followed

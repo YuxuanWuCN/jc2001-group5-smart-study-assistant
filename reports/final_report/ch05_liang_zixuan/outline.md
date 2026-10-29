@@ -96,7 +96,7 @@ the evidence for it. Nothing in this section introduces a new feature.
 | Dependency manifest | `requirements.txt` | twelve dependencies, no pins, Python floor statement |
 | Test suite | `tests/` (9 test files + `conftest.py`) | 80 functions → 150 cases; credential-clearing fixture |
 | Seed data | `backend/app/data/seed_questions.py` | the twelve-item bank, no database |
-| Evaluation archive | `graphrag(终).zip` | 12 MMLU subject CSVs + `final_systematic_report.csv` |
+| Evaluation data | `graphrag(终)/` (directory) | 12 MMLU subject CSVs + `final_systematic_report.csv`; the scripts read credentials from the environment |
 | Environment template | `.env.example` | the optional keys and their placeholders |
 | Format and numbering | `reports/cycle3_task_packs/08-...md`, `reports/cycle3_task_packs/README.md` | section budget, Figure 5.5 / Table 5.7 allocation |
 | Architecture decisions | ADR-01, ADR-05 (Chapter 4) | single process, Neo4j offline only |

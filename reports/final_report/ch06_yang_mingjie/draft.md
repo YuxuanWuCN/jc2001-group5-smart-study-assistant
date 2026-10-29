@@ -219,7 +219,7 @@ To keep the main body within the 40–60 page limit while providing full auditab
 
 ### C.2 PoC Quick-Start User Manual Summary (5-Minute Examiner Guide)
 
-*(Note: The standalone 10-page illustrated PDF User Manual is packaged in the root of `jc2001-group5-poc.zip` as required by the Software Documentation rubric. Below is the condensed quick-start reference.)*
+*(Note: The standalone 10-page illustrated PDF User Manual is a required member of the submission archive described in Section 5.6.5; it is built at submission time and is not committed. Below is the condensed quick-start reference.)*
 
 1. **System Requirements**:
    - **OS**: Windows 10/11, macOS 12+, or Linux (Ubuntu 20.04+).
