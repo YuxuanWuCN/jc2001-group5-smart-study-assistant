@@ -1,137 +1,137 @@
 ---
-description: 通过处理和执行 tasks.md 中定义的所有任务来执行实现计划
+description: Execute the implementation plan by processing and executing all tasks defined in tasks.md
 scripts:
   sh: scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks
   ps: scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ---
 
-## 用户输入
+## User Input
 
 ```text
 $ARGUMENTS
 ```
 
-您**必须**在继续之前考虑用户输入（如果不为空）。
+You **MUST** consider the user input before proceeding (if not empty).
 
-## 大纲
+## Outline
 
-1. 从仓库根目录运行 `{SCRIPT}` 并解析 FEATURE_DIR 和 AVAILABLE_DOCS 列表。所有路径必须是绝对的。对于参数中的单引号，如 "I'm Groot"，使用转义语法：例如 'I'\''m Groot'（或者如果可能的话使用双引号："I'm Groot"）。
+1. Run `{SCRIPT}` from the repository root and parse FEATURE_DIR and the AVAILABLE_DOCS list. All paths must be absolute. For single quotes in arguments like "I'm Groot", use escape syntax: e.g. 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
-2. **检查检查表状态**（如果 FEATURE_DIR/checklists/ 存在）：
-   - 扫描 checklists/ 目录中的所有检查表文件
-   - 对于每个检查表，计数：
-     - 总项目：所有匹配 `- [ ]` 或 `- [X]` 或 `- [x]` 的行
-     - 完成项目：匹配 `- [X]` 或 `- [x]` 的行
-     - 未完成项目：匹配 `- [ ]` 的行
-   - 创建状态表：
+2. **Check checklist status** (if FEATURE_DIR/checklists/ exists):
+   - Scan all checklist files in the checklists/ directory
+   - For each checklist, count:
+     - Total items: all lines matching `- [ ]` or `- [X]` or `- [x]`
+     - Completed items: lines matching `- [X]` or `- [x]`
+     - Incomplete items: lines matching `- [ ]`
+   - Create a status table:
 
      ```text
-     | 检查表 | 总计 | 已完成 | 未完成 | 状态 |
+     | Checklist | Total | Completed | Incomplete | Status |
      |-----------|-------|-----------|------------|--------|
-     | ux.md     | 12    | 12        | 0          | ✓ 通过 |
-     | test.md   | 8     | 5         | 3          | ✗ 失败 |
-     | security.md | 6   | 6         | 0          | ✓ 通过 |
+     | ux.md     | 12    | 12        | 0          | ✓ PASS |
+     | test.md   | 8     | 5         | 3          | ✗ FAIL |
+     | security.md | 6   | 6         | 0          | ✓ PASS |
      ```
 
-   - 计算总体状态：
-     - **通过**：所有检查表都有 0 个未完成项目
-     - **失败**：一个或多个检查表有未完成项目
+   - Calculate overall status:
+     - **PASS**: All checklists have 0 incomplete items
+     - **FAIL**: One or more checklists have incomplete items
 
-   - **如果有任何检查表未完成**：
-     - 显示包含未完成项目计数的表格
-     - **停止**并询问："一些检查表未完成。您是否仍要继续执行实现？(yes/no)"
-     - 等待用户响应后再继续
-     - 如果用户说"no"或"wait"或"stop"，则停止执行
-     - 如果用户说"yes"或"proceed"或"continue"，则继续到步骤 3
+   - **If any checklist is incomplete**:
+     - Display the table with incomplete item counts
+     - **STOP** and ask: "Some checklists are incomplete. Do you still want to proceed with implementation? (yes/no)"
+     - Wait for the user's response before continuing
+     - If the user says "no", "wait", or "stop", then stop execution
+     - If the user says "yes", "proceed", or "continue", then continue to step 3
 
-   - **如果所有检查表都完成**：
-     - 显示表格显示所有检查表已通过
-     - 自动继续到步骤 3
+   - **If all checklists are complete**:
+     - Display the table showing all checklists passed
+     - Automatically continue to step 3
 
-3. 加载和分析实现上下文：
-   - **必需**：读取 tasks.md 以获取完整的任务列表和执行计划
-   - **必需**：读取 plan.md 以获取技术栈、架构和文件结构
-   - **如果存在**：读取 data-model.md 以获取实体和关系
-   - **如果存在**：读取 contracts/ 以获取 API 规范和测试要求
-   - **如果存在**：读取 research.md 以获取技术决策和约束
-   - **如果存在**：读取 quickstart.md 以获取集成场景
+3. Load and analyze the implementation context:
+   - **REQUIRED**: Read tasks.md for the complete task list and execution plan
+   - **REQUIRED**: Read plan.md for the tech stack, architecture, and file structure
+   - **IF EXISTS**: Read data-model.md for entities and relationships
+   - **IF EXISTS**: Read contracts/ for API specifications and test requirements
+   - **IF EXISTS**: Read research.md for technical decisions and constraints
+   - **IF EXISTS**: Read quickstart.md for integration scenarios
 
-4. **项目设置验证**：
-   - **必需**：根据实际项目设置创建/验证忽略文件：
+4. **Project setup verification**:
+   - **REQUIRED**: Create/verify ignore files based on the actual project setup:
 
-   **检测和创建逻辑**：
-   - 检查以下命令是否成功以确定仓库是否为 git 仓库（如果是则创建/验证 .gitignore）：
+   **Detection and creation logic**:
+   - Check whether the following command succeeds to determine whether the repository is a git repository (if so, create/verify .gitignore):
 
      ```sh
      git rev-parse --git-dir 2>/dev/null
      ```
 
-   - 检查是否存在 Dockerfile* 或 Docker 在 plan.md 中 → 创建/验证 .dockerignore
-   - 检查是否存在 .eslintrc* 或 eslint.config.* → 创建/验证 .eslintignore
-   - 检查是否存在 .prettierrc* → 创建/验证 .prettierignore
-   - 检查是否存在 .npmrc 或 package.json → 创建/验证 .npmignore（如果发布）
-   - 检查是否存在 terraform 文件 (*.tf) → 创建/验证 .terraformignore
-   - 检查是否需要 .helmignore（存在 helm 图表）→ 创建/验证 .helmignore
+   - Check whether Dockerfile* exists or Docker is referenced in plan.md → create/verify .dockerignore
+   - Check whether .eslintrc* or eslint.config.* exists → create/verify .eslintignore
+   - Check whether .prettierrc* exists → create/verify .prettierignore
+   - Check whether .npmrc or package.json exists → create/verify .npmignore (if publishing)
+   - Check whether terraform files (*.tf) exist → create/verify .terraformignore
+   - Check whether .helmignore is needed (helm charts present) → create/verify .helmignore
 
-   **如果忽略文件已存在**：验证它包含基本模式，仅追加缺失的关键模式
-   **如果忽略文件缺失**：创建包含检测技术的完整模式集
+   **If an ignore file already exists**: Verify it contains essential patterns, append only missing critical patterns
+   **If an ignore file is missing**: Create it with a complete pattern set for the detected technologies
 
-   **按技术的常见模式**（来自 plan.md 技术栈）：
-   - **Node.js/JavaScript/TypeScript**：`node_modules/`, `dist/`, `build/`, `*.log`, `.env*`
-   - **Python**：`__pycache__/`, `*.pyc`, `.venv/`, `venv/`, `dist/`, `*.egg-info/`
-   - **Java**：`target/`, `*.class`, `*.jar`, `.gradle/`, `build/`
-   - **C#/.NET**：`bin/`, `obj/`, `*.user`, `*.suo`, `packages/`
-   - **Go**：`*.exe`, `*.test`, `vendor/`, `*.out`
-   - **Ruby**：`.bundle/`, `log/`, `tmp/`, `*.gem`, `vendor/bundle/`
-   - **PHP**：`vendor/`, `*.log`, `*.cache`, `*.env`
-   - **Rust**：`target/`, `debug/`, `release/`, `*.rs.bk`, `*.rlib`, `*.prof*`, `.idea/`, `*.log`, `.env*`
-   - **Kotlin**：`build/`, `out/`, `.gradle/`, `.idea/`, `*.class`, `*.jar`, `*.iml`, `*.log`, `.env*`
-   - **C++**：`build/`, `bin/`, `obj/`, `out/`, `*.o`, `*.so`, `*.a`, `*.exe`, `*.dll`, `.idea/`, `*.log`, `.env*`
-   - **C**：`build/`, `bin/`, `obj/`, `out/`, `*.o`, `*.a`, `*.so`, `*.exe`, `Makefile`, `config.log`, `.idea/`, `*.log`, `.env*`
-   - **Swift**：`.build/`, `DerivedData/`, `*.swiftpm/`, `Packages/`
-   - **R**：`.Rproj.user/`, `.Rhistory`, `.RData`, `.Ruserdata`, `*.Rproj`, `packrat/`, `renv/`
-   - **通用**：`.DS_Store`, `Thumbs.db`, `*.tmp`, `*.swp`, `.vscode/`, `.idea/`
+   **Common patterns by technology** (from the plan.md tech stack):
+   - **Node.js/JavaScript/TypeScript**: `node_modules/`, `dist/`, `build/`, `*.log`, `.env*`
+   - **Python**: `__pycache__/`, `*.pyc`, `.venv/`, `venv/`, `dist/`, `*.egg-info/`
+   - **Java**: `target/`, `*.class`, `*.jar`, `.gradle/`, `build/`
+   - **C#/.NET**: `bin/`, `obj/`, `*.user`, `*.suo`, `packages/`
+   - **Go**: `*.exe`, `*.test`, `vendor/`, `*.out`
+   - **Ruby**: `.bundle/`, `log/`, `tmp/`, `*.gem`, `vendor/bundle/`
+   - **PHP**: `vendor/`, `*.log`, `*.cache`, `*.env`
+   - **Rust**: `target/`, `debug/`, `release/`, `*.rs.bk`, `*.rlib`, `*.prof*`, `.idea/`, `*.log`, `.env*`
+   - **Kotlin**: `build/`, `out/`, `.gradle/`, `.idea/`, `*.class`, `*.jar`, `*.iml`, `*.log`, `.env*`
+   - **C++**: `build/`, `bin/`, `obj/`, `out/`, `*.o`, `*.so`, `*.a`, `*.exe`, `*.dll`, `.idea/`, `*.log`, `.env*`
+   - **C**: `build/`, `bin/`, `obj/`, `out/`, `*.o`, `*.a`, `*.so`, `*.exe`, `Makefile`, `config.log`, `.idea/`, `*.log`, `.env*`
+   - **Swift**: `.build/`, `DerivedData/`, `*.swiftpm/`, `Packages/`
+   - **R**: `.Rproj.user/`, `.Rhistory`, `.RData`, `.Ruserdata`, `*.Rproj`, `packrat/`, `renv/`
+   - **Universal**: `.DS_Store`, `Thumbs.db`, `*.tmp`, `*.swp`, `.vscode/`, `.idea/`
 
-   **工具特定模式**：
-   - **Docker**：`node_modules/`, `.git/`, `Dockerfile*`, `.dockerignore`, `*.log*`, `.env*`, `coverage/`
-   - **ESLint**：`node_modules/`, `dist/`, `build/`, `coverage/`, `*.min.js`
-   - **Prettier**：`node_modules/`, `dist/`, `build/`, `coverage/`, `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`
-   - **Terraform**：`.terraform/`, `*.tfstate*`, `*.tfvars`, `.terraform.lock.hcl`
-   - **Kubernetes/k8s**：`*.secret.yaml`, `secrets/`, `.kube/`, `kubeconfig*`, `*.key`, `*.crt`
+   **Tool-specific patterns**:
+   - **Docker**: `node_modules/`, `.git/`, `Dockerfile*`, `.dockerignore`, `*.log*`, `.env*`, `coverage/`
+   - **ESLint**: `node_modules/`, `dist/`, `build/`, `coverage/`, `*.min.js`
+   - **Prettier**: `node_modules/`, `dist/`, `build/`, `coverage/`, `package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`
+   - **Terraform**: `.terraform/`, `*.tfstate*`, `*.tfvars`, `.terraform.lock.hcl`
+   - **Kubernetes/k8s**: `*.secret.yaml`, `secrets/`, `.kube/`, `kubeconfig*`, `*.key`, `*.crt`
 
-5. 解析 tasks.md 结构并提取：
-   - **任务阶段**：设置、测试、核心、集成、完善
-   - **任务依赖**：顺序与并行执行规则
-   - **任务详情**：ID、描述、文件路径、并行标记 [P]
-   - **执行流程**：顺序和依赖要求
+5. Parse the tasks.md structure and extract:
+   - **Task phases**: Setup, Tests, Core, Integration, Polish
+   - **Task dependencies**: Sequential vs parallel execution rules
+   - **Task details**: IDs, descriptions, file paths, parallel markers [P]
+   - **Execution flow**: Ordering and dependency requirements
 
-6. 按照任务计划执行实现：
-   - **阶段执行**：完成每个阶段后再进入下一个
-   - **尊重依赖**：按顺序运行顺序任务，并行任务 [P] 可以一起运行  
-   - **遵循 TDD 方法**：在相应的实现任务之前执行测试任务
-   - **基于文件的协调**：影响相同文件的任务必须顺序运行
-   - **验证检查点**：在继续之前验证每个阶段的完成情况
+6. Execute the implementation following the task plan:
+   - **Phase-by-phase execution**: Complete each phase before moving to the next
+   - **Respect dependencies**: Run sequential tasks in order; parallel tasks [P] can run together  
+   - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
+   - **File-based coordination**: Tasks affecting the same files must run sequentially
+   - **Validation checkpoints**: Verify each phase's completion before continuing
 
-7. 实现执行规则：
-   - **首先设置**：初始化项目结构、依赖、配置
-   - **测试优先于代码**：如果需要为契约、实体和集成场景编写测试
-   - **核心开发**：实现模型、服务、CLI 命令、端点
-   - **集成工作**：数据库连接、中间件、日志、外部服务
-   - **完善和验证**：单元测试、性能优化、文档
+7. Implementation execution rules:
+   - **Setup first**: Initialize the project structure, dependencies, configuration
+   - **Tests before code**: If tests need to be written for contracts, entities, and integration scenarios
+   - **Core development**: Implement models, services, CLI commands, endpoints
+   - **Integration work**: Database connections, middleware, logging, external services
+   - **Polish and validation**: Unit tests, performance optimization, documentation
 
-8. 进度跟踪和错误处理：
-   - 在每个完成的任务后报告进度
-   - 如果任何非并行任务失败则停止执行
-   - 对于并行任务 [P]，继续执行成功的任务，报告失败的任务
-   - 提供清晰的错误消息和调试上下文
-   - 如果实现无法继续则建议下一步
-   - **重要** 对于完成的任务，确保在任务文件中标记为 [X]。
+8. Progress tracking and error handling:
+   - Report progress after each completed task
+   - Stop execution if any non-parallel task fails
+   - For parallel tasks [P], continue with the successful tasks and report the failed ones
+   - Provide clear error messages and debugging context
+   - Suggest next steps if implementation cannot continue
+   - **IMPORTANT** For completed tasks, make sure to mark them as [X] in the task file.
 
-9. 完成验证：
-   - 验证所有必需任务已完成
-   - 检查实现的功能是否与原始规格匹配
-   - 验证测试通过且覆盖率符合要求
-   - 确认实现遵循技术计划
-   - 报告最终状态和已完成工作的摘要
+9. Completion validation:
+   - Verify that all required tasks are completed
+   - Check that the implemented feature matches the original spec
+   - Verify tests pass and coverage meets the requirements
+   - Confirm the implementation follows the technical plan
+   - Report the final status and a summary of the completed work
 
-注意：此命令假设 tasks.md 中存在完整的任务分解。如果任务不完整或缺失，建议首先运行 `/speckit.tasks` 以重新生成任务列表。
+Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/speckit.tasks` first to regenerate the task list.

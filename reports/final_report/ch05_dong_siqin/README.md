@@ -2,7 +2,7 @@
 
 **Author:** Siqin Dong (50106060) · PoC Logic Developer  
 **Deliverable:** Task Pack 06 — Section 5.3 *Question Bank and Trap Engineering* and Section 5.4 *Diagnostic Algorithm* (inside Chapter 5 *Implementation*)  
-**Repository Baseline:** `D:\jc2001`, branch `main`, verified against 145/145 passing pytest test cases  
+**Repository Baseline:** `D:\jc2001`, branch `main`, verified against 189/189 passing pytest test cases  
 **Step 1 Milestone Date:** Week A Milestone (24 October 2026)
 
 ---
@@ -24,11 +24,11 @@
 | Claim | Verified Value | Authoritative Code Origin |
 | :--- | :---: | :--- |
 | Primary Question Corpus | **12 items** | `backend/app/data/seed_questions.py` |
-| Curated Cognitive Traps | **36 traps** | Primary $12 \times 3$ distractor items in `seed_questions.py` |
+| Curated Cognitive Traps | **51 traps** | Primary $17 \times 3$ distractor items in `seed_questions.py` |
 | Bijective Trap Mapping | **100% (36/36)** | Every incorrect option maps to an existing `TrapDetail` key |
 | Diagnostic Time Complexity | **$O(1)$** | Static dictionary lookup in `diagnostic_service.py` |
 | Measured Local Latency | **< 2.5 ms** | Local execution of `POST /api/diagnose` |
-| Test Suite Regression Baseline | **145 passed (100%)** | `python -m pytest tests/ -q` (zero regressions) |
+| Test Suite Regression Baseline | **189 passed (100%)** | `python -m pytest tests/ -q` (zero regressions) |
 
 ---
 

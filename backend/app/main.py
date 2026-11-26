@@ -28,7 +28,7 @@ def create_app() -> FastAPI:
     application = FastAPI(
         title=settings.PROJECT_NAME,
         version=settings.VERSION,
-        description="JC2001 Smart Study Assistant System (智学罗盘) PoC MVP API Service"
+        description="JC2001 Smart Study Assistant System (StudyGraph) PoC MVP API Service"
     )
 
     # 1. Global CORS Middleware for local browser and file:// protocol zero-barrier access

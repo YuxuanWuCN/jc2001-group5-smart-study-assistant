@@ -31,6 +31,12 @@ def clean_test_env(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("DASHSCOPE_API_KEY", raising=False)
     monkeypatch.delenv("QWEN_API_KEY", raising=False)
 
+    from backend.app.services.auth_service import AuthService
+    from backend.app.services.report_service import report_service
+
+    report_service.reset()
+    AuthService.reset()
+
 
 @pytest.fixture(scope="session")
 def app():
@@ -66,7 +72,7 @@ def econ_distractor_payload() -> dict:
 
 @pytest.fixture
 def econ_correct_payload() -> dict:
-    """Sample correct option for Econometrics (C: OLS依然保持无偏性与BLUE性质)."""
+    """Sample correct option for Econometrics (C: OLS remains unbiased and BLUE)."""
     return {
         "question_id": "econ_1",
         "selected_option": "C"
@@ -75,7 +81,7 @@ def econ_correct_payload() -> dict:
 
 @pytest.fixture
 def law_distractor_payload() -> dict:
-    """Sample wrong distractor option for Law (除斥期间 vs 诉讼时效)."""
+    """Sample wrong distractor option for Law (rescission period vs. limitation period)."""
     return {
         "question_id": "law_1",
         "selected_option": "A"
@@ -93,7 +99,7 @@ def cs_distractor_payload() -> dict:
 
 @pytest.fixture
 def se_distractor_payload() -> dict:
-    """Sample wrong distractor option for Software Engineering (A: 强制推行纯瀑布模型)."""
+    """Sample wrong distractor option for Software Engineering (A: imposing a pure waterfall model)."""
     return {
         "question_id": "se_1",
         "selected_option": "A"

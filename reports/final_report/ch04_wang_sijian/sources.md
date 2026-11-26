@@ -1,6 +1,6 @@
 # Chapter 4 — Sources and Evidence Register
 
-**Owner:** 王思鉴 (50106045) · Chapter 4 System Design and Architecture
+**Owner:** Wang Sijian (50106045) · Chapter 4 System Design and Architecture
 **Baseline:** `develop` @ `626d467`
 **Purpose:** every number, figure and factual claim in the chapter must be traceable to a file. This register is the audit trail.
 
@@ -11,12 +11,12 @@
 | Section | Claim | Source file |
 | :--- | :--- | :--- |
 | 4.1.1 | Four-layer structure; routers under `/api`; `StaticFiles` mounted at root | `backend/app/main.py` |
-| 4.1.1 | Layer 4 is a read-only module of 657 lines | `backend/app/data/seed_questions.py` |
+| 4.1.1 | Layer 4 is a read-only module of 932 lines | `backend/app/data/seed_questions.py` |
 | 4.1.1 | Same-origin deployment removes CORS from the production path | `backend/app/main.py` (`StaticFiles` mount), AD-6 |
 | 4.1.2 | Layering discipline: routers → services → models | `backend/app/routers/`, `services/`, `models/` |
 | 4.1.3 | Three routers, three services, three model modules | directory listing, Table 4.2 |
 | 4.1.3 | LLM health probe classifies failures | `backend/app/services/llm_diagnostics.py` |
-| 4.2.1 | Neo4j confined to the offline path | AD-5; `graphrag（终）/real_graph_engine.py` is not imported by `backend/app` |
+| 4.2.1 | Neo4j confined to the offline path | AD-5; `graphrag_final/real_graph_engine.py` is not imported by `backend/app` |
 | 4.2.2 | Diagnosis is a lookup, not an inference | `backend/app/services/diagnostic_service.py` lines 96–246 |
 | 4.2.2 | Model call sits after the verdict, gated by key presence and timeout | `diagnostic_service.py` lines 202–225; `config.py` lines 23–29 |
 | 4.3.1 | Four classes and their cardinalities | `backend/app/models/quiz.py` |
@@ -103,13 +103,13 @@ These must be checked at merge time. Each is a place where this chapter and anot
 
 | This chapter says | Must match | Owner |
 | :--- | :--- | :--- |
-| Diagnosis performs no model inference (§4.2.2) | Chapter 5.3–5.4, the "table lookup versus LLM generation" comparison | 董思钦 |
-| Neo4j is offline-only (Figure 4.2, AD-5) | Chapter 6.3 evaluation framing; Chapter 5.6 deployment topology | 杨明杰 / 梁子铉 |
-| 4 endpoints, 3 routers, 3 services (§4.1.3, Table 4.2) | Chapter 5.2 endpoint contract table | 江昊 |
-| 12 questions / 48 options / 36 traps / 5 dimensions (§4.3.1) | Chapter 5.3 question bank description; Table 5.4 | 董思钦 |
-| Security weaknesses: wildcard CORS, no authentication (AD-6, AD-7, §4.6) | Chapter 7 Limitations; Chapter 2.3 security NFR | 吴宇轩 / 张梓健 |
-| Quality attributes as design consequences (§4.6) | Chapter 2.3 NFR table | 张梓健 |
-| Instructor is a secondary external entity (§4.2.1) | Chapter 3 use-case diagram deliberately excludes teacher-side functions | 谢炜昕 |
+| Diagnosis performs no model inference (§4.2.2) | Chapter 5.3–5.4, the "table lookup versus LLM generation" comparison | Dong Siqin |
+| Neo4j is offline-only (Figure 4.2, AD-5) | Chapter 6.3 evaluation framing; Chapter 5.6 deployment topology | Yang Mingjie / Liang Zixuan |
+| 4 endpoints, 3 routers, 3 services (§4.1.3, Table 4.2) | Chapter 5.2 endpoint contract table | Jiang Hao |
+| 17 questions / 68 options / 51 traps / 5 dimensions (§4.3.1) | Chapter 5.3 question bank description; Table 5.4 | Dong Siqin |
+| Security weaknesses: wildcard CORS, no authentication (AD-6, AD-7, §4.6) | Chapter 7 Limitations; Chapter 2.3 security NFR | Wu Yuxuan / Zhang Zijian |
+| Quality attributes as design consequences (§4.6) | Chapter 2.3 NFR table | Zhang Zijian |
+| Instructor is a secondary external entity (§4.2.1) | Chapter 3 use-case diagram deliberately excludes teacher-side functions | Xie Weixin |
 
 > ⚠️ The planning document `cycle3_master_plan.md` §1.1 restates several of these numbers incorrectly (8 endpoints, 5 routers, 932 lines, 145 tests). This chapter uses measured values only. If Chapter 5 or 6 quotes the plan's values instead, the report will contradict itself across chapters.
 
@@ -131,14 +131,14 @@ The chapter is currently written without inline citations beyond internal cross-
 | §4.6 | Progressive disclosure as a usability pattern | Nielsen, J. (2006) 'Progressive Disclosure'. *Nielsen Norman Group*. |
 | §4.6 | Measurable non-functional requirements | Sommerville (2016), ch. 4. |
 
-**Format note:** the report requires Harvard style throughout and at least 25 references project-wide. This chapter contributes the entries above; the volume editor (谢炜昕) will merge them with the rest.
+**Format note:** the report requires Harvard style throughout and at least 25 references project-wide. This chapter contributes the entries above; the volume editor (Xie Weixin) will merge them with the rest.
 
 ---
 
 ## 6. Open items before submission
 
 1. **Chapter 5.4 P95 claim.** If Chapter 5.4 states "P95 < 5 ms", it must be reconciled with the 16 ms measured here, or re-measured under stated conditions.
-2. **Subsection structure.** This draft uses six sections; `technical_report_draft.md` currently has three for Chapter 4. Confirm with 谢炜昕.
-3. **Instructor wording.** Confirm with 谢炜昕 that a secondary external entity in the context model does not contradict Chapter 3's exclusion of teacher-side functions.
-4. **Table 4.2 numbering.** Added during drafting and not in the global allocation in `cycle3_master_plan.md` §2.3. Either obtain a number from 吴宇轩 or fold the table into §4.1.3 prose.
+2. **Subsection structure.** This draft uses six sections; `technical_report_draft.md` currently has three for Chapter 4. Confirm with Xie Weixin.
+3. **Instructor wording.** Confirm with Xie Weixin that a secondary external entity in the context model does not contradict Chapter 3's exclusion of teacher-side functions.
+4. **Table 4.2 numbering.** Added during drafting and not in the global allocation in `cycle3_master_plan.md` §2.3. Either obtain a number from Wu Yuxuan or fold the table into §4.1.3 prose.
 5. **Inline citations.** Section 5 above lists the references; they still have to be inserted into the running text.

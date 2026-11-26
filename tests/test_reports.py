@@ -194,3 +194,37 @@ def test_report_adversarial_resilience(client: TestClient, adversarial_input: st
 
     resp_trend = client.get("/api/reports/trend", params={"subject": adversarial_input})
     assert resp_trend.status_code != 500, f"Trend crashed on adversarial input: {adversarial_input}"
+
+
+def test_cold_start_reports_label_demo_baseline(client: TestClient):
+    """Cold-start summary and trend explicitly declare data_source='demo_baseline'."""
+    sum_data = client.get("/api/reports/summary").json()
+    trend_data = client.get("/api/reports/trend").json()
+    assert sum_data.get("data_source") == "demo_baseline"
+    assert trend_data.get("data_source") == "demo_baseline"
+
+
+def test_reports_aggregate_live_session_telemetry(client: TestClient):
+    """Submitting attempts via POST /api/diagnose produces real live_session_telemetry metrics."""
+    # econ_1: C is correct, A and B are distractors
+    assert client.post("/api/diagnose", json={"question_id": "econ_1", "selected_option": "C"}).status_code == 200
+    assert client.post("/api/diagnose", json={"question_id": "econ_1", "selected_option": "A"}).status_code == 200
+    assert client.post("/api/diagnose", json={"question_id": "econ_1", "selected_option": "B"}).status_code == 200
+
+    sum_res = client.get("/api/reports/summary?subject=econ")
+    assert sum_res.status_code == 200
+    summary = sum_res.json()
+    assert summary["data_source"] == "live_session_telemetry"
+    assert summary["attempt_count"] == 3
+    assert summary["correct_count"] == 1
+    assert summary["diagnostic_count"] == 2
+    assert summary["accuracy_rate"] == 33.3
+    assert len(summary["weak_points"]) >= 1
+
+    trend_res = client.get("/api/reports/trend?subject=econ")
+    assert trend_res.status_code == 200
+    trend = trend_res.json()
+    assert trend["data_source"] == "live_session_telemetry"
+    assert len(trend["scores"]) == 5
+    assert all(30.0 <= s <= 100.0 for s in trend["scores"])
+    assert len(trend["trap_distribution"]) >= 1

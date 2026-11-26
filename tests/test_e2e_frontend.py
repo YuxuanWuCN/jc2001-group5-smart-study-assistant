@@ -19,7 +19,7 @@ FRONTEND_DIR = PROJECT_ROOT / "frontend"
 def test_frontend_root_static_mount_serves_html(client: TestClient):
     """
     Tier 1: Verify accessing root '/' serves the DeepSeek console index.html.
-    Authority: Special User Directive '记得搭建好前端给我看哦' & PROJECT.md Static Serving.
+    Authority: Special User Directive 'build the frontend so I can see it' & PROJECT.md Static Serving.
     """
     response = client.get("/")
     assert response.status_code == 200, f"Expected 200 OK at root '/', got {response.status_code}"
@@ -28,7 +28,10 @@ def test_frontend_root_static_mount_serves_html(client: TestClient):
     assert "text/html" in content_type, f"Expected HTML content type, got '{content_type}'"
     
     body = response.text
-    assert "<title>" in body and "智学罗盘" in body, "Response HTML must contain system title"
+    # The portal ships a single English locale and keeps key-based data-i18n hooks,
+    # so the served markup must carry the English title and its i18n key.
+    assert '<title data-i18n="portalDocumentTitle">' in body and "SmartStudy Compass" in body, "Response HTML must contain system title"
+    assert 'data-i18n="portalDocumentTitle"' in body, "Response HTML must carry the key-based data-i18n hook"
     assert "app-shell" in body, "Response HTML must contain app-shell container"
 
 
@@ -143,3 +146,23 @@ def test_html_dom_elements_required_by_app_js():
         assert f'data-subject="{subject_name}"' in html_content, (
             f"Subject selector button data-subject='{subject_name}' is missing in frontend/index.html"
         )
+
+
+def test_frontend_vendored_echarts_offline_ready(client: TestClient):
+    """Verify ECharts is vendored locally and served statically for air-gapped demos."""
+    vendor_path = FRONTEND_DIR / "vendor" / "echarts.min.js"
+    assert vendor_path.exists(), f"Missing vendored ECharts file at {vendor_path}"
+    assert vendor_path.stat().st_size > 100_000
+
+    res = client.get("/vendor/echarts.min.js")
+    assert res.status_code == 200
+    assert len(res.text) > 100_000
+
+
+def test_frontend_index_has_no_remote_cdn_or_unverified_claims():
+    """Verify index.html avoids external script CDNs, uuapi.net defaults, and 68.4% claims."""
+    html_content = (FRONTEND_DIR / "index.html").read_text(encoding="utf-8")
+    lower = html_content.lower()
+    assert '<script src="http' not in lower, "Remote script CDN tags break offline evaluation"
+    assert "uuapi.net" not in lower
+    assert "68.4%" not in lower

@@ -1,86 +1,76 @@
-# `reports/figures/` —— 图件源文件与导出说明
+# `reports/figures/` -- Figure Source Files and Export Notes
 
-**主责**：王思鉴 (50106045) ｜ **交付**：开工任务包（二）交付物 1
-**对应报告章节**：第 3 章 Modelling、第 4 章 System Design and Architecture
+**Owner**: Wang Sijian (50106045) | **Deliverable**: Kickoff task package (II) deliverable 1
+**Corresponding report chapters**: Chapter 3 Modelling, Chapter 4 System Design and Architecture
 
 ---
 
-## 1. 目录内容
+## 1. Directory Contents
 
-| 文件 | 说明 |
+| File | Description |
 | :--- | :--- |
-| `fig_context_model.mmd` | 图 1 源文件 —— 系统顶层上下文模型 (System Context Model) |
-| `fig_context_model.png` / `.svg` | 图 1 导出件（PNG 2248×1880，SVG 矢量） |
-| `fig_use_case_diagram.mmd` | 图 2 源文件 —— 全局 UML 用例图 |
-| `fig_use_case_diagram.png` / `.svg` | 图 2 导出件（PNG 3457×932，SVG 矢量） |
-| `fig_seq_diagnose.mmd` | 图 3 源文件 —— 错题排雷全流程时序图 |
-| `fig_seq_diagnose.png` / `.svg` | 图 3 导出件（PNG 3610×3568，SVG 矢量） |
+| `fig_context_model.mmd` | Figure 1 source file -- system top-level context model (System Context Model) |
+| `fig_context_model.png` / `.svg` | Figure 1 exports (PNG 2248x1880, SVG vector) |
+| `fig_use_case_diagram.mmd` | Figure 2 source file -- global UML use case diagram |
+| `fig_use_case_diagram.png` / `.svg` | Figure 2 exports (PNG 3457x932, SVG vector) |
+| `fig_seq_diagnose.mmd` | Figure 3 source file -- full wrong-answer trap diagnosis sequence diagram |
+| `fig_seq_diagnose.png` / `.svg` | Figure 3 exports (PNG 3610x3568, SVG vector) |
 
-命名沿用任务包指定的 `fig_context_model`、`fig_use_case_diagram`、`fig_seq_diagnose`。
-**插入报告请优先使用 `.svg`**：矢量图在 Word/PDF 中缩放不糊，且本目录的 SVG 已内嵌
-白底与留白，可直接拖入。
+Naming follows the task package's designated `fig_context_model`, `fig_use_case_diagram` and `fig_seq_diagnose`.
+**Prefer `.svg` when inserting into the report**: vector images stay sharp when scaled in Word/PDF, and the SVGs in this directory already embed a white background and padding, so they can be dragged in directly.
 
 ---
 
-## 2. 三张图相对任务包骨架的修订记录
+## 2. Revision History of the Three Figures against the Task-Package Skeleton
 
-骨架代码本身有若干会导致"图能画出来但内容不对"的缺陷，均已修正。这些是**实际渲染
-后才暴露**的问题，不是风格调整：
+The skeleton code itself has several defects that make "the figure render but the content be wrong"; all have been fixed. These are problems **exposed only by actual rendering**, not stylistic adjustments:
 
-| # | 问题 | 影响 | 处理 |
+| # | Problem | Impact | Handling |
 | :-: | :--- | :--- | :--- |
-| 1 | Mermaid 的 HTML 标签消毒器把边标签里的 `<...>` 当成未知标签剥离，`"<&lt;include&gt;>"` 最终渲染为 `<>`（**静默失败，不报错**） | `<<include>>` / `<<extend>>` 刻型全部丢失，图 2 失去 UML 语义 | 源文件用等宽占位符 `[[ST_INCLUDE]]` / `[[ST_EXTEND]]`，导出时替换为真实刻型并同步修正标签宽度；源码注释已说明 |
-| 2 | 扩展关系方向写反（`UC-01 -. extend .-> UC-08`） | 与 UML 2.5 相反：扩展用例应指向基础用例 | 改为 `UC-06/UC-07 -. extend .-> UC-01`；`<<include>>` 保持「被包含 → 包含」 |
-| 3 | 用例清单缺 `UC-06` 且 7 个用例混排 | 全局用例图应覆盖需求组已定义的完整编号 | 补入 `UC-06`；按 `UC-01..UC-05` / `UC-06..UC-08` 分区，并逐条标注实现状态 `[已实现]` / `[前端计算]` / `[规划中]` / `[可选]` |
-| 4 | 图 3 用 `POST /api/diagnose`、`selected_option`、Neo4j 为必经路径 | 与现网实现不符，报告与代码对不上 | 改为 `POST /api/answer {question_id, selected}`；Neo4j 分支标注 `[规划中]`，模型分支标注 `[可选]`，降级分支对应 NFR-02 |
-| 5 | 图 3 缺少"追问"业务闭环 | 无法体现 FR-07 引导式助教 | 补入 `opt` 片段：`POST /api/tutor {question_id, message}`，含模型/本地双分支 |
-| 6 | 骨架未体现本地降级 | NFR-02「离线可靠性」是本项目的核心论证点 | 两张图都以"失败即降级为本地策展内容"作为显式分支 |
+| 1 | Mermaid's HTML tag sanitizer strips `<...>` inside edge labels as unknown tags, so `"<&lt;include&gt;>"` finally renders as `<>` (**silent failure, no error**) | The `<<include>>` / `<<extend>>` stereotypes are all lost and Figure 2 loses its UML semantics | The source uses monospace placeholders `[[ST_INCLUDE]]` / `[[ST_EXTEND]]`, substituted with the real stereotypes at export time with matching label widths; the source comments explain this |
+| 2 | Extend relationship direction reversed (`UC-01 -. extend .-> UC-08`) | Opposite to UML 2.5: the extending use case should point at the base use case | Changed to `UC-06/UC-07 -. extend .-> UC-01`; `<<include>>` keeps "included -> including" |
+| 3 | The use case list omits `UC-06` and mixes the 7 use cases | The global use case diagram should cover the complete set of IDs already defined by the requirements group | Added `UC-06`; split into `UC-01..UC-05` / `UC-06..UC-08` regions and annotated the implementation status of each: `[Implemented]` / `[Frontend-computed]` / `[Planned]` / `[Optional]` |
+| 4 | Figure 3 treats `POST /api/diagnose`, `selected_option` and Neo4j as mandatory path items | Inconsistent with the live implementation, so the report and the code do not match | Changed to `POST /api/answer {question_id, selected}`; the Neo4j branch is marked `[Planned]`, the model branch `[Optional]`, and the degraded branch maps to NFR-02 |
+| 5 | Figure 3 lacks the "follow-up" business closed loop | Cannot express FR-07 guided tutoring | Added an `opt` fragment: `POST /api/tutor {question_id, message}`, with model and local dual branches |
+| 6 | The skeleton does not show local degradation | NFR-02 "offline reliability" is a core argument of this project | Both figures make "on failure degrade to local curated content" an explicit branch |
 
-> **注意**：若直接把本目录的 `.mmd` 粘到 [mermaid.live](https://mermaid.live) 预览，
-> 边标签会显示成 `[[ST_INCLUDE]]` 占位符——这是占位符的正常表现。要得到刻型，
-> 请用第 3 节的命令重新导出，或手工把占位符替换为 `&lt;&lt;include&gt;&gt;`
-> 并相应加宽标签背景。
+> **Note**: if you paste the `.mmd` files in this directory straight into [mermaid.live](https://mermaid.live) for preview, the edge labels display the `[[ST_INCLUDE]]` placeholders -- that is the normal behaviour of the placeholders. To get the real stereotypes, re-export with the commands in section 3, or manually replace the placeholders with `&lt;&lt;include&gt;&gt;` and widen the label backgrounds accordingly.
 
 ---
 
-## 3. 重新导出（可选）
+## 3. Re-Exporting (Optional)
 
-`.png` / `.svg` 已随本次交付生成，**无需重跑**。若后续修改了 `.mmd` 需要重新导出，
-建议直接用 mermaid.live（导出 SVG 后转 PNG），或在项目内使用下列最小管线：
+`.png` / `.svg` were generated with this delivery and **do not need to be regenerated**. If the `.mmd` files are modified later and need re-exporting, it is simplest to use mermaid.live (export SVG, then convert to PNG), or to use the following minimal pipeline inside the project:
 
-1. 用 headless Chrome 打开一个内联 Mermaid 11 的本地 HTML（`type="module"` + CDN ESM），
-   按图渲染到 DOM；
-2. 用 `Page.captureScreenshot` 的 `clip` 精确截取图形包围盒，`scale` 设为 2 得到高清 PNG；
-3. 替换刻型占位符并重新计算标签宽度后，序列化 SVG。
+1. Open a local HTML page that inlines Mermaid 11 (`type="module"` + CDN ESM) in headless Chrome and render each figure into the DOM;
+2. Capture the figure bounding box precisely with `Page.captureScreenshot`'s `clip`, setting `scale` to 2 for a high-resolution PNG;
+3. Substitute the stereotype placeholders, recompute the label widths, then serialise the SVG.
 
-管线脚本未纳入仓库（属一次性工具，且依赖本机 Chrome 路径），如需固化进 `tools/`
-请与组长确认后再提交。
+The pipeline script is not committed to the repository (a one-off tool that also depends on the local Chrome path); if you want it fixed under `tools/`, confirm with the team lead before submitting.
 
 ---
 
-## 4. 插入报告的建议尺寸
+## 4. Recommended Sizes for Inserting into the Report
 
-| 图 | 原始比例 | 建议版式 | 说明 |
+| Figure | Native ratio | Recommended layout | Notes |
 | :--- | :--- | :--- | :--- |
-| 图 1 上下文模型 | 1124×940（接近 6:5） | **纵向页内 半栏或整栏**，宽 12–13 cm | 图形近方形，整栏插入最清晰 |
-| 图 2 用例图 | 1728×466（约 3.7:1） | **横向整页**，宽 15–16 cm | 很扁，整页宽度下文字约 7.5 pt，可读 |
-| 图 3 时序图 | 1805×1784（约 1:1） | **单独一页横向（landscape）**，宽 24 cm | 消息较多，纵向页内会缩到 5 pt 以下不可读；本图适合整页横向呈现 |
+| Figure 1 Context model | 1124x940 (close to 6:5) | **Portrait page, half or full column**, width 12-13 cm | The graphic is nearly square, so a full-column insertion is clearest |
+| Figure 2 Use case diagram | 1728x466 (about 3.7:1) | **Full landscape page**, width 15-16 cm | Very wide and short; at full page width the text is about 7.5 pt, which is readable |
+| Figure 3 Sequence diagram | 1805x1784 (about 1:1) | **A separate landscape page**, width 24 cm | Many messages; on a portrait page it shrinks below 5 pt and becomes unreadable; this figure suits a full landscape page |
 
-图 3 若必须放在纵向页内，建议按 `alt`/`opt` 边界拆成「判题诊断」与「引导追问」两张子图；
-现有 `.mmd` 可直接删减段落得到，不需重画。
+If Figure 3 must go on a portrait page, split it along the `alt`/`opt` boundaries into two sub-figures, "Answer Judging and Diagnosis" and "Guided Follow-Up"; the existing `.mmd` yields them by deleting blocks, with no redrawing needed.
 
 ---
 
-## 5. 团队同行评审与代码可追溯性对齐（Peer Review & Traceability Alignment）
+## 5. Team Peer Review and Code Traceability Alignment
 
-**审核人**：吴宇轩 (50106070，组长)、江昊 (50106065，审核人) ｜ **日期**：2026-10-09
+**Reviewers**: Wu Yuxuan (50106070, team lead), Jiang Hao (50106065, reviewer) | **Date**: 2026-10-09
 
-根据 JC2001 课程评分标尺（要求系统架构图、实现代码与自动化测试具备 100% 严格 Traceability 可追溯性）与 UML 2.5 官方标准，对 `.mmd` 源码进行了以下合规对齐：
+Following the JC2001 course rubric (which requires 100% strict traceability across system architecture diagrams, implementation code and automated tests) and the UML 2.5 standard, the `.mmd` sources were aligned for compliance as follows:
 
-| # | 对齐项目 | 原源码情况 | 规范/代码对齐修正 | 理由与考官评分点 |
+| # | Alignment item | Original source state | Compliance/code alignment fix | Rationale and marker's grading point |
 | :-: | :--- | :--- | :--- | :--- |
-| 1 | **图 2 用例图 `<<extend>>` 箭头方向** | 源码第 34-37 行为 `UC01 -. extend .-> UC08`（基础用例指向扩展用例） | 修正为 `UC08/UC07/UC06 -. extend .-> UC01`（扩展用例指向基础用例） | **严格遵循 UML 2.5 规范**：扩展用例作为条件性切面插入，必须指向被扩展的基础用例，避免答辩失分。 |
-| 2 | **图 3 时序图核心 API 路由与契约** | 写为 `POST /api/answer {question_id, selected}` 与单文件 `server.py` | 对齐为真实端点 `POST /api/diagnose {question_id, selected_option}` 与分层架构 `backend/app` | **代码可追溯性闭环**：当前仓库与 114 个自动化测试全部基于 `POST /api/diagnose` 运行，报告必须与实际运行代码和测试结果完全一致。 |
-| 3 | **图 1 上下文模型后端与题库标注** | 标注为 `server.py` 与 `data/curated/questions.json` | 标注为 `FastAPI 模块化服务中枢 (backend/app/main.py)` 与 `backend/app/data/seed_questions.py` | **真实架构呈现**：反映团队已交付的模块化三层架构工程成果。 |
-| 4 | **导师多轮追问标记** | 写为即刻落地的 `POST /api/tutor` | 标注为 `[规划中 · 导师追问扩展]` | **学术诚实性**：苏格拉底基础引导已随 `/api/diagnose` 交付，多轮会话网关规划中，避免考官当场要求联调未交付独立端点。 |
-
+| 1 | **Figure 2 use case diagram `<<extend>>` arrow direction** | Source lines 34-37 wrote `UC01 -. extend .-> UC08` (base use case pointing at the extending use case) | Changed to `UC08/UC07/UC06 -. extend .-> UC01` (extending use case pointing at the base use case) | **Strict UML 2.5 compliance**: an extending use case is a conditional aspect inserted into the base use case and must point at the extended base use case, avoiding lost marks in the defence. |
+| 2 | **Figure 3 sequence diagram core API routes and contracts** | Written as `POST /api/answer {question_id, selected}` with a single-file `server.py` | Aligned to the real endpoint `POST /api/diagnose {question_id, selected_option}` and the layered architecture `backend/app` | **Code traceability closed loop**: the current repository and all 114 automated tests run against `POST /api/diagnose`, so the report must match the actually running code and test results exactly. |
+| 3 | **Figure 1 context model backend and question-bank labels** | Labelled `server.py` and `data/curated/questions.json` | Labelled `FastAPI modular service hub (backend/app/main.py)` and `backend/app/data/seed_questions.py` | **Real architecture presentation**: reflects the modular three-layer engineering delivered by the team. |
+| 4 | **Tutor multi-round follow-up marking** | Written as an immediately delivered `POST /api/tutor` | Marked `[Planned · tutor follow-up extension]` | **Academic honesty**: the basic Socratic guidance ships with `/api/diagnose`; the multi-round session gateway is still planned, avoiding a request during the defence to jointly test an undelivered standalone endpoint. |

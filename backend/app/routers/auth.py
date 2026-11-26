@@ -23,7 +23,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
     response_model=DemoUsersResponse,
     status_code=status.HTTP_200_OK,
     summary="Get demo student accounts",
-    description="Returns list of pre-configured 10-person JC2001 Group 5 members plus guest account."
+    description="Returns list of pre-configured 11-person JC2001 Group 5 members plus guest account."
 )
 async def get_demo_users():
     """Retrieve all available demo student accounts."""

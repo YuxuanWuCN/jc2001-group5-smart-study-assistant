@@ -19,9 +19,9 @@ consequence.
 Python 3.14.0 on 19 October 2026, with no credential present:
 
 - cold start from process launch to the first successful health response: **1.12 s**;
-- the application shell served at `/`: **40,390 bytes in 50.9 ms**, identical in size to
+- the application shell served at `/`: **63,914 bytes in 50.9 ms**, identical in size to
   `frontend/index.html`, which demonstrates the single-process claim rather than asserting it;
-- test suite: **150 passed in 1.79 s** with no external service contact;
+- test suite: **189 passed in 2.54 s** with no external service contact;
 - the full dependency installation from a clean environment, and the resulting environment size.
 
 **What the section does not claim.** Re-running the benchmark evaluation requires a Neo4j Aura

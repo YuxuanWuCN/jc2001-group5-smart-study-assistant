@@ -1,164 +1,164 @@
-# 数据模型：审计实体与结果契约
+# Data Model: Audit Entities and Result Contracts
 
-**功能编号**：`004-persona-hallucination-audit`
-**日期**：2026-10-18
-**上游**：[spec.md](spec.md) §4 定义 · [research.md](research.md) 决策 1/2/3/5
-**状态**：PHASE 1 OUTPUT
+**Feature ID**: `004-persona-hallucination-audit`
+**Date**: 2026-10-18
+**Upstream**: [spec.md](spec.md) §4 definitions · [research.md](research.md) decisions 1/2/3/5
+**Status**: PHASE 1 OUTPUT
 
-本文件定义审计产物中**六个实体**的字段、值域与必填规则。所有实体最终序列化为 `reports/audit/` 下的 CSV/JSON，字段名即契约名（`contracts/` 中的 schema 以此为准）。
-
----
-
-## 1. `PersonaClaim`（画像断言）
-
-一条 Table 1.3（`reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:76-84`）中的可判定断言。
-
-| 字段 | 类型 | 必填 | 值域 / 规则 |
-| :--- | :--- | :-: | :--- |
-| `claim_id` | string | ✅ | `PA-01` … `PA-nn`，稳定不复用 |
-| `persona` | enum | ✅ | `A_突击型考试生` / `B_系统复习者` / `C_课程教师` |
-| `claim_text` | string | ✅ | 断言原文摘录（≤80 字），必须能定位到源行号 |
-| `claim_kind` | enum | ✅ | `身份` / `当前工具` / `痛点` / `期待` / `是否目标用户` |
-| `source_type` | enum | ✅ | `文献` / `竞品行为` / `组内讨论` / `无来源` |
-| `source_locator` | string | ⚠️ | `source_type=无来源` 时允许空；否则必须是 `文件:行号` 或文献条目 |
-| `evidence_level` | enum | ✅ | `E0` / `E1` / `E2` / `E3`（见 spec §4.1） |
-| `is_core` | bool | ✅ | 是否是该 Persona 的**核心痛点/期待**（决定 spec §4.1 判定规则的触发） |
-| `allowed_usage` | string | ✅ | 由 `evidence_level` 自动导出，禁止手工覆盖 |
-| `auditor` | string | ✅ | 执行审计的成员姓名 + 日期 |
-
-**校验规则**
-- V1：`evidence_level=E0` ⟺ `source_type=无来源`（双向）。
-- V2：`is_core=true` 且 `evidence_level ∈ {E0}` ⟹ 该断言不得出现在任何 SMART 目标（Table 1.2）或 MoSCoW 需求（Table 2.2）的"依据"列中。审计脚本需交叉检查并输出违规列表。
-- V3：`evidence_level=E3` 必须携带样本说明（n、抽样方式），否则脚本拒绝写盘。
+This document defines the fields, value domains and required-field rules of the **six entities** in the audit outputs. All entities are ultimately serialised into CSV/JSON under `reports/audit/`; the field names are the contract names (the schemas in `contracts/` take these as authoritative).
 
 ---
 
-## 2. `RequirementMapping`（需求—画像映射）
+## 1. `PersonaClaim` (persona assertion)
 
-Ch2 的 14 条 MoSCoW 需求（R01–R14）到画像/痛点/幻觉层的映射。
+One judgeable assertion in Table 1.3 (`reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:76-84`).
 
-| 字段 | 类型 | 必填 | 值域 / 规则 |
+| Field | Type | Required | Value domain / rule |
 | :--- | :--- | :-: | :--- |
-| `requirement_id` | string | ✅ | `R01` … `R14`，**与 Ch2 Table 2.2 逐字一致** |
-| `requirement_text` | string | ✅ | 摘录，不改写 |
+| `claim_id` | string | ✅ | `PA-01` … `PA-nn`, stable and never reused |
+| `persona` | enum | ✅ | `A_EXAM_CRAMMER` / `B_SYSTEMATIC_REVIEWER` / `C_COURSE_TEACHER` |
+| `claim_text` | string | ✅ | Verbatim excerpt of the assertion (≤80 characters) that must be traceable to a source line number |
+| `claim_kind` | enum | ✅ | `identity` / `current_tools` / `pain_point` / `expectation` / `is_target_user` |
+| `source_type` | enum | ✅ | `literature` / `competitor_behaviour` / `team_discussion` / `no_source` |
+| `source_locator` | string | ⚠️ | May be empty when `source_type=no_source`; otherwise it must be a `file:line` reference or a literature entry |
+| `evidence_level` | enum | ✅ | `E0` / `E1` / `E2` / `E3` (see spec §4.1) |
+| `is_core` | bool | ✅ | Whether it is the persona's **core pain point / expectation** (this triggers the decision rule in spec §4.1) |
+| `allowed_usage` | string | ✅ | Derived automatically from `evidence_level`; manual overriding is forbidden |
+| `auditor` | string | ✅ | Name of the team member who performed the audit + date |
+
+**Validation Rules**
+- V1: `evidence_level=E0` ⟺ `source_type=no_source` (both directions).
+- V2: if `is_core=true` and `evidence_level ∈ {E0}`, ⟹ the assertion must not appear in the "basis" column of any SMART goal (Table 1.2) or MoSCoW requirement (Table 2.2). The audit script must cross-check and output a list of violations.
+- V3: `evidence_level=E3` must carry a sample description (n, sampling method), otherwise the script refuses to write to disk.
+
+---
+
+## 2. `RequirementMapping` (requirement-persona mapping)
+
+The mapping of the 14 MoSCoW requirements (R01–R14) in Ch2 to personas / pain points / hallucination layers.
+
+| Field | Type | Required | Value domain / rule |
+| :--- | :--- | :-: | :--- |
+| `requirement_id` | string | ✅ | `R01` … `R14`, **verbatim identical to Ch2 Table 2.2** |
+| `requirement_text` | string | ✅ | Excerpt, not rewritten |
 | `moscow` | enum | ✅ | `Must` / `Should` / `Could` / `Won't` |
-| `served_personas` | string[] | ✅ | `[A]` / `[A,B]` / `[]`（空数组必须给 `gap_reason`） |
-| `served_pain_points` | string[] | ✅ | 引用 `PersonaClaim.claim_id` |
-| `assumption_driven` | bool | ✅ | 其依据是否来自 E0/E1 断言 |
-| `hallucination_layers` | enum[] | ✅ | 该需求主要约束哪几层 `L1..L4`；不相关填 `[]` |
-| `external_falsifiable_claim` | string | ⚠️ | `assumption_driven=true` 时必填：改写后的可证伪命题 |
-| `gap_reason` | string | ⚠️ | `served_personas` 为空时必填 |
+| `served_personas` | string[] | ✅ | `[A]` / `[A,B]` / `[]` (an empty array requires `gap_reason`) |
+| `served_pain_points` | string[] | ✅ | References `PersonaClaim.claim_id` |
+| `assumption_driven` | bool | ✅ | Whether its basis comes from an E0/E1 assertion |
+| `hallucination_layers` | enum[] | ✅ | Which `L1..L4` layers this requirement mainly constrains; use `[]` if unrelated |
+| `external_falsifiable_claim` | string | ⚠️ | Required when `assumption_driven=true`: the rewritten falsifiable proposition |
+| `gap_reason` | string | ⚠️ | Required when `served_personas` is empty |
 
-**校验规则**
-- V4：`served_personas` 为空 ⟹ `moscow ∈ {Could, Won't}`，否则报"有 Must 功能但无画像支撑"违规（预期命中 R10 需重判）。
-- V5：所有出现在 `served_pain_points` 中的 `claim_id` 必须存在于 `PersonaClaim` 表（外键完整性）。
+**Validation Rules**
+- V4: if `served_personas` is empty ⟹ `moscow ∈ {Could, Won't}`; otherwise report a "Must feature with no persona support" violation (expected hit: R10 needs re-judging).
+- V5: every `claim_id` appearing in `served_pain_points` must exist in the `PersonaClaim` table (foreign-key integrity).
 
 ---
 
-## 3. `HallucinationFinding`（L1 内容审计条目）
+## 3. `HallucinationFinding` (L1 content audit item)
 
-| 字段 | 类型 | 必填 | 值域 / 规则 |
+| Field | Type | Required | Value domain / rule |
 | :--- | :--- | :-: | :--- |
-| `finding_id` | string | ✅ | `L1-<question_id>-<option_key>` 或 `L1-<question_id>-<trap_id>` |
+| `finding_id` | string | ✅ | `L1-<question_id>-<option_key>` or `L1-<question_id>-<trap_id>` |
 | `question_id` | string | ✅ | `law_1` … `se_3` |
 | `subject` | enum | ✅ | `law` / `cs` / `econ` / `se` |
 | `artifact_kind` | enum | ✅ | `option_text` / `correct_flag` / `trap_title` / `trap_desc` / `trap_prereq` / `graph_node` / `graph_edge` |
-| `artifact_ref` | string | ✅ | 具体对象标识（`option_key` 或 `trap_id` 或 `node_id`） |
-| `claim_under_test` | string | ✅ | 被检验的学科命题（如"民法典 152 条除斥期间自知道之日起 1 年"） |
-| `machine_flag` | enum | ✅ | `OK` / `SUSPECT` / `NA`（机器初筛结论） |
-| `machine_reason` | string | ⚠️ | `machine_flag=SUSPECT` 时必填 |
+| `artifact_ref` | string | ✅ | Concrete object identifier (`option_key`, `trap_id`, or `node_id`) |
+| `claim_under_test` | string | ✅ | The subject-matter proposition under test (e.g. "the exclusion period in Article 152 of the Civil Code runs for 1 year from the date of knowledge") |
+| `machine_flag` | enum | ✅ | `OK` / `SUSPECT` / `NA` (machine pre-screening conclusion) |
+| `machine_reason` | string | ⚠️ | Required when `machine_flag=SUSPECT` |
 | `human_verdict` | enum | ✅ | `TRUE` / `FALSE` / `UNDECIDABLE` / `PENDING` |
-| `human_note` | string | ⚠️ | `human_verdict ∈ {FALSE, UNDECIDABLE}` 时必填 |
-| `is_in_denominator` | bool | ✅ | `UNDECIDABLE` 仍**留在分母**（research 决策 1），只有 `artifact_kind` 不构成事实断言的条目才可置 `false` |
-| `reviewer` | string | ⚠️ | `human_verdict != PENDING` 时必填 |
+| `human_note` | string | ⚠️ | Required when `human_verdict ∈ {FALSE, UNDECIDABLE}` |
+| `is_in_denominator` | bool | ✅ | `UNDECIDABLE` items still **stay in the denominator** (research decision 1); only entries whose `artifact_kind` does not constitute a factual assertion may be set to `false` |
+| `reviewer` | string | ⚠️ | Required when `human_verdict != PENDING` |
 
-**汇总输出（写入 `verdict.json`）**
+**Aggregate Output (written to `verdict.json`)**
 ```
-L1.denominator = count(is_in_denominator = true)          # 预期 84（48 选项 + 36 陷阱）
+L1.denominator = count(is_in_denominator = true)          # expected 84 (48 options + 36 traps)
 L1.false_count = count(human_verdict = FALSE)
 L1.undecidable = count(human_verdict = UNDECIDABLE)
 L1.rate        = false_count / denominator
-L1.coverage    = count(human_verdict != PENDING) / denominator   # 必须 = 1.0 才允许宣称 L1 结论
+L1.coverage    = count(human_verdict != PENDING) / denominator   # must = 1.0 before any L1 conclusion may be claimed
 ```
 
 ---
 
-## 4. `AttributionFinding`（L2 归因审计条目）
+## 4. `AttributionFinding` (L2 attribution audit item)
 
-| 字段 | 类型 | 必填 | 值域 / 规则 |
+| Field | Type | Required | Value domain / rule |
 | :--- | :--- | :-: | :--- |
 | `finding_id` | string | ✅ | `L2-<question_id>-<trap_id>` |
-| `option_key` | string | ✅ | 该陷阱挂载的干扰项 |
+| `option_key` | string | ✅ | The distractor to which this trap is attached |
 | `trap_name` | string | ✅ | `TrapDetail.title` |
-| `misconception` | string | ✅ | `TrapDetail.desc` 所描述的**学生可能的错误概念**，需被归一化为短标签 |
-| `duplicate_group` | string | ⚠️ | 若同题内两个不同 `option_key` 归一化到**同一** `misconception` 标签则填该标签 |
-| `distinguishable` | bool | ✅ | `duplicate_group` 为空时为 `true` |
+| `misconception` | string | ✅ | The **plausible student misconception** described by `TrapDetail.desc`, which must be normalised into a short label |
+| `duplicate_group` | string | ⚠️ | If two different `option_key` values within the same question normalise to the **same** `misconception` label, fill in that label |
+| `distinguishable` | bool | ✅ | `true` when `duplicate_group` is empty |
 | `human_verdict` | enum | ✅ | `CONSISTENT` / `INCONSISTENT` / `PENDING` |
 
-**校验规则**
-- V6：`distinguishable=false` 的条目计入 L2 分子（归因不可区分 = 归因幻觉）。
-- V7：`human_verdict=PENDING` 为 0 才允许宣称 L2 结论。
+**Validation Rules**
+- V6: entries with `distinguishable=false` count towards the L2 numerator (indistinguishable attribution = attribution hallucination).
+- V7: an L2 conclusion may be claimed only when the number of `human_verdict=PENDING` entries is 0.
 
 ---
 
-## 5. `LeakageFinding`（L3 泄漏审计条目）
+## 5. `LeakageFinding` (L3 leakage audit item)
 
-| 字段 | 类型 | 必填 | 值域 / 规则 |
+| Field | Type | Required | Value domain / rule |
 | :--- | :--- | :-: | :--- |
 | `finding_id` | string | ✅ | `L3-<question_id>` |
-| `correct_option_key` | string | ✅ | 正确选项 |
-| `answer_entities` | string[] | ✅ | 从正确选项文本抽取的关键实体（数字/条文号/专有术语） |
+| `correct_option_key` | string | ✅ | The correct option |
+| `answer_entities` | string[] | ✅ | Key entities extracted from the correct-option text (numbers / article numbers / proper terms) |
 | `guidance_field` | enum | ✅ | `socratic_prompt` / `trap_hint` / `explanation` |
-| `leaked_entities` | string[] | ✅ | 在引导字段中出现的实体 |
-| `is_leak` | bool | ✅ | 规则：`leaked_entities` 覆盖 **全部** `answer_entities` 时判 `true`（部分命中记 `partial` 但不算泄漏） |
-| `detector_precision_note` | string | ⚠️ | `is_leak=true` 时必填，说明为何不是"知识性正常引用"（假阳性来源须显式记录，见 US-03 验收 2） |
+| `leaked_entities` | string[] | ✅ | Entities that appear in the guidance field |
+| `is_leak` | bool | ✅ | Rule: `true` when `leaked_entities` covers **all** `answer_entities` (partial matches are recorded as `partial` but do not count as leakage) |
+| `detector_precision_note` | string | ⚠️ | Required when `is_leak=true`; explains why this is not a "legitimate knowledge reference" (sources of false positives must be explicitly recorded, see US-03 acceptance 2) |
 | `human_verdict` | enum | ✅ | `CONFIRMED_LEAK` / `FALSE_POSITIVE` / `PENDING` |
 
-**校验规则**
-- V8：`human_verdict=FALSE_POSITIVE` 的条目仍保留在 CSV 中（保证审计可复查），但不计入 L3 分子。
-- V9：分母 = 12（每题一条），缺少任一道题即脚本报错。
+**Validation Rules**
+- V8: entries with `human_verdict=FALSE_POSITIVE` stay in the CSV (so the audit remains re-checkable) but do not count towards the L3 numerator.
+- V9: denominator = 12 (one per question); if any question is missing the script must raise an error.
 
 ---
 
-## 6. `Verdict`（结论实体 → `reports/audit/verdict.json`）
+## 6. `Verdict` (verdict entity → `reports/audit/verdict.json`)
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 | :--- | :--- | :-: | :--- |
-| `verdict_level` | enum | ✅ | `V0` / `V1` / `V2` / `V3`（spec §4.3，必须由证据自动推出，不得手填） |
-| `verdict_rationale` | string | ✅ | 一段话说明为何是这个等级 |
-| `persona_level_min` | enum | ✅ | 三张 Persona 中核心痛点最差的证据等级 |
-| `l1` / `l2` / `l3` / `l4` | object | ✅ | 各自 `{denominator, numerator, rate, coverage, status}`；`l4.status ∈ {measured, skipped, na_no_generation_face}` |
-| `claim_matrix` | object | ✅ | 依据 `contracts/report-claim-contract.md` 推导出的"允许写的句子 / 禁止写的句子" |
+| `verdict_level` | enum | ✅ | `V0` / `V1` / `V2` / `V3` (spec §4.3; must be derived automatically from evidence, never filled in by hand) |
+| `verdict_rationale` | string | ✅ | One paragraph explaining why this level was reached |
+| `persona_level_min` | enum | ✅ | The worst evidence level among the core pain points of the three Personas |
+| `l1` / `l2` / `l3` / `l4` | object | ✅ | Each `{denominator, numerator, rate, coverage, status}`; `l4.status ∈ {measured, skipped, na_no_generation_face}` |
+| `claim_matrix` | object | ✅ | The "sentences allowed / sentences forbidden" derived from `contracts/report-claim-contract.md` |
 | `env_fingerprint` | object | ✅ | `python_version`, `pandas_version`, `git_commit`, `branch`, `timestamp_utc`, `host_os` |
-| `determinism_check` | object | ✅ | `run_1_hash`, `run_2_hash`, `identical: bool`（必须 `true`） |
-| `outstanding_reviews` | string[] | ✅ | 所有 `PENDING` 条目清单；非空时 `verdict_level` 不得高于 `V1` |
+| `determinism_check` | object | ✅ | `run_1_hash`, `run_2_hash`, `identical: bool` (must be `true`) |
+| `outstanding_reviews` | string[] | ✅ | List of all `PENDING` entries; when non-empty, `verdict_level` must not be higher than `V1` |
 
-**约束**
-- `verdict_level=V0` 当且仅当 L1–L3 覆盖不全。
-- `verdict_level≥V2` 要求 `l4.status=measured` 且 L4 评分者 κ ≥ 0.6。
-- `verdict_level=V3` 要求存在用户侧证据实体（本规格 W1 明确不做，故预期**不可达**，脚本应断言 `V3` 不可达并在 rationale 中说明原因）。
+**Constraints**
+- `verdict_level=V0` if and only if L1–L3 coverage is incomplete.
+- `verdict_level≥V2` requires `l4.status=measured` and L4 rater κ ≥ 0.6.
+- `verdict_level=V3` requires a user-side evidence entity (explicitly out of scope under W1 of this specification, so it is expected to be **unreachable**; the script should assert that `V3` is unreachable and explain why in the rationale).
 
 ---
 
-## 状态流转
+## State Transitions
 
 ```text
-PersonaClaim:  (录入) -> 标注 source_type -> 派生 evidence_level -> 校验 V1..V3 -> 定稿
+PersonaClaim:  (entry) -> annotate source_type -> derive evidence_level -> validate V1..V3 -> finalise
 HallucinationFinding:
-    machine_flag=SUSPECT -> 人工 human_verdict      (主路径)
-    machine_flag=OK/NA   -> 人工抽查 30% -> human_verdict
-    PENDING 为 0 -> 允许进入 Verdict 汇总
-Verdict:  coverage 全满 -> 自 V1 起算 -> 若 l4=measured 则 V2 -> V3 断言不可达
+    machine_flag=SUSPECT -> human human_verdict      (main path)
+    machine_flag=OK/NA   -> human 30% spot-check -> human_verdict
+    PENDING count 0 -> allowed into Verdict aggregation
+Verdict:  coverage full -> count from V1 upwards -> if l4=measured then V2 -> assert V3 unreachable
 ```
 
-## 数据落盘清单
+## Data Persistence Inventory
 
-| 文件 | 实体 | 格式 |
+| File | Entity | Format |
 | :--- | :--- | :--- |
 | `reports/audit/persona_provenance.csv` | `PersonaClaim` | CSV (UTF-8 + BOM) |
 | `reports/audit/requirement_persona_map.csv` | `RequirementMapping` | CSV (UTF-8 + BOM) |
 | `reports/audit/l1_content_audit.csv` | `HallucinationFinding` | CSV (UTF-8 + BOM) |
 | `reports/audit/l2_attribution_audit.csv` | `AttributionFinding` | CSV (UTF-8 + BOM) |
 | `reports/audit/l3_leakage_audit.csv` | `LeakageFinding` | CSV (UTF-8 + BOM) |
-| `reports/audit/verdict.json` | `Verdict` | JSON (UTF-8, `ensure_ascii=False`, 2 空格缩进) |
-| `reports/audit/online_baseline.csv` 或 `online_baseline.skipped.json` | L4 实验记录 | 二选一，**不允许两者都缺** |
+| `reports/audit/verdict.json` | `Verdict` | JSON (UTF-8, `ensure_ascii=False`, 2-space indent) |
+| `reports/audit/online_baseline.csv` or `online_baseline.skipped.json` | L4 experiment record | one of the two; **both missing is not allowed** |

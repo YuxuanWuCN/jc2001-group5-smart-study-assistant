@@ -1,89 +1,89 @@
-# 功能规格：前端视觉巅峰重构与现代 AI 交互体验升级 (Frontend Visual Overhaul & Modern AI UX)
+# Feature Specification: Frontend Visual Overhaul & Modern AI UX
 
-**功能编号**：`002-frontend-visual-overhaul`  
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)  
-**创建日期**：2026-10-10  
-**状态**：APPROVED / READY FOR PLANNING & IMPLEMENTATION  
-**关联分支**：`002-frontend-visual-overhaul`  
-**输入**：用户反馈“你的前端不够看啊”——需要从“普通课设/扁平静态展示”彻底蜕变为“国际顶级 AI 软件质感（Linear/Vercel/DeepSeek 级）”的高辨识度交互界面。
-
----
-
-## 1. 业务背景与问题痛点分析
-
-### 1.1 现状诊断：“不够看”的根本原因
-当前系统的核心逻辑与知识库极为扎实，但在视觉呈现和前端交互层面上存在显著的“视觉降维”瓶颈：
-1. **视觉扁平平淡，缺乏现代 AI 产品的空间纵深感**：
-   - 现有的 Landing 页为传统卡片陈列，缺乏现代顶级产品标志性的 **微光辉光 (Ambient Glow / Aurora Gradients)、技术网格底纹 (Tech Grid & Dot Matrix Pattern)、多层亚克力毛玻璃 (Backdrop Glassmorphism)**。
-   - 标题文案与排版节奏偏软，没有在 3 秒内传递出“阿伯丁大学 Honours Project + GraphRAG 错因拓扑溯源”的顶级科技冲击力。
-2. **交互反馈单调，缺乏“深度思考”的生命力**：
-   - AI 助学伴侣（苏格拉底导学）输出相对静态，缺少 DeepSeek-R1 / Claude 3.7 标杆性的 **折叠思维链 (Reasoning / Thinking Accordion)** 与呼吸式脉冲思考态。
-   - 刷题排雷选错时，陷阱提示不够震撼，缺少思维陷阱触发时的警报微动效与拓扑聚光灯效果。
-3. **缺少杀手级的即时互动演播台 (Interactive Showcase)**：
-   - 访客或评审导师进入后，需要逐个点击才能理解系统与传统刷题软件的区别。缺少一个无需登录即可直观操作的 **“传统死记硬背 vs 智学罗盘错因拓扑”分屏实时对比沙盒 (Split-screen Sandbox)**。
-4. **缺少高级工具类应用的极客交互体验**：
-   - 缺少现代开发者与大学生极客极其偏好的 **全局 HUD 快捷指令控制台 (Command Palette `Cmd+K` / `Ctrl+K`)**，无法全局快速跳转学科、题目、知识图谱节点。
-
-### 1.2 升级目标 (Design North Star)
-以 **“学术严谨性 (Academic Rigor) + 顶级工业美学 (Linear-Grade Aesthetics) + 启发式认知生命力 (Socratic Vitality)”** 为北极星，全面完成前端视觉与交互体验的升维重构。
+**Feature ID**: `002-frontend-visual-overhaul`  
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)  
+**Created**: 2026-10-10  
+**Status**: APPROVED / READY FOR PLANNING & IMPLEMENTATION  
+**Related branch**: `002-frontend-visual-overhaul`  
+**Input**: User feedback "your frontend is not impressive enough" — the interface must transform from an "ordinary course-project / flat static display" into a highly distinctive interactive interface with "world-class AI software quality (Linear/Vercel/DeepSeek level)".
 
 ---
 
-## 2. 用户场景与测试规约 (User Stories & Acceptance)
+## 1. Business Context and Pain-Point Analysis
 
-### US-01: 极具视觉张力的流光视差门户 (Hero & Aurora Visuals) (优先级: P1)
-- **场景描述**：作为阿伯丁大学课程评审导师或新访客，当我打开系统首页时，首先映入眼帘的是极具科技美学的动态极光微光、精细工程网格背景、动态滚动的数据遥测卡片与震撼的学术品牌标语，3秒内建立对项目的顶级专业认知。
-- **独立测试**：打开首页，验证背景网格与光晕渲染、遥测数据徽标与卡片悬浮微动效正常呈现。
-- **验收场景**：
-  1. **给定** 用户访问根页面，**当** 页面加载完成时，**则** 背景呈现细腻的技术点阵网格，主标语带有微妙流光渐变，指标卡片呈现平滑入场交错动效 (Staggered Animations)。
-  2. **给定** 鼠标悬浮于功能卡片上，**当** 移动指针时，**则** 卡片边框与背景呈现流动的跟随微光高光 (Spotlight Border Effect)。
+### 1.1 Current-State Diagnosis: the Root Cause of "Not Impressive Enough"
+The system's core logic and knowledge base are extremely solid, but in terms of visual presentation and frontend interaction there is a clear "visual downgrade" bottleneck:
+1. **Flat, bland visuals with no spatial depth of a modern AI product**:
+   - The existing Landing page is a traditional card display, lacking the signature features of modern top-tier products: **Ambient Glow / Aurora Gradients, Tech Grid & Dot Matrix Pattern, multi-layer Backdrop Glassmorphism**.
+   - Headline copy and typographic rhythm are too soft; they fail to convey, within 3 seconds, the top-tier technological impact of "University of Aberdeen Honours Project + GraphRAG misconception-topology tracing".
+2. **Monotonous interaction feedback, lacking the vitality of "deep thinking"**:
+   - The AI study companion (Socratic tutoring) output is relatively static, missing the benchmark **Reasoning / Thinking Accordion** and breathing pulse thinking states of DeepSeek-R1 / Claude 3.7.
+   - When a wrong answer is chosen in the trap-detection practice, trap hints are not striking enough; alarm micro-animations and topology spotlight effects are missing when a thinking trap triggers.
+3. **Missing a killer real-time interactive showcase**:
+   - Visitors or reviewer tutors must click through everything to understand the difference from conventional drill software. A **split-screen sandbox** comparing "traditional rote learning vs SmartStudy Compass misconception topology", which works without login, is missing.
+4. **Missing the geek interaction of advanced tools**:
+   - The **global HUD Command Palette (`Cmd+K` / `Ctrl+K`)** preferred by modern developers and student geeks is missing, so there is no global fast jump to subjects, questions, and knowledge-graph nodes.
 
----
-
-### US-02: 交互式“传统 vs 罗盘”双核对比演播台 (Interactive Comparison Sandbox) (优先级: P1)
-- **场景描述**：作为评审导师或学生，我希望在首页一键拨动对比开关，直观看到同一道错题在“传统 AI（只给标准答案、剥夺思考、缺乏归因）”与“智学罗盘（陷阱雷达预警、先修溯源、多轮苏格拉底追问）”下的完全不同交互全景。
-- **独立测试**：在门户无需登录状态下点击交互对比组件的“传统答题模式”与“智学罗盘模式”，观察右侧动态反馈与知识链路演变。
-- **验收场景**：
-  1. **给定** 门户对比沙盒展示，**当** 点击传统模式时，**则** 呈现冷硬的对错标签和生硬答案文本；
-  2. **给定** 切换到智学罗盘模式，**当** 点击同一干扰项时，**则** 动态展开思维陷阱红区、高亮先修依赖、并生成苏格拉底启发式提问卡片。
-
----
-
-### US-03: 学习工作台全功能沉浸式微交互升维 (Workspace Micro-interactions) (优先级: P1)
-- **场景描述**：作为日常学习者，当我在工作台做题、对话、查图谱与看报告时，各界面应具备高端的动效与视觉深度：
-  - **刷题排雷 (`#view-quiz`)**：错误选项呈现红光警示震颤，陷阱抽屉带有磨砂玻璃模糊背景与平滑滑入；
-  - **苏格拉底学伴 (`#view-tutor`)**：增加“🧠 深度思考中...”折叠推理展开面板（DeepSeek-R1 风格思维链），打字机流式动效与阶段性启发气泡；
-  - **考点图谱 (`#view-graph`)**：ECharts 画布集成全屏漫游工具条、高亮中心光环、前置/后置依赖呼吸灯与右侧概念深度悬浮卡；
-  - **学情雷达 (`#view-report`)**：五维能力雷达图伴随动态雷达扫描线、五维防守徽章（S级-先锋学者 / A级-稳健精通 / B级-成长中），以及高危短板突破卡片。
-- **独立测试**：逐一进入四大 Tab，触发错题、AI 对话、图谱交互及学情生成，验证所有微动效流畅不卡顿（>= 60 FPS）。
-- **验收场景**：
-  1. **给定** 用户在刷题区点击错误选项，**当** 诊断完成时，**则** 页面以无闪烁毛玻璃抽屉滑出，右下角浮现雷达扣减提示并伴随动态粒子微光；
-  2. **给定** 用户向学伴发送提问，**当** AI 回复时，**则** 优先呈现“展开深度认知推演路径 (Thinking Process)”可折叠区块，随后流式展示反问引导。
+### 1.2 Upgrade Goal (Design North Star)
+With **"Academic Rigor + Linear-Grade Aesthetics + Socratic Vitality"** as the North Star, complete a full-dimensional rebuild of the frontend visual and interaction experience.
 
 ---
 
-### US-04: 全局极客 HUD 快捷指令台 (Command Palette `Cmd+K` / `Ctrl+K`) (优先级: P2)
-- **场景描述**：作为习惯键盘操作的高效大学生或展示人员，我希望随时按下 `Ctrl+K` 或 `Cmd+K`（或点击顶栏快捷搜索）唤起全局指令悬浮窗，快速输入即可实现模糊搜索题目、一键跨学科跳转、快速切换主题与预设身份。
-- **独立测试**：在任何视图按下快捷键，验证弹窗居中浮现，输入“民法”或“计组”即可一键定位跳转。
-- **验收场景**：
-  1. **给定** 用户处于任意界面，**当** 按下 `Ctrl+K` 或 `Cmd+K`，**则** 居中毛玻璃快捷指令框平滑弹出，背景施加景深模糊；
-  2. **给定** 输入关键词并回车，**当** 选中目标操作后，**则** 瞬时执行并自动收起指令框。
+## 2. User Scenarios and Acceptance Specification (User Stories & Acceptance)
+
+### US-01: Visually Striking Aurora Parallax Portal (Hero & Aurora Visuals) (Priority: P1)
+- **Scenario description**: As a University of Aberdeen course reviewer tutor or new visitor, when I open the system home page, the first thing I see is dynamic aurora glow with a strong technological aesthetic, a fine engineering grid background, dynamically scrolling data telemetry cards, and a striking academic brand slogan, establishing a top-tier professional understanding of the project within 3 seconds.
+- **Independent test**: Open the home page and verify that the background grid and glow rendering, telemetry data badges, and card hover micro-animations are displayed correctly.
+- **Acceptance scenarios**:
+  1. **Given** a user visits the root page, **when** the page finishes loading, **then** the background shows a fine technical dot-matrix grid, the main slogan has a subtle flowing-gradient shimmer, and metric cards play smooth staggered entrance animations.
+  2. **Given** the mouse hovers over a feature card, **when** the pointer moves, **then** the card border and background show a flowing spotlight highlight that follows the cursor (Spotlight Border Effect).
 
 ---
 
-### US-05: 极致双模主题与高对比度工程调色 (Dual-Theme Harmony) (优先级: P2)
-- **场景描述**：作为长时间复习的用户，我希望在明暗模式下均具备极高的阅读舒适度：
-  - **暗色模式 (Cyber Obsidian)**：深黑灰底色 + 层次化微光辉光 + 荧光蓝/翠绿/赤红状态强调，极具前沿 AI 控制台气质；
-  - **亮色模式 (Technical Chalk)**：高级纸白/云灰底色 + 细腻投影 + 纯正藏青/墨黑文字，符合大学学术严谨质感。
-- **独立测试**：点击顶栏切换主题，验证所有文字、卡片、ECharts 图表、抽屉均平滑过渡且对比度无倒置。
-- **验收场景**：
-  1. **给定** 切换主题按钮被点击，**当** 属性 `data-theme` 切换时，**则** 全局变量平滑过渡，ECharts 自动重绘适配调色板，文字对比度均高于 4.5:1 (WCAG AA)。
+### US-02: Interactive "Traditional vs Compass" Dual-Core Comparison Showcase (Interactive Comparison Sandbox) (Priority: P1)
+- **Scenario description**: As a reviewer tutor or student, I want to flip a comparison toggle on the home page to directly see how the same wrong answer plays out in completely different ways under "traditional AI (only gives the standard answer, deprives thinking, lacks attribution)" and "SmartStudy Compass (trap-radar warning, prerequisite tracing, multi-round Socratic questioning)".
+- **Independent test**: On the portal without logging in, click "Traditional answering mode" and "SmartStudy Compass mode" in the interactive comparison component and observe the dynamic feedback and knowledge-path evolution on the right.
+- **Acceptance scenarios**:
+  1. **Given** the portal comparison sandbox is displayed, **when** traditional mode is clicked, **then** cold right/wrong labels and blunt answer text are shown;
+  2. **Given** switching to SmartStudy Compass mode, **when** the same distractor is clicked, **then** the thinking-trap red zone dynamically expands, prerequisite dependencies are highlighted, and a Socratic heuristic question card is generated.
 
 ---
 
-## 3. 非功能性需求与架构约束 (Non-Functional Requirements)
+### US-03: Full Immersive Micro-interaction Upgrade for the Learning Workspace (Workspace Micro-interactions) (Priority: P1)
+- **Scenario description**: As a daily learner, when I answer questions, chat, browse the graph, and view reports in the workspace, each interface should offer high-end motion and visual depth:
+  - **Smart trap-detection practice (`#view-quiz`)**: wrong options show a red warning tremor, and the trap drawer has a frosted-glass blurred background and smooth slide-in;
+  - **Socratic study companion (`#view-tutor`)**: adds a "🧠 Deep thinking..." collapsible reasoning panel (DeepSeek-R1 style chain of thought), typewriter streaming animation, and staged hint bubbles;
+  - **Exam-point graph (`#view-graph`)**: ECharts canvas integrated with a full-screen roaming toolbar, highlighted centre halo, prerequisite/successor dependency breathing lights, and a right-side concept deep-dive hover card;
+  - **Learning radar (`#view-report`)**: five-dimension ability radar chart with a dynamic radar sweep line, five-dimension defence badges (S-tier Pioneer Scholar / A-tier Steady Mastery / B-tier Developing), and high-risk weakness breakthrough cards.
+- **Independent test**: Enter each of the four tabs in turn, trigger a wrong answer, AI conversation, graph interaction, and report generation, and verify that all micro-animations are smooth and jank-free (>= 60 FPS).
+- **Acceptance scenarios**:
+  1. **Given** a user clicks a wrong option in the practice area, **when** diagnosis completes, **then** a flicker-free frosted-glass drawer slides out, and a radar deduction toast with dynamic particle glow appears in the bottom-right corner;
+  2. **Given** a user sends a question to the companion, **when** the AI replies, **then** it first shows an expandable "Thinking Process" block and then streams the Socratic guidance.
 
-- **NFR-01 (零额外打包依赖)**：纯原生 Vanilla JavaScript ES6+ 与现代 CSS3（CSS Grid, Flexbox, CSS Variables, Backdrop-Filter），不引入 Tailwind 编译器、React、Vue 或庞大三方动效库，保持本地极速运行。
-- **NFR-02 (极限性能与帧率)**：所有动效优先使用 CSS `transform` 与 `opacity` 硬件加速，常规操作过渡时间控制在 150ms-250ms 内，维持 60 FPS 无卡顿。
-- **NFR-03 (零破坏性回归)**：FastAPI 现有所有 API（`/api/health`, `/api/quiz`, `/api/diagnose`, `/api/graph`, `/api/tutor`）及 114 个 pytest 测试 100% 保持兼容通过。
-- **NFR-04 (零根目录污染)**：设计与规格文档完备归档至 `specs/002-frontend-visual-overhaul/`。
+---
+
+### US-04: Global Geek HUD Command Palette (Command Palette `Cmd+K` / `Ctrl+K`) (Priority: P2)
+- **Scenario description**: As an efficient university student or presenter who is used to keyboard operation, I want to press `Ctrl+K` or `Cmd+K` at any time (or click the top-bar quick search) to summon the global command overlay, where a quick fuzzy search can find questions, jump across subjects, and quickly switch theme or preset identity.
+- **Independent test**: Press the shortcut in any view and verify that the pop-up appears centred; typing "Civil Law" or "Computer Organization" locates and jumps in one action.
+- **Acceptance scenarios**:
+  1. **Given** the user is on any interface, **when** `Ctrl+K` or `Cmd+K` is pressed, **then** a centred frosted-glass command palette pops up smoothly, with a depth-of-field blur applied to the background;
+  2. **Given** a keyword is entered and Enter is pressed, **when** the target action is selected, **then** it executes instantly and the command palette closes automatically.
+
+---
+
+### US-05: Premium Dual-Theme and High-Contrast Engineering Palette (Dual-Theme Harmony) (Priority: P2)
+- **Scenario description**: As a user studying for long sessions, I want high reading comfort in both light and dark modes:
+  - **Dark mode (Cyber Obsidian)**: deep black-grey base + layered ambient glow + fluorescent blue/emerald/crimson state accents, with a cutting-edge AI console character;
+  - **Light mode (Technical Chalk)**: premium paper-white/cloud-grey base + fine shadows + pure navy/ink-black text, matching rigorous university academic quality.
+- **Independent test**: Click the theme toggle in the top bar and verify that all text, cards, ECharts charts, and drawers transition smoothly with no inverted contrast.
+- **Acceptance scenarios**:
+  1. **Given** the theme toggle button is clicked, **when** the `data-theme` attribute switches, **then** global variables transition smoothly, ECharts automatically redraws with the adapted palette, and all text contrast is above 4.5:1 (WCAG AA).
+
+---
+
+## 3. Non-Functional Requirements and Architecture Constraints
+
+- **NFR-01 (Zero Additional Build Dependencies)**: pure native Vanilla JavaScript ES6+ and modern CSS3 (CSS Grid, Flexbox, CSS Variables, Backdrop-Filter), without introducing a Tailwind compiler, React, Vue, or any large third-party animation library, keeping local execution fast.
+- **NFR-02 (Extreme Performance and Frame Rate)**: all animations prefer CSS `transform` and `opacity` hardware acceleration; regular operation transitions are kept within 150ms-250ms and a jank-free 60 FPS is maintained.
+- **NFR-03 (Zero-Breakage Regression)**: all existing FastAPI APIs (`/api/health`, `/api/quiz`, `/api/diagnose`, `/api/graph`, `/api/tutor`) and the 114 pytest tests remain 100% compatible and passing.
+- **NFR-04 (Zero Root Pollution)**: design and specification documents are fully archived under `specs/002-frontend-visual-overhaul/`.

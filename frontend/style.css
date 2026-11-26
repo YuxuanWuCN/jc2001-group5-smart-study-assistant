@@ -1,63 +1,63 @@
 /* ==========================================================================
-   智学罗盘 (SmartStudy AI) - DeepSeek Eval Harness 评测控制台样式表
+   SmartStudy Compass (SmartStudy AI) - Eval Harness console stylesheet
    JC2001 Software Engineering - Group 5 (BSc BMIS)
    Design System: DeepSeek Eval Harness / Engineering Console (Dark Default)
    ========================================================================== */
 
 :root {
-  /* 现代旗舰级无衬线中英文排版（优先现代高质量中文字体，彻底根治 Windows 下回退宋体/黑体锯齿的问题） */
+  /* Flagship-grade modern sans-serif typography (prefers high-quality modern faces to avoid jagged fallback fonts on Windows) */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", "Source Han Sans SC", "Noto Sans SC", system-ui, sans-serif;
   
-  /* 现代等宽字体系统（纯英文代码/数值/题号专用，含安全中文字体兜底） */
+  /* Modern monospace system (for code, metrics and question numbers, with a safe fallback chain) */
   --font-mono: "JetBrains Mono", "Cascadia Code", "Fira Code", "SFMono-Regular", Consolas, "Microsoft YaHei UI", monospace;
 
   /* ========================================================================
-     色彩系统：DeepSeek Eval Harness 评测控制台（深色主题为默认）
+     Colour system: Eval Harness console (dark theme by default)
      ======================================================================== */
-  --bg-main: #0d1117;           /* 控制台底板深色背景 */
-  --bg-surface: #161b22;        /* 主卡片 / 侧边栏 / 容器面板表面色 */
-  --bg-surface-hover: #1f242c;  /* 行悬停 / 交互高亮浅表面色 */
-  --bg-surface-subtle: #0d1117; /* 嵌套代码框 / 输入框底色 */
-  --bg-elevated: #21262d;       /* 浮层 / 弹窗 / 下拉框表面色 */
-  --bg-sidebar: #161b22;        /* 左侧固定侧边栏底色 */
+  --bg-main: #0d1117;           /* Console base background */
+  --bg-surface: #161b22;        /* Primary card / sidebar / panel surface */
+  --bg-surface-hover: #1f242c;  /* Row hover / interactive highlight surface */
+  --bg-surface-subtle: #0d1117; /* Nested code block / input background */
+  --bg-elevated: #21262d;       /* Overlay / modal / dropdown surface */
+  --bg-sidebar: #161b22;        /* Fixed left sidebar background */
 
-  /* 结构边框：硬朗、低饱和、工程化精细线框 */
-  --border-subtle: #30363d;     /* 常规构件边框 */
-  --border-strong: #484f58;     /* 悬停 / 激活聚焦边框 */
-  --border-muted: #21262d;      /* 细微内部分割线 */
+  /* Structural borders: crisp, low-saturation, engineered hairlines */
+  --border-subtle: #30363d;     /* Standard component border */
+  --border-strong: #484f58;     /* Hover / focus border */
+  --border-muted: #21262d;      /* Subtle internal divider */
 
-  /* 文本对比度阶梯 */
-  --text-title: #f0f6fc;        /* 高对比主标题、主数值、代码高亮 */
-  --text-body: #c9d1d9;         /* 题干、正文内容、说明文本 */
-  --text-muted: #8b949e;        /* 次级说明、指标名称、小标签 */
-  --text-light: #6e7681;        /* 快捷键标记、微小辅助时间戳 */
+  /* Text contrast scale */
+  --text-title: #f0f6fc;        /* High-contrast titles, key metrics, code highlights */
+  --text-body: #c9d1d9;         /* Stems, body copy and descriptive text */
+  --text-muted: #8b949e;        /* Secondary captions, metric names and small labels */
+  --text-light: #6e7681;        /* Shortcut hints and small auxiliary timestamps */
 
-  /* DeepSeek 极速科技蓝 (Primary Blue Tokens) */
+  /* Tech-blue primary tokens (Primary Blue Tokens) */
   --primary-50: rgba(79, 142, 247, 0.12);
   --primary-100: rgba(79, 142, 247, 0.22);
-  --primary-500: #4f8ef7;       /* DeepSeek 主强调色 */
-  --primary-600: #3b82f6;       /* 交互聚焦色 */
-  --primary-700: #2563eb;       /* 按压激活色 */
+  --primary-500: #4f8ef7;       /* Primary accent */
+  --primary-600: #3b82f6;       /* Interaction focus colour */
+  --primary-700: #2563eb;       /* Pressed / active colour */
 
-  /* 评测状态强调色 (Benchmarking Status Tokens) */
+  /* Benchmark status tokens (Benchmarking Status Tokens) */
   --emerald-50: rgba(63, 185, 80, 0.12);
-  --emerald-500: #3fb950;       /* 评测通过 / 正确选项 / 增长状态 */
+  --emerald-500: #3fb950;       /* Pass / correct option / growth state */
   --emerald-600: #2ea043;
   --rose-50: rgba(248, 81, 73, 0.12);
-  --rose-500: #f85149;          /* 陷阱命中 / 评测失败 / 扣减状态 */
+  --rose-500: #f85149;          /* Trap hit / failure / deduction state */
   --rose-600: #da3633;
   --amber-50: rgba(210, 153, 34, 0.12);
-  --amber-500: #d29922;         /* 警告 / 前置依赖 / 难点标记 */
+  --amber-500: #d29922;         /* Warning / prerequisite / difficulty marker */
   --amber-600: #bb8009;
 
-  /* 克制的工程化圆角（去除夸张大圆角，采用 3px-8px 硬朗工业感） */
+  /* Restrained engineered corner radii (3px-8px, no exaggerated rounding) */
   --radius-xs: 3px;
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-full: 9999px;
 
-  /* 克制的阴影（去除学生端重度渐变弥散光晕） */
+  /* Restrained shadows (no heavy gradient glow) */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
@@ -67,7 +67,7 @@
 }
 
 /* ========================================================================
-   明亮主题 (Clean Technical Light Mode)
+   Clean technical light mode (Clean Technical Light Mode)
    ======================================================================== */
 [data-theme="light"] {
   --bg-main: #f6f8fa;
@@ -108,7 +108,7 @@
 }
 
 /* ==========================================================================
-   全局重置与基础布局
+   Global reset and base layout
    ========================================================================== */
 
 * {
@@ -127,7 +127,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 全屏布局外壳 (Shell) */
+/* Full-screen layout shell (Shell) */
 .app-shell {
   display: flex;
   min-height: 100vh;
@@ -135,7 +135,7 @@ body {
 }
 
 /* ==========================================================================
-   左侧固定深色侧边栏 (DeepSeek Eval Harness Sidebar)
+   Fixed dark left sidebar (DeepSeek Eval Harness Sidebar)
    ========================================================================== */
 
 .sidebar {
@@ -153,7 +153,7 @@ body {
   overflow-y: auto;
 }
 
-/* 顶部品牌与控制台徽章 */
+/* Top brand and console badge */
 .sidebar-header {
   padding: 16px 16px 14px 16px;
   border-bottom: 1px solid var(--border-subtle);
@@ -225,7 +225,7 @@ body {
   box-shadow: 0 0 6px var(--emerald-500);
 }
 
-/* 侧边栏垂直 Tab 导航列表 */
+/* Sidebar vertical tab navigation list */
 .nav-tabs {
   display: flex;
   flex-direction: column;
@@ -297,7 +297,7 @@ body {
   border-color: rgba(79, 142, 247, 0.4);
 }
 
-/* 侧边栏系统遥测小面板 */
+/* Sidebar system telemetry panel */
 .sidebar-telemetry {
   margin: 0 10px 10px 10px;
   padding: 10px;
@@ -332,7 +332,7 @@ body {
 .text-blue { color: var(--primary-500) !important; }
 .text-red { color: var(--rose-500) !important; }
 
-/* 侧边栏底部操作区 */
+/* Sidebar footer actions */
 .sidebar-footer {
   padding: 10px;
   border-top: 1px solid var(--border-subtle);
@@ -452,7 +452,7 @@ body {
 }
 
 /* ==========================================================================
-   右侧主应用容器 (Main Content Container)
+   Right-hand main application container (Main Content Container)
    ========================================================================== */
 
 .app-container, .main-content {
@@ -464,18 +464,18 @@ body {
   min-height: 100vh;
 }
 
-/* 视图显示隐藏控制 */
+/* View show/hide control */
 .view-section {
   display: none;
 }
 
 .view-section.active {
   display: block;
-  animation: none; /* 去除浮动淡入弹跳，保持硬朗工程直达 */
+  animation: none; /* no float/fade bounce: stay crisp and direct */
 }
 
 /* ==========================================================================
-   视图 1：智能刷题排雷主视窗 (Student Core Quiz View)
+   View 1: student core quiz window (Student Core Quiz View)
    ========================================================================== */
 
 .quiz-layout {
@@ -586,7 +586,7 @@ body {
   line-height: 1.6;
 }
 
-/* 选项列表 */
+/* Option list */
 .options-grid {
   display: flex;
   flex-direction: column;
@@ -611,7 +611,7 @@ body {
 .quiz-option-card:hover:not(.disabled) {
   border-color: var(--primary-500);
   background-color: var(--bg-surface-hover);
-  transform: none; /* 去除轻浮晃动 */
+  transform: none; /* no frivolous wobble */
   box-shadow: none;
 }
 
@@ -642,7 +642,7 @@ body {
   line-height: 1.45;
 }
 
-/* 答题状态高亮 */
+/* Answer-state highlight */
 .quiz-option-card.correct {
   background-color: var(--emerald-50);
   border-color: var(--emerald-500);
@@ -665,7 +665,7 @@ body {
   border-color: var(--rose-500);
 }
 
-/* 避坑诊断与深度剖析卡片 (Benchmark Defect Frame) */
+/* Trap-diagnosis and deep-analysis card (Benchmark Defect Frame) */
 .diagnostic-drawer {
   display: none;
   background-color: var(--bg-surface-subtle);
@@ -725,7 +725,7 @@ body {
   color: var(--text-muted);
 }
 
-/* 题卡底部操作栏 */
+/* Question-card bottom action bar */
 .quiz-actions-bar {
   display: flex;
   justify-content: space-between;
@@ -799,7 +799,7 @@ body {
   100% { left: 130%; }
 }
 
-/* 右侧陪伴与辅助侧栏 */
+/* Right-hand companion and auxiliary sidebar */
 .quiz-sidebar {
   display: flex;
   flex-direction: column;
@@ -839,7 +839,7 @@ body {
   margin-top: 6px;
 }
 
-/* 助教卡片微结构 */
+/* Tutor card micro-structure */
 .tutor-companion-card {
   display: flex;
   flex-direction: column;
@@ -901,7 +901,7 @@ body {
 }
 
 /* ==========================================================================
-   视图 2：苏格拉底学霸助教沉浸对话 (Socratic AI Chat View)
+   View 2: immersive Socratic AI chat (Socratic AI Chat View)
    ========================================================================== */
 
 .socratic-chat-view {
@@ -1093,7 +1093,7 @@ body {
 }
 
 /* ==========================================================================
-   视图 3：考点图谱与拓扑全景 (Knowledge Graph Map View)
+   View 3: concept graph and topology panorama (Knowledge Graph Map View)
    ========================================================================== */
 
 .graph-view-card {
@@ -1183,10 +1183,10 @@ body {
 }
 
 /* ==========================================================================
-   视图 4：学情诊断与大屏画像 (Analytics & Report View)
+   View 4: learning diagnostics and report profile (Analytics & Report View)
    ========================================================================== */
 
-/* 核心统计卡片网格 (4-column on desktop / 2-column on tablet) */
+/* Core statistics card grid (4-column on desktop / 2-column on tablet) */
 .analytics-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1280,7 +1280,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
   min-height: 380px;
 }
 
-/* 高密度数据表格容器 (High-Density Defect Log Table) */
+/* High-density defect log table (High-Density Defect Log Table) */
 .eval-table-wrap {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
@@ -1307,7 +1307,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
   flex-direction: column;
 }
 
-/* 覆盖 app.js 动态内联注入样式，实现严整条纹行 */
+/* Override app.js inline styles to enforce strict striped rows */
 #weak-points-list > div {
   margin-bottom: 0 !important;
   border-radius: 0 !important;
@@ -1343,7 +1343,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
 }
 
 /* ==========================================================================
-   API Key 配置模态窗 (API Configuration Modal)
+   API key configuration modal (API Configuration Modal)
    ========================================================================== */
 
 .modal-overlay {
@@ -1516,7 +1516,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
 }
 
 /* ==========================================================================
-   响应式折叠逻辑 (< 768px Mobile & Compact Tablet)
+   Responsive collapse logic (< 768px mobile & compact tablet)
    ========================================================================== */
 
 @media (max-width: 768px) {
@@ -1566,7 +1566,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
   }
 
   .sidebar-footer {
-    display: none; /* 移动端精简底部，收拢于折叠抽屉或浮动菜单 */
+    display: none; /* mobile: hide footer, fold into drawer or floating menu */
   }
 
   .app-container, .main-content {
@@ -1576,7 +1576,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
 }
 
 /* ==========================================================================
-   用户登录与学生档案切换模态窗 (Auth & Student Profile Modal)
+   Auth & student-profile switcher modal (Auth & Student Profile Modal)
    ========================================================================== */
 
 .user-switch-badge {
@@ -1728,7 +1728,7 @@ body.theme-dark .report-filter-btn.active { background: rgba(30, 58, 138, 0.35);
 }
 
 /* ==========================================================================
-   迎新与产品介绍门户样式 (Landing & Auth Portal Styles)
+   Landing & auth portal styles (Landing & Auth Portal Styles)
    ========================================================================== */
 .portal-landing {
   max-width: 1200px;
@@ -2092,7 +2092,7 @@ body { background: var(--bg-main); }
 }
 
 /* =====================================================================
-   全景旗舰手机官网级动态极光氛围光场 (Global Flagship Aurora Ambient Mesh)
+   Flagship aurora ambient mesh light field (Global Flagship Aurora Ambient Mesh)
    ===================================================================== */
 .aurora-bg {
   position: fixed;
@@ -2254,7 +2254,7 @@ body { background: var(--bg-main); }
   color: var(--text-body);
 }
 
-/* 核心学术遥测指标栏 (Telemetry Strip) */
+/* Telemetry strip (Telemetry Strip) */
 .portal-telemetry-strip {
   display: flex;
   flex-wrap: wrap;
@@ -2296,7 +2296,7 @@ body { background: var(--bg-main); }
 .pulse-green { background: #10b981; color: #10b981; }
 .pulse-purple { background: #a855f7; color: #a855f7; }
 
-/* 鼠标聚光灯高光卡片 (Spotlight Card) */
+/* Pointer spotlight card (Spotlight Card) */
 .spotlight-card {
   position: relative;
   background: var(--bg-surface);
@@ -2325,7 +2325,7 @@ body { background: var(--bg-main); }
 }
 
 /* =====================================================================
-   核心交互式演播沙盒 (Interactive Comparison Sandbox)
+   Interactive comparison sandbox (Interactive Comparison Sandbox)
    ===================================================================== */
 .portal-sandbox-section {
   margin-top: 48px;
@@ -2372,7 +2372,7 @@ body { background: var(--bg-main); }
   border: 1px solid var(--border-subtle);
 }
 
-/* 旗舰卡片环形光束动画 (Magic UI Border Beam) */
+/* Flagship card border-beam animation (Magic UI Border Beam) */
 @property --beam-angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -2543,7 +2543,7 @@ body { background: var(--bg-main); }
 }
 
 /* =====================================================================
-   DeepSeek-R1 风格思维链推演折叠面板 (Reasoning Accordion)
+   Reasoning-chain accordion, DeepSeek-R1 style (Reasoning Accordion)
    ===================================================================== */
 .reasoning-accordion {
   margin: 12px 0 16px;
@@ -2629,7 +2629,7 @@ body { background: var(--bg-main); }
 }
 
 /* =====================================================================
-   全局 HUD 快捷指令控制台 (Command Palette Cmd+K / Ctrl+K)
+   Global HUD command palette (Command Palette Cmd+K / Ctrl+K)
    ===================================================================== */
 .cmd-palette-overlay {
   position: fixed;
@@ -2755,7 +2755,7 @@ body { background: var(--bg-main); }
   font-size: 0.7rem;
 }
 
-/* 快捷指令唤起胶囊按钮 */
+/* Command-palette launcher pill */
 .cmd-pill-btn {
   display: inline-flex;
   align-items: center;
@@ -2779,7 +2779,7 @@ body { background: var(--bg-main); }
 }
 
 /* =====================================================================
-   五维战力勋章 (Radar Defense Tier Badge)
+   Five-dimension defence badge (Radar Defense Tier Badge)
    ===================================================================== */
 .radar-defense-badge-card {
   display: flex;
@@ -2819,7 +2819,7 @@ body { background: var(--bg-main); }
   margin-top: 2px;
 }
 
-/* 现有卡片与响应式优化 */
+/* Existing card and responsive refinements */
 .portal-auth-card { max-width: none; padding: 28px; border: 0; box-shadow: var(--shadow-md); }
 .portal-auth-card::before { height: 4px; background: #8ba3ff; }
 .auth-card-header > div:first-child { font-size: 1.3rem !important; }
@@ -2850,7 +2850,6 @@ body { background: var(--bg-main); }
   .portal-landing { padding: 18px 18px 46px; }
   .portal-navbar { align-items: flex-start; gap: 16px; margin-bottom: 42px; }
   .portal-brand-text > div:last-child { display: none; }
-  .portal-nav-actions .lang-toggle-btn { display: none !important; }
   .portal-nav-actions { gap: 6px !important; }
   .portal-fast-enter-btn { padding: 8px 12px !important; }
   .portal-hero-title { font-size: 2.3rem; }
@@ -2870,7 +2869,7 @@ body { background: var(--bg-main); }
 
 
 
-/* 工作台首页：先给用户方向，再进入具体学习工具 */
+/* Workspace home: orient the user first, then open a specific study tool */
 .workspace-home-view {
   max-width: 1120px;
   margin: 0 auto;

@@ -268,7 +268,7 @@ class TestEdgeCaseInputsAndParameters:
         data = res.json()
         assert data.get("fallback_mode") is True
         assert data.get("is_correct") is False
-        assert "未能定位到指定题目编号" in data.get("explanation", "") or "高可用" in data.get("explanation", "")
+        assert "Could not locate the specified question id" in data.get("explanation", "") or "high-availability" in data.get("explanation", "").lower()
 
     def test_diagnose_invalid_option_keys(self, client: TestClient):
         """
@@ -288,7 +288,7 @@ class TestEdgeCaseInputsAndParameters:
         """
         unicode_samples = [
             "🚀🔥💡🧠",
-            "测试学科考点",
+            "Δοκιμαστικό σημείο ελέγχου",
             "اللغة العربية",
             "русский язык",
             "\u200b\u200c\u200d",  # Zero-width spaces
@@ -393,7 +393,7 @@ class TestOfflineAndFaultTolerance:
             data = res.json()
             assert data.get("fallback_mode") is True
             assert data.get("model_used") == "local-failsafe-shield"
-            assert "高可用安全兜底" in data.get("trap_name", "") or "高可用" in data.get("explanation", "")
+            assert "High-availability safety net" in data.get("trap_name", "") or "high-availability" in data.get("explanation", "").lower()
 
 
 # =============================================================================

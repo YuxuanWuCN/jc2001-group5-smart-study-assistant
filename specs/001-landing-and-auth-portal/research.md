@@ -1,86 +1,86 @@
-# 技术调研与架构决策报告 (Phase 0: Research)
+# Technical Research and Architecture Decision Report (Phase 0: Research)
 
-**功能编号**：`001-landing-and-auth-portal`  
-**关联规格**：`specs/001-landing-and-auth-portal/spec.md`  
-**完成时间**：2026-10-08  
-
----
-
-## 1. 调研背景与技术选型问题
-
-为了解决“从首页直接进入冷峻高密度的 Eval Harness 导致体验突兀”的问题，并响应用户需求“做一个登录或者说介绍页面然后再进入我平时的那个界面”，团队开展了针对系统架构、状态机模型与交互设计的专题调研。
+**Feature ID**: `001-landing-and-auth-portal`  
+**Related Specification**: `specs/001-landing-and-auth-portal/spec.md`  
+**Completed**: 2026-10-08  
 
 ---
 
-## 2. 核心架构决策 (Decisions, Rationale & Alternatives)
+## 1. Research Background and Technical Selection Questions
 
-### 决策 1：页面承载架构 —— 单页容器切换 (SPA Dual-Container) vs 多物理页面 (MPA)
-- **技术选择**：选用 **SPA 双容器视窗平滑切换架构** (`#portal-landing` 与 `#app-shell` 并存于 `frontend/index.html`)。
-- **决策理由**：
-  1. **零白屏与秒级响应**：静态资源（JetBrains Mono、SVG 图标、ECharts 引擎）只需在首次进入加载一次，进入/退出工作台无刷新转场，转场时间 < 150ms。
-  2. **状态保活与平滑回退**：用户在工作台刷题到第 2 题时，点击“返回介绍页”查看课题背景，再点击“继续学习”返回时，无需重新请求题目，原刷题状态与抽屉完全保留。
-  3. **后端契约零破坏**：FastAPI 后端依然只需挂载静态目录 `app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")`，无需新增或修改任何后端页面路由映射。
-- **考虑的替代方案**：
-  - *方案 B (拆分为 landing.html + app.html)*：需要维护两个 HTML 骨架与重复的 CSS 变量，页面跳转存在显著白屏闪烁，跨页面传递刷题状态需依赖复杂的 Session Storage 事件监听，故拒绝。
+To solve the problem that "going straight from the home page into the cold, dense Eval Harness makes the experience abrupt", and to respond to the user requirement "make a login or introduction page and then enter the interface I normally use", the team conducted dedicated research on system architecture, the state-machine model, and interaction design.
 
 ---
 
-### 决策 2：学生档案与身份鉴权策略 —— 本地学籍持久化 + FastAPI 轻量模拟
-- **技术选择**：选用 **客户端智能持久化存储 (`localStorage`) + 预设角色矩阵 + 可选后端会话合同**。
-- **决策理由**：
-  1. **符合 JC2001 本科教学与答辩演示边界**：避免在 Phase 2 早期引入繁重的 PostgreSQL/OAuth 鉴权数据库，保证在任何无网、断网或沙箱环境下 100% 可演示、0 故障。
-  2. **支持快速评测与答辩一键切换**：预置阿伯丁大学 Group 5 核心组员学籍卡片（吴宇轩 50106070、林泳桐 50106038 等），答辩演示时无需手动键入复杂密码，一键即可载入专属角色。
-- **考虑的替代方案**：
-  - *方案 B (JWT + SQLite 集中式鉴权)*：在 Phase 2 初级阶段过度设计，容易增加依赖环境部署失败率，不符合“本科生高质量轻量工程”原则。
+## 2. Core Architecture Decisions (Decisions, Rationale & Alternatives)
+
+### Decision 1: Page hosting architecture — single-page dual-container switching (SPA Dual-Container) vs multiple physical pages (MPA)
+- **Technical choice**: adopt the **SPA dual-container view switching architecture** (`#portal-landing` and `#app-shell` coexist in `frontend/index.html`).
+- **Rationale**:
+  1. **No white flash and instant response**: static resources (JetBrains Mono, SVG icons, ECharts engine) only need to load once on first entry; entering/leaving the workspace is a refresh-free transition taking < 150ms.
+  2. **State preservation and smooth back-navigation**: when the user is on question 2 in the workspace, clicks "Back to introduction" to review the project background, and then clicks "Continue learning" to return, no question re-request is needed; the original practice state and drawer are fully preserved.
+  3. **Zero breakage of the backend contract**: the FastAPI backend still only needs to mount the static directory `app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")`, with no new or modified backend page route mapping.
+- **Alternatives considered**:
+  - *Option B (split into landing.html + app.html)*: requires maintaining two HTML skeletons and duplicated CSS variables, page navigation has a noticeable white-flash flicker, and passing practice state across pages would rely on complex Session Storage event listeners; therefore rejected.
 
 ---
 
-### 决策 3：视觉风格与设计语言 —— 学术科技感双模自适应 (Adaptive Academic Tech)
-- **技术选择**：基于原有 `--bg-main`, `--card-bg`, `--primary-500`, `--text-main` 等 CSS 变量，构建兼顾**阿伯丁大学蓝 (Aberdeen Blue `#1e3a8a`/`#3b82f6`)** 与 **DeepSeek 暗夜极客风** 的响应式卡片网格。
-- **决策理由**：
-  1. 保证与用户“平时的界面”在视觉基因上高度统一，避免“首页像电商、后台像终端”的撕裂感。
-  2. 提供高质感的微渐变毛玻璃 (Backdrop Blur) 和卡片悬浮动效，提升评审时的第一印象。
-- **考虑的替代方案**：
-  - *方案 B (引入 Bootstrap/Tailwind CDN)*：外部 CSS 框架会污染原有原生样式并造成类名冲突，故完全采用原生 CSS 变量扩展。
+### Decision 2: Student profile and identity authentication strategy — local student-record persistence + lightweight FastAPI simulation
+- **Technical choice**: adopt **client-side intelligent persistent storage (`localStorage`) + a preset role matrix + an optional backend session contract**.
+- **Rationale**:
+  1. **Within the JC2001 undergraduate teaching and defence-demo boundary**: avoids introducing a heavy PostgreSQL/OAuth authentication database early in Phase 2, guaranteeing 100% demonstrability and zero failures in any offline, disconnected, or sandboxed environment.
+  2. **Supports quick evaluation and one-click switching during the defence**: preset student cards for the University of Aberdeen Group 5 core members (Yuxuan Wu 50106070, Yongtong Lin 50106038, etc.), so the defence demo needs no manual entry of complex passwords - one click loads the dedicated role.
+- **Alternatives considered**:
+  - *Option B (JWT + SQLite centralised authentication)*: over-engineering at the early stage of Phase 2; likely to increase deployment failure rates for the dependency environment, and inconsistent with the "high-quality lightweight undergraduate engineering" principle.
 
 ---
 
-## 3. 状态转换矩阵与生命周期 (State Machine)
+### Decision 3: Visual style and design language — adaptive academic-tech dual mode (Adaptive Academic Tech)
+- **Technical choice**: based on the existing CSS variables such as `--bg-main`, `--card-bg`, `--primary-500`, `--text-main`, build a responsive card grid that combines **Aberdeen Blue (`#1e3a8a`/`#3b82f6`)** with the **DeepSeek dark geek style**.
+- **Rationale**:
+  1. Guarantees high visual-gene consistency with the user's "everyday interface", avoiding the jarring split of "home page looks like e-commerce, backend looks like a terminal".
+  2. Provides high-quality subtle-gradient backdrop blur and card hover animations to improve the first impression during review.
+- **Alternatives considered**:
+  - *Option B (introduce Bootstrap/Tailwind CDN)*: an external CSS framework would pollute the original native styles and cause class-name conflicts, so native CSS-variable extension is used throughout.
+
+---
+
+## 3. State Transition Matrix and Lifecycle (State Machine)
 
 ```mermaid
 stateDiagram-v2
-    [*] --> CheckStoredSession: 访问站点 (/)
+    [*] --> CheckStoredSession: visit site (/)
     
-    CheckStoredSession --> PortalLanding: 无已保存会话 / 初次访问
-    CheckStoredSession --> WorkspaceConsole: 已有有效登录会话 (自动进入)
+    CheckStoredSession --> PortalLanding: no saved session / first visit
+    CheckStoredSession --> WorkspaceConsole: valid login session exists (auto-enter)
     
     state PortalLanding {
         [*] --> BrowsingIntro
-        BrowsingIntro --> SelectingProfile: 点击预设成员卡片
-        BrowsingIntro --> FillingAuthForm: 点击自定义学号/姓名登录
-        SelectingProfile --> AuthSuccess: 验证通过
-        FillingAuthForm --> AuthSuccess: 验证通过
+        BrowsingIntro --> SelectingProfile: click a preset member card
+        BrowsingIntro --> FillingAuthForm: click custom student-ID/name login
+        SelectingProfile --> AuthSuccess: validation passes
+        FillingAuthForm --> AuthSuccess: validation passes
     }
     
-    AuthSuccess --> WorkspaceConsole: 平滑淡出首页并激活 #app-shell
+    AuthSuccess --> WorkspaceConsole: fade out home page smoothly and activate #app-shell
     
     state WorkspaceConsole {
         [*] --> QuizAndDiagnosis
-        QuizAndDiagnosis --> SwitchingUser: 点击侧栏用户头像
-        QuizAndDiagnosis --> BackToPortal: 点击 "返回产品介绍"
-        QuizAndDiagnosis --> Logout: 点击 "退出当前学籍"
+        QuizAndDiagnosis --> SwitchingUser: click the sidebar user avatar
+        QuizAndDiagnosis --> BackToPortal: click "Back to product introduction"
+        QuizAndDiagnosis --> Logout: click "Sign out of the current student account"
     }
     
-    BackToPortal --> PortalLanding: 显示首页并保留刷题进度
-    Logout --> PortalLanding: 清除 session 并重置为未登录
+    BackToPortal --> PortalLanding: show home page and keep practice progress
+    Logout --> PortalLanding: clear session and reset to signed-out
 ```
 
 ---
 
-## 4. 关键未知项与澄清项结论 (Resolutions)
+## 4. Key Unknowns and Clarification Resolutions
 
-| 未知项 / 澄清点 | 最终决定 | 影响与约束 |
+| Unknown / Clarification Point | Final Decision | Impact and Constraints |
 | :--- | :--- | :--- |
-| **Q1: 用户首次打开进入哪个页面？** | 默认展示 **产品介绍与登录门户 (Portal)**，便于导师与新用户了解全貌；若勾选“记住我并在下次直接进入工作台”或已有持久化身份，提供明显快捷入口。 | 首页需保留醒目的“立即进入系统”主行动号召按钮 (CTA)。 |
-| **Q2: 原有的 4 个标签页与刷题数据是否受影响？** | **完全零影响**。原有的 `#view-quiz`, `#view-tutor`, `#view-graph`, `#view-report` 均完整保留在 `#app-shell` 内。 | 保证现有 114 个 pytest 测试及 E2E 测试全部平滑通过。 |
-| **Q3: 移动端/小屏幕适配要求？** | 门户采用 CSS Grid / Flex 响应式断点（`@media (max-width: 768px)`），小屏幕下卡片自适应为单列瀑布流。 | 保证手机端或平板端展示时体验良好。 |
+| **Q1: Which page does the user see on first open?** | Show the **product introduction and login portal (Portal)** by default, so tutors and new users can understand the whole picture; if "remember me and enter the workspace directly next time" is checked or a persisted identity already exists, provide an obvious shortcut entry. | The home page must retain a prominent "Enter the system now" primary call-to-action button (CTA). |
+| **Q2: Are the original 4 tabs and practice data affected?** | **Completely unaffected**. The existing `#view-quiz`, `#view-tutor`, `#view-graph`, `#view-report` are all preserved intact inside `#app-shell`. | Guarantees that all existing 114 pytest tests and E2E tests pass smoothly. |
+| **Q3: Mobile/small-screen adaptation requirements?** | The portal uses CSS Grid / Flex responsive breakpoints (`@media (max-width: 768px)`); on small screens the cards adapt to a single-column waterfall layout. | Guarantees a good experience when viewed on phones or tablets. |

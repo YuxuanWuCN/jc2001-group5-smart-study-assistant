@@ -1,87 +1,87 @@
-# 前端交互与 API 契约规约：视觉与体验重构 (Interaction & API Contracts)
+# Interaction and API Contracts: Visual and UX Overhaul (Interaction & API Contracts)
 
-**功能编号**：`002-frontend-visual-overhaul`  
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)  
-**日期**：2026-10-10  
-**状态**：APPROVED  
+**Feature ID**: `002-frontend-visual-overhaul`  
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)  
+**Date**: 2026-10-10  
+**Status**: APPROVED  
 
 ---
 
-## 1. 客户端交互控制器契约 (Client-Side JS Contracts)
+## 1. Client-Side JS Contracts
 
-### 1.1 全局 HUD 指令控制器 (`CommandPaletteController`)
-提供极客级 `Cmd+K` 全局搜索与快捷操作通道：
+### 1.1 Global HUD Command Controller (`CommandPaletteController`)
+Provides the geek-grade `Cmd+K` global search and quick-action channel:
 
 ```javascript
 /**
- * 打开全局 HUD 指令悬浮窗
- * @param {string} [initialQuery=""] - 初始填充的搜索关键词
+ * Open the global HUD command overlay
+ * @param {string} [initialQuery=""] - Initial search keyword to prefill
  */
 function openCommandPalette(initialQuery = ""): void;
 
 /**
- * 关闭全局 HUD 指令悬浮窗并释放焦点
+ * Close the global HUD command overlay and release focus
  */
 function closeCommandPalette(): void;
 
 /**
- * 注册或扩充快捷指令
- * @param {Array<CommandPaletteItem>} items - 指令列表
+ * Register or extend quick commands
+ * @param {Array<CommandPaletteItem>} items - Command list
  */
 function registerCommands(items): void;
 ```
 
-### 1.2 交互对比演播台控制器 (`SandboxComparatorController`)
-用于在门户与演示场景下实时切换传统刷题与智学罗盘对比：
+### 1.2 Interactive Comparison Showcase Controller (`SandboxComparatorController`)
+Used to switch in real time between traditional practice and SmartStudy Compass in the portal and demo scenarios:
 
 ```javascript
 /**
- * 切换沙盒显示模式
- * @param {'smartstudy' | 'traditional'} mode - 目标模式
+ * Switch the sandbox display mode
+ * @param {'smartstudy' | 'traditional'} mode - Target mode
  */
 function setSandboxMode(mode): void;
 
 /**
- * 触发沙盒干扰项错因联动
- * @param {string} optionKey - 选项键值 ('A' | 'B' | 'C' | 'D')
+ * Trigger misconception linkage for a sandbox distractor
+ * @param {string} optionKey - Option key ('A' | 'B' | 'C' | 'D')
  */
 function inspectSandboxOption(optionKey): void;
 ```
 
-### 1.3 深度思维链动态渲染器 (`ReasoningRenderer`)
-用于生成 DeepSeek-R1 风格的思维折叠面板：
+### 1.3 Deep Reasoning-Chain Dynamic Renderer (`ReasoningRenderer`)
+Used to generate the DeepSeek-R1-style reasoning accordion panel:
 
 ```javascript
 /**
- * 渲染或折叠 AI 思考推演路径
- * @param {HTMLElement} mountTarget - 挂载容器
- * @param {Array<ReasoningStep>} steps - 推理步骤列表
- * @param {boolean} [defaultOpen=false] - 是否默认展开
+ * Render or collapse the AI thinking-process path
+ * @param {HTMLElement} mountTarget - Mount container
+ * @param {Array<ReasoningStep>} steps - Reasoning step list
+ * @param {boolean} [defaultOpen=false] - Whether to expand by default
  */
 function renderReasoningAccordion(mountTarget, steps, defaultOpen = false): HTMLElement;
 ```
 
-### 1.4 卡片聚光灯跟随特效 (`SpotlightGlowEffect`)
-在鼠标移动时动态注入坐标驱动微光流向：
+### 1.4 Card Spotlight-Following Effect (`SpotlightGlowEffect`)
+Dynamically injects coordinate-driven glow flow on mouse movement:
 
 ```javascript
 /**
- * 为容器元素绑定鼠标流光跟随监听
- * @param {HTMLElement} containerElement - 包含 .spotlight-card 的父级容器
+ * Bind mouse-following glow listeners to a container element
+ * @param {HTMLElement} containerElement - Parent container holding .spotlight-card elements
  */
 function initSpotlightCards(containerElement): void;
 ```
 
 ---
 
-## 2. 后端 API 兼容性保证契约 (Backend API Compatibility)
+## 2. Backend API Compatibility Contract
 
-本功能为纯前端视觉重构，**100% 保持与已有 FastAPI 接口的向后兼容**，不得破坏以下既有契约：
+This feature is a pure frontend visual overhaul and **keeps 100% backward compatibility with the existing FastAPI interfaces**; the following existing contracts must not be broken:
 
-| 接口端点 | 方法 | 响应数据模型 | 兼容性保证要求 |
+| Endpoint | Method | Response Data Model | Compatibility Guarantee Requirement |
 | :--- | :--- | :--- | :--- |
-| `/api/health` | `GET` | `{ status: "ok", version: "1.0.0" }` | 保持健康探针原样 |
-| `/api/quiz` | `GET` | `Array<QuestionEntity>` | 保持题干、选项、陷阱 ID 与拓扑数据模型不变 |
-| `/api/diagnose` | `POST` | `DiagnosticResult` | 保持错因归因、先修短板与雷达扣减字段不变 |
-| `/api/tutor` | `POST` | `SocraticResponse` | 保持启发式反问文本与引导级别不变 |
-| `/api/graph` | `GET` | `{ nodes: [], edges: [] }` | 保持节点坐标、分类与关系边拓扑结构不变 |
+| `/api/health` | `GET` | `{ status: "ok", version: "1.0.0" }` | Keep the health probe as-is |
+| `/api/quiz` | `GET` | `Array<QuestionEntity>` | Keep the question stem, options, trap ID, and topology data model unchanged |
+| `/api/diagnose` | `POST` | `DiagnosticResult` | Keep the misconception attribution, prerequisite weakness, and radar-deduction fields unchanged |
+| `/api/tutor` | `POST` | `SocraticResponse` | Keep the heuristic follow-up text and guidance level unchanged |
+| `/api/graph` | `GET` | `{ nodes: [], edges: [] }` | Keep node coordinates, categories, and relationship-edge topology unchanged |

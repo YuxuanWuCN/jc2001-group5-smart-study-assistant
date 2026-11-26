@@ -1,4 +1,4 @@
-# StudyGraph UI Design System (设计规范)
+# StudyGraph UI Design System (Design Specification)
 
 **Owner:** 50105989 (UI/UX Designer)
 **Document status:** v1.0

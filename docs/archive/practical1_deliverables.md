@@ -12,23 +12,23 @@
 - **Allocated Group Identifier**: **Group 5**
 - **Programme of Study**: Bachelor of Science in Business Management and Information Systems (**BSc BMIS**)
 - **Date of Submission / Record**: Wednesday, 16 September 2026
-- **Team Leader & Project Manager**: **吴宇轩 (Yuxuan Wu)** | Student ID: （学号已脱敏） | Email: `（邮箱已脱敏）`
-- **Academic Supervisor**: **Dr. Shahzad Mumtaz** | Email: `（邮箱已脱敏）` (Allocated on 18 September 2026)
+- **Team Leader & Project Manager**: **Yuxuan Wu** | Student ID: (student ID redacted) | Email: `(email redacted)`
+- **Academic Supervisor**: **Dr. Shahzad Mumtaz** | Email: `(email redacted)` (Allocated on 18 September 2026)
 
 ### Official 10-Member Team Roster & Contact Matrix
 
 | # | Student Full Name (Chinese / Pinyin) | Student ID | Programme | Primary Project Specialisation | University Email |
 | :-: | :--- | :-: | :--- | :--- | :--- |
-| **1** | **吴宇轩** (*Yuxuan Wu*) | （学号已脱敏） | BSc (BMIS) | **Project Manager & Team Lead** | `（邮箱已脱敏）` |
-| **2** | **林泳桐** (*Yongtong Lin*) | （学号已脱敏） | BSc (BMIS) | **Principal Concept Co-Originator & Lead Domain Analyst** | `（邮箱已脱敏）` |
-| **3** | **王思鉴** (*Sijian Wang*) | （学号已脱敏） | BSc (BMIS) | **System Architect (UML & Knowledge Graph)** | `（邮箱已脱敏）` |
-| **4** | **江昊** (*Hao Jiang*) | （学号已脱敏） | BSc (BMIS) | **PoC Lead Developer (GraphRAG & Neo4j Engine)** | `（邮箱已脱敏）` |
-| **5** | **谢炜昕** (*Weixin Xie*) | （学号已脱敏） | BSc (BMIS) | **Principal Concept Co-Originator & QA Lead** | `（邮箱已脱敏）` |
-| **6** | **张梓健** (*Zijian Zhang*) | （学号已脱敏） | BSc (BMIS) | **Business Analyst (User Stories & Acceptance)** | `（邮箱已脱敏）` |
-| **7** | **习羽赛** (*Yusai Xi*) | （学号已脱敏） | BSc (BMIS) | **UI/UX Designer & Wireframe Lead** | `（邮箱已脱敏）` |
-| **8** | **董思钦** (*Siqin Dong*) | （学号已脱敏） | BSc (BMIS) | **PoC Logic Developer (Diagnostic API & Quiz)** | `（邮箱已脱敏）` |
-| **9** | **杨明杰** (*Mingjie Yang*) | （学号已脱敏） | BSc (BMIS) | **Software Testing & User Manual Lead** | `（邮箱已脱敏）` |
-| **10** | **梁子铉** (*Zixuan Liang*) | （学号已脱敏） | BSc (BMIS) | **Presentation, Media & Deployment Lead** | `（邮箱已脱敏）` |
+| **1** | **Yuxuan Wu** | (student ID redacted) | BSc (BMIS) | **Project Manager & Team Lead** | `(email redacted)` |
+| **2** | **Yongtong Lin** | (student ID redacted) | BSc (BMIS) | **Principal Concept Co-Originator & Lead Domain Analyst** | `(email redacted)` |
+| **3** | **Sijian Wang** | (student ID redacted) | BSc (BMIS) | **System Architect (UML & Knowledge Graph)** | `(email redacted)` |
+| **4** | **Hao Jiang** | (student ID redacted) | BSc (BMIS) | **PoC Lead Developer (GraphRAG & Neo4j Engine)** | `(email redacted)` |
+| **5** | **Weixin Xie** | (student ID redacted) | BSc (BMIS) | **Principal Concept Co-Originator & QA Lead** | `(email redacted)` |
+| **6** | **Zijian Zhang** | (student ID redacted) | BSc (BMIS) | **Business Analyst (User Stories & Acceptance)** | `(email redacted)` |
+| **7** | **Yusai Xi** | (student ID redacted) | BSc (BMIS) | **UI/UX Designer & Wireframe Lead** | `(email redacted)` |
+| **8** | **Siqin Dong** | (student ID redacted) | BSc (BMIS) | **PoC Logic Developer (Diagnostic API & Quiz)** | `(email redacted)` |
+| **9** | **Mingjie Yang** | (student ID redacted) | BSc (BMIS) | **Software Testing & User Manual Lead** | `(email redacted)` |
+| **10** | **Zixuan Liang** | (student ID redacted) | BSc (BMIS) | **Presentation, Media & Deployment Lead** | `(email redacted)` |
 
 ---
 
@@ -50,9 +50,9 @@ In strict compliance with the JC2001 Practical Session 1 protocol derived from [
 
 ---
 
-### Member 1: 吴宇轩 (Yuxuan Wu) — Student ID: （学号已脱敏）
+### Member 1: Yuxuan Wu — Student ID: (student ID redacted)
 - **Role**: Project Manager & Team Lead
-- **Hometown**: Shenzhen, Guangdong Province (深圳)
+- **Hometown**: Shenzhen, Guangdong Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Executing a multi-branch `git merge` on a complex feature release that merges cleanly with zero conflicts and passes all automated CI regression pipelines on the first push.
@@ -60,7 +60,7 @@ In strict compliance with the JC2001 Practical Session 1 protocol derived from [
 3. A sunset bicycle ride along the coastal promenade of Shenzhen Bay, watching the illuminated skyline reflect across the calm open waters.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Steamed Seafood Feast and Hand-Crafted Shrimp Dumplings (*Ha Jiao* / 虾饺)**. My fondest memory is gathering with my extended family at a heritage Cantonese teahouse in Shekou every Lunar New Year. We sat around a massive circular wooden table enveloped in fragrant jasmine tea steam and the rhythmic clatter of bamboo dim sum steamers. The delicate, translucent dumpling skins wrapping succulent tiger prawns represent not just culinary mastery, but an enduring emotional anchor of familial solidarity and shared heritage that grounds me during challenging academic semesters.
+**Steamed Seafood Feast and Hand-Crafted Shrimp Dumplings (*Ha Jiao*)**. My fondest memory is gathering with my extended family at a heritage Cantonese teahouse in Shekou every Lunar New Year. We sat around a massive circular wooden table enveloped in fragrant jasmine tea steam and the rhythmic clatter of bamboo dim sum steamers. The delicate, translucent dumpling skins wrapping succulent tiger prawns represent not just culinary mastery, but an enduring emotional anchor of familial solidarity and shared heritage that grounds me during challenging academic semesters.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A curated tour of **Shenzhen** would showcase the breathtaking metamorphosis of a former fishing village into a global technological megalopolis within forty years:
@@ -76,9 +76,9 @@ When cognitive fatigue sets in, I take my road bicycle on a solitary, two-hour n
 
 ---
 
-### Member 2: 林泳桐 (Yongtong Lin) — Student ID: （学号已脱敏）
+### Member 2: Yongtong Lin — Student ID: (student ID redacted)
 - **Role**: Lead Business Analyst (Requirements Capture)
-- **Hometown**: Guangzhou, Guangdong Province (广州)
+- **Hometown**: Guangzhou, Guangdong Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. The gentle patter of autumn rain against windowpanes accompanied by a hot mug of Osmanthus Oolong tea.
@@ -86,11 +86,11 @@ When cognitive fatigue sets in, I take my road bicycle on a solitary, two-hour n
 3. Organizing physical stationery—arranging fine-liner pens, sticky notes, and archival notebooks into precise tonal color palettes.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Slow-Simmered Old Duck Soup with Lotus Root and Aged Tangerine Peel (*莲藕陈皮老鸭汤*)**. In Cantonese culinary philosophy, soup is medicine for the soul. My grandmother would slow-simmer this broth over a low charcoal flame for four continuous hours whenever I returned home exhausted from high school examination preparation. The earthy sweetness of the lotus root, the citrusy aroma of ten-year-old Xinhui tangerine peel, and the savory duck broth warming my chest felt like an instant antidote to mental strain.
+**Slow-Simmered Old Duck Soup with Lotus Root and Aged Tangerine Peel**. In Cantonese culinary philosophy, soup is medicine for the soul. My grandmother would slow-simmer this broth over a low charcoal flame for four continuous hours whenever I returned home exhausted from high school examination preparation. The earthy sweetness of the lotus root, the citrusy aroma of ten-year-old Xinhui tangerine peel, and the savory duck broth warming my chest felt like an instant antidote to mental strain.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A guided tour through the layered historical soul of **Guangzhou**:
-- **Morning**: Walking along the covered Xiguan Arcade Houses (*Qilou* / 骑楼) on Enning Road, admiring the stained glass *Manchu windows* and antique brass door knockers of traditional merchant residences.
+- **Morning**: Walking along the covered Xiguan Arcade Houses (*Qilou*) on Enning Road, admiring the stained glass *Manchu windows* and antique brass door knockers of traditional merchant residences.
 - **Midday**: Visiting the Chen Clan Ancestral Hall to study the intricate Lingnan wood carvings, brick sculptures, and porcelain ridge figurines that narrate Cantonese folk literature.
 - **Evening**: Enjoying freshly steamed water-milled rice rolls (*Changfen*) and wonton noodles at a bustling open-air street stall in Yuexiu District, followed by a quiet stroll through Shamian Island's European architectural enclave.
 
@@ -102,9 +102,9 @@ I retreat to a quiet, plant-filled independent bookstore tucked inside a vintage
 
 ---
 
-### Member 3: 王思鉴 (Sijian Wang) — Student ID: （学号已脱敏）
+### Member 3: Sijian Wang — Student ID: (student ID redacted)
 - **Role**: System Architect (UML & Knowledge Graph Architecture)
-- **Hometown**: Hangzhou, Zhejiang Province (杭州)
+- **Hometown**: Hangzhou, Zhejiang Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Designing a complex Neo4j Cypher query with multiple graph hops that returns in under 50 milliseconds.
@@ -112,7 +112,7 @@ I retreat to a quiet, plant-filled independent bookstore tucked inside a vintage
 3. A chilled matcha oat milk latte paired with a warm slice of Basque burnt cheesecake.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**West Lake Vinegar Fish (*西湖醋鱼*)**. While infamous for being difficult to execute properly in commercial restaurants, my father mastered an exquisite domestic recipe. On the evening my university admission letter arrived, he prepared a fresh West Lake grass carp poached to silky tenderness, glazed in a glossy sweet-and-sour reduction with fresh shredded ginger. The balance of acidity, sweetness, and tender freshwater fish celebrated a major life milestone that I will cherish forever.
+**West Lake Vinegar Fish**. While infamous for being difficult to execute properly in commercial restaurants, my father mastered an exquisite domestic recipe. On the evening my university admission letter arrived, he prepared a fresh West Lake grass carp poached to silky tenderness, glazed in a glossy sweet-and-sour reduction with fresh shredded ginger. The balance of acidity, sweetness, and tender freshwater fish celebrated a major life milestone that I will cherish forever.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 An architectural and environmental tour of **Hangzhou**, contrasting ancient Jiangnan heritage with modern digital society:
@@ -128,17 +128,17 @@ I take a solitary walk through the bamboo forests surrounding the ancient Faxi a
 
 ---
 
-### Member 4: 江昊 (Hao Jiang) — Student ID: （学号已脱敏）
+### Member 4: Hao Jiang — Student ID: (student ID redacted)
 - **Role**: PoC Lead Developer (GraphRAG & Neo4j Engine)
-- **Hometown**: Wuhan, Hubei Province (武汉)
+- **Hometown**: Wuhan, Hubei Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Observing an asynchronous batch ingestion pipeline process 5,000 complex exam questions into Neo4j without a single dropped packet or database lock.
-2. A steaming plate of spicy oil-braised crawfish (*Youmen Daxia* / 油焖大虾) shared with close friends.
+2. A steaming plate of spicy oil-braised crawfish (*Youmen Daxia*) shared with close friends.
 3. The deep, rhythmic purr of my domestic shorthair cat settling on my keyboard during late-night programming sessions.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Wuhan Hot Dry Noodles (*Reganmian* / 热干面)**. My definitive memory is standing at a street corner curb near Hubu Alley on a frosty winter morning at 06:30 AM with my high school classmates. Holding a piping paper bowl of al-dente alkaline noodles bathed in rich roasted sesame paste, spicy pickled radish, chopped scallions, and red chili oil, we slurped our breakfast amidst billowing steam before dawn classes. It represents the resilient, fiery spirit of Wuhan and immediate warmth.
+**Wuhan Hot Dry Noodles (*Reganmian*)**. My definitive memory is standing at a street corner curb near Hubu Alley on a frosty winter morning at 06:30 AM with my high school classmates. Holding a piping paper bowl of al-dente alkaline noodles bathed in rich roasted sesame paste, spicy pickled radish, chopped scallions, and red chili oil, we slurped our breakfast amidst billowing steam before dawn classes. It represents the resilient, fiery spirit of Wuhan and immediate warmth.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A grand tour of **Wuhan**, the monumental city of rivers and bridges:
@@ -154,9 +154,9 @@ An 8-kilometer twilight run along the Hankou River Beach park (*Jiangtan*). Watc
 
 ---
 
-### Member 5: 谢炜昕 (Weixin Xie) — Student ID: （学号已脱敏）
+### Member 5: Weixin Xie — Student ID: (student ID redacted)
 - **Role**: QA & Technical Report Lead
-- **Hometown**: Shantou, Guangdong Province (汕头)
+- **Hometown**: Shantou, Guangdong Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Identifying and isolating an intermittent, non-deterministic race condition bug and verifying its permanent resolution in the test suite.
@@ -164,7 +164,7 @@ An 8-kilometer twilight run along the Hankou River Beach park (*Jiangtan*). Watc
 3. A tall tumbler of cold-brewed Ethiopian Yirgacheffe coffee bursting with floral and bergamot notes.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Hand-Hammered Chaoshan Beef Meatball Hotpot (*潮汕牛肉火锅*)**. On New Year’s Eve in Shantou, three generations of our family gathered around a bubbling clear broth prepared with beef bones and sweet bitter gourd. We dipped paper-thin ribbons of freshly butchered chuck beef (*Diaolong*) into the broth for eight seconds, paired with hand-beaten beef balls that bounced with elasticity, dipped into aromatic sand-tea sauce (*Shacha*). The meal was a masterclass in respecting pure raw ingredients, surrounded by the laughter and protective warmth of family.
+**Hand-Hammered Chaoshan Beef Meatball Hotpot**. On New Year’s Eve in Shantou, three generations of our family gathered around a bubbling clear broth prepared with beef bones and sweet bitter gourd. We dipped paper-thin ribbons of freshly butchered chuck beef (*Diaolong*) into the broth for eight seconds, paired with hand-beaten beef balls that bounced with elasticity, dipped into aromatic sand-tea sauce (*Shacha*). The meal was a masterclass in respecting pure raw ingredients, surrounded by the laughter and protective warmth of family.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A cultural and gastronomic journey through **Shantou (Chaoshan)**:
@@ -180,9 +180,9 @@ I arrange an elaborate Chaoshan Kung Fu tea session in my private study. I boil 
 
 ---
 
-### Member 6: 张梓健 (Zijian Zhang) — Student ID: （学号已脱敏）
+### Member 6: Zijian Zhang — Student ID: (student ID redacted)
 - **Role**: Business Analyst (User Stories & Acceptance Criteria)
-- **Hometown**: Foshan, Guangdong Province (佛山)
+- **Hometown**: Foshan, Guangdong Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. A crisp, breezy autumn afternoon with clear blue skies ideal for outdoor athletic training.
@@ -190,7 +190,7 @@ I arrange an elaborate Chaoshan Kung Fu tea session in my private study. I boil 
 3. The tactile, satisfying mechanical snap of an analog film camera shutter capturing an authentic candid moment on the street.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Shunde Double-Skin Milk Pudding (*Shuangpinai* / 双皮奶) and Crispy Roast Goose**. At a historic riverside garden restaurant in Daliang, Shunde, my parents treated me to this feast after I completed my gaokao examinations. The milk pudding—crafted exclusively from rich local water buffalo milk—had a delicately wrinkled sweet skin and a velvety custard texture, paired against the glistening, mahogany skin of roasted goose stuffed with five-spice aromatics. It represents the epitome of Cantonese culinary dedication.
+**Shunde Double-Skin Milk Pudding (*Shuangpinai*) and Crispy Roast Goose**. At a historic riverside garden restaurant in Daliang, Shunde, my parents treated me to this feast after I completed my gaokao examinations. The milk pudding—crafted exclusively from rich local water buffalo milk—had a delicately wrinkled sweet skin and a velvety custard texture, paired against the glistening, mahogany skin of roasted goose stuffed with five-spice aromatics. It represents the epitome of Cantonese culinary dedication.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A dynamic tour of **Foshan**, the historic capital of martial arts, ceramics, and Southern Cantonese culture:
@@ -206,9 +206,9 @@ I grab my road bike and ride along the riverside greenway around Qiandeng Lake a
 
 ---
 
-### Member 7: 习羽赛 (Yusai Xi) — Student ID: （学号已脱敏）
+### Member 7: Yusai Xi — Student ID: (student ID redacted)
 - **Role**: UI/UX Designer & Wireframe Lead
-- **Hometown**: Chengdu, Sichuan Province (成都)
+- **Hometown**: Chengdu, Sichuan Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Finding an extraordinarily harmonious color palette and typographic hierarchy that transforms an interface from clunky to weightless.
@@ -216,7 +216,7 @@ I grab my road bike and ride along the riverside greenway around Qiandeng Lake a
 3. Listening to vinyl records of warm, crackling lo-fi chillhop while hand-sketching user interface flow diagrams.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Authentic Chengdu Spicy Hotpot (*Chengdu Huoguo* / 麻辣火锅)**. On a rainy winter evening in Chengdu, my secondary school design club friends and I gathered around a boiling copper pot layered with deep-red beef tallow, Sichuan green peppercorns, and fermented black beans. Dipping crisp lotus roots, tender beef slices, and fresh bamboo shoots into fragrant sesame oil while our glasses clinked with iced soymilk created an indelible atmosphere of creative intimacy and warmth.
+**Authentic Chengdu Spicy Hotpot (*Chengdu Huoguo*)**. On a rainy winter evening in Chengdu, my secondary school design club friends and I gathered around a boiling copper pot layered with deep-red beef tallow, Sichuan green peppercorns, and fermented black beans. Dipping crisp lotus roots, tender beef slices, and fresh bamboo shoots into fragrant sesame oil while our glasses clinked with iced soymilk created an indelible atmosphere of creative intimacy and warmth.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A relaxed, sensory tour through the enchanting cultural landscape of **Chengdu**:
@@ -232,9 +232,9 @@ I pack my fountain pens, watercolor kit, and sketchbook, and find a corner table
 
 ---
 
-### Member 8: 董思钦 (Siqin Dong) — Student ID: （学号已脱敏）
+### Member 8: Siqin Dong — Student ID: (student ID redacted)
 - **Role**: PoC Logic Developer (Diagnostic API & Quiz Engine)
-- **Hometown**: Xiamen, Fujian Province (厦门)
+- **Hometown**: Xiamen, Fujian Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Watching an empirical cross-entropy loss curve descend smoothly toward zero during an overnight model training run.
@@ -242,7 +242,7 @@ I pack my fountain pens, watercolor kit, and sketchbook, and find a corner table
 3. A tall, ice-blended fresh mango smoothie topped with pomelo pulp on a warm summer afternoon.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Minnan Satay Noodles (*Shachamian* / 闽南沙茶面)**. My grandfather used to take me to a tiny, historic noodle shop tucked into a narrow alleyway near Shapowei Port in Xiamen. The broth—a velvety, aromatic fusion of roasted peanuts, dried shrimp, shallots, and spicy satay paste—was poured piping-hot over yellow wheat noodles, fresh squid, pork ribs, and fried tofu puffs. The savory richness and the sound of fishing boats docking outside will forever define home for me.
+**Minnan Satay Noodles (*Shachamian*)**. My grandfather used to take me to a tiny, historic noodle shop tucked into a narrow alleyway near Shapowei Port in Xiamen. The broth—a velvety, aromatic fusion of roasted peanuts, dried shrimp, shallots, and spicy satay paste—was poured piping-hot over yellow wheat noodles, fresh squid, pork ribs, and fried tofu puffs. The savory richness and the sound of fishing boats docking outside will forever define home for me.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A picturesque tour of the garden island city of **Xiamen**:
@@ -258,9 +258,9 @@ I walk down to the rocky coastline of Baicheng Beach near sunset. Sitting on the
 
 ---
 
-### Member 9: 杨明杰 (Mingjie Yang) — Student ID: （学号已脱敏）
+### Member 9: Mingjie Yang — Student ID: (student ID redacted)
 - **Role**: Software Testing & User Manual Lead
-- **Hometown**: Changsha, Hunan Province (长沙)
+- **Hometown**: Changsha, Hunan Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. Running an extensive 300-assertion automated test suite with pytest and seeing a solid, unbroken green progress bar.
@@ -268,7 +268,7 @@ I walk down to the rocky coastline of Baicheng Beach near sunset. Sitting on the
 3. The mouth-watering sizzle and spicy aroma of fermented black beans and chili peppers hitting a smoking-hot iron wok.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Changsha Crispy Stinky Tofu and Spicy Crayfish (*Kouweixia* / 口味虾)**. Late at night after our high school basketball team won the regional championship, our coach took the entire squad to an open-air food market on Pozi Street in Changsha. Sitting on low plastic stools, peeling fiery, cumin-scented crawfish and biting into crispy black stinky tofu bursting with spicy garlic soup, we cheered until our voices gave out. It represents unvarnished joy, brotherhood, and collective victory.
+**Changsha Crispy Stinky Tofu and Spicy Crayfish (*Kouweixia*)**. Late at night after our high school basketball team won the regional championship, our coach took the entire squad to an open-air food market on Pozi Street in Changsha. Sitting on low plastic stools, peeling fiery, cumin-scented crawfish and biting into crispy black stinky tofu bursting with spicy garlic soup, we cheered until our voices gave out. It represents unvarnished joy, brotherhood, and collective victory.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A dynamic tour of **Changsha**, the cradle of revolutionary history, ancient scholarship, and vibrant 24-hour urban culture:
@@ -284,9 +284,9 @@ I head straight to the university athletic weight room for an intense, ninety-mi
 
 ---
 
-### Member 10: 梁子铉 (Zixuan Liang) — Student ID: （学号已脱敏）
+### Member 10: Zixuan Liang — Student ID: (student ID redacted)
 - **Role**: Presentation, Media & Deployment Lead
-- **Hometown**: Zhuhai, Guangdong Province (珠海)
+- **Hometown**: Zhuhai, Guangdong Province
 
 #### Q1: What are three things that would instantly cheer you up?
 1. A complex 4K 60fps video timeline rendering to 100% without dropped frames, audio desync, or export glitches.
@@ -294,7 +294,7 @@ I head straight to the university athletic weight room for an intense, ninety-mi
 3. An acoustic indie pop album playing through studio-grade monitor headphones during video color-grading.
 
 #### Q2: What is your favourite dish of food, and what memories do you associate with it?
-**Portuguese Egg Tarts (*Pastel de Nata* / 葡式蛋挞) and Steamed Hengqin Oysters**. Growing up along the Zhuhai-Macau border, our family regularly celebrated weekend milestones at an open-air coastal restaurant overlooking the Lingdingyang waters. Biting through the blistered, caramelized custard and thousands of flaky, buttery pastry layers of hot Portuguese egg tarts, paired with freshly shucked, steamed garlic oysters, evokes memories of coastal calm and celebration.
+**Portuguese Egg Tarts (*Pastel de Nata*) and Steamed Hengqin Oysters**. Growing up along the Zhuhai-Macau border, our family regularly celebrated weekend milestones at an open-air coastal restaurant overlooking the Lingdingyang waters. Biting through the blistered, caramelized custard and thousands of flaky, buttery pastry layers of hot Portuguese egg tarts, paired with freshly shucked, steamed garlic oysters, evokes memories of coastal calm and celebration.
 
 #### Q3: If you were to give a tour of your hometown, what would be the highlights?
 A coastal tour of the romantic garden city of **Zhuhai**:
@@ -318,10 +318,10 @@ The group project lifecycle for JC2001 spans 12 academic weeks from **14 Septemb
 =================================================================================================================
                                   JC2001 4-PHASE PROJECT GOVERNANCE LIFECYCLE
 =================================================================================================================
-[PHASE 1: Requirements & Proposal]       --> 14 Sep 2026 - 25 Sep 2026 (Phase Leads: 林泳桐 & 吴宇轩)
-[PHASE 2: System Architecture & UML]     --> 28 Sep 2026 - 30 Oct 2026 (Phase Leads: 王思鉴 & 张梓健)
-[PHASE 3: PoC Implementation & GraphRAG]  --> 02 Nov 2026 - 27 Nov 2026 (Phase Leads: 江昊 & 董思钦)
-[PHASE 4: Testing, Report & Presentation]--> 30 Nov 2026 - 14 Dec 2026 (Phase Leads: 谢炜昕, 杨明杰, 梁子铉)
+[PHASE 1: Requirements & Proposal]       --> 14 Sep 2026 - 25 Sep 2026 (Phase Leads: Yongtong Lin & Yuxuan Wu)
+[PHASE 2: System Architecture & UML]     --> 28 Sep 2026 - 30 Oct 2026 (Phase Leads: Sijian Wang & Zijian Zhang)
+[PHASE 3: PoC Implementation & GraphRAG]  --> 02 Nov 2026 - 27 Nov 2026 (Phase Leads: Hao Jiang & Siqin Dong)
+[PHASE 4: Testing, Report & Presentation]--> 30 Nov 2026 - 14 Dec 2026 (Phase Leads: Weixin Xie, Mingjie Yang, Zixuan Liang)
 =================================================================================================================
 ```
 
@@ -329,16 +329,16 @@ The group project lifecycle for JC2001 spans 12 academic weeks from **14 Septemb
 
 | # | Member & ID | Official Role | Phase 1: Requirements Capture & Proposal (Sep 14 – Sep 25) | Phase 2: System Architecture & UML Design (Sep 28 – Oct 30) | Phase 3: PoC Implementation & Knowledge Graph (Nov 02 – Nov 27) | Phase 4: System Testing, Report, Manual & Video (Nov 30 – Dec 14) |
 | :-: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | **吴宇轩**<br>`（学号已脱敏）` | **Project Manager & Team Lead** | Overall project governance, Proposal coordination, Supervisor Kick-off meeting lead, WBS management | Sprint planning, risk register governance, Project Update 1 submission lead, UML cross-check | PoC build integration, API rate-limit monitoring, Project Update 2 & 3 authoring | Final Technical Report executive review, workload profile arbitration, final submission packaging |
-| **2** | **林泳桐**<br>`（学号已脱敏）` | **Principal Concept Co-Originator & Lead Domain Analyst** | **Phase 1 Lead & Concept Originator**: Stakeholder pain-point elicitation, domain concept modeling, Section 2 & 3 drafting | Functional & non-functional requirements specification, Use Case diagrams, traceability matrix | Requirements validation, edge-case analysis, Socratic dialogue pedagogical review | Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review |
-| **3** | **王思鉴**<br>`（学号已脱敏）` | **System Architect (UML & Knowledge Graph)** | Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope | **Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design | Graph database indexing, Cypher query schema optimization, AuraDB cloud management | Technical Report authoring (System Architecture & Design sections), architectural figures |
-| **4** | **江昊**<br>`（学号已脱敏）` | **PoC Lead Developer (GraphRAG & Engine)** | Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation | Core retrieval engine pipeline design, Cypher graph traversal algorithms | **Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter | Technical Report authoring (Implementation chapters), code structure documentation |
-| **5** | **谢炜昕**<br>`（学号已脱敏）` | **Principal Concept Co-Originator & QA Lead** | **Concept Originator & Review Lead**: Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations | Test strategy formulation, UML consistency audit, quality metrics definition | Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis | **Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile |
-| **6** | **张梓健**<br>`（学号已脱敏）` | **Business Analyst (User Stories & Acceptance)** | User persona formulation, survey analysis on exam stress, Section 5 Benefits drafting | **Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions | User acceptance testing (UAT), student feedback loop coordination, quiz usability checks | Technical Report authoring (Evaluation & User Testing sections), user survey analysis |
-| **7** | **习羽赛**<br>`（学号已脱敏）` | **UI/UX Designer & Wireframe Lead** | Initial interface concept wireframing, user journey mapping, proposal UI figures | High-fidelity interactive wireframes (Figma), component token library, design guidelines | Frontend interface implementation, responsive ECharts radar integration, dark/light themes | Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation |
-| **8** | **董思钦**<br>`（学号已脱敏）` | **PoC Logic Developer (Diagnostic API & Quiz)** | Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives | RESTful API endpoint design, diagnostic JSON schema specification | **Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm | Technical Report authoring (Algorithms & Testing chapters), API reference documentation |
-| **9** | **杨明杰**<br>`（学号已脱敏）` | **Software Testing & User Manual Lead** | Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest) | Test case design, boundary condition planning, stress test scenario scripting | Automated unit test execution, HTTP 429 backoff testing, integration test logging | **Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report |
-| **10** | **梁子铉**<br>`（学号已脱敏）` | **Presentation, Media & Deployment Lead** | Team communication infrastructure setup, presentation timeline planning, media assets | Demonstration scenario scripting, deployment containerization (Docker / Render), audio design | Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging | **Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx) |
+| **1** | **Yuxuan Wu**<br>`(student ID redacted)` | **Project Manager & Team Lead** | Overall project governance, Proposal coordination, Supervisor Kick-off meeting lead, WBS management | Sprint planning, risk register governance, Project Update 1 submission lead, UML cross-check | PoC build integration, API rate-limit monitoring, Project Update 2 & 3 authoring | Final Technical Report executive review, workload profile arbitration, final submission packaging |
+| **2** | **Yongtong Lin**<br>`(student ID redacted)` | **Principal Concept Co-Originator & Lead Domain Analyst** | **Phase 1 Lead & Concept Originator**: Stakeholder pain-point elicitation, domain concept modeling, Section 2 & 3 drafting | Functional & non-functional requirements specification, Use Case diagrams, traceability matrix | Requirements validation, edge-case analysis, Socratic dialogue pedagogical review | Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review |
+| **3** | **Sijian Wang**<br>`(student ID redacted)` | **System Architect (UML & Knowledge Graph)** | Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope | **Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design | Graph database indexing, Cypher query schema optimization, AuraDB cloud management | Technical Report authoring (System Architecture & Design sections), architectural figures |
+| **4** | **Hao Jiang**<br>`(student ID redacted)` | **PoC Lead Developer (GraphRAG & Engine)** | Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation | Core retrieval engine pipeline design, Cypher graph traversal algorithms | **Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter | Technical Report authoring (Implementation chapters), code structure documentation |
+| **5** | **Weixin Xie**<br>`(student ID redacted)` | **Principal Concept Co-Originator & QA Lead** | **Concept Originator & Review Lead**: Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations | Test strategy formulation, UML consistency audit, quality metrics definition | Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis | **Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile |
+| **6** | **Zijian Zhang**<br>`(student ID redacted)` | **Business Analyst (User Stories & Acceptance)** | User persona formulation, survey analysis on exam stress, Section 5 Benefits drafting | **Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions | User acceptance testing (UAT), student feedback loop coordination, quiz usability checks | Technical Report authoring (Evaluation & User Testing sections), user survey analysis |
+| **7** | **Yusai Xi**<br>`(student ID redacted)` | **UI/UX Designer & Wireframe Lead** | Initial interface concept wireframing, user journey mapping, proposal UI figures | High-fidelity interactive wireframes (Figma), component token library, design guidelines | Frontend interface implementation, responsive ECharts radar integration, dark/light themes | Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation |
+| **8** | **Siqin Dong**<br>`(student ID redacted)` | **PoC Logic Developer (Diagnostic API & Quiz)** | Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives | RESTful API endpoint design, diagnostic JSON schema specification | **Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm | Technical Report authoring (Algorithms & Testing chapters), API reference documentation |
+| **9** | **Mingjie Yang**<br>`(student ID redacted)` | **Software Testing & User Manual Lead** | Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest) | Test case design, boundary condition planning, stress test scenario scripting | Automated unit test execution, HTTP 429 backoff testing, integration test logging | **Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report |
+| **10** | **Zixuan Liang**<br>`(student ID redacted)` | **Presentation, Media & Deployment Lead** | Team communication infrastructure setup, presentation timeline planning, media assets | Demonstration scenario scripting, deployment containerization (Docker / Render), audio design | Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging | **Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx) |
 
 ---
 
@@ -351,9 +351,9 @@ To guarantee accountability and avoid single-point dependencies, each project ph
 2. **Weekly Standups & Sprint Tracking**:
    The team holds two weekly syncs: a 30-minute Monday sprint planning meeting and a 30-minute Thursday progress check. All blockers must be logged in the team risk register within 24 hours.
 3. **Traceability & Peer Reviews**:
-   Every code commit and report chapter requires a peer review by at least one other team member. For instance, System Architect 王思鉴 reviews developer 江昊's Cypher queries to verify compliance with the UML schema; QA Lead 谢炜昕 reviews all chapters written by team members against Turnitin guidelines before compilation.
+   Every code commit and report chapter requires a peer review by at least one other team member. For instance, System Architect Wang Sijian reviews developer Jiang Hao's Cypher queries to verify compliance with the UML schema; QA Lead Xie Weixin reviews all chapters written by team members against Turnitin guidelines before compilation.
 4. **Mandatory Project Updates Governance**:
-   Under course guidelines, at least 3 out of 4 Project Updates must be submitted on MyAberdeen to avoid a 10% course deduction. Project Manager 吴宇轩 is held strictly accountable for submitting all 4 updates ahead of deadlines.
+   Under course guidelines, at least 3 out of 4 Project Updates must be submitted on MyAberdeen to avoid a 10% course deduction. Project Manager Wu Yuxuan is held strictly accountable for submitting all 4 updates ahead of deadlines.
 5. **Appendix A Workload Profile Governance**:
    Contribution ratings are tracked transparently each sprint. Any member falling below baseline effort is formally notified during sprint reviews, preventing surprise disputes during the final submission.
 
@@ -368,7 +368,7 @@ In accordance with JC2001 Practical Session 1 specifications, the project topic 
 |                                    PROJECT TOPIC: 4 CORE ELEMENTS MAPPING                                     |
 +---------------------------------------------------------------------------------------------------------------+
 | 1. WHAT THE SYSTEM DOES  | GraphRAG-powered diagnostic study assistant integrating Neo4j knowledge graphs,     |
-|                          | Alibaba Qwen-Turbo LLM parser, "易错于" trap mapping, dynamic quiz generation,     |
+|                          | Alibaba Qwen-Turbo LLM parser, "error-prone at" trap mapping, dynamic quiz generation,     |
 |                          | Socratic diagnostic tutoring, and ECharts 5.5.1 cognitive mastery radar charts.    |
 +--------------------------+------------------------------------------------------------------------------------+
 | 2. WHO IT TARGETS        | Primary: Undergraduate students facing multi-course technical exam overload.        |
@@ -391,12 +391,12 @@ The proposed system—titled **"Smart Study Assistant System for University Stud
 #### Core Functional Modules
 1. **Automated Exam Question Diagnostic Ingestion (`auto_builder.py`)**:
    Unlike generic flashcard apps that store raw text, our ingestion engine utilizes Alibaba Cloud DashScope (`qwen-turbo`) acting as a hyper-critical Academic Proposition & Logic Diagnostic Expert. The LLM decomposes complex multi-choice and short-answer questions into structured JSON primitives:
-   - Extracting core tested academic concepts (`核心考点`).
-   - Isolating strict prerequisite boundary conditions (`定理条件`).
-   - Pinpointing frequent distractors and student fallacies (`易错漏洞`).
-   - Establishing directional causal relationships: `(:Concept)-[:DEPENDS_ON {type: "易错于"}]->(:Concept)`.
+   - Extracting core tested academic concepts (`core exam concepts`).
+   - Isolating strict prerequisite boundary conditions (`theorem conditions`).
+   - Pinpointing frequent distractors and student fallacies (`error-prone gaps`).
+   - Establishing directional causal relationships: `(:Concept)-[:DEPENDS_ON {type: "error-prone at"}]->(:Concept)`.
 2. **Neo4j Diagnostic Knowledge Graph (Cloud AuraDB)**:
-   The knowledge graph maintains an evolving disciplinary ontology. When multiple exam questions evaluate the same concept from differing perspectives, our Cypher `MERGE` logic accumulates distinct traps into the same conceptual node (`c.detail + ' | 补充陷阱: ' + $detail`), creating a rich, interconnected map of academic pitfalls.
+   The knowledge graph maintains an evolving disciplinary ontology. When multiple exam questions evaluate the same concept from differing perspectives, our Cypher `MERGE` logic accumulates distinct traps into the same conceptual node (`c.detail + ' | Additional trap: ' + $detail`), creating a rich, interconnected map of academic pitfalls.
 3. **Academic Arbitration Gate & Knowledge Hallucination Suppression (`systematic_eval_engine.py`)**:
    A pervasive failure mode of generative AI in higher education is severe knowledge hallucination—where unguided LLMs produce nonsensical, ungrounded answers by fabricating invalid theorem premises, erroneous mathematical derivations, or non-existent counterexamples. By strictly anchoring all diagnostic dialogues to verified Neo4j conceptual subgraphs and enforcing an Academic Confidence Arbitration Gate ($\ge 85\%$), our system purges noisy and spurious causal links, directly and drastically reducing the knowledge hallucination rate in academic tutoring.
 4. **Socratic Diagnostic Interrogation Tutor (`real_graph_engine.py`)**:
@@ -404,9 +404,9 @@ The proposed system—titled **"Smart Study Assistant System for University Stud
 5. **Dynamic Diagnostic Quiz Engine & Mastery Visualization (`scraped_app.js` & ECharts 5.5.1)**:
    The quiz engine dynamically constructs targeted assessment items where each incorrect option directly triggers a diagnostic traversal to an underlying misconception node. Student performance is visualized in real-time through an interactive ECharts 5.5.1 five-dimensional competency radar chart (Basic Concepts, Boundary Deductions, Trap Defense, Cross-Chapter Synthesis, Computational Precision).
 
-#### 4.1.1 Project Conception & Academic Origin (课题构想与学术发起)
+#### 4.1.1 Project Conception & Academic Origin
 
-The fundamental problem formulation and conceptual premise of this project—transitioning from passive memorisation to GraphRAG-based diagnostic misconception mapping—was originally proposed and formulated by **林泳桐 (Yongtong Lin)** and **谢炜昕 (Weixin Xie)** (Designated as **Principal Concept Co-Originators / 联合课题奠基人**). Their empirical analysis of undergraduate revision failure patterns and examination distractor traps laid the conceptual foundation upon which the team established the Neo4j topological architecture.
+The fundamental problem formulation and conceptual premise of this project—transitioning from passive memorisation to GraphRAG-based diagnostic misconception mapping—was originally proposed and formulated by **Yongtong Lin** and **Weixin Xie** (Designated as **Principal Concept Co-Originators**). Their empirical analysis of undergraduate revision failure patterns and examination distractor traps laid the conceptual foundation upon which the team established the Neo4j topological architecture.
 
 ---
 
@@ -476,20 +476,20 @@ The long-term vision of the Smart Study Assistant System extends beyond a single
 =================================================================================================================
 ```
 
-- **From**: 吴宇轩 (Yuxuan Wu) | Student ID: （学号已脱敏） | Group Leader, JC2001 Group 5 (BSc BMIS)  
-  *Email*: `（邮箱已脱敏）`
+- **From**: Yuxuan Wu | Student ID: (student ID redacted) | Group Leader, JC2001 Group 5 (BSc BMIS)  
+  *Email*: `(email redacted)`
 - **To**: Dr. Shahzad Mumtaz (Academic Supervisor, JC2001 Group 5)  
-  *Email*: `（邮箱已脱敏）`
+  *Email*: `(email redacted)`
 - **Cc**: 
-  - `（邮箱已脱敏）` (林泳桐 / Yongtong Lin)
-  - `（邮箱已脱敏）` (王思鉴 / Sijian Wang)
-  - `（邮箱已脱敏）` (江昊 / Hao Jiang)
-  - `（邮箱已脱敏）` (谢炜昕 / Weixin Xie)
-  - `（邮箱已脱敏）` (张梓健 / Zijian Zhang)
-  - `（邮箱已脱敏）` (习羽赛 / Yusai Xi)
-  - `（邮箱已脱敏）` (董思钦 / Siqin Dong)
-  - `（邮箱已脱敏）` (杨明杰 / Mingjie Yang)
-  - `（邮箱已脱敏）` (梁子铉 / Zixuan Liang)
+  - `(email redacted)` (Yongtong Lin)
+  - `(email redacted)` (Sijian Wang)
+  - `(email redacted)` (Hao Jiang)
+  - `(email redacted)` (Weixin Xie)
+  - `(email redacted)` (Zijian Zhang)
+  - `(email redacted)` (Yusai Xi)
+  - `(email redacted)` (Siqin Dong)
+  - `(email redacted)` (Mingjie Yang)
+  - `(email redacted)` (Zixuan Liang)
 - **Date**: Friday, 18 September 2026 (Dispatched upon official supervisor announcement)
 - **Subject**: Formal Request for Week 1/2 Kick-Off Meeting — Group 5 (BSc BMIS) Project Scope Review: Smart Study Assistant System
 - **Attachments**:
@@ -506,7 +506,7 @@ Dear Dr. Mumtaz,
 
 I hope this email finds you well.
 
-My name is Yuxuan Wu (吴宇轩, Student ID: （学号已脱敏）), and I am writing to you in my capacity as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. 
+My name is Yuxuan Wu (student ID redacted), and I am writing to you in my capacity as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. 
 
 Following the supervisor allocations published on MyAberdeen today, we are delighted to have you as our academic supervisor for this semester-long software engineering group project.
 
@@ -542,11 +542,11 @@ Thank you very much for your time, support, and academic guidance. We look forwa
 
 Yours sincerely,
 
-**Yuxuan Wu (吴宇轩)**  
+**Yuxuan Wu**  
 Team Leader & Project Manager | Group 5  
 BSc in Business Management and Information Systems (BSc BMIS)  
 School of Natural and Computing Sciences, University of Aberdeen  
-Student ID: （学号已脱敏） | Email: `（邮箱已脱敏）`  
+Student ID: (student ID redacted) | Email: `(email redacted)`  
 Mobile / WeChat: `+86 138-0000-5010`
 
 *On behalf of JC2001 Group 5 Members*:  
@@ -574,7 +574,7 @@ To ensure that this deliverables package satisfies all rigorous course criteria 
 - **Date & Time**: Tuesday, 22 September 2026, 17:12 – 17:40 CST (10:12 – 10:40 BST)
 - **Format**: Video Conference via Microsoft Teams
 - **Attendees**:
-  - **Academic Supervisor**: Dr. Shahzad Mumtaz (`（邮箱已脱敏）`)
+  - **Academic Supervisor**: Dr. Shahzad Mumtaz (`(email redacted)`)
   - **Group 5**: Yuxuan Wu (Team Leader / PM) and Group 5 members
 - **Agenda**: Initial Proposal Review, Academic Scope Calibration, Supervisory Feedback, Next Steps
 

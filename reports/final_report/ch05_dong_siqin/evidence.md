@@ -5,7 +5,7 @@
 Run from repository root (`D:\jc2001`):
 
 ```powershell
-# 1. Verify all 36 distractor traps (12 questions x 3 wrong options) return valid TrapDetail + GraphData
+# 1. Verify all 51 distractor traps (17 questions x 3 wrong options) return valid TrapDetail + GraphData
 python -m pytest tests/test_diagnose.py -v
 
 # 2. Verify bijective 1:1 distractor-to-trap mapping (answer key excluded from traps, 4 options per item)
@@ -19,7 +19,7 @@ python scripts/audit_hallucination_l1_l3.py
 
 - `backend/app/services/diagnostic_service.py` (Lines 1–46): Implements `diagnose_answer(question_id, selected_option)` via $O(1)$ hash lookups in `QUESTIONS_BY_ID` and `item.traps`.
 - `backend/app/data/seed_questions.py` (Lines 1–1257): Defines `SEED_QUESTIONS` (12 items across `law`, `cs`, `econ`, `se`, 36 `TrapDetail` instances, and 12 embedded `GraphData` subgraphs) and `QUESTIONS_BY_ID`.
-- `graphrag（终）/graphrag_pipeline.py` (Lines 1–787): Implements the 12-stage offline GraphRAG research pipeline (`Stage 1` entity extraction through `Stage 12` answer synthesis).
+- `graphrag_final/graphrag_pipeline.py` (Lines 1–787): Implements the 12-stage offline GraphRAG research pipeline (`Stage 1` entity extraction through `Stage 12` answer synthesis).
 
 ## 3. Forbidden Buzzword Check
 

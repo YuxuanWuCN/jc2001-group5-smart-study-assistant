@@ -1,76 +1,76 @@
-# 功能规范：智能助学系统产品介绍与迎新登录门户 (Landing & Auth Portal)
+# Feature Specification: Smart Study Assistant Landing & Auth Portal
 
-**功能编号**：`001-landing-and-auth-portal`  
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)  
-**创建日期**：2026-10-08  
-**状态**：APPROVED / READY FOR IMPLEMENTATION  
-
----
-
-## 1. 业务背景与问题痛点
-
-### 1.1 现状与痛点
-当前系统直接将用户投射进入深色高密度的“DeepSeek Eval Harness 评测控制台”界面。存在以下严重体验与软件工程缺陷：
-1. **产品定位缺失**：新用户/评审导师打开系统后缺乏上下文认知，无法快速理解系统“做什么”、“核心创新是什么（错因拓扑 vs 传统刷题）”。
-2. **缺乏身份感知与学籍接入**：系统缺少规范的学籍登录入口，用户无法按真实身份（如组长吴同学、组员林同学、访客）进行个性化登入与学情隔离。
-3. **视觉割裂感与突兀感**：直接展示冷峻的评测数据指标（如 NEO4J ONLINE、HALLUCINATION DROP），对于面向本科生的助学应用而言缺乏亲和力与引导性。
-
-### 1.2 建设目标
-构建一个高颜值、具有现代大学学术与科技质感的**产品介绍与学生迎新门户 (Landing & Auth Portal)**，实现：
-1. **学术级产品落地页 (Landing Hero & Highlights)**：展示项目背景（阿伯丁大学 JC2001 Group 5 课程实践）、核心痛点对比、四大核心能力模块（智能排雷、苏格拉底学伴、考点图谱、学情雷达）。
-2. **轻量化学生档案登录与快捷体验 (Student Login & Fast Switch)**：支持通过学号/姓名登录，同时内置 10 人课题组核心成员预设体验账号（一键快速登入），支持访客体验。
-3. **无缝平滑进入学习工作台 (Smooth Portal-to-Workspace Flow)**：点击“立即进入智能控制台”后平滑过渡至日常刷题与排雷界面（"平时的界面"），且控制台常驻“返回产品介绍”与“退出登录”通道。
+**Feature ID**: `001-landing-and-auth-portal`  
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)  
+**Created**: 2026-10-08  
+**Status**: APPROVED / READY FOR IMPLEMENTATION  
 
 ---
 
-## 2. 用户故事与角色 (User Stories)
+## 1. Business Context and Pain Points
 
-- **US-01 (作为评审导师/访客)**：我希望打开系统首页时首先看到清晰优雅的产品定位介绍与四大模块功能概览，以便在 30 秒内理解该项目的核心学术与工程价值。
-- **US-02 (作为课题组成员/学生)**：我希望可以一键选择我自己的学生身份（如 吴同学 BMIS-50106070）或输入学号直接进入系统，以便载入我独立的认知雷达与学情状态。
-- **US-03 (作为日常学习者)**：我希望登录后能够直接进入我熟悉的控制台刷题排雷界面，并且在练习过程中随时可以通过顶部导航点击“返回产品首页”，重温系统介绍或向他人演示。
+### 1.1 Current State and Pain Points
+The system currently drops users straight into the dense dark "DeepSeek Eval Harness evaluation console". This creates the following serious UX and software-engineering defects:
+1. **Missing product positioning**: new users / reviewer-tutors have no context when they open the system and cannot quickly understand what the system does or what its core innovation is (misconception topology vs. conventional drill-and-practice).
+2. **No identity awareness or student-record integration**: the system lacks a proper student login entry, so users cannot sign in under their real identity (e.g., team lead Yuxuan Wu, member Yongtong Lin, guest) with personalised learning-state isolation.
+3. **Visual fragmentation and abruptness**: exposing cold evaluation metrics directly (such as NEO4J ONLINE, HALLUCINATION DROP) feels impersonal and unguided for an undergraduate study-assistant application.
 
----
-
-## 3. 功能需求详细规约 (Functional Requirements)
-
-### FR-01: 欢迎首页与产品介绍 (Hero & Showcase)
-- **FR-01.1 顶栏导航 (Navbar)**：展示“智学罗盘 SmartStudy AI”品牌 Logo、JC2001 Group 5 课程标识、明暗主题切换按钮、快速登录/进入工作台按钮。
-- **FR-01.2 核心价值区 (Hero Section)**：
-  - 主标题：`基于认知图谱与出题陷阱拓扑的大学生理工科智能助学系统`
-  - 核心标签：`GraphRAG 认知图谱` · `错因拓扑溯源` · `苏格拉底启发式导学` · `五维能力画像`
-  - 视觉对比：传统题库（只给死答案） vs 智学罗盘（直击思维盲区、先修知识反查）。
-- **FR-01.3 四大核心系统功能卡片 (Feature Showcase)**：
-  1. **智能刷题排雷**：AI 陷阱标签化诊断，点击错误选项即刻呼出深度根因抽屉。
-  2. **苏格拉底学伴**：引导式追问，启发自主推导核心定理。
-  3. **考点图谱全景**：前置/后置依赖拓扑可视化，溯源薄弱知识节点。
-  4. **学情综合诊断**：五维能力雷达与防守指数，精准量化知识掌握度。
-- **FR-01.4 课题组信息与学术合规栏 (Team Roster & Compliance)**：
-  - 展示阿伯丁大学 JC2001 Group 5（BSc BMIS，10位组员分工与学号）、指导教师信息。
-
-### FR-02: 学生档案登录与快捷身份切换 (Authentication & Identity)
-- **FR-02.1 一键预设角色卡片 (Fast Identity Switcher)**：
-  - 预设账号 1：吴宇轩（50106070 · PM / 组长 · 全学科权限）
-  - 预设账号 2：林泳桐（50106038 · 需求主管 · 法学/经济学研习）
-  - 预设账号 3：王思鉴（50106045 · 系统架构 · 计算机/软件工程研习）
-  - 预设账号 4：访客体验学生（Guest · 快速免密进入）
-- **FR-02.2 自由输入登录/新建档案 (Form Login & Register)**：
-  - 支持输入任意学号或姓名，密码选填（演示模式下默认 123456），点击“立即登录”生成新学生上下文。
-- **FR-02.3 状态持久化 (Persistence)**：
-  - 登录状态及当前用户信息保存在 `localStorage` (`smartstudy_user`)，刷新不丢失。
-
-### FR-03: 视图流转与双向无缝切换 (Navigation & State Flow)
-- **FR-03.1 首页进入工作台**：
-  - 点击“立即进入学习控制台”或点击预设身份卡片后，首页优雅淡出，全屏工作台 (`#app-shell`) 平滑展示。
-  - 工作台侧边栏/顶栏立即同步当前登录学生名字、学号与头像。
-- **FR-03.2 工作台返回首页**：
-  - 工作台侧边栏顶部常驻显眼的 `🏠 返回产品介绍` 导航项与 `🚪 退出登录` 快捷操作。
-  - 点击后平滑返回落地页，不刷新页面，不丢失后端已加载的题目数据。
+### 1.2 Construction Goals
+Build an attractive **Landing & Auth Portal** with the modern academic and technical quality of a university product, delivering:
+1. **Academic-grade product landing page (Landing Hero & Highlights)**: present the project background (University of Aberdeen JC2001 Group 5 course practice), the core pain-point comparison, and four core capability modules (smart trap detection, Socratic study companion, exam-point graph, learning radar).
+2. **Lightweight student-profile login and quick trial (Student Login & Fast Switch)**: support login by student ID / name, with 10 preset one-click trial accounts for core team members, plus guest access.
+3. **Smooth portal-to-workspace flow**: clicking "Enter the Smart Console" transitions smoothly into the daily practice and trap-detection interface (the "everyday UI"), with the console permanently offering "Back to product intro" and "Sign out" channels.
 
 ---
 
-## 4. 非功能性需求 (Non-Functional Requirements)
+## 2. User Stories and Roles
 
-- **NFR-01 (零外部大包依赖)**：纯原生 HTML5/CSS3/ES6 JavaScript 实现，不引入大型 React/Vue 框架，保证本地无网络极速秒开（加载时间 < 100ms）。
-- **NFR-02 (自适应双模式色彩)**：全面适配现有的明亮模式 (Light) 与深色模式 (Dark)，字体和对比度符合 WCAG AA 标准。
-- **NFR-03 (零破坏性集成)**：现有的 FastAPI 后端接口（`/api/health`, `/api/quiz`, `/api/diagnose`）和已跑通的 114 个自动化测试不受任何影响。
-- **NFR-04 (代码规范与空间纪律)**：所有新增视图高内聚组织在 `frontend/`，严禁在项目根目录产生散乱脚本。
+- **US-01 (as a reviewer tutor / guest)**: I want the system home page to open with a clear, elegant product positioning intro and an overview of the four modules, so I can grasp the project's core academic and engineering value within 30 seconds.
+- **US-02 (as a team member / student)**: I want to one-click select my own student identity (e.g., student Wu, BMIS-50106070) or type my student ID to enter the system, so that my independent cognitive radar and learning state load.
+- **US-03 (as a daily learner)**: I want to go straight from login into the console practice and trap-detection interface I am familiar with, and during practice be able to click "Back to product home" in the top navigation at any time to revisit the system introduction or demo it to others.
+
+---
+
+## 3. Functional Requirements
+
+### FR-01: Welcome Home Page and Product Showcase (Hero & Showcase)
+- **FR-01.1 Navbar**: shows the "SmartStudy Compass SmartStudy AI" brand logo, the JC2001 Group 5 course marker, a light/dark theme toggle, and a quick login / enter-workspace button.
+- **FR-01.2 Hero Section**:
+  - Main title: `An intelligent STEM study-assistant system for university students based on cognitive graphs and question-trap topology`
+  - Core tags: `GraphRAG cognitive graph` · `Misconception-topology tracing` · `Socratic heuristic tutoring` · `Five-dimension ability profile`
+  - Visual comparison: conventional question bank (gives only dead answers) vs. SmartStudy Compass (targets thinking blind spots and reverse-looks-up prerequisite knowledge).
+- **FR-01.3 Four Core Feature Cards (Feature Showcase)**:
+  1. **Smart trap-detection practice**: AI labels the traps in questions; clicking a wrong option immediately opens a deep root-cause drawer.
+  2. **Socratic study companion**: guided questioning that prompts self-derivation of core theorems.
+  3. **Exam-point graph panorama**: prerequisite/successor dependency topology visualisation that traces weak knowledge nodes.
+  4. **Holistic learning diagnosis**: a five-dimension ability radar and defence index that precisely quantify knowledge mastery.
+- **FR-01.4 Team Roster & Compliance Section**:
+  - Shows University of Aberdeen JC2001 Group 5 (BSc BMIS, ten members with roles and student IDs) and supervising-tutor information.
+
+### FR-02: Student Profile Login and Quick Identity Switching (Authentication & Identity)
+- **FR-02.1 One-Click Preset Role Cards (Fast Identity Switcher)**:
+  - Preset account 1: Yuxuan Wu (50106070 · PM / team lead · all-subject access)
+  - Preset account 2: Yongtong Lin (50106038 · Requirements lead · Law/Economics study)
+  - Preset account 3: Sijian Wang (50106045 · System architecture · CS/Software Engineering study)
+  - Preset account 4: Guest student (Guest · password-free quick entry)
+- **FR-02.2 Form Login & Register**:
+  - Accept any student ID or name, with the password optional (defaults to 123456 in demo mode); clicking "Sign in now" creates a new student context.
+- **FR-02.3 State Persistence**:
+  - Login state and current user information are stored in `localStorage` (`smartstudy_user`) and survive a refresh.
+
+### FR-03: View Transitions and Bidirectional Seamless Switching (Navigation & State Flow)
+- **FR-03.1 Home Page to Workspace**:
+  - Clicking "Enter the study console" or a preset identity card fades the home page out elegantly and smoothly reveals the full-screen workspace (`#app-shell`).
+  - The workspace sidebar/top bar immediately syncs the logged-in student's name, student ID, and avatar.
+- **FR-03.2 Workspace Back to Home**:
+  - The top of the workspace sidebar permanently shows a prominent `🏠 Back to product intro` navigation item and a `🚪 Sign out` shortcut.
+  - Clicking either returns smoothly to the landing page without reloading the page and without losing question data already loaded from the backend.
+
+---
+
+## 4. Non-Functional Requirements
+
+- **NFR-01 (Zero External Heavy Dependencies)**: implemented in pure native HTML5/CSS3/ES6 JavaScript, without pulling in a large React/Vue framework, guaranteeing instant local opening even without a network (load time < 100ms).
+- **NFR-02 (Adaptive Dual-Mode Colour)**: fully supports the existing Light and Dark modes, with typography and contrast meeting WCAG AA.
+- **NFR-03 (Zero-Breakage Integration)**: the existing FastAPI backend endpoints (`/api/health`, `/api/quiz`, `/api/diagnose`) and the 114 automated tests already passing are unaffected.
+- **NFR-04 (Code Conventions and Workspace Discipline)**: all new views are cohesively organised under `frontend/`; no scattered scripts in the project root.

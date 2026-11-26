@@ -24,10 +24,10 @@
 
   <rect width="920" height="520" rx="12" fill="url(#bgGrad)" stroke="#CBD5E1" stroke-width="1.5"/>
 
-  <text x="460" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#0F172A">
+  <text x="460" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#F8FAFC">
     Figure 6.1: StudyGraph Four-Tier Automated Testing Pyramid (9 Files → 80 Functions → 147 Cases)
   </text>
-  <text x="460" y="58" text-anchor="middle" font-size="12.5" fill="#475569">
+  <text x="460" y="58" text-anchor="middle" font-size="12.5" fill="#CBD5E1">
     100% In-Memory Execution via FastAPI TestClient · Zero External Daemons (0 Neo4j / 0 Live LLM Calls) · Total Runtime ~0.7–3.6 s
   </text>
 
@@ -45,7 +45,7 @@
 
   <!-- Layer 2: API / Interface Contract Layer -->
   <polygon points="210,280 710,280 765,365 155,365" fill="url(#l2Grad)" stroke="#1D4ED8" stroke-width="1.5"/>
-  <text x="460" y="308" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Tier 2: RESTful API &amp; Endpoint Contract Layer (8 Endpoints)</text>
+  <text x="460" y="308" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Tier 2: RESTful API &amp; Endpoint Contract Layer (9 Endpoints)</text>
   <text x="460" y="328" text-anchor="middle" font-size="11.5" fill="#DBEAFE">test_diagnose.py (8 fn) + test_reports.py (11 fn) + test_auth.py (8 fn)</text>
   <text x="460" y="347" text-anchor="middle" font-size="11.5" font-weight="600" fill="#FFFFFF">36-Trap Option Lookup, 5D Radar Telemetry, Salted SHA-256 Token Auth</text>
 

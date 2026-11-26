@@ -118,7 +118,7 @@
   <!-- Left box: Trap Drawer -->
   <rect x="60" y="518" width="370" height="100" rx="6" fill="#0f291e" stroke="#059669" stroke-width="1"/>
   <text x="80" y="540" fill="#6ee7b7" font-size="12" font-weight="700">UI Trap Drawer Activation (P0 Scaffolding)</text>
-  <text x="80" y="560" fill="#e2e8f0" font-size="10.5">• Diagnostic Badge: Displays Fallacy Name ("除斥期间误判")</text>
+  <text x="80" y="560" fill="#e2e8f0" font-size="10.5">• Diagnostic Badge: Displays Fallacy Name ("Rescission-period error")</text>
   <text x="80" y="578" fill="#e2e8f0" font-size="10.5">• Socratic Interrogation: Guided reflection on statutory premise</text>
   <text x="80" y="596" fill="#e2e8f0" font-size="10.5">• Prerequisite Card: Remedial link to Chapter 3 Doctrine</text>
 

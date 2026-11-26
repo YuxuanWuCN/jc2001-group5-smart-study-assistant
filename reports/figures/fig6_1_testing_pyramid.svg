@@ -24,11 +24,11 @@
 
   <rect width="920" height="520" rx="12" fill="url(#bgGrad)" stroke="#CBD5E1" stroke-width="1.5"/>
 
-  <text x="460" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#0F172A">
-    Figure 6.1: StudyGraph Four-Tier Automated Testing Pyramid (9 Files → 80 Functions → 147 Cases)
+  <text x="460" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#F8FAFC">
+    Figure 6.1: StudyGraph Four-Tier Automated Testing Pyramid (10 Files → 105 Functions → 189 Cases)
   </text>
-  <text x="460" y="58" text-anchor="middle" font-size="12.5" fill="#475569">
-    100% In-Memory Execution via FastAPI TestClient · Zero External Daemons (0 Neo4j / 0 Live LLM Calls) · Total Runtime ~0.7–3.6 s
+  <text x="460" y="58" text-anchor="middle" font-size="12.5" fill="#CBD5E1">
+    100% In-Memory Execution via FastAPI TestClient · Zero External Daemons (0 Neo4j / 0 Live LLM Calls) · Total Runtime ≈2.5 s
   </text>
 
   <!-- Layer 4 (Top): Adversarial & Stress Layer -->
@@ -40,33 +40,33 @@
   <!-- Layer 3: E2E & Integration Layer -->
   <polygon points="270,185 650,185 705,270 215,270" fill="url(#l3Grad)" stroke="#B45309" stroke-width="1.5"/>
   <text x="460" y="213" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Tier 3: Integration, E2E Static Mount &amp; CORS Layer</text>
-  <text x="460" y="233" text-anchor="middle" font-size="11.5" fill="#FEF3C7">test_e2e_frontend.py (6 fn) + test_cors.py (4 fn) + test_health.py (5 fn)</text>
+  <text x="460" y="233" text-anchor="middle" font-size="11.5" fill="#FEF3C7">test_e2e_frontend.py (8 fn) + test_cors.py (4 fn) + test_health.py (5 fn)</text>
   <text x="460" y="252" text-anchor="middle" font-size="11.5" font-weight="600" fill="#FFFFFF">SPA Static Asset Delivery, CORS Preflight, Single-Port Lifespan Integrity</text>
 
   <!-- Layer 2: API / Interface Contract Layer -->
   <polygon points="210,280 710,280 765,365 155,365" fill="url(#l2Grad)" stroke="#1D4ED8" stroke-width="1.5"/>
-  <text x="460" y="308" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Tier 2: RESTful API &amp; Endpoint Contract Layer (8 Endpoints)</text>
-  <text x="460" y="328" text-anchor="middle" font-size="11.5" fill="#DBEAFE">test_diagnose.py (8 fn) + test_reports.py (11 fn) + test_auth.py (8 fn)</text>
-  <text x="460" y="347" text-anchor="middle" font-size="11.5" font-weight="600" fill="#FFFFFF">36-Trap Option Lookup, 5D Radar Telemetry, Salted SHA-256 Token Auth</text>
+  <text x="460" y="308" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Tier 2: RESTful API &amp; Endpoint Contract Layer (9 Endpoints)</text>
+  <text x="460" y="328" text-anchor="middle" font-size="11.5" fill="#DBEAFE">test_diagnose.py (8 fn) + test_reports.py (11 fn) + test_auth.py (12 fn)</text>
+  <text x="460" y="347" text-anchor="middle" font-size="11.5" font-weight="600" fill="#FFFFFF">51-Trap Option Lookup, 5D Radar Telemetry, Salted SHA-256 Token Auth</text>
 
   <!-- Layer 1 (Base): Unit, Domain Model & Seed Integrity Layer -->
   <polygon points="150,375 770,375 825,460 95,460" fill="url(#l1Grad)" stroke="#047857" stroke-width="1.5"/>
   <text x="460" y="403" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Tier 1: Domain Model, Bijective Seed Integrity &amp; CamelModel Layer</text>
   <text x="460" y="423" text-anchor="middle" font-size="12" fill="#D1FAE5">test_quiz.py (6 fn) + Pydantic v2 Schema Validators + CamelModel Dual-Key Sync (+2 Regression Cases)</text>
-  <text x="460" y="442" text-anchor="middle" font-size="12" font-weight="600" fill="#FFFFFF">12 Questions × 4 Disciplines × 36 Distractor Traps (Bijective 1:1 Invariant, Answer Key Excluded)</text>
+  <text x="460" y="442" text-anchor="middle" font-size="12" font-weight="600" fill="#FFFFFF">17 Questions × 9 Subjects × 51 Distractor Traps (Bijective 1:1 Invariant, Answer Key Excluded)</text>
 
   <!-- Side Annotations -->
   <rect x="24" y="95" width="190" height="80" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
   <text x="119" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#0F172A">Parametrised Expansion</text>
-  <text x="119" y="138" text-anchor="middle" font-size="11" fill="#334155">78 Base + 2 Regression = 80 fn</text>
-  <text x="119" y="156" text-anchor="middle" font-size="11" font-weight="700" fill="#2563EB">@pytest.mark.parametrize → 147</text>
+  <text x="119" y="138" text-anchor="middle" font-size="11" fill="#334155">105 Test Functions</text>
+  <text x="119" y="156" text-anchor="middle" font-size="11" font-weight="700" fill="#2563EB">@pytest.mark.parametrize → 189</text>
 
   <rect x="706" y="95" width="190" height="80" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
   <text x="801" y="118" text-anchor="middle" font-size="12" font-weight="700" fill="#0F172A">Zero-Dependency Gate</text>
-  <text x="801" y="138" text-anchor="middle" font-size="11" fill="#334155">147 Passed, 0 Failed, 0 Skipped</text>
+  <text x="801" y="138" text-anchor="middle" font-size="11" fill="#334155">189 Passed, 0 Failed, 0 Skipped</text>
   <text x="801" y="156" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">100% Air-Gapped Reproducible</text>
 
   <text x="460" y="495" text-anchor="middle" font-size="11.5" fill="#64748B">
-    Source: Verified via `python -m pytest tests/ -q` across 9 test modules (`tests/test_*.py`).
+    Source: Verified via `python -m pytest tests/ -q` across 10 test modules (`tests/test_*.py`).
   </text>
 </svg>

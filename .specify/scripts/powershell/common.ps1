@@ -1,5 +1,5 @@
-﻿#!/usr/bin/env pwsh
-# 通用 PowerShell 函数（与 common.sh 等价）
+#!/usr/bin/env pwsh
+# Common PowerShell functions (equivalent to common.sh)
 
 function Get-RepoRoot {
     try {
@@ -8,30 +8,30 @@ function Get-RepoRoot {
             return $result
         }
     } catch {
-        # Git 命令执行失败
+        # Git command failed
     }
     
-    # 非 Git 仓库下回退为脚本所在路径的上级目录
+    # Outside a Git repo, fall back to the parent of the script location
     return (Resolve-Path (Join-Path $PSScriptRoot "../../..")).Path
 }
 
 function Get-CurrentBranch {
-    # 优先检查 SPECIFY_FEATURE 环境变量是否已设置
+    # Check the SPECIFY_FEATURE environment variable first
     if ($env:SPECIFY_FEATURE) {
         return $env:SPECIFY_FEATURE
     }
     
-    # 若可用则使用 Git 获取分支名
+    # Otherwise use Git for the branch name when available
     try {
         $result = git rev-parse --abbrev-ref HEAD 2>$null
         if ($LASTEXITCODE -eq 0) {
             return $result
         }
     } catch {
-        # Git 命令执行失败
+        # Git command failed
     }
     
-    # 非 Git 仓库：尝试在 specs 目录中查找最新的特性目录
+    # Non-Git repo: try to find the latest feature directory under specs
     $repoRoot = Get-RepoRoot
     $specsDir = Join-Path $repoRoot "specs"
     
@@ -54,7 +54,7 @@ function Get-CurrentBranch {
         }
     }
     
-    # 最终回退
+    # Final fallback
     return "main"
 }
 
@@ -73,15 +73,15 @@ function Test-FeatureBranch {
         [bool]$HasGit = $true
     )
     
-    # 非 Git 仓库：不强制分支命名，但仍给出提示
+    # Non-Git repo: branch naming is not enforced, but still emit a notice
     if (-not $HasGit) {
-        Write-Warning "[specify] 警告: 未检测到 Git 仓库；已跳过分支校验"
+        Write-Warning "[specify] Warning: no Git repository detected; skipping branch validation"
         return $true
     }
     
     if ($Branch -notmatch '^[0-9]{3}-') {
-        Write-Output "错误: 当前不在特性分支。当前分支: $Branch"
-        Write-Output "特性分支命名应为: 001-feature-name"
+        Write-Output "Error: not on a feature branch. Current branch: $Branch"
+        Write-Output "Feature branches must be named like: 001-feature-name"
         return $false
     }
     return $true

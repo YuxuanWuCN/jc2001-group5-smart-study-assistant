@@ -1,113 +1,113 @@
-# 技术研究与架构决策：画像合理性审计与幻觉主张实证化
+# Technical Research and Architecture Decisions: Persona Rationality Audit and Empirical Grounding of the Hallucination Claim
 
-**功能编号**：`004-persona-hallucination-audit`
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)
-**日期**：2026-10-18
-**状态**：COMPLETED / READY FOR PHASE 1
-**输入**：`specs/004-persona-hallucination-audit/spec.md` 中的"需要澄清"项 —— 用户在 m00001 提出的核心问题是"**到底有没有成功的降低 AI 的幻觉概率**"，而仓库里既没有"幻觉"的可操作定义，也没有任何一次针对它的测量，还缺一套在"画像为构造假设"前提下仍站得住的设计合理性论证。本节逐项解决。
+**Feature ID**: `004-persona-hallucination-audit`
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)
+**Date**: 2026-10-18
+**Status**: COMPLETED / READY FOR PHASE 1
+**Input**: the "needs clarification" items in `specs/004-persona-hallucination-audit/spec.md` - the user's core question in m00001 is "**has it actually succeeded in reducing the probability of AI hallucination**", yet the repository has neither an operational definition of "hallucination" nor any single measurement of it, and also lacks a design-rationality argument that still holds under the premise that "the persona is a constructed assumption". This section resolves each item in turn.
 
 ---
 
-## 决策 1：把"幻觉率"的测量对象锁定为可判定的有限集合，而不是自由文本
+## Decision 1: Lock the measurement target of "hallucination rate" to a finite, judgeable set rather than free text
 
-- **决策**：采用 spec §4.2 的四级分层，**每级单独报告分子/分母**，且**禁止合并成一个"幻觉率"**：
+- **Decision**: adopt the four-level taxonomy of spec §4.2, **report the numerator/denominator of each level separately**, and **do not merge them into a single "hallucination rate"**:
 
-  | 层 | 分子（错误条目数） | 分母（可判定条目总数） | 判定方式 | 是否离线可判 |
+  | Layer | Numerator (number of erroneous items) | Denominator (number of judgeable items) | Judgement method | Offline-judgeable |
   | :-: | :--- | :--- | :--- | :-: |
-  | **L1 内容幻觉** | 选项文本/正解标记/`TrapDetail.desc`/`prereq` 与学科事实不符的条目数 | 全部 48 个选项 + 36 条陷阱 = **84** | 人工逐条判定（机器初筛高可疑项） | ✅ |
-  | **L2 归因幻觉** | 两个语义上指向**不同误区**的选项被映射到**同一** `trap_name`，或陷阱标题与选项实际误区不一致的条目数 | 36 条陷阱映射 | 规则检测 + 人工抽检 | ✅ |
-  | **L3 泄漏幻觉** | 正确选项的**关键实体**（关键数值/术语）出现在 `socratic_guidance` / `trap_hint` 中的题目数 | 12 题 | 正则实体抽取 + 人工双判 | ✅ |
-  | **L4 推理幻觉** | 在线 LLM 路径输出中，含不实陈述的样本数 | 按实验采样数 N（每格 ≥20） | ≥2 名评分者独立双盲 | ❌ 需 API Key |
+  | **L1 content hallucination** | items where the option text / correct-answer flag / `TrapDetail.desc` / `prereq` disagrees with subject-matter facts | all 48 options + 36 traps = **84** | manual item-by-item judgement (machine pre-screens high-suspicion items) | ✅ |
+  | **L2 attribution hallucination** | items where two options that semantically point to **different misconceptions** are mapped to the **same** `trap_name`, or where the trap title disagrees with the option's actual misconception | 36 trap mappings | rule-based detection + manual spot-checks | ✅ |
+  | **L3 leakage hallucination** | questions where the correct option's **key entities** (key numbers / terms) appear in `socratic_guidance` / `trap_hint` | 12 questions | regex entity extraction + manual double judgement | ✅ |
+  | **L4 reasoning hallucination** | samples in the online LLM path's output that contain untrue statements | by experimental sample size N (≥20 per cell) | ≥2 raters, independent and double-blind | ❌ requires an API key |
 
-- **理由**：
-  1. **分母必须显式**。仓库现有测试的写法（`assert validated.trap_name is not None and len(validated.trap_name) > 0`，见 `tests/test_empirical_stress.py:113-121`）只证明字段"非空"，**它永远无法发现问题**，也永远算不出比率。审计必须换一种记账方式。
-  2. **L1–L3 的分母是 84 / 36 / 12，规模小到可以做到"人工全覆盖"，这是 12 题 PoC 的唯一结构性优势**，必须用足；不能像大模型基准那样用抽样掩盖个体错误。
-  3. **L4 单独成层**，因为它是唯一需要联网、需要 API Key、需要评分者一致性的层。把它和 L1–L3 混在一起会导致"部分跑完就算跑完"的口径污染。
-  4. 明确**"把 LLM 关掉"不是降低幻觉，而是规避一层幻觉**：系统在离线模式下 `fallback_mode=True`（`tests/test_empirical_stress.py:162`），此时 L4 的生成面根本不存在，所以离线路径的 L4 率按定义记为 `N/A（无生成面）`，**不得记为 0%**。若记为 0%，就会得出"我们幻觉率 0%"这种荒谬结论。
+- **Rationale**:
+  1. **The denominator must be explicit**. The repository's existing test style (`assert validated.trap_name is not None and len(validated.trap_name) > 0`, see `tests/test_empirical_stress.py:113-121`) only proves that a field is "non-empty", **it can never detect a problem** and can never compute a rate. The audit must adopt a different accounting method.
+  2. **The L1–L3 denominators are 84 / 36 / 12, small enough for full manual coverage - this is the only structural advantage of a 12-question PoC** and must be fully exploited; unlike large-model benchmarks, sampling must not be used to hide individual errors.
+  3. **L4 is a separate layer**, because it is the only layer that needs a network, an API key, and rater agreement. Mixing it with L1–L3 would pollute the framing so that "partially finished" counts as "finished".
+  4. Make explicit that **"turning the LLM off" is not reducing hallucination but avoiding one layer of it**: in offline mode the system uses `fallback_mode=True` (`tests/test_empirical_stress.py:162`), at which point L4's generation surface does not exist at all, so the offline path's L4 rate is by definition recorded as `N/A (no generation surface)` and **must not be recorded as 0%**. Recording 0% would produce the absurd conclusion "our hallucination rate is 0%".
 
-- **考虑的替代方案**：
-  - *用一个综合"幻觉率"指标*：被否。四级幻觉的分母互不相同（84 / 36 / 12 / N），加权求和必然引入主观权重，答辩时一问就塌。
-  - *只测 L4（因为直觉上"幻觉"指 LLM）*：被否。这正是仓库当前口径的错位——系统最有证据能力的是 L1–L3，放着可证的层不测、只测最不可证的层，属于自废武功。
-  - *LLM-as-a-judge 自动评分 L4*：被否。评委模型本身是幻觉源，"用 LLM 判断 LLM 有没有幻觉"在同一答辩桌上无法自证；且引入 API 依赖违反 NFR-2。
-
----
-
-## 决策 2：画像采用"证据等级 + 句子级绑定"，而不是补做调研或假装画像成立
-
-- **决策**：不补登录式问卷（周期不允许），改为给 Table 1.3 的每条断言标 E0–E3 等级，并把等级与该断言**在报告中允许的措辞**绑定（详见 `contracts/report-claim-contract.md`）。判定规则见 spec §4.1。
-
-- **理由**：
-  1. 仓库已经**自己承认**画像是推断的（`reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:50`："Persona 基于文献与竞品行为推断，而非实测用户画像"），也存在现成的诚实答辩口径（`reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:183`）。审计的任务不是把这个承认抹掉，而是**把它变成报告的结构性优点**：一份明确标注"这是假设、我们如何证伪它"的报告，比一份假装做了调研的报告更难被击穿。
-  2. **等级制度能防止"整体性免责"**。如果只写一句"画像未实测"，那么所有依赖画像的结论都同时失效；而句子级绑定只作废那些真正依赖 E0/E1 断言的句子，其余论证（机制性、经济性、可证伪性）依然成立。
-  3. 补测方案仍要写出来（spec FR-1.3 的最小方案：n=8–12 半结构化访谈 + 12 题在线问卷），写进 Future Work 而不是假装做过——这与 `07-ch6-testing-yang-mingjie.md:111` 的诚信红线同构。
-
-- **考虑的替代方案**：
-  - *两周内补做真实问卷*：被否。样本代表性不足（n<30 且大概率来自同专业同学），得到的是"E2 但自我感觉像 E3"的数据，比诚实标注 E1 更危险。
-  - *直接删掉 Persona，改用"通用大学生"描述*：被否。官方 Brief 强制要求 `intended users or stakeholders`（见 `01-ch1-introduction-lin-yongtong.md:11`），删了直接扣分。
-  - *把 Persona C（教师）也写成目标用户*：被否。与 Ch2 R11–R14 Won't 决策冲突（`09-ch3-use-cases-xie-weixin.md:32`），会造成跨章矛盾。
+- **Alternatives considered**:
+  - *Use one composite "hallucination rate" indicator*: rejected. The four levels have different denominators (84 / 36 / 12 / N); a weighted sum necessarily introduces subjective weights and collapses at the first defence question.
+  - *Measure only L4 (because "hallucination" intuitively means LLM)*: rejected. This is exactly the current framing misalignment in the repository - the system's strongest evidential layer is L1–L3; measuring only the least provable layer while leaving the provable ones unmeasured is needlessly disarming oneself.
+  - *LLM-as-a-judge automatic scoring for L4*: rejected. The judge model is itself a hallucination source; "using an LLM to judge whether an LLM hallucinates" cannot be self-justified at the same defence table; it also introduces an API dependency, violating NFR-2.
 
 ---
 
-## 决策 3：设计合理性拆成四维外部命题，逐条给"什么观测会推翻它"
+## Decision 2: Use "evidence levels + sentence-level binding" for personas, rather than conducting new research or pretending the personas hold
 
-- **决策**：放弃"画像 → 设计"的单向证明，改为四个**不依赖实测画像**、且**各自可证伪**的命题：
+- **Decision**: do not run a new questionnaire (the cycle does not allow it); instead label every assertion in Table 1.3 with an E0–E3 level and bind the level to the **wording permitted in the report** for that assertion (see `contracts/report-claim-contract.md`). Decision rules are in spec §4.1.
 
-  | 维度 | 命题（可证伪） | 推翻条件 | 本项目当前证据 |
+- **Rationale**:
+  1. The repository **already admits** that the personas are inferred (`reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:50`: "Persona is inferred from literature and competitor behaviour, not based on a measured user persona"), and an honest defence position already exists (`reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:183`). The audit's job is not to erase this admission but to **turn it into a structural strength of the report**: a report that clearly states "this is an assumption, and here is how we would falsify it" is harder to attack than one pretending that research was done.
+  2. **The level system prevents blanket exculpation**. If the report only says "personas were not measured", every conclusion that depends on personas is invalidated at once; sentence-level binding invalidates only the sentences that genuinely depend on E0/E1 assertions, leaving the rest of the argument (mechanism, economics, falsifiability) intact.
+  3. The supplementary plan must still be written (spec FR-1.3's minimal plan: n=8–12 semi-structured interviews + a 12-item online questionnaire) and placed under Future Work rather than pretending it was done - this is isomorphic to the integrity red line in `07-ch6-testing-yang-mingjie.md:111`.
+
+- **Alternatives considered**:
+  - *Conduct a real questionnaire within two weeks*: rejected. Sample representativeness is insufficient (n<30, most likely classmates from the same programme), producing data that is "E2 but feels like E3", which is more dangerous than honestly labelling it E1.
+  - *Delete the personas and describe "generic university students"*: rejected. The official Brief mandates `intended users or stakeholders` (see `01-ch1-introduction-lin-yongtong.md:11`); deleting them loses marks directly.
+  - *Also write Persona C (teacher) as a target user*: rejected. This conflicts with the Ch2 R11–R14 Won't decision (`09-ch3-use-cases-xie-weixin.md:32`) and would create cross-chapter contradictions.
+
+---
+
+## Decision 3: Split design rationality into four external propositions, each with "what observation would overturn it"
+
+- **Decision**: abandon the one-way "persona → design" proof and replace it with four propositions that **do not depend on a measured persona** and are **each falsifiable**:
+
+  | Dimension | Proposition (falsifiable) | Overturning condition | Current evidence in this project |
   | :-: | :--- | :--- | :--- |
-  | **D1 构念效度** | 36 个陷阱命名对应的是**真实存在于学科内部的概念边界混淆**，而非任意编造的干扰项 | 若任一陷阱的"误区"在任何主流教材/判例中不构成常见错误，则该条为编造 | 陷阱素材可追溯到教材条文编号（如"152 条除斥期间 / 188 条诉讼时效"）与 CS/经济学标准教材概念 → **每条须逐一给出出处** |
-  | **D2 机制有效性** | 选项级查表把答案判定**前置于**任何自由生成，因此 L4 的生成面在离线路径上不存在 | 若诊断响应中存在任何依赖 LLM 自由生成的字段，则"消除生成面"不成立 | `fallback_mode=True` 响应路径完全由 `SEED_QUESTIONS` 查表构造 → 机制成立 |
-  | **D3 经济性** | 边际推理成本 0、离线可跑，对"考前 2 周、网络不稳、时间稀缺"的场景构成实际优势 | 若目标用户实际始终联网且 LLM 免费，则该优势不构成差异化 | 竞品矩阵（`01-ch1-introduction-lin-yongtong.md:54-61`）显示通用 LLM 依赖联网且会剧透答案 |
-  | **D4 诚实性** | 系统在无答案路径时给出明确空状态，而不是编造一个诊断 | 若未知 `question_id` 返回 200 且带虚假陷阱归因，则成立性被推翻 | `tests/test_empirical_stress.py:167-177` 允许 404/422/200 三种，需**人工确认 200 分支不带伪造归因** |
+  | **D1 construct validity** | the 36 trap names correspond to **conceptual boundary confusions that genuinely exist within the subject**, not arbitrarily invented distractors | if any trap's "misconception" is not a common error in any mainstream textbook/precedent, that entry is fabricated | trap material can be traced to textbook article numbers (e.g. "Article 152 exclusion period / Article 188 limitation period") and standard CS/economics textbook concepts → **each must be given a citation individually** |
+  | **D2 mechanism effectiveness** | option-level lookup places answer determination **before** any free generation, so L4's generation surface does not exist on the offline path | if any field in the diagnostic response depends on LLM free generation, then "eliminating the generation surface" does not hold | the `fallback_mode=True` response path is entirely constructed by `SEED_QUESTIONS` lookup → mechanism holds |
+  | **D3 economics** | marginal inference cost 0 and offline operation constitute a practical advantage for the scenario of "2 weeks before exams, unstable network, scarce time" | if target users are in fact always online and LLMs are free, then the advantage provides no differentiation | competitor matrix (`01-ch1-introduction-lin-yongtong.md:54-61`) shows generic LLMs depend on the network and spoil answers |
+  | **D4 honesty** | the system gives an explicit empty state when no answer path exists, instead of fabricating a diagnosis | if an unknown `question_id` returns 200 with a fabricated trap attribution, then the claim is overturned | `tests/test_empirical_stress.py:167-177` allows 404/422/200; it is necessary to **manually confirm that the 200 branch carries no fabricated attribution** |
 
-- **理由**：这四条构成一条**不依赖画像真实性**的论证链——即使画像全部是编的，D1（陷阱是否真实）与 D2（生成面是否存在）依然可独立验证；D3 只需竞品事实；D4 只需一次响应检查。**这比"画像说学生需要 → 我们做了 → 所以合理"的循环链强得多，且答辩时每条都能当场点开证据。**
+- **Rationale**: these four form an argument chain **that does not depend on the personas being real** - even if the personas were entirely made up, D1 (are the traps real) and D2 (does the generation surface exist) can still be verified independently; D3 needs only competitor facts; D4 needs only one response check. **This is far stronger than the circular chain "the persona says students need it → we built it → therefore the design is reasonable", and every item's evidence can be opened on the spot during the defence.**
 
-- **考虑的替代方案**：
-  - *用 SUS / TAM 问卷做"合理性"评分*：被否。需要真实用户，周期不允许；且用户满意度不回答"幻觉是否降低"。
-  - *用文献综述支撑"选项级反馈有效"就当作合理性证明*：被否。文献证明的是**一般性**结论（VanLehn 2011 等），不能直接迁移到本系统**具体实现**的正确性；文献只能支撑 D1 的必要性，不能替代 D1–D4 的证据。
-
----
-
-## 决策 4：在线对照实验做成"可跳过的一等公民"，置信区间用 Wilson 区间
-
-- **决策**：`scripts/audit_online_baseline.py` 三分组（A 原始 Qwen 自由生成 / B 离线查表 / C 图谱约束 + 查表），每格 N ≥ 20 次采样。无 `QWEN_API_KEY` 时**以退出码 0 写 `online_baseline.skipped.json`**（含 `reason`, `timestamp`, `env_fingerprint`），不当失败处理。比率型指标统一用 **Wilson score interval（95%）**，不写正态近似。
-
-- **理由**：
-  1. **小样本 + 极端比率**（例如"20 次里 0 次幻觉"）下正态近似给出的区间会越界（下限为负或上限 >100%），Wilson 区间在 p 接近 0/1 与小 n 时仍然良好，这正是本项目的场景。
-  2. **无 Key 是常态而非异常**：仓库历史请求中已出现过 DashScope 云端链路（`ORIGINAL_REQUEST.md` R3），而本项目主卖点恰恰是离线可跑。若脚本在无 Key 时硬失败，就等于要求审计在联网环境才能完成，自相矛盾。
-  3. 评分者一致性用 **Cohen's κ**，κ < 0.6 时不报告点估计，只报告"评分不一致，结论不成立"——防止两名组员各自按自己标准把 L4 判成喜欢的样子。
-
-- **考虑的替代方案**：
-  - *拿 MMLU 的 4,445 条准确率当"幻觉率"*：被否（D-06）。准确率测的是"答对没答对"，幻觉测的是"说的东西是否真实"；一道题答错但解释诚实不构成幻觉，答对但解释编造构成幻觉。两者在构念上不可互换。
-  - *单组前后对比（关掉 LLM 前后各测一次）*：被否。没有自由生成基线（A 组），"降低"两个字无参照物。
-  - *用 bootstrap 区间*：可作为备选，但 n 很小且需要实现随机种子才能复现，Wilson 更简单且解析可复现。
+- **Alternatives considered**:
+  - *Score "rationality" with SUS / TAM questionnaires*: rejected. It needs real users, which the cycle does not allow; and user satisfaction does not answer "was hallucination reduced".
+  - *Use a literature review supporting "option-level feedback is effective" as proof of rationality*: rejected. The literature proves **general** conclusions (VanLehn 2011 etc.) and cannot be transferred directly to the correctness of this system's **specific implementation**; the literature can support D1's necessity but cannot substitute for the evidence of D1–D4.
 
 ---
 
-## 决策 5：审计产物只"增补"表格编号，绝不重排既有 17 图 / 21 表
+## Decision 4: Make the online controlled experiment a first-class skippable citizen; use Wilson score intervals for confidence intervals
 
-- **决策**：`reports/cycle3_master_plan.md` 已分配 17 图 / 21 表且编号被跨章引用（如 Table 1.3 → Ch2 引用、Table 2.2 → Table 6.5 逐字一致）。本审计的全部表格以**后缀增补**方式编号：`Table 6.6 Hallucination taxonomy and measured rates`、`Table 1.4 Persona evidence levels`、`Table 6.7 Online vs offline baseline`（若跑成）。已有 21 表编号**一个不动**。
+- **Decision**: `scripts/audit_online_baseline.py` uses three groups (A original Qwen free generation / B offline lookup / C graph-constrained + lookup), with N ≥ 20 samples per cell. When `QWEN_API_KEY` is absent it **writes `online_baseline.skipped.json` with exit code 0** (containing `reason`, `timestamp`, `env_fingerprint`) and does not treat this as a failure. All rate-type metrics use the **Wilson score interval (95%)**, never the normal approximation.
 
-- **理由**：`01-ch1-introduction-lin-yongtong.md:10` 与 `07-ch6-testing-yang-mingjie.md:210` 都明确写了编号"一旦发出不能改"、"ID 与措辞必须逐字一致"。重排会让 10 名成员手里的草稿全部失效。
+- **Rationale**:
+  1. **With small samples and extreme rates** (e.g. "0 hallucinations out of 20"), the normal approximation gives intervals that go out of bounds (a negative lower bound or an upper bound >100%), whereas the Wilson interval remains well behaved when p is near 0/1 and n is small - exactly this project's situation.
+  2. **A missing key is the norm, not an anomaly**: the repository's history already contains a DashScope cloud chain (`ORIGINAL_REQUEST.md` R3), while the project's main selling point is precisely that it runs offline. If the script hard-failed without a key, that would amount to requiring the audit to be completed in a networked environment - self-contradictory.
+  3. Rater agreement uses **Cohen's κ**; when κ < 0.6 no point estimate is reported, only "raters disagree, so the conclusion does not hold" - preventing two team members from each judging L4 according to their own standard to get a preferred result.
 
-- **考虑的替代方案**：
-  - *把幻觉表塞进 Table 6.3 的扩展列*：被否。会制造"MMLU 涨=幻觉降"的暗示，正是 D-06 要禁止的构念混淆。
-  - *新开第 8 章*：被否。官方 Brief 是固定七章结构。
+- **Alternatives considered**:
+  - *Treat MMLU's 4,445 accuracy records as the "hallucination rate"*: rejected (D-06). Accuracy measures "was it answered correctly"; hallucination measures "is what was said true"; an incorrectly answered question with an honest explanation is not hallucination, while a correctly answered question with a fabricated explanation is. The two are not interchangeable constructs.
+  - *Single-group before/after comparison (measure before and after turning the LLM off)*: rejected. Without the free-generation baseline (group A), the word "reduction" has no reference point.
+  - *Use bootstrap intervals*: a possible fallback, but n is very small and reproducibility would require implementing a random seed; Wilson is simpler and analytically reproducible.
 
 ---
 
-## 决策 6：与既有证据划硬边界——准确率、健壮性、幻觉三者不得互引
+## Decision 5: The audit outputs only "append" table numbers and never reorder the existing 17 figures / 21 tables
 
-- **决策**：在契约文件 `contracts/report-claim-contract.md` 中写入一张"禁止互引矩阵"：
+- **Decision**: `reports/cycle3_master_plan.md` has already allocated 17 figures / 21 tables whose numbers are cross-referenced between chapters (e.g. Table 1.3 is referenced from Ch2, Table 2.2 must match Table 6.5 verbatim). All tables from this audit are numbered by **suffix appending**: `Table 6.6 Hallucination taxonomy and measured rates`, `Table 1.4 Persona evidence levels`, `Table 6.7 Online vs offline baseline` (if the experiment is completed). Existing numbers of the 21 tables **do not change at all**.
 
-  | 证据源 | 可以支撑 | **严禁**用来支撑 |
+- **Rationale**: `01-ch1-introduction-lin-yongtong.md:10` and `07-ch6-testing-yang-mingjie.md:210` both state explicitly that numbers "cannot change once issued" and that "IDs and wording must match verbatim". Reordering would invalidate all ten members' drafts.
+
+- **Alternatives considered**:
+  - *Cram the hallucination table into an extra column of Table 6.3*: rejected. It would create the implication "MMLU up = hallucination down", exactly the construct confusion that D-06 forbids.
+  - *Open a new Chapter 8*: rejected. The official Brief has a fixed seven-chapter structure.
+
+---
+
+## Decision 6: Draw hard boundaries with existing evidence - accuracy, robustness and hallucination must not cite each other
+
+- **Decision**: write a "forbidden cross-reference matrix" into the contract file `contracts/report-claim-contract.md`:
+
+  | Evidence source | Can support | **Strictly forbidden** to support |
   | :--- | :--- | :--- |
-  | MMLU Δ（`graphrag（终）/final_systematic_report.csv`，n=4,445，7 正/3 平/2 负） | "图谱增强在部分学科提升了答题准确率" | "降低了幻觉" |
-  | 145 个 pytest 用例 | "存在回归基线；接口在对抗输入下不崩" | "输出内容正确""幻觉率低" |
-  | `fallback_mode=True` / 离线演示 | "演示无外部依赖" | "幻觉率 0%" |
-  | 本次 L1–L3 审计（84/36/12 分母） | "在离线确定性路径上，L1–L3 的错误率为 x%/y%/z%" | "提升了学习效果" |
-  | 本次 L4 实验（若跑成） | "相对自由生成基线，L4 点估计 a→b（95% CI）" | "在真实学生身上有效" |
+  | MMLU Δ (`graphrag_final/final_systematic_report.csv`, n=4,445, 7 positive/3 neutral/2 negative) | "graph augmentation improved answering accuracy in some subjects" | "reduced hallucination" |
+  | 145 pytest cases | "a regression baseline exists; endpoints do not crash under adversarial input" | "output content is correct", "hallucination rate is low" |
+  | `fallback_mode=True` / offline demo | "the demo has no external dependency" | "hallucination rate 0%" |
+  | this L1–L3 audit (84/36/12 denominators) | "on the offline deterministic path the L1–L3 error rates are x%/y%/z%" | "improved learning outcomes" |
+  | this L4 experiment (if completed) | "relative to the free-generation baseline, the L4 point estimate is a→b (95% CI)" | "effective on real students" |
 
-- **理由**：`reports/cycle3_task_packs/07-ch6-testing-yang-mingjie.md:50` 附近已经出现了一个苗头——把 145 个测试当作"系统正确"的证据，而该文件第 187 行的答辩口径又诚实地说"说明不了系统正确，只说明回归基线存在"。**同一份报告里同时存在两种口径就是内部矛盾**，审计必须把这个矛盾显式固化下来，让两个口径统一到后者。
+- **Rationale**: a symptom has already appeared around `reports/cycle3_task_packs/07-ch6-testing-yang-mingjie.md:50` - treating the 145 tests as evidence that "the system is correct", while the defence position at line 187 of the same file honestly says "it does not show the system is correct, only that a regression baseline exists". **Having two framings in the same report is an internal contradiction**; the audit must make that contradiction explicit and unify both framings onto the latter.
 
-- **考虑的替代方案**：
-  - *保留模糊表述，答辩时口头澄清*：被否。书面报告的自相矛盾会被考官直接引用原文反问。
+- **Alternatives considered**:
+  - *Keep vague wording and clarify orally at the defence*: rejected. The examiner can simply quote the written report's self-contradiction back at you.

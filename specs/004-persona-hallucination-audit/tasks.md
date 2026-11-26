@@ -1,147 +1,147 @@
-# 任务清单：基于用户画像的系统设计合理性审视与「幻觉降低」主张实证审计
+# Task List: User-Persona-Based Review of System Design Rationality and Empirical Audit of the "Hallucination Reduction" Claim
 
-**功能编号**：`004-persona-hallucination-audit` | **分支**：`004-persona-hallucination-audit`  
-**输入**：来自 `specs/004-persona-hallucination-audit/` 的设计文档  
-**先决条件**：[plan.md](plan.md)（必需），[spec.md](spec.md)（用户故事必需），[research.md](research.md)，[data-model.md](data-model.md)，[contracts/](contracts/)  
-
----
-
-## 阶段 1：设置（共享基础设施）
-
-**目的**：初始化审计产物空间与校验基准环境
-
-- [ ] T001 创建审计专用数据产物目录 `reports/audit/`
-- [ ] T002 [P] 校验 JSON Schema 校验环境与 `specs/004-persona-hallucination-audit/contracts/audit-result.schema.json` 模式可用性
+**Feature ID**: `004-persona-hallucination-audit` | **Branch**: `004-persona-hallucination-audit`  
+**Input**: design documents from `specs/004-persona-hallucination-audit/`  
+**Prerequisites**: [plan.md](plan.md) (required), [spec.md](spec.md) (required for user stories), [research.md](research.md), [data-model.md](data-model.md), [contracts/](contracts/)  
 
 ---
 
-## 阶段 2：基础（阻塞先决条件）
+## Phase 1: Setup (shared infrastructure)
 
-**目的**：提供所有用户故事脚本共享的基础数据加载与环境指纹功能
+**Purpose**: initialise the audit output space and the validation baseline environment
 
-**⚠️ 关键**：在本阶段完成之前，用户故事审计脚本无法开始执行
-
-- [ ] T003 在 `scripts/audit_hallucination_l1_l3.py` 中实现题库数据（12 题/48 选项/36 陷阱）提取与环境指纹生成基类
-- [ ] T004 [P] 在 `scripts/audit_persona_claims.py` 中实现画像断言与 MoSCoW 14 条需求文本的解析工具函数
-
-**检查点**：共享加载器与环境指纹就绪，用户故事实现可并行开始
+- [ ] T001 Create the audit-specific data output directory `reports/audit/`
+- [ ] T002 [P] Verify the JSON Schema validation environment and the availability of the `specs/004-persona-hallucination-audit/contracts/audit-result.schema.json` schema
 
 ---
 
-## 阶段 3：用户故事 1 - 画像可追溯性审计 (US-01, 优先级: P0)
+## Phase 2: Foundation (blocking prerequisites)
 
-**目标**：逐条审计 Table 1.3 的 Persona 断言来源，建立 E0–E3 证据分级台账，识别核心假设
+**Purpose**: provide the base data-loading and environment-fingerprint functionality shared by all user-story scripts
 
-**独立测试**：运行 `python scripts/audit_persona_claims.py`，成功生成 `reports/audit/persona_provenance.csv`，覆盖 A/B/C 三张画像且 `evidence_level` 与 `source_type` 逻辑自洽（E0 严格对应无来源）
+**⚠️ Critical**: no user-story audit script can start before this phase is complete
 
-- [ ] T005 [P] [US1] 在 `scripts/audit_persona_claims.py` 中实现画像断言结构化抽取与四类来源（文献/竞品行为/组内讨论/无来源）分类器
-- [ ] T006 [US1] 在 `scripts/audit_persona_claims.py` 中实现 E0–E3 证据等级计算及 `allowed_usage` 限制规则映射
-- [ ] T007 [US1] 执行画像溯源审计并将结果导出至 `reports/audit/persona_provenance.csv`
+- [ ] T003 Implement, in `scripts/audit_hallucination_l1_l3.py`, the base class for extracting question-bank data (12 questions / 48 options / 36 traps) and generating the environment fingerprint
+- [ ] T004 [P] Implement, in `scripts/audit_persona_claims.py`, utility functions for parsing persona assertions and the text of the 14 MoSCoW requirements
 
-**检查点**：此时用户画像证据等级已全部锁定，核心痛点是否依赖假设一目了然
-
----
-
-## 阶段 4：用户故事 2 - 设计—画像映射与循环论证检测 (US-02, 优先级: P0)
-
-**目标**：建立 14 条 MoSCoW 需求与 Persona 的双向映射，识别反向缺口，将循环论证重写为外部可证伪命题
-
-**独立测试**：检查导出的 `reports/audit/requirement_persona_map.csv`，共 14 行且包含 `assumption_driven` 标志；R10 等自嗨需求被显式标记，循环论证行附带非空的 `external_falsifiable_claim`
-
-- [ ] T008 [P] [US2] 在 `scripts/audit_persona_claims.py` 中实现 Ch2 14 条需求（R01–R14）到 PersonaClaim 的双向映射逻辑
-- [ ] T009 [US2] 在 `scripts/audit_persona_claims.py` 中实现反向缺口检测（有功能无画像 / 有画像无功能）与循环自证识别算法
-- [ ] T010 [US2] 执行映射分析并在 `reports/audit/requirement_persona_map.csv` 中注入 D1–D4 维度的外部可证伪命题
-
-**检查点**：设计合理性论证脱离了画像自循环假设，转化为可独立检验的外部命题
+**Checkpoint**: shared loader and environment fingerprint ready; user-story implementation may start in parallel
 
 ---
 
-## 阶段 5：用户故事 3 - 四级幻觉评测框架 (US-03, 优先级: P0) 🎯 MVP
+## Phase 3: User Story 1 - Persona Provenance Audit (US-01, priority: P0)
 
-**目标**：离线、确定性地完成 L1 内容、L2 归因、L3 泄漏评测，输出完整的结构化指标与确定性哈希
+**Goal**: audit the provenance of each Table 1.3 persona assertion item by item, build the E0–E3 evidence-level ledger, and identify core assumptions
 
-**独立测试**：执行 `python scripts/audit_hallucination_l1_l3.py`，产出 3 个 CSV 和 `verdict.json`；行数精确为 84 / 36 / 12；连续执行两次其 `determinism_check.identical` 为 True
+**Independent test**: run `python scripts/audit_persona_claims.py`; it successfully generates `reports/audit/persona_provenance.csv`, covering personas A/B/C, with `evidence_level` and `source_type` logically consistent (E0 strictly corresponds to no source)
 
-- [ ] T011 [P] [US3] 在 `scripts/audit_hallucination_l1_l3.py` 中实现 48 选项与 36 陷阱事实性判定的 L1 内容审计器
-- [ ] T012 [P] [US3] 在 `scripts/audit_hallucination_l1_l3.py` 中实现 36 陷阱命名区分度与误区映射一致性的 L2 归因审计器
-- [ ] T013 [P] [US3] 在 `scripts/audit_hallucination_l1_l3.py` 中实现正确选项实体在引导语中提前泄漏（Answer Spoiling）的 L3 正则审计器
-- [ ] T014 [US3] 在 `scripts/audit_hallucination_l1_l3.py` 中实现离线模式（L4 记为 N/A、无生成面）指标汇聚与双次运行确定性哈希校验逻辑
-- [ ] T015 [US3] 运行脚本生成 `reports/audit/l1_content_audit.csv`、`reports/audit/l2_attribution_audit.csv`、`reports/audit/l3_leakage_audit.csv` 及 `reports/audit/verdict.json`
+- [ ] T005 [P] [US1] In `scripts/audit_persona_claims.py`, implement structured extraction of persona assertions and a classifier for the four source classes (literature / competitor behaviour / team discussion / no source)
+- [ ] T006 [US1] In `scripts/audit_persona_claims.py`, implement E0–E3 evidence-level computation and the mapping of `allowed_usage` restriction rules
+- [ ] T007 [US1] Run the persona provenance audit and export the results to `reports/audit/persona_provenance.csv`
 
-**检查点**：MVP 核心成立，L1–L3 具备精确可查验的分母分子，离线路径生成面被正式测量
+**Checkpoint**: persona evidence levels are now fully locked; whether core pain points depend on assumptions is obvious at a glance
 
 ---
 
-## 阶段 6：用户故事 4 - 在线 LLM 路径的幻觉对照实验脚手架 (US-04, 优先级: P1)
+## Phase 4: User Story 2 - Design-Persona Mapping and Circular-Argument Detection (US-02, priority: P0)
 
-**目标**：提供 A/B/C 三组对照评测实验框架，支持无 Key 优雅跳过并计算 Wilson 得分区间
+**Goal**: build the bidirectional mapping between the 14 MoSCoW requirements and personas, identify reverse gaps, and rewrite circular arguments as external falsifiable propositions
 
-**独立测试**：在未配置 API Key 环境下运行 `python scripts/audit_online_baseline.py`，返回码为 0 并生成 `reports/audit/online_baseline.skipped.json`；配置 Key 时产出有效对照统计与置信区间
+**Independent test**: inspect the exported `reports/audit/requirement_persona_map.csv`; it has exactly 14 rows and includes the `assumption_driven` flag; self-serving requirements such as R10 are explicitly marked, and circular-argument rows carry a non-empty `external_falsifiable_claim`
 
-- [ ] T016 [P] [US4] 在 `scripts/audit_online_baseline.py` 中实现检测不到 `QWEN_API_KEY` 时的优雅跳过机制与状态记录器
-- [ ] T017 [US4] 在 `scripts/audit_online_baseline.py` 中实现 A/B/C 三组 prompt 采样调用、评分一致性（Cohen's κ）与 Wilson 95% 置信区间计算逻辑
+- [ ] T008 [P] [US2] In `scripts/audit_persona_claims.py`, implement the bidirectional mapping logic from Ch2's 14 requirements (R01–R14) to `PersonaClaim`
+- [ ] T009 [US2] In `scripts/audit_persona_claims.py`, implement reverse-gap detection (functionality without persona / persona without functionality) and the circular self-justification identification algorithm
+- [ ] T010 [US2] Run the mapping analysis and inject the D1–D4 external falsifiable propositions into `reports/audit/requirement_persona_map.csv`
 
-**检查点**：在线对比实验脚手架就绪，完全满足无 Key 运行约束与小样本统计规范
-
----
-
-## 阶段 7：用户故事 5 - 结论与论证修订 (US-05, 优先级: P0)
-
-**目标**：汇聚实测数据锁定结论等级（V1），生成针对报告各章节的句子级改写对照清单并排查禁用词
-
-**独立测试**：检查 `specs/004-persona-hallucination-audit/contracts/report-claim-contract.md` 包含 Ch1、Ch2、Ch6 的直接改写段落；禁用词扫描器返回 0 个违规项
-
-- [ ] T018 [P] [US5] 依据审计实测在 `reports/audit/verdict.json` 中判定并固化系统结论等级为 V1（离线消除生成面）
-- [ ] T019 [US5] 编制跨章节（Ch1 痛点、Ch2 需求、Ch6 评估）的改写对照表至 `specs/004-persona-hallucination-audit/contracts/report-claim-contract.md`
-- [ ] T020 [US5] 在 `scripts/audit_hallucination_l1_l3.py` 中集成针对 master plan 禁用词表的文本扫描器并执行校验
-
-**检查点**：报告的因果主张与学术防身表述完成句子级锁定，消除不可证吹嘘
+**Checkpoint**: the design-rationality argument has escaped the persona's self-referential assumption and been converted into independently testable external propositions
 
 ---
 
-## 阶段 8：用户故事 6 - 答辩防御弹药扩展 (US-06, 优先级: P2)
+## Phase 5: User Story 3 - Four-Level Hallucination Measurement Framework (US-03, priority: P0) 🎯 MVP
 
-**目标**：为答辩人提供 5 个针对画像真实性与防幻觉能力的 30 秒诚实应答模板
+**Goal**: complete the L1 content, L2 attribution and L3 leakage measurements offline and deterministically, and output complete structured metrics and a determinism hash
 
-**独立测试**：检查 `reports/supervisor_qa_defense_library.md` 包含 5 个指定审计 Q&A，各含实测具体数字与局限性自承
+**Independent test**: run `python scripts/audit_hallucination_l1_l3.py`; it produces 3 CSVs and `verdict.json`; row counts are exactly 84 / 36 / 12; after two consecutive runs `determinism_check.identical` is True
 
-- [ ] T021 [P] [US6] 编写 5 个画像假设与幻觉主张的 30 秒答辩应答话术至 `reports/supervisor_qa_defense_library.md`
+- [ ] T011 [P] [US3] In `scripts/audit_hallucination_l1_l3.py`, implement the L1 content auditor for factual judgements on the 48 options and 36 traps
+- [ ] T012 [P] [US3] In `scripts/audit_hallucination_l1_l3.py`, implement the L2 attribution auditor for trap-name discriminability and misconception-mapping consistency across the 36 traps
+- [ ] T013 [P] [US3] In `scripts/audit_hallucination_l1_l3.py`, implement the L3 regex auditor for premature leakage (answer spoiling) of correct-option entities in the guidance text
+- [ ] T014 [US3] In `scripts/audit_hallucination_l1_l3.py`, implement offline-mode metric aggregation (L4 recorded as N/A, no generation surface) and the double-run determinism hash check
+- [ ] T015 [US3] Run the script to generate `reports/audit/l1_content_audit.csv`, `reports/audit/l2_attribution_audit.csv`, `reports/audit/l3_leakage_audit.csv` and `reports/audit/verdict.json`
 
-**检查点**：答辩防御库就绪，团队面对导师关于“画像真假”和“是否降低幻觉”的质询具备从容应对能力
-
----
-
-## 阶段 9：完善与跨领域关注点 (Polish & Cross-Cutting)
-
-**目的**：全系统质量门禁复核与空间纪律审计
-
-- [ ] T022 使用 `specs/004-persona-hallucination-audit/contracts/audit-result.schema.json` 对 `reports/audit/verdict.json` 进行全模式强校验
-- [ ] T023 运行 `python -m pytest tests/ -q`，确认现有 145 个自动化测试用例保持 100% 通过（零回归门禁）
-- [ ] T024 审查仓库根目录与工作区，清理任何多余临时碎屑，确保严格符合零根目录污染守则
+**Checkpoint**: the MVP core holds; L1–L3 now have precise, inspectable denominators and numerators, and the generation surface of the offline path has been formally measured
 
 ---
 
-## 依赖关系与用户故事执行顺序
+## Phase 6: User Story 4 - Scaffolding for the Online LLM Path Hallucination Comparison Experiment (US-04, priority: P1)
+
+**Goal**: provide the A/B/C three-group comparison experiment framework, supporting graceful skipping without a key and computing Wilson score intervals
+
+**Independent test**: in an environment without an API key, running `python scripts/audit_online_baseline.py` returns code 0 and generates `reports/audit/online_baseline.skipped.json`; with a key configured, it produces valid comparison statistics and confidence intervals
+
+- [ ] T016 [P] [US4] In `scripts/audit_online_baseline.py`, implement graceful skipping and a status recorder for when `QWEN_API_KEY` is not detected
+- [ ] T017 [US4] In `scripts/audit_online_baseline.py`, implement A/B/C prompt sampling calls, rater agreement (Cohen's κ), and Wilson 95% confidence interval computation
+
+**Checkpoint**: the online comparison scaffolding is ready and fully satisfies the no-key operation constraint and small-sample statistical conventions
+
+---
+
+## Phase 7: User Story 5 - Verdict and Argument Revision (US-05, priority: P0)
+
+**Goal**: aggregate the measured data to lock the verdict level (V1), generate a sentence-level revision comparison list for each report chapter, and scan for banned words
+
+**Independent test**: confirm that `specs/004-persona-hallucination-audit/contracts/report-claim-contract.md` contains the direct rewrite passages for Ch1, Ch2 and Ch6; the banned-word scanner returns 0 violations
+
+- [ ] T018 [P] [US5] Based on the audit measurements, determine and freeze the system verdict level as V1 in `reports/audit/verdict.json` (offline elimination of the generation surface)
+- [ ] T019 [US5] Compile the cross-chapter (Ch1 pain points, Ch2 requirements, Ch6 evaluation) revision comparison table into `specs/004-persona-hallucination-audit/contracts/report-claim-contract.md`
+- [ ] T020 [US5] Integrate a text scanner for the master-plan banned-word list into `scripts/audit_hallucination_l1_l3.py` and run the validation
+
+**Checkpoint**: the report's causal claims and academic defence wording are locked at sentence level, eliminating unprovable boasts
+
+---
+
+## Phase 8: User Story 6 - Defence Ammunition Extension (US-06, priority: P2)
+
+**Goal**: provide the defence speaker with 5 honest 30-second answer templates addressing persona authenticity and hallucination-prevention capability
+
+**Independent test**: confirm that `reports/supervisor_qa_defense_library.md` contains the 5 specified audit Q&A pairs, each with concrete measured numbers and a self-acknowledged limitation
+
+- [ ] T021 [P] [US6] Write the 30-second defence answers for the 5 persona-assumption and hallucination-claim questions into `reports/supervisor_qa_defense_library.md`
+
+**Checkpoint**: the defence library is ready; the team can calmly handle the supervisor's questions about "are the personas real" and "did you reduce hallucination"
+
+---
+
+## Phase 9: Polish and Cross-Cutting Concerns
+
+**Purpose**: whole-system quality-gate review and workspace-discipline audit
+
+- [ ] T022 Perform full-schema strict validation of `reports/audit/verdict.json` against `specs/004-persona-hallucination-audit/contracts/audit-result.schema.json`
+- [ ] T023 Run `python -m pytest tests/ -q` and confirm that the existing 145 automated test cases still pass 100% (zero-regression gate)
+- [ ] T024 Review the repository root and working tree, clean up any leftover temporary debris, and ensure strict compliance with the zero-root-pollution rule
+
+---
+
+## Dependencies and User Story Execution Order
 
 ```mermaid
 graph TD
-    subgraph 基础设施与基础
-        T001["T001: 创建 reports/audit/ 目录"]
-        T002["T002: 校验 Schema 可用性"]
-        T003["T003: 题库提取与指纹基类"]
-        T004["T004: 画像断言与需求解析"]
+    subgraph Infrastructure and foundation
+        T001["T001: Create reports/audit/ directory"]
+        T002["T002: Verify schema availability"]
+        T003["T003: Question-bank extraction and fingerprint base class"]
+        T004["T004: Persona assertion and requirement parsing"]
         T001 --> T003
         T002 --> T003
         T001 --> T004
     end
 
-    subgraph 用户故事实施
-        US1["US-01: 画像可追溯性审计 (T005-T007)"]
-        US2["US-02: 需求画像映射 (T008-T010)"]
-        US3["US-03: 四级幻觉评测 MVP (T011-T015)"]
-        US4["US-04: 在线基线脚手架 (T016-T017)"]
-        US5["US-05: 结论与论证修订 (T018-T020)"]
-        US6["US-06: 答辩防御库扩展 (T021)"]
+    subgraph User story implementation
+        US1["US-01: Persona provenance audit (T005-T007)"]
+        US2["US-02: Requirement-persona mapping (T008-T010)"]
+        US3["US-03: Four-level hallucination measurement MVP (T011-T015)"]
+        US4["US-04: Online baseline scaffolding (T016-T017)"]
+        US5["US-05: Verdict and argument revision (T018-T020)"]
+        US6["US-06: Defence library extension (T021)"]
 
         T004 --> US1
         US1 --> US2
@@ -152,10 +152,10 @@ graph TD
         US5 --> US6
     end
 
-    subgraph 验收门禁
-        T022["T022: Schema 强校验"]
-        T023["T023: pytest 145 用例零回归"]
-        T024["T024: 根目录零污染审查"]
+    subgraph Acceptance gates
+        T022["T022: Strict schema validation"]
+        T023["T023: pytest 145 cases zero regression"]
+        T024["T024: Zero root pollution review"]
 
         US5 --> T022
         US5 --> T023
@@ -165,22 +165,22 @@ graph TD
 
 ---
 
-## 并行执行机会
+## Parallel Execution Opportunities
 
-1. **设置与基础阶段**：`T002` 与 `T001`、`T004` 与 `T003` 可并行实现。
-2. **用户故事阶段**：
-   - `US-01`（画像分析，负责文档）与 `US-03`（四级幻觉，负责代码）完全解耦，可由不同人员并行推进；
-   - `T011`（L1）、`T012`（L2）、`T013`（L3）评测器可并行编写；
-   - `US-04`（在线实验脚手架）可与 `US-03` 并行开发。
-3. **收尾阶段**：`T021`（答辩文案）与 `T022`（模式校验）可完全并行进行。
+1. **Setup and foundation phase**: `T002` and `T001`, `T004` and `T003` can be implemented in parallel.
+2. **User story phase**:
+   - `US-01` (persona analysis, documentation-oriented) and `US-03` (four-level hallucination, code-oriented) are fully decoupled and can be advanced in parallel by different people;
+   - `T011` (L1), `T012` (L2) and `T013` (L3) auditors can be written in parallel;
+   - `US-04` (online experiment scaffolding) can be developed in parallel with `US-03`.
+3. **Wrap-up phase**: `T021` (defence wording) and `T022` (schema validation) can run fully in parallel.
 
 ---
 
-## 实现策略（MVP 优先）
+## Implementation Strategy (MVP-first)
 
-- **MVP 范围**：锁定 **US-03（四级幻觉评测装置，T011–T015）** + **US-01（画像溯源，T005–T007）**。完成这两部分即可获得第一手真实数据，回答用户最迫切的核心疑问（“到底有没有降低 AI 幻觉”）。
-- **增量交付路线**：
-  1. **增量 1 (MVP)**：完成离线 L1–L3 运行，拿到 84/36/12 分母，得出 V1 等级结论。
-  2. **增量 2**：完成画像需求映射与循环论证解耦（US-02），重写可证伪命题。
-  3. **增量 3**：在线对照实验可跳过脚手架就位（US-04），输出确定性 skip 记录。
-  4. **增量 4**：改写报告关键结论与答辩防身库（US-05, US-06），通过 145 个测试全绿门禁。
+- **MVP scope**: lock onto **US-03 (four-level hallucination measurement harness, T011–T015)** + **US-01 (persona provenance, T005–T007)**. Completing these two parts already yields first-hand real data answering the user's most pressing core question ("has AI hallucination actually been reduced").
+- **Incremental delivery route**:
+  1. **Increment 1 (MVP)**: complete the offline L1–L3 run, obtain the 84/36/12 denominators, and reach a V1 verdict.
+  2. **Increment 2**: complete the persona-requirement mapping and decouple the circular arguments (US-02), rewriting them as falsifiable propositions.
+  3. **Increment 3**: the skippable online comparison scaffolding is in place (US-04), outputting a deterministic skip record.
+  4. **Increment 4**: revise the report's key conclusions and the defence library (US-05, US-06), and pass the 145-test all-green gate.

@@ -1,28 +1,28 @@
 %%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 45, "rankSpacing": 75, "padding": 14}}}%%
-%% 图 2：全局 UML 用例图 (Global Use Case Diagram)
-%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant
-%% 说明：
-%%   1. <<include>> / <<extend>> 刻型以 ASCII 尖括号渲染。Mermaid 的 HTML 标签
-%%      消毒器会把边标签中的 <...> 当作未知标签剥离，因此源码使用等宽占位符
-%%      [[ST_INCLUDE]] / [[ST_EXTEND]]，由 tools/render_figures.mjs 在导出时
-%%      替换为真实刻型并同步修正标签宽度；直接用 mermaid.live 预览时请手工替换。
-%%   2. 关系方向遵循 UML 2.5 规范：包含关系 (<<include>>) 为基础用例 -> 被包含用例；
-%%      扩展关系 (<<extend>>) 为扩展用例 -> 基础用例。
-%%   3. 虚线框内为系统边界；状态标记见下。
-%%      [已实现] 当前 PoC 已交付；[前端计算] 无后端端点；[规划中] 后续迭代。
+%% Figure 2: Global UML Use Case Diagram (Global Use Case Diagram)
+%% JC2001 Group 5 / StudyGraph Smart Study Assistant
+%% Notes:
+%%   1. The <<include>> / <<extend>> stereotypes render with ASCII angle brackets. Mermaid's HTML tag
+%%      sanitizer strips <...> inside edge labels as unknown tags, so the source uses monospace placeholders
+%%      [[ST_INCLUDE]] / [[ST_EXTEND]], which tools/render_figures.mjs substitutes at export time
+%%      with the real stereotypes and fixes the label widths accordingly; when previewing directly in mermaid.live, substitute them by hand.
+%%   2. Relationship direction follows the UML 2.5 specification: an include relationship (<<include>>) points from the base use case to the included use case;
+%%      an extend relationship (<<extend>>) points from the extending use case to the base use case.
+%%   3. The dashed box is the system boundary; status markers are listed below.
+%%      [Implemented] delivered in the current PoC; [Frontend-computed] no backend endpoint; [Planned] a later iteration.
 flowchart LR
-    Student(["在校大学生<br/>(Student)"])
+    Student(["University Student<br/>(Student)"])
 
-    subgraph Core["智学罗盘核心功能域 (System Boundary)"]
+    subgraph Core["StudyGraph Core Functional Domain (System Boundary)"]
         direction LR
-        UC02["<b>UC-02 专项自测刷题</b><br/>[已实现]"]
-        UC05["<b>UC-05 查看学情掌握度雷达</b><br/>[前端计算 · 无后端端点]"]
-        UC03["<b>UC-03 检索考点知识点</b><br/>[已实现]"]
-        UC01["<b>UC-01 错题智能排雷诊断</b><br/>[已实现]"]
-        UC04["<b>UC-04 浏览图谱拓扑关联</b><br/>[已实现]"]
-        UC08["<b>UC-08 苏格拉底导师追问</b><br/>[已实现 · 本地优先]"]
-        UC07["<b>UC-07 变式题自适应强化</b><br/>[规划中]"]
-        UC06["<b>UC-06 外部模型增强</b><br/>[可选 · 规划中]"]
+        UC02["<b>UC-02 Targeted Self-Test Practice</b><br/>[Implemented]"]
+        UC05["<b>UC-05 View Learning Mastery Radar</b><br/>[Frontend-computed · no backend endpoint]"]
+        UC03["<b>UC-03 Search Exam Topics and Concepts</b><br/>[Implemented]"]
+        UC01["<b>UC-01 Intelligent Wrong-Answer Trap Diagnosis</b><br/>[Implemented]"]
+        UC04["<b>UC-04 Browse Graph Topology Relations</b><br/>[Implemented]"]
+        UC08["<b>UC-08 Socratic Tutor Follow-Up</b><br/>[Implemented · local-first]"]
+        UC07["<b>UC-07 Adaptive Variant-Question Reinforcement</b><br/>[Planned]"]
+        UC06["<b>UC-06 External Model Enhancement</b><br/>[Optional · planned]"]
     end
 
     Student --> UC02

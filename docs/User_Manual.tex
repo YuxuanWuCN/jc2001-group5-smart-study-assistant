@@ -1,0 +1,388 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{parskip}
+
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{accent}{HTML}{1D4ED8}
+\definecolor{soft}{HTML}{475569}
+\definecolor{panel}{HTML}{F1F5F9}
+
+\setmainfont{Times New Roman}
+\setsansfont{Segoe UI}
+\setmonofont{Consolas}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent,bookmarksnumbered=true}
+\titleformat{\section}{\sffamily\Large\bfseries\color{ink}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\sffamily\large\bfseries\color{ink}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\color{soft}}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.6em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\footnotesize\sffamily\color{soft}JC2001 Software Engineering \textperiodcentered{} Group 5}
+\fancyhead[R]{\footnotesize\sffamily\color{soft}StudyGraph User Manual}
+\fancyfoot[C]{\footnotesize\sffamily\color{soft}\thepage}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{panel},
+  frame=none,
+  breaklines=true,
+  columns=fullflexible,
+  xleftmargin=0.4em,
+  xrightmargin=0.4em,
+  aboveskip=0.6em,
+  belowskip=0.8em,
+  showstringspaces=false
+}
+
+\newcommand{\code}[1]{\texttt{\small\detokenize{#1}}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{3.2cm}
+{\sffamily\small\color{soft} JC2001 Software Engineering \textperiodcentered{} Group 5}\\[0.5cm]
+{\sffamily\bfseries\fontsize{34}{40}\selectfont\color{ink} StudyGraph}\\[0.35cm]
+{\sffamily\large\color{soft} Graph-Augmented Misconception Diagnosis\\ for Exam Preparation}\\[2.2cm]
+{\sffamily\bfseries\Large\color{accent} User Manual}\\[0.3cm]
+{\sffamily\normalsize\color{soft} Installation, operation, and interface reference for the Cycle 3 proof of concept}\\[3.2cm]
+
+\begin{minipage}{0.78\textwidth}
+\centering
+{\sffamily\small\color{soft}
+Document version 1.0 \textperiodcentered{} 26 November 2026\\[0.2cm]
+Prepared for examiners, demonstrators, and future maintainers\\
+University of Aberdeen \textperiodcentered{} South China Normal University}
+\end{minipage}
+
+\vfill
+{\sffamily\footnotesize\color{soft} This manual describes the software as submitted at the Cycle 3 proof-of-concept HEAD.\\
+It is self-contained: no external account, API key, or network connection is required to follow it.}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{About This Manual}
+
+StudyGraph is a local, single-process prototype that helps university students revise rule-dense courses.
+A student answers a multiple-choice question; the system identifies the \emph{specific misconception} behind a
+wrong answer, shows the missing prerequisite, and asks a Socratic question instead of revealing the answer.
+
+This manual is written for three readers:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em]
+  \item \textbf{Examiners and demonstrators} who want to run the prototype and try it in a few minutes. Start with Section~\ref{sec:start}.
+  \item \textbf{The development team} who needs a reference for the five console views and the REST contract. See Sections~\ref{sec:tour}--\ref{sec:api}.
+  \item \textbf{Future maintainers} who need to know what is deliberately out of scope. See Section~\ref{sec:limits}.
+\end{itemize}
+
+The manual describes the software \emph{as delivered}: it does not promise features that exist only on the roadmap.
+Where the implementation is narrower than the design, the manual says so explicitly.
+
+\subsection{What the prototype does}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Capability} & \textbf{Behaviour in this build} \\
+\midrule
+Curated question bank & 17 questions across 9 subjects, each with exactly four options and three distractor traps (51 traps total) \\
+Trap diagnosis & A wrong answer returns the trap it selected: title, description, prerequisite, and radar dimension \\
+Local concept graph & The four-field model (\code{GraphData}, \code{GraphNode}, \code{GraphEdge}, \code{TrapDetail}) is returned with the diagnosis \\
+Socratic tutor & A short probing question assembled from reviewed evidence; no answer text is disclosed \\
+Learning analytics & Five-dimension mastery radar plus a session trend line, computed in the browser \\
+Deterministic offline mode & All of the above work with no API key and no network connection \\
+\bottomrule
+\end{tabularx}
+
+\subsection{What the prototype deliberately is not}
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em]
+  \item Not a multi-user service. Authentication is a demonstration login; there is no server-side session enforcement.
+  \item Not a production answer-key service. Question payloads expose the correct option; the design contract is documented as a known limitation.
+  \item Not an online-generation product at runtime. The large-language-model path is optional and is used only to rephrase an already-decided explanation.
+  \item Not a mobile application. The console is a responsive browser interface served by the same process.
+\end{itemize}
+
+\section{System Requirements}
+\label{sec:req}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Item} & \textbf{Requirement} \\
+\midrule
+Operating system & Windows 10/11, macOS, or Linux; verified on Windows 11 \\
+Python & 3.10 or later (verified on 3.13/3.14); \code{venv} recommended \\
+Packages & The twelve dependencies in \code{requirements.txt}; a network connection is needed once, at install time \\
+Browser & Any current browser with ES6 and CSS custom properties (Chrome, Edge, Firefox, Safari) \\
+Port & \code{8000} by default; overridable with \code{--port} or \code{PORT} \\
+Disk & About 3~MB for the packaged source, plus the environment \\
+Network & Not required at run time; required only for the first \code{pip install} and for the optional model probe \\
+\bottomrule
+\end{tabularx}
+
+\section{Getting Started}
+\label{sec:start}
+
+The procedure is five commands and takes about a minute once the dependencies are cached.
+Run everything from the project root (the directory containing \code{backend/} and \code{frontend/}).
+
+\subsection{Install and start}
+
+\begin{lstlisting}[language=bash]
+# 1. create and activate an isolated environment
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+source .venv/bin/activate       # macOS / Linux
+
+# 2. install the dependencies declared in the repository
+pip install -r requirements.txt
+
+# 3. start the service (the project root, not the backend folder)
+uvicorn backend.app.main:app --port 8000
+
+# 4. open the console
+start http://127.0.0.1:8000     # or paste the address into a browser
+\end{lstlisting}
+
+The service prints the bound address, for example
+\code{Uvicorn running on http://127.0.0.1:8000}. Opening that address serves the study console;
+\code{http://127.0.0.1:8000/docs} serves the interactive OpenAPI documentation.
+
+\begin{quote}
+\small\color{soft}\textbf{Common first mistake.} Run the server from the project root. Running
+\code{python backend/run.py} from that same root fails with
+\code{ModuleNotFoundError: No module named 'backend'}, because Python places the script's own directory on
+\code{sys.path}. Use the \code{uvicorn backend.app.main:app} command above instead.
+\end{quote}
+
+\subsection{Verify the installation}
+
+Three checks confirm that the system is healthy before a demonstration:
+
+\begin{lstlisting}[language=bash]
+curl http://127.0.0.1:8000/api/health
+curl http://127.0.0.1:8000/api/quiz?limit=1
+python -m pytest tests/ -q
+\end{lstlisting}
+
+The first returns a status payload with \code{"status":"ok"}; the second returns a question;
+the third runs the offline regression suite and should end with
+\code{all tests passed} (no API key and no network required).
+
+\subsection{Running completely offline}
+
+Create an \code{.env} file only if you want optional integrations; the server starts without one.
+When \code{DASHSCOPE_API_KEY} (or \code{QWEN_API_KEY}) is unset, the interface reports the model path as
+\emph{not configured} and every diagnosis is served from the curated local bank. This is the default and
+preferred configuration for marking, because it makes results reproducible.
+
+\section{Interface Tour}
+\label{sec:tour}
+
+The console has five views, listed in the sidebar. Each view is a single page section; no build step,
+package manager, or bundler is involved.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{View} & \textbf{Purpose} \\
+\midrule
+\code{view-home} & Landing summary: bank size, subjects, and the entry points to practice and tutor \\
+\code{view-quiz} & Diagnostic practice: question, four options, hint, submit, and the trap card \\
+\code{view-tutor} & Socratic dialogue: follow-up questions grounded in the same reviewed evidence \\
+\code{view-graph} & Concept graph: the local subgraph for the current question \\
+\code{view-report} & Learning analytics: five-dimension radar and session trend \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+A theme control in the header switches between light and dark presentation; the choice is stored in the browser
+and does not affect the data.
+
+\subsection{Reading a question}
+
+Each question card shows the subject, a review-state badge, a source reference, the stem, and four options.
+Two controls matter:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em]
+  \item \textbf{View Hint} reveals a one-line nudge that narrows the choice without naming the answer.
+  \item \textbf{Submit Answer} records the attempt and opens the feedback panel.
+\end{itemize}
+
+\subsection{Reading the trap card}
+
+After a wrong answer the feedback panel shows four fields, which are exactly the fields the diagnosis endpoint returns:
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Field} & \textbf{Meaning} \\
+\midrule
+Trap title & The named misconception the selected distractor encodes \\
+Description & Why that misconception is tempting, in one paragraph \\
+Prerequisite & The concept the student is missing and should revise first \\
+Radar dimension & Which of the five mastery dimensions this attempt moves \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The correct option is highlighted at the same time. The trap card is the core interaction of the prototype:
+it converts a binary right/wrong mark into a named, actionable gap.
+
+\subsection{Using the Socratic tutor}
+
+The tutor view accepts a free-text follow-up. Replies are assembled from the reviewed evidence attached to the
+current question, so they stay inside the curriculum. If an external model is configured, it is asked only to
+rephrase that evidence more conversationally; the content does not change.
+If no model is configured, or the call fails or times out, the tutor falls back to the same reviewed evidence and
+labels the reply as local.
+
+\subsection{Reading the analytics}
+
+The report view renders two visualisations from attempt history stored in the browser:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.15em]
+  \item A five-axis radar over \emph{recall}, \emph{boundary}, \emph{trap defence}, \emph{synthesis}, and \emph{precision}.
+  \item A session trend line comparing accuracy across attempts.
+\end{itemize}
+
+With no attempts recorded the radar is empty and the trend is flat; this is expected on a fresh browser profile.
+
+\section{Worked Example: One Diagnosis End to End}
+
+This section follows a single attempt through the system, which is the fastest way to understand the architecture.
+
+\begin{enumerate}[leftmargin=1.6em,itemsep=0.3em]
+  \item Open the practice view and choose a question, for example a question on statutory periods in civil law.
+  \item Select a distractor, for example the option that applies the ordinary limitation period to a formative right.
+  \item Press \textbf{Submit Answer}. The console posts to \code{POST /api/diagnose} with the question identifier and the selected key.
+  \item The router validates the body with a Pydantic model, then delegates to the diagnostic service.
+  \item The service looks up the option, reads its correctness flag, and --- on a wrong option --- reads the attached trap record.
+  \item The response carries the trap title, description, prerequisite, radar dimension, the local concept subgraph, and a Socratic prompt.
+  \item The console renders the trap card, highlights the correct option, appends the attempt to browser storage, and redraws the radar.
+\end{enumerate}
+
+There is no model inference on this path. The diagnosis is a dictionary lookup followed by field assembly, which is
+why it is deterministic and why it works offline.
+
+\section{API Reference}
+\label{sec:api}
+
+All endpoints are mounted under \code{/api}. Requests and responses are JSON; responses use camelCase field names.
+The interactive documentation at \code{/docs} lists the exact schemas.
+
+\subsection{Endpoint summary}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+\textbf{Method} & \textbf{Path} & \textbf{Purpose} \\
+\midrule
+GET & \code{/api/health} & Liveness and configuration summary \\
+GET & \code{/api/health/llm} & Optional model probe; masks credentials \\
+POST & \code{/api/quiz} & Question list, optionally filtered by subject \\
+POST & \code{/api/diagnose} & Trap diagnosis for one selected option \\
+GET & \code{/api/reports/summary} & Five-dimension mastery summary \\
+GET & \code{/api/reports/trend} & Attempt trend for a subject \\
+GET & \code{/api/auth/demo-users} & Demonstration personas \\
+POST & \code{/api/auth/login} & Demonstration login \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Example requests}
+
+\begin{lstlisting}[language=bash]
+# health
+curl http://127.0.0.1:8000/api/health
+
+# questions for one subject
+curl -X POST http://127.0.0.1:8000/api/quiz \
+     -H "Content-Type: application/json" \
+     -d '{"subject":"law","limit":5}'
+
+# diagnose a selected option
+curl -X POST http://127.0.0.1:8000/api/diagnose \
+     -H "Content-Type: application/json" \
+     -d '{"question_id":"law_1","selected_option":"B"}'
+
+# mastery summary and trend
+curl "http://127.0.0.1:8000/api/reports/summary?subject=law"
+curl "http://127.0.0.1:8000/api/reports/trend?subject=all"
+\end{lstlisting}
+
+\subsection{Error behaviour}
+
+Invalid identifiers return \code{404}; structurally invalid bodies and unprocessable selections return \code{422}
+with a field-level diagnostic. The suite in \code{tests/test_adversarial_backend.py} proves that malformed input
+never produces a \code{500}: injection strings, type confusion, overflow payloads, and concurrent bursts all return
+a controlled status.
+
+\section{Troubleshooting}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Symptom} & \textbf{Cause and remedy} \\
+\midrule
+\code{ModuleNotFoundError: backend} & The server was started from the wrong directory. Run \code{uvicorn backend.app.main:app} from the project root. \\
+Port already in use & Another process holds \code{8000}. Start with \code{--port 8001} and open the matching address. \\
+Blank charts in the report view & No attempts recorded yet, or the browser blocked local storage. Answer one question first. \\
+\code{/api/health/llm} reports not configured & No model key is present. This is the intended offline configuration. \\
+\code{401} on a report call & The request omitted the demonstration identity header the console normally sends. \\
+Slow first start & The first import compiles the application; later starts are effectively instant. \\
+\bottomrule
+\end{tabularx}
+
+\section{Limitations and Scope}
+\label{sec:limits}
+
+The following limits are deliberate and are stated here so that no reader over-estimates the prototype:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.2em]
+  \item \textbf{One user at a time.} Attempt history lives in browser storage, not in a shared database.
+  \item \textbf{Demonstration authentication.} Passwords are salted and hashed, but there is no server-side session enforcement.
+  \item \textbf{Answer keys in question payloads.} The quiz response includes correctness flags; a production build would withhold them.
+  \item \textbf{Wildcard CORS.} Acceptable for a local demonstration, not for a public deployment.
+  \item \textbf{Offline-first evaluation.} The GraphRAG benchmark runs as a separate offline pipeline; the runtime does not query the graph database.
+\end{itemize}
+
+\section{Where to Look Next}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Question} & \textbf{Document} \\
+\midrule
+How is the system designed? & \code{reports/final_report/StudyGraph\_Cycle3\_Final\_Report.pdf}, Chapters 3--5 \\
+How is it tested? & The same report, Chapter 6, and Appendix C \\
+How do I run the offline evaluation? & \code{graphrag\_final/README.md} \\
+What are the exact HTTP contracts? & \code{http://127.0.0.1:8000/docs} at run time \\
+How do I contribute? & \code{README.md} at the repository root \\
+\bottomrule
+\end{tabularx}
+
+\vspace{1.2em}
+\begin{quote}
+\small\color{soft}
+If a step in this manual does not reproduce, treat that as a defect in the manual and report it rather than
+working around it silently: the manual is part of the deliverable and is expected to match the submitted code.
+\end{quote}
+
+\end{document}

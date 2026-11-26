@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# 通用函数与变量（供所有脚本使用）
+# Common functions and variables (shared by all scripts)
 
-# 获取仓库根目录；在非 Git 仓库下回退为脚本所在路径的上级目录
+# Get the repository root; outside a Git repo, fall back to the parent of the script location
 get_repo_root() {
     if git rev-parse --show-toplevel >/dev/null 2>&1; then
         git rev-parse --show-toplevel
     else
-        # 非 Git 仓库下回退为脚本所在路径的上级目录
+        # Outside a Git repo, fall back to the parent of the script location
         local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
         (cd "$script_dir/../../.." && pwd)
     fi
 }
 
-# 获取当前分支；在非 Git 仓库下通过 specs 目录推断
+# Get the current branch; outside a Git repo, infer it from the specs directory
 get_current_branch() {
     # First check if SPECIFY_FEATURE environment variable is set
     if [[ -n "${SPECIFY_FEATURE:-}" ]]; then
@@ -26,7 +26,7 @@ get_current_branch() {
         return
     fi
 
-# 非 Git 仓库：尝试在 specs 目录中查找最新的特性目录
+# Non-Git repo: try to find the latest feature directory under specs
     local repo_root=$(get_repo_root)
     local specs_dir="$repo_root/.specify/specs"
 
@@ -57,7 +57,7 @@ get_current_branch() {
     echo "main"  # Final fallback
 }
 
-# 检查是否存在 Git 仓库
+# Check whether a Git repository exists
 has_git() {
     git rev-parse --show-toplevel >/dev/null 2>&1
 }
@@ -68,13 +68,13 @@ check_feature_branch() {
 
     # For non-git repos, we can't enforce branch naming but still provide output
     if [[ "$has_git_repo" != "true" ]]; then
-        echo "[specify] 警告: 未检测到 Git 仓库；已跳过分支校验" >&2
+        echo "[specify] Warning: no Git repository detected; skipping branch validation" >&2
         return 0
     fi
 
     if [[ ! "$branch" =~ ^[0-9]{3}- ]]; then
-        echo "错误: 当前不在特性分支。当前分支: $branch" >&2
-        echo "特性分支命名应为: 001-feature-name" >&2
+        echo "Error: not on a feature branch. Current branch: $branch" >&2
+        echo "Feature branches must be named like: 001-feature-name" >&2
         return 1
     fi
 
@@ -83,8 +83,8 @@ check_feature_branch() {
 
 get_feature_dir() { echo "$1/specs/$2"; }
 
-# 根据数字前缀查找特性目录，而非严格匹配分支名
-# 允许多个分支共同使用同一个规格（如 004-fix-bug、004-add-feature）
+# Find the feature directory by numeric prefix rather than exact branch name
+# Allow multiple branches to share one spec (e.g. 004-fix-bug, 004-add-feature)
 find_feature_dir_by_prefix() {
     local repo_root="$1"
     local branch_name="$2"
@@ -99,7 +99,7 @@ find_feature_dir_by_prefix() {
 
     local prefix="${BASH_REMATCH[1]}"
 
-# 在 specs/ 下搜索以该前缀开头的目录
+# Search specs/ for directories starting with this prefix
     local matches=()
     if [[ -d "$specs_dir" ]]; then
         for dir in "$specs_dir"/"$prefix"-*; do
@@ -118,8 +118,8 @@ find_feature_dir_by_prefix() {
         echo "$specs_dir/${matches[0]}"
     else
         # Multiple matches - this shouldn't happen with proper naming convention
-        echo "错误: 发现多个以前缀 '$prefix' 开头的规格目录: ${matches[*]}" >&2
-        echo "请确保每个数字前缀仅存在一个规格目录。" >&2
+        echo "Error: multiple spec directories found with prefix '$prefix': ${matches[*]}" >&2
+        echo "Ensure exactly one spec directory exists per numeric prefix." >&2
         echo "$specs_dir/$branch_name"  # Return something to avoid breaking the script
     fi
 }

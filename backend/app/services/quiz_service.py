@@ -7,13 +7,46 @@ from backend.app.models.quiz import QuizItem
 from backend.app.data.seed_questions import SEED_QUESTIONS
 
 SUBJECT_ALIASES: Dict[str, str] = {
+    # Midterm lecture courses
+    "mkt": "mkt",
+    "marketing": "mkt",
+    "jb2001": "mkt",
+    "mktg": "mkt",
+    "mis": "mis",
+    "management_information_systems": "mis",
+    "management-information-systems": "mis",
+    "management information systems": "mis",
+    "information systems": "mis",
+    "info systems": "mis",
+    "prob_stat": "prob_stat",
+    "probability_statistics": "prob_stat",
+    "probability-statistics": "prob_stat",
+    "probability and statistics": "prob_stat",
+    "probability & statistics": "prob_stat",
+    "probability": "prob_stat",
+    "or": "or",
+    "operations_research": "or",
+    "operations-research": "or",
+    "operations research": "or",
+    "operational research": "or",
+    "eng": "eng",
+    "academic_english": "eng",
+    "academic-english": "eng",
+    "academic english": "eng",
+    "eap": "eng",
+    "ds": "ds",
+    "data_structures": "ds",
+    "data-structures": "ds",
+    "data structures": "ds",
+    "data structure": "ds",
+
     # Economics
     "econ": "econ",
     "economics": "econ",
     "econometrics": "econ",
-    "计量经济学": "econ",
-    "计量": "econ",
-    "经管": "econ",
+    "econometric": "econ",
+    "metrics": "econ",
+    "econ_mgmt": "econ",
     
     # Computer Science
     "cs": "cs",
@@ -21,28 +54,28 @@ SUBJECT_ALIASES: Dict[str, str] = {
     "computer-science": "cs",
     "computerscience": "cs",
     "comp_sci": "cs",
-    "计算机体系结构": "cs",
-    "计算机科学": "cs",
-    "计组": "cs",
-    "计算机": "cs",
+    "computer science": "cs",
+    "computer architecture": "cs",
+    "comp_arch": "cs",
+    "computing": "cs",
     
     # Law
     "law": "law",
     "civil_law": "law",
     "civil-law": "law",
     "civillaw": "law",
-    "民商法学": "law",
-    "民商法": "law",
-    "法学": "law",
-    "民法典": "law",
+    "civil and commercial law": "law",
+    "civil & commercial law": "law",
+    "legal studies": "law",
+    "civil code": "law",
     
     # Software Engineering
     "se": "se",
     "software_engineering": "se",
     "software-engineering": "se",
     "softwareengineering": "se",
-    "软件工程": "se",
-    "软工": "se",
+    "software engineering": "se",
+    "swe": "se",
 }
 
 
@@ -59,7 +92,7 @@ class QuizService:
 
     @staticmethod
     def normalize_subject(subject: Optional[str]) -> Optional[str]:
-        """Normalize subject name or alias to canonical code (econ, cs, law, se)."""
+        """Normalize subject name or alias to a canonical course code."""
         if not subject:
             return None
         cleaned = subject.strip().lower()

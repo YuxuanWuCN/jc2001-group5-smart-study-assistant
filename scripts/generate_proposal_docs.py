@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 JC2001 Software Engineering Week 1 - Dual-Format Compilation Tooling
-Author: Group 5 (Leader: 吴宇轩 50106070)
+Author: Group 5 (Leader: Yuxuan Wu 50106070)
 Milestone: Milestone 4 - Document Generation Pipeline
 
 This script compiles the Markdown Project Proposal (reports/project_proposal.md)
@@ -740,8 +740,8 @@ class ProposalVerifier:
 
         # Check 3: Title Page Verification (Page 1)
         page1_text = pdf[0].get_text()
-        if ("吴宇轩" not in page1_text and "Yuxuan Wu" not in page1_text) or "50106070" not in page1_text:
-            errors.append("Team leader Yuxuan Wu / 吴宇轩 (50106070) not found on Title Page (Page 1)!")
+        if "Yuxuan Wu" not in page1_text or "50106070" not in page1_text:
+            errors.append("Team leader Yuxuan Wu (50106070) not found on Title Page (Page 1)!")
 
         # Check 4: Body Page 1 Footing check
         if total_pages >= 2:
@@ -752,16 +752,16 @@ class ProposalVerifier:
         # Check 5: 10-Member Team Roster Presence
         full_text = "\n".join(page.get_text() for page in pdf)
         roster_members = [
-            ("吴宇轩", "Yuxuan Wu", "50106070"),
-            ("林泳桐", "Yongtong Lin", "50106038"),
-            ("王思鉴", "Sijian Wang", "50106045"),
-            ("江昊", "Hao Jiang", "50106065"),
-            ("谢炜昕", "Weixin Xie", "50106034"),
-            ("张梓健", "Zijian Zhang", "50106035"),
-            ("习羽赛", "Yusai Xi", "50105989"),
-            ("董思钦", "Siqin Dong", "50106060"),
-            ("杨明杰", "Mingjie Yang", "50106061"),
-            ("梁子铉", "Zixuan Liang", "50106037"),
+            ("Wu Yuxuan", "Yuxuan Wu", "50106070"),
+            ("Lin Yongtong", "Yongtong Lin", "50106038"),
+            ("Wang Sijian", "Sijian Wang", "50106045"),
+            ("Jiang Hao", "Hao Jiang", "50106065"),
+            ("Xie Weixin", "Weixin Xie", "50106034"),
+            ("Zhang Zijian", "Zijian Zhang", "50106035"),
+            ("Xi Yusai", "Yusai Xi", "50105989"),
+            ("Dong Siqin", "Siqin Dong", "50106060"),
+            ("Yang Mingjie", "Mingjie Yang", "50106061"),
+            ("Liang Zixuan", "Zixuan Liang", "50106037"),
         ]
         for zh_name, en_name, sid in roster_members:
             if zh_name not in full_text and en_name not in full_text:
@@ -809,7 +809,7 @@ def main() -> int:
     print("=" * 72)
     print("JC2001 DUAL-FORMAT PROPOSAL COMPILATION ENGINE")
     print(f"Course: JC2001 Introduction to Software Engineering (2026–27)")
-    print(f"Team:   Group 5 (Leader: 吴宇轩 50106070)")
+    print(f"Team:   Group 5 (Leader: Yuxuan Wu 50106070)")
     print("=" * 72)
 
     if not input_path.exists():

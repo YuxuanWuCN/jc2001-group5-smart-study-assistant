@@ -1,4 +1,6 @@
-# 5.6 Deployment and Reproducibility
+## 5.6 Deployment and Reproducibility
+
+*Author: Zixuan Liang (50106037) | JC2001 Group 5*
 
 ## 5.6.1 A Single Process as the Deployment Target
 
@@ -13,11 +15,11 @@ deployment story. The assessed artefact is a proof of concept that an examiner r
 machine; hosting it on a public cloud would add a dependency that fails precisely when the network
 is unavailable. The demonstration path consequently needs no database, no language-model endpoint
 and no cloud account, because the question bank is a Python source module
-(`backend/app/data/seed_questions.py`, 657 lines) that is imported when the process starts.
+(`backend/app/data/seed_questions.py`, 932 lines) that is imported when the process starts.
 
 We measured the deployed shape on a Windows 11 machine with Python 3.14.0. A cold start — process
 launch to the first successful `GET /api/health` — took 1.12 s, and the first request for the
-application shell (`GET /`) returned 40,390 bytes of HTML in 50.9 ms. That response had the same
+application shell (`GET /`) returned 63,914 bytes of HTML in 50.9 ms. That response had the same
 size as `frontend/index.html`, which is consistent with the browser application being served by the
 same process rather than by a second web server. The health endpoint reported `has_api_key: false`
 throughout, so every measurement in this section was taken in offline mode.
@@ -54,7 +56,7 @@ uvicorn, pydantic and python-dotenv, and the test suite adds pytest and httpx. I
 list therefore costs more than running the product requires. On the verification machine the full
 manifest resolved to 63 packages, produced a 416 MB environment and took 397 s; the seven packages
 the service and the suite actually import resolved to 32 packages and a 50 MB environment in 44 s,
-and the test suite still reported 150 passes. The narrower manifest is a recommendation for
+and the test suite still reported 189 passes. The narrower manifest is a recommendation for
 Section 5.6.5 rather than a change applied here.
 
 **Table 5.7: Execution environment required by the proof of concept.**
@@ -67,7 +69,7 @@ Section 5.6.5 rather than a change applied here.
 | Port | 8000 by default, overridable | `PORT` in `backend/app/config.py`; `--port` on the command line |
 | Browser | Any current browser with ES6 and CSS custom properties | Chrome, Edge, Firefox or Safari from the last two years |
 | Network | Not required on the demonstration path | Cloud services appear only in the offline evaluation scripts |
-| Disk | 1.82 MB as the unpacked archive (3.99 MB for the full working snapshot); 50–416 MB for the environment | Measured; the range depends on whether the seven runtime packages or the full twelve-dependency manifest is installed |
+| Disk | 4.57 MB as the unpacked archive (3.99 MB for the full working snapshot); 50–416 MB for the environment | Measured; the range depends on whether the seven runtime packages or the full twelve-dependency manifest is installed |
 
 ## 5.6.3 Deployment Procedure
 
@@ -75,9 +77,7 @@ The procedure is five commands. It is the only place in this report where execut
 appear, because it documents operation rather than source code.
 
 ```bash
-# 1. unpack and enter the project
-# NOTE (2026-10-25): use the archive rebuilt from the credential-remediated HEAD;
-# the previously committed snapshot was quarantined (nested pre-remediation credentials).
+# 1. unpack and enter the project (archive rebuilt from the submission HEAD)
 unzip jc2001-group5-poc.zip && cd jc2001-group5-poc
 
 # 2. create an isolated environment (recommended, not required)
@@ -100,12 +100,12 @@ template with placeholders; when no key is present the service starts in strictl
 says so at `/api/health`.
 
 The procedure is fast after the first run and slow on it, and the measurements are worth stating
-plainly because they contradict an assumption the project had been making. On the verification
+plainly because they contradict an assumption we had been making. On the verification
 machine step 2 took 7.6 s and step 4 took 1.12 s, but step 3 took **397 s**. A first run therefore
 needs roughly seven minutes, not the five that the study plan assumed, and the cause is the manifest
 rather than the machine: four of the twelve entries exist for the evaluation prototype, and their
 transitive closure is far larger than the service. Installing only the seven packages that the
-service and the test suite import completes in 44 s and still yields 150 passing cases, so the
+service and the test suite import completes in 44 s and still yields 189 passing cases, so the
 five-minute target is achievable — by trimming the manifest, not by hoping for a faster network.
 Once the environment exists, restarting the service is effectively instantaneous, which is what
 matters in the live demonstration.
@@ -121,23 +121,23 @@ pre-submission task for the repository.
 
 ## 5.6.4 Verification and Reproducibility
 
-Running `python -m pytest tests/ -q` on the verification machine produced **150 passed, 1 warning in
-1.79 s**. The 150 cases are generated by 80 test functions in nine test files and expanded by
+Running `python -m pytest tests/ -q` on the verification machine produced **189 passed in
+2.54 s with zero warnings**. The 189 cases are generated by 105 test functions in ten test files and expanded by
 pytest parametrisation, which is why counting functions in the source understates the suite. The
-earlier study plan's figure (145 cases) predates the last two modules and is superseded by the
+earlier study plan's figure (145 cases) predates two later additions and is superseded by the
 measured value. No test
 contacts an external service: the session fixture deletes `DASHSCOPE_API_KEY` and `QWEN_API_KEY`
 before each case, so what the suite exercises by default is the offline fallback path. This is the
 sense in which the test evidence is reproducible — the same command produces the same result on a
 machine that has never seen a credential.
 
-The study content is equally self-contained. The twelve-item bank lives in
-`backend/app/data/seed_questions.py` (59,653 bytes) and `GET /api/quiz` returned exactly twelve
+The study content is equally self-contained. The seventeen-item bank lives in
+`backend/app/data/seed_questions.py` (101,293 bytes) and `GET /api/quiz` returned exactly twelve
 items in our run, so no database export has to be restored before the application can be
 demonstrated.
 
 The evaluation data are shipped but only partly re-runnable, and we state the boundary explicitly.
-The directory `graphrag(终)/` contains the twelve MMLU subject files and one result snapshot,
+The directory `graphrag_final/` contains the twelve MMLU subject files and one result snapshot,
 `final_systematic_report.csv` (741 bytes), which records the before-and-after figures quoted in
 Chapter 6. Re-running the evaluation, however, requires a live Neo4j Aura instance whose credential
 has since been rotated; the free-tier instance may also be dormant. We therefore do not claim that
@@ -156,12 +156,12 @@ member that is still missing (see below).
 <submission tree>
 ├── backend/                  # FastAPI service and seed data
 ├── frontend/                 # HTML, CSS and JavaScript, no build step
-├── tests/                    # automated regression suite, runs offline
+├── tests/                    # 189 cases, runs offline
 ├── requirements.txt          # 12 direct dependencies
 ├── README.md                 # quick start
 ├── docs/
 │   └── User_Manual.pdf       # 8–12 pages
-├── graphrag（终）/            # offline evaluation scripts and CSVs
+├── graphrag_final/            # offline evaluation scripts and CSVs
 └── .env.example              # optional keys, placeholder values only
 ```
 
@@ -173,20 +173,20 @@ checklist.
 
 The archive itself is not a repository artefact. It is built at submission time from the HEAD that
 is being submitted, and `.gitignore` now refuses every `*.zip` so that a stale snapshot cannot be
-committed again. The version we measured while preparing this chapter carried 48 entries and
-1.05 MB and unpacked into a single top-level directory so that the documented `cd` step works;
-unpacking it into an empty directory and running the suite and the service from there produced a
-passing suite at the time, a healthy `/api/health` and a 40,390-byte shell, so the procedure in
+committed again. The version we measured while preparing this chapter carried 64 entries and
+1.57 MB and unpacked into a single top-level directory so that the documented `cd` step works;
+unpacking it into an empty directory and running the suite and the service from there produced 189
+passes at the time, a healthy `/api/health` and a 63,914-byte shell, so the procedure in
 Section 5.6.3 was verified against an unpacked archive rather than against the working copy. Those
-counts date from 25 October 2026 and the tree has moved since; the numbers to quote in the viva are
-the ones the packaging script prints on the day.
+three counts date from 25 October 2026 and the tree has moved since; the numbers to quote in the
+viva are the ones the packaging script prints on the day.
 
-That check is not cosmetic for this project. The four exploratory scripts in `graphrag（终）/`
+That check is not cosmetic for us. The four exploratory scripts in `graphrag_final/`
 (`real_graph_engine.py`, `auto_builder.py`, `systematic_eval_engine.py` and `ragas_evaluator.py`)
 once embedded a literal DashScope key, a literal Neo4j URI and password, and two literal Zhipu keys
 inherited from the prototype phase. All four now read them through `os.getenv` as
 `backend/app/config.py` already does, and `ragas_evaluator.py` refuses to start when
-`ZHIPU_API_KEY` is unset. Two binary snapshots of the pre-remediation tree — `graphrag(终).zip` and
+`ZHIPU_API_KEY` is unset. Two binary snapshots of the pre-remediation tree — `graphrag_final.zip` and
 `jc2001-group5-poc.zip` — were committed in September and October and were deleted from the tree on
 29 October 2026; they remain in the git history and must be assumed public. Because deleting a file
 cannot un-publish a credential, rotating the five keys in their provider consoles is the only

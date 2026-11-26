@@ -31,6 +31,11 @@ def validate_quiz_item_schema(item: Dict[str, Any]) -> None:
     # Check options
     options = item.get("options")
     assert options is not None, "Options must be present in QuizItem"
+
+    if item.get("question_type") == "fill_blank" or item.get("questionType") == "fill_blank":
+        answers = item.get("blank_answers") or item.get("blankAnswers")
+        assert isinstance(answers, list) and answers and all(isinstance(a, str) and a.strip() for a in answers)
+        return
     
     if isinstance(options, dict):
         assert len(options) >= 2, "Options dictionary must contain at least 2 choices"

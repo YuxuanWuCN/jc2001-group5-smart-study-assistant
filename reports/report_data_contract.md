@@ -1,34 +1,34 @@
-# JC2001 SmartStudy: 学情与排雷报表数据契约规范 (Report Data Contract)
-## Milestone M2.2 交付物 · 支撑 50% Reports 模块闭环
+# JC2001 SmartStudy: Learning-Progress and Troubleshooting Report Data Contract Specification (Report Data Contract)
+## Milestone M2.2 Deliverable · Supporting the closed loop of the 50% Reports module
 
-- **编制团队**：JC2001 Group 5 (BSc BMIS)
-- **责任开发**：江昊 (50106065, 后端架构)、董思钦 (50106060, 数据模型)、习羽赛 (50105989, 前端交互)
-- **文档版本**：v1.0 (Phase 2 Baseline)
-- **状态**：**已实现并通过 23 项 Pytest 自动化测试验证 (100% Pass)**
-
----
-
-## 1. 契约设计原则
-
-为了彻底解决“太像 AI 生成”、“缺乏可复现证据”的问题，本数据契约遵循三大工程准则：
-1. **诚实标记数据溯源 (`data_source`)**：不搞假大空的“99.9% 零幻觉”，明确标记数据来自 `session_telemetry`（本地自测练习会话聚合）或 `seed_baseline`（基线样本），附带 ISO 8601 生成时间戳 (`generated_at`)。
-2. **前后端双序列化无缝互通 (`CamelModel`)**：所有模型同时支持 `snake_case`（Python 习惯）与 `camelCase`（JavaScript 前端习惯），防止因大小写命名不一致抛出 `KeyError` 或 `undefined`。
-3. **防御性零崩溃兜底 (Zero-Crash Fallback)**：当输入非法学科或无练习记录时，系统返回标准的空状态（`attempt_count=0, accuracy_rate=0.0`），坚决不向考官抛出 500 服务器内部错误。
+- **Prepared by**: JC2001 Group 5 (BSc BMIS)
+- **Responsible Developers**: Jiang Hao (50106065, Backend Architecture), Dong Siqin (50106060, Data Model), Xi Yusai (50105989, Frontend Interaction)
+- **Document Version**: v1.0 (Phase 2 Baseline)
+- **Status**: **Implemented and verified by 23 Pytest automated tests (100% Pass)**
 
 ---
 
-## 2. API 接口契约一览
+## 1. Contract Design Principles
 
-| 接口端点 (Endpoint) | 请求方式 | 关键入参 (Query Params) | 响应模型 (Pydantic Schema) | 核心职责 |
+To thoroughly address the problems of "looking too AI-generated" and "lacking reproducible evidence", this data contract follows three engineering principles:
+1. **Honestly label data provenance (`data_source`)**: no empty boasts of "99.9% zero hallucination"; explicitly mark whether the data comes from `session_telemetry` (aggregation of local self-test practice sessions) or `seed_baseline` (baseline samples), together with an ISO 8601 generation timestamp (`generated_at`).
+2. **Seamless dual serialization between frontend and backend (`CamelModel`)**: all models support both `snake_case` (Python convention) and `camelCase` (JavaScript frontend convention), preventing `KeyError` or `undefined` from being thrown due to inconsistent casing.
+3. **Defensive zero-crash fallback (Zero-Crash Fallback)**: when an invalid subject is supplied or there are no practice records, the system returns a standard empty state (`attempt_count=0, accuracy_rate=0.0`) and under no circumstances throws a 500 Internal Server Error at the examiner.
+
+---
+
+## 2. API Contract Overview
+
+| Endpoint | Request Method | Key Query Params | Response Model (Pydantic Schema) | Core Responsibility |
 | :--- | :---: | :--- | :--- | :--- |
-| `/api/reports/summary` | `GET` | `subject` (可选: `law`, `econ`, `cs`, `se`, `all`) | `ReportSummaryResponse` | 获取累计做题数、正确率、排雷触发数、认知掌握度分值与高危薄弱点列表 |
-| `/api/reports/trend` | `GET` | `subject` (可选: `law`, `econ`, `cs`, `se`, `all`) | `ReportTrendResponse` | 获取五维认知能力雷达分值（Recall, Trap Defense, Synthesis 等）与易错陷阱分布 |
+| `/api/reports/summary` | `GET` | `subject` (optional: `law`, `econ`, `cs`, `se`, `all`) | `ReportSummaryResponse` | Retrieve the cumulative attempt count, accuracy rate, troubleshooting trigger count, cognitive mastery score, and list of high-risk weak points |
+| `/api/reports/trend` | `GET` | `subject` (optional: `law`, `econ`, `cs`, `se`, `all`) | `ReportTrendResponse` | Retrieve five-dimensional cognitive ability radar scores (Recall, Trap Defense, Synthesis, etc.) and the distribution of common traps |
 
 ---
 
-## 3. 详细模型字段规范
+## 3. Detailed Model Field Specifications
 
-### 3.1 `ReportSummaryResponse`（学情评测汇总）
+### 3.1 `ReportSummaryResponse` (Learning-Progress Assessment Summary)
 
 ```json
 {
@@ -53,19 +53,19 @@
   "generatedAt": "2026-10-16T19:44:23.000570+00:00",
   "weak_points": [
     {
-      "topic": "民法典第 152 条 · 撤销权除斥期间",
-      "trap_name": "除斥期间混淆消灭时效中断陷阱",
-      "trapName": "除斥期间混淆消灭时效中断陷阱",
+      "topic": "Civil Code Article 152 · Exclusion period of the right of rescission",
+      "trap_name": "Trap: confusing the exclusion period with interruption of the limitation period",
+      "trapName": "Trap: confusing the exclusion period with interruption of the limitation period",
       "fail_count": 3,
       "failCount": 3,
       "severity": "high",
-      "recommendation": "深入梳理除斥期间的不变期间属性，注意法院可依职权主动审查除斥期间届满。"
+      "recommendation": "Thoroughly review the fixed-period nature of the exclusion period, and note that courts may examine the expiry of the exclusion period on their own initiative."
     }
   ]
 }
 ```
 
-### 3.2 `ReportTrendResponse`（五维能力雷达与错因分布）
+### 3.2 `ReportTrendResponse` (Five-Dimensional Ability Radar and Error-Cause Distribution)
 
 ```json
 {
@@ -80,8 +80,8 @@
   "scores": [88.0, 75.0, 82.0, 70.0, 80.0],
   "trap_distribution": [
     {
-      "trap_name": "除斥期间混淆消灭时效",
-      "trapName": "除斥期间混淆消灭时效",
+      "trap_name": "Confusing the exclusion period with the limitation period",
+      "trapName": "Confusing the exclusion period with the limitation period",
       "subject": "law",
       "count": 3
     }
@@ -95,17 +95,17 @@
 
 ---
 
-## 4. 自动化测试与工程验证矩阵
+## 4. Automated Testing and Engineering Verification Matrix
 
-本契约由 `tests/test_reports.py` 自动化测试套件直接覆盖（共 23 项测试，已全部纳入回归测试网）：
-- `test_report_summary_default`: 验证默认汇总接口 200 状态与基础数据结构；
-- `test_report_trend_default`: 验证五维雷达数组完整性与分值区间 ($0 \le score \le 100$)；
-- `test_report_summary_valid_subjects`: 验证多学科筛选（法学、经管、计组、软工）；
-- `test_report_summary_aliasing`: 验证中英文别名兼容（如 `civil_law` 自动映射至 `law`）；
-- `test_report_unknown_subject_zero_state`: 验证未知参数下的友好零状态返回；
-- `test_report_camelcase_interoperability`: 验证前后端驼峰与下划线互通；
-- `test_report_adversarial_resilience`: 验证抵御 XSS、SQLi 与长字符串攻击，确保 0 次 500 崩溃。
+This contract is directly covered by the `tests/test_reports.py` automated test suite (23 tests in total, all included in the regression test network):
+- `test_report_summary_default`: Verify the 200 status and basic data structure of the default summary endpoint;
+- `test_report_trend_default`: Verify the integrity of the five-dimensional radar array and the score range ($0 \le score \le 100$);
+- `test_report_summary_valid_subjects`: Verify multi-subject filtering (law, economics and management, computer organization, software engineering);
+- `test_report_summary_aliasing`: Verify Chinese/English alias compatibility (e.g., `civil_law` is automatically mapped to `law`);
+- `test_report_unknown_subject_zero_state`: Verify the friendly zero-state response for unknown parameters;
+- `test_report_camelcase_interoperability`: Verify camelCase and snake_case interoperability between frontend and backend;
+- `test_report_adversarial_resilience`: Verify resilience against XSS, SQLi, and long-string attacks, ensuring zero 500 crashes.
 
 ---
 
-*JC2001 Group 5 · 软件工程规范与架构基准文档*
+*JC2001 Group 5 · Software Engineering Specification and Architecture Baseline Document*

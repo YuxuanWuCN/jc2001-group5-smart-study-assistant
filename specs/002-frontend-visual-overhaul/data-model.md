@@ -1,128 +1,128 @@
-# 数据模型与实体规约：前端视觉巅峰重构 (Data Models & State Entities)
+# Data Models and State Entities: Frontend Visual Overhaul (Data Models & State Entities)
 
-**功能编号**：`002-frontend-visual-overhaul`  
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)  
-**日期**：2026-10-10  
-**状态**：APPROVED  
+**Feature ID**: `002-frontend-visual-overhaul`  
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)  
+**Date**: 2026-10-10  
+**Status**: APPROVED  
 
 ---
 
-## 1. 核心实体模型 (Entity Definitions)
+## 1. Core Entity Definitions
 
-### 1.1 全局 HUD 指令条目 (`CommandPaletteItem`)
-定义键盘快捷指令菜单中的每一个可执行操作：
+### 1.1 Global HUD Command Item (`CommandPaletteItem`)
+Defines each executable action in the keyboard command menu:
 
 ```typescript
 interface CommandPaletteItem {
-  id: string;               // 唯一指令标识符，如 "nav_quiz", "disc_law"
-  title: string;            // 指令主标题，如 "切换至民商法题库"
-  subtitle?: string;        // 辅助说明，如 "民法典第152条与物权编"
-  category: "navigation" | "discipline" | "action" | "identity"; // 类别分组
-  keywords: string[];       // 搜索模糊匹配关键词列表
-  icon: string;             // SVG 图标或 Emoji
-  shortcut?: string;        // 提示快捷键，如 "Alt+1" 或 "Ctrl+D"
-  action: () => void;       // 点击或回车时触发的回调操作
+  id: string;               // Unique command identifier, e.g. "nav_quiz", "disc_law"
+  title: string;            // Command main title, e.g. "Switch to Civil & Commercial Law question bank"
+  subtitle?: string;        // Supporting description, e.g. "Civil Code Article 152 and the Property Rights volume"
+  category: "navigation" | "discipline" | "action" | "identity"; // Category grouping
+  keywords: string[];       // Fuzzy-search matching keyword list
+  icon: string;             // SVG icon or emoji
+  shortcut?: string;        // Suggested shortcut, e.g. "Alt+1" or "Ctrl+D"
+  action: () => void;       // Callback triggered on click or Enter
 }
 ```
 
-### 1.2 交互对比沙盒实体 (`ComparisonCase`)
-定义门户交互式分屏对比演播台中的对比例题与响应数据：
+### 1.2 Interactive Comparison Sandbox Entity (`ComparisonCase`)
+Defines the comparison questions and response data in the portal's interactive split-screen showcase:
 
 ```typescript
 interface ComparisonCase {
   id: string;
-  discipline: string;       // 学科分类，如 "民商法学"
-  questionStem: string;     // 题干内容
+  discipline: string;       // Subject category, e.g. "Civil & Commercial Law"
+  questionStem: string;     // Question stem content
   selectedOption: {
     key: "A" | "B" | "C" | "D";
     text: string;
     isCorrect: boolean;
   };
   traditionalFeedback: {
-    statusBadge: "WRONG";   // 传统冷冰冰的判定
-    directAnswer: string;   // 直接倾倒的答案
-    drawbackNote: string;   // 暴露的痛点说明（剥夺自主思考、不查先修）
+    statusBadge: "WRONG";   // Traditional cold judgement
+    directAnswer: string;   // Answer dumped directly
+    drawbackNote: string;   // Exposed pain point (deprives independent thought, no prerequisite lookup)
   };
   smartStudyFeedback: {
-    statusBadge: "TRAP_TRIGGERED"; // 陷阱命中警报
-    trapTitle: string;             // 陷阱名称
-    misconceptionAnalysis: string; // 根因剖析
-    prereqDeficiency: string;      // 先修知识薄弱点
+    statusBadge: "TRAP_TRIGGERED"; // Trap-hit warning
+    trapTitle: string;             // Trap name
+    misconceptionAnalysis: string; // Root-cause analysis
+    prereqDeficiency: string;      // Weak prerequisite knowledge point
     radarImpact: {
-      dimension: string;          // 如 "trapDefense"
-      scoreChange: number;        // 如 -5
+      dimension: string;          // e.g. "trapDefense"
+      scoreChange: number;        // e.g. -5
     };
-    reasoningTrace: ReasoningStep[]; // 4步思考过程
-    socraticNudge: string;         // 苏格拉底反问
+    reasoningTrace: ReasoningStep[]; // 4-step thinking process
+    socraticNudge: string;         // Socratic follow-up question
   };
 }
 ```
 
-### 1.3 深度思维链推理节点 (`ReasoningStep`)
-仿 DeepSeek-R1 风格的思考过程节点：
+### 1.3 Deep Thinking-Chain Reasoning Node (`ReasoningStep`)
+A thinking-process node modelled on the DeepSeek-R1 style:
 
 ```typescript
 interface ReasoningStep {
-  stepIndex: number;        // 步骤序号 (1-4)
-  stepName: string;         // 步骤名称，如 "GraphRAG 考点拓扑召回"
+  stepIndex: number;        // Step number (1-4)
+  stepName: string;         // Step name, e.g. "GraphRAG exam-point topology recall"
   status: "completed" | "processing";
-  detail: string;           // 具体的思考依据与反查节点
-  badge: string;            // 如 "NEO4J_MATCH" 或 "ANTI_SPOILER"
+  detail: string;           // Specific reasoning evidence and reverse-looked-up nodes
+  badge: string;            // e.g. "NEO4J_MATCH" or "ANTI_SPOILER"
 }
 ```
 
-### 1.4 学情防守战力勋章模型 (`RadarBadgeTier`)
-五维雷达诊断与防守评级勋章模型：
+### 1.4 Learning Defence Badge Tier Model (`RadarBadgeTier`)
+Five-dimension radar diagnosis and defence rating badge model:
 
 ```typescript
 interface RadarBadgeTier {
-  scoreRange: [number, number]; // 分数区间，如 [85, 100]
+  scoreRange: [number, number]; // Score range, e.g. [85, 100]
   rankTier: "S" | "A" | "B" | "C";
-  title: string;                // "先锋破壁者" / "稳健精通者"
-  color: string;                // 渐变主强调色 Token
-  glowShadow: string;           // 对应的发光阴影 Token
-  description: string;          // 评语与下一阶段突破建议
+  title: string;                // "Pioneer Breakthrough Scholar" / "Steady Mastery Scholar"
+  color: string;                // Gradient primary accent colour token
+  glowShadow: string;           // Corresponding glowing shadow token
+  description: string;          // Assessment and next-stage breakthrough advice
 }
 ```
 
-### 1.5 遥测指标卡片模型 (`TelemetryMetric`)
-门户与侧边栏常驻的学术科技指标：
+### 1.5 Telemetry Metric Card Model (`TelemetryMetric`)
+Academic-tech metrics permanently shown on the portal and sidebar:
 
 ```typescript
 interface TelemetryMetric {
-  key: string;              // 如 "nodesCount", "trapsDefended", "radarScore"
-  label: string;            // 显示标签
-  value: string | number;   // 当前数值
-  unit?: string;            // 单位，如 "个", "%"
-  trend?: string;           // 趋势，如 "+12% vs 传统模式"
+  key: string;              // e.g. "nodesCount", "trapsDefended", "radarScore"
+  label: string;            // Display label
+  value: string | number;   // Current value
+  unit?: string;            // Unit, e.g. "items", "%"
+  trend?: string;           // Trend, e.g. "+12% vs traditional mode"
   colorVariant: "primary" | "emerald" | "amber" | "rose";
 }
 ```
 
 ---
 
-## 2. 状态机与生命周期 (State Machines)
+## 2. State Machines and Lifecycles
 
-### 2.1 全局 HUD 指令弹窗状态机 (`CommandPaletteState`)
+### 2.1 Global HUD Command Palette State Machine (`CommandPaletteState`)
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Closed: 页面初始化完成
-    Closed --> Opened: 按下 Ctrl+K / Cmd+K / 点击搜索按钮
-    Opened --> Searching: 用户键入输入字符
-    Searching --> Searching: 过滤筛选匹配列表
-    Searching --> Executing: 按下 Enter 或鼠标点击条目
-    Executing --> Closed: 执行绑定动作并自动收起
-    Opened --> Closed: 按下 Escape 或点击遮罩层
+    [*] --> Closed: page initialisation complete
+    Closed --> Opened: press Ctrl+K / Cmd+K / click the search button
+    Opened --> Searching: user types input characters
+    Searching --> Searching: filter and match the list
+    Searching --> Executing: press Enter or click an item
+    Executing --> Closed: execute the bound action and close automatically
+    Opened --> Closed: press Escape or click the overlay
 ```
 
-### 2.2 对比沙盒即时切换状态机 (`SandboxState`)
+### 2.2 Comparison Sandbox Instant-Switch State Machine (`SandboxState`)
 
 ```mermaid
 stateDiagram-v2
-    [*] --> SmartStudyView: 默认呈现智学罗盘模式
-    SmartStudyView --> TraditionalView: 点击切换到传统模式
-    TraditionalView --> SmartStudyView: 点击切换到智学罗盘模式
-    SmartStudyView --> TrapInspecting: 点击选项干扰项
-    TrapInspecting --> SmartStudyView: 展开思维链与拓扑反查
+    [*] --> SmartStudyView: SmartStudy Compass mode shown by default
+    SmartStudyView --> TraditionalView: click to switch to traditional mode
+    TraditionalView --> SmartStudyView: click to switch back to SmartStudy Compass mode
+    SmartStudyView --> TrapInspecting: click a distractor option
+    TrapInspecting --> SmartStudyView: expand the reasoning chain and topology reverse-lookup
 ```

@@ -1,59 +1,59 @@
-# 快速启动与验收验证指南 (Phase 1: Quickstart)
+# Quickstart and Acceptance Verification Guide (Phase 1: Quickstart)
 
-**功能编号**：`001-landing-and-auth-portal`  
-**关联规格**：`specs/001-landing-and-auth-portal/spec.md`  
-**完成时间**：2026-10-08  
+**Feature ID**: `001-landing-and-auth-portal`  
+**Related Specification**: `specs/001-landing-and-auth-portal/spec.md`  
+**Completed**: 2026-10-08  
 
 ---
 
-## 1. 本地启动服务
+## 1. Starting the Service Locally
 
-在项目根目录启动 FastAPI 本地开发服务器：
+Start the FastAPI local development server from the project root:
 
 ```bash
-# 方式 A：通过 Python 模块直接启动
+# Option A: start directly through the Python module
 python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 
-# 方式 B：通过根目录执行脚本
+# Option B: run the root-level launcher script
 python backend/run.py
 ```
 
-服务启动后，在浏览器访问：  
+Once the service is running, open the following in a browser:  
 👉 **`http://127.0.0.1:8000/`**
 
 ---
 
-## 2. 功能验收验证核对单 (Acceptance Verification)
+## 2. Acceptance Verification Checklist
 
-### 测试点 1：欢迎与产品介绍首页 (Landing Hero)
-1. 打开 `http://127.0.0.1:8000/`，页面**首先呈现**高颜值产品介绍门户（而非冷冰冰的控制台）。
-2. 验证顶部导航栏：
-   - 品牌标识：智学罗盘 SmartStudy AI · JC2001 Group 5
-   - 快捷动作：亮/暗色彩主题切换正常翻转、直接进入控制台按钮可用。
-3. 验证四大核心功能模块介绍卡片：
-   - [01] 智能刷题排雷
-   - [02] 苏格拉底学伴
-   - [03] 考点图谱全景
-   - [04] 学情综合诊断
-4. 验证底部阿伯丁大学课程信息与 10 人课题组信息展示完整。
+### Test Point 1: Welcome and Product Introduction Home Page (Landing Hero)
+1. Open `http://127.0.0.1:8000/`; the page **first presents** the polished product introduction portal (rather than the cold console).
+2. Verify the top navigation bar:
+   - Brand identity: SmartStudy Compass SmartStudy AI · JC2001 Group 5
+   - Quick actions: the light/dark theme toggle flips correctly and the direct-to-console button works.
+3. Verify the four core feature cards:
+   - [01] Smart trap-detection practice
+   - [02] Socratic study companion
+   - [03] Exam-point graph panorama
+   - [04] Holistic learning diagnosis
+4. Verify that the University of Aberdeen course information and the 10-member team roster are displayed in full at the bottom.
 
-### 测试点 2：学生档案一键切换与登录 (Fast Login)
-1. 在首页“快速体验通道”中，点击 **[吴宇轩 · 组长 / PM]** 卡片：
-   - 系统瞬间完成身份切换，优雅平滑过渡进入学习控制台！
-   - 控制台左侧栏显示：`吴同学` / `BMIS-50106070`，头像为 `吴`。
-2. 尝试使用“访客体验生”快捷登入，同样顺畅无阻。
+### Test Point 2: One-Click Student Profile Switching and Login (Fast Login)
+1. In the "quick trial channel" on the home page, click the **[Yuxuan Wu · Team Lead / PM]** card:
+   - The system switches identity instantly and transitions elegantly into the study console!
+   - The console left sidebar shows `Yuxuan Wu` / `BMIS-50106070`, with the avatar `YW`.
+2. Try quick sign-in with the "Guest student" account; it should be equally smooth.
 
-### 测试点 3：控制台与首页双向无缝切换 (Roundtrip Navigation)
-1. 进入学习控制台后，找到左侧栏顶部或上方的 **`🏠 返回产品首页`** 按钮。
-2. 点击该按钮，平滑返回产品介绍门户，**原刷题题目及选项状态不丢失**。
-3. 再次点击“进入控制台”，无缝恢复原有做题进度。
-4. 点击左下角 **`🚪 退出当前学籍`**，会话被重置，页面退回门户。
+### Test Point 3: Seamless Bidirectional Switching Between Console and Home Page (Roundtrip Navigation)
+1. After entering the study console, find the **`🏠 Back to product home`** button at the top of the left sidebar.
+2. Click it to return smoothly to the product introduction portal, **without losing the current question and option states**.
+3. Click "Enter console" again to restore the existing practice progress seamlessly.
+4. Click **`🚪 Sign out of the current student account`** in the bottom-left corner; the session is reset and the page returns to the portal.
 
 ---
 
-## 3. 自动化测试回归验证
+## 3. Automated Test Regression Verification
 
-运行全部已有质量保障回归测试，确认 100% 通过：
+Run all existing quality-assurance regression tests and confirm 100% pass:
 
 ```bash
 pytest tests/ -v

@@ -27,8 +27,8 @@ AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 CORE_SUBJECTS = {"law", "cs", "econ", "se"}
 
 BANNED_TERMS = [
-    "赋能", "闭环", "生态", "全方位", "深度融合", "显著提升", "综上所述",
-    "有效降低幻觉", "幻觉率 0%", "零幻觉", "从根本上解决",
+    "empower", "closed loop", "ecosystem", "all-round", "deep integration", "significantly improve", "in summary",
+    "effectively reduces hallucination", "hallucination rate 0%", "zero hallucination", "fundamentally solves",
     "leverage", "cutting-edge", "seamlessly", "revolutionise"
 ]
 
@@ -55,17 +55,17 @@ def run_l1_audit(questions):
     """
     rows = []
     for q in questions:
-        # 1. 48 Options
+        # 1. 48 options
         for opt in q.options:
             finding_id = f"L1-{q.id}-{opt.key}"
             claim_text = (opt.text or "").strip()
-            
+
             machine_flag = "OK"
             machine_reason = ""
             if not claim_text:
                 machine_flag = "SUSPECT"
-                machine_reason = "选项文本为空"
-            
+                machine_reason = "Option text is empty"
+
             rows.append({
                 "finding_id": finding_id,
                 "question_id": q.id,
@@ -78,21 +78,21 @@ def run_l1_audit(questions):
                 "human_verdict": "TRUE",
                 "human_note": "",
                 "is_in_denominator": True,
-                "reviewer": "审计团队"
+                "reviewer": "Audit Team"
             })
-            
-        # 2. 36 Traps
+
+        # 2. 36 traps
         traps = q.traps or {}
         for trap_id, trap in traps.items():
             finding_id = f"L1-{q.id}-{trap_id}"
             claim_text = f"{trap.title} | {trap.desc}"
-            
+
             machine_flag = "OK"
             machine_reason = ""
             if not trap.title or not trap.desc:
                 machine_flag = "SUSPECT"
-                machine_reason = "陷阱标题或描述为空"
-                
+                machine_reason = "Trap title or description is empty"
+
             rows.append({
                 "finding_id": finding_id,
                 "question_id": q.id,
@@ -105,9 +105,9 @@ def run_l1_audit(questions):
                 "human_verdict": "TRUE",
                 "human_note": "",
                 "is_in_denominator": True,
-                "reviewer": "审计团队"
+                "reviewer": "Audit Team"
             })
-            
+
     assert len(rows) == 84, f"L1 row count must be exactly 84, got {len(rows)}"
     return rows
 
@@ -137,7 +137,7 @@ def run_l2_audit(questions):
                 "distinguishable": True,
                 "human_verdict": "CONSISTENT"
             })
-            
+
     assert len(rows) == 36, f"L2 row count must be exactly 36, got {len(rows)}"
     return rows
 
@@ -152,30 +152,30 @@ def run_l3_audit(questions):
         correct_opt = next((opt for opt in q.options if opt.is_correct), None)
         correct_key = correct_opt.key if correct_opt else "B"
         correct_text = correct_opt.text if correct_opt else ""
-        
+
         # Simple entity heuristic
         entities = [w for w in correct_text.split() if len(w) > 1]
-        
+
         prompt = q.socratic_prompt or ""
         leaked = []
         is_leak = False
-        
-        # Check if the prompt reveals the exact correct letter e.g., '选B' or '答案是B'
-        if f"选{correct_key}" in prompt or f"答案是{correct_key}" in prompt:
+
+        # Check if the prompt reveals the exact correct letter, e.g. 'choose B' or 'the answer is B'
+        if f"choose {correct_key}" in prompt or f"the answer is {correct_key}" in prompt:
             is_leak = True
-            leaked.append(f"明确说出答案{correct_key}")
-            
+            leaked.append(f"Explicitly states the answer {correct_key}")
+
         rows.append({
             "finding_id": finding_id,
             "correct_option_key": correct_key,
-            "answer_entities": "; ".join(entities[:3]) if entities else "核心考点定理",
+            "answer_entities": "; ".join(entities[:3]) if entities else "core exam-point theorem",
             "guidance_field": "socratic_prompt",
-            "leaked_entities": "; ".join(leaked) if leaked else "无",
+            "leaked_entities": "; ".join(leaked) if leaked else "none",
             "is_leak": is_leak,
-            "detector_precision_note": "无直接答案剧透，遵循启发式追问原则",
+            "detector_precision_note": "No direct answer spoiler; follows the heuristic follow-up questioning principle",
             "human_verdict": "FALSE_POSITIVE" if not is_leak else "CONFIRMED_LEAK"
         })
-        
+
     assert len(rows) == 12, f"L3 row count must be exactly 12, got {len(rows)}"
     return rows
 
@@ -221,19 +221,19 @@ def serialize_csv(filepath, fieldnames, data):
 
 def main():
     core_questions = [
-        q for q in SEED_QUESTIONS 
+        q for q in SEED_QUESTIONS
         if q.id.startswith(("law_", "cs_", "econ_", "se_"))
     ]
     if len(core_questions) != 12:
         print(f"Error: expected 12 core questions, found {len(core_questions)}", file=sys.stderr)
         sys.exit(1)
 
-    # 1. Run Audits
+    # 1. Run audits
     l1_rows = run_l1_audit(core_questions)
     l2_rows = run_l2_audit(core_questions)
     l3_rows = run_l3_audit(core_questions)
 
-    # 2. Write CSVs & Compute Determinism
+    # 2. Write CSVs & compute determinism
     l1_file = AUDIT_DIR / "l1_content_audit.csv"
     l2_file = AUDIT_DIR / "l2_attribution_audit.csv"
     l3_file = AUDIT_DIR / "l3_leakage_audit.csv"
@@ -268,10 +268,10 @@ def main():
     # 4. Scan banned terms
     banned_findings = scan_banned_terms()
 
-    # 5. Build Verdict JSON
+    # 5. Build verdict JSON
     verdict = {
         "verdict_level": "V1",
-        "verdict_rationale": "在离线确定性路径上完成 L1-L3 全量审计（分母 84/36/12）；L4 因离线路径无自由文本生成面按契约记为 N/A。当前证据达到 V1 级，待在线对照实验后可升级为 V2。",
+        "verdict_rationale": "Completed the full offline deterministic L1-L3 audit (denominators 84/36/12); because the offline path has no free-text generation surface, L4 is recorded as N/A per the contract. Current evidence reaches level V1 and can be upgraded to V2 after the online controlled experiment.",
         "persona_level_min": "E1",
         "l1": {
             "layer": "L1_content",
@@ -283,7 +283,7 @@ def main():
             "ci_low": None,
             "ci_high": None,
             "ci_method": None,
-            "note": "48 选项 + 36 陷阱事实判定完成"
+            "note": "Factual adjudication of 48 options + 36 traps completed"
         },
         "l2": {
             "layer": "L2_attribution",
@@ -295,7 +295,7 @@ def main():
             "ci_low": None,
             "ci_high": None,
             "ci_method": None,
-            "note": "36 个选项陷阱归因逻辑区分度一致"
+            "note": "Attribution logic of the 36 option-level traps shows consistent discriminability"
         },
         "l3": {
             "layer": "L3_leakage",
@@ -307,7 +307,7 @@ def main():
             "ci_low": None,
             "ci_high": None,
             "ci_method": None,
-            "note": "12 题苏格拉底启发引导语均未剧透答案"
+            "note": "None of the Socratic guidance prompts for the 12 questions spoils the answer"
         },
         "l4": {
             "layer": "L4_reasoning",
@@ -319,18 +319,18 @@ def main():
             "ci_low": None,
             "ci_high": None,
             "ci_method": None,
-            "note": "离线确定性查表路径无大模型自由文本生成面，按契约定义 L4 幻觉率为 null (N/A)"
+            "note": "The offline deterministic lookup path has no LLM free-text generation surface, so by contract the L4 hallucination rate is null (N/A)"
         },
         "claim_matrix": {
             "allowed_sentences": [
-                "在离线确定性路径上，我们对 84 个选项/陷阱事实断言、36 条归因映射、12 道题的引导语做了全覆盖审计，未发现事实性错误；在线自由生成路径的幻觉率未测量。",
-                "选项级诊断机制通过离散规则映射消除了关键归因链上的模型幻觉自由度。"
+                "On the offline deterministic path we audited all 84 option/trap factual claims, 36 attribution mappings and the guidance prompts of 12 questions with full coverage and found no factual errors; the hallucination rate of the online free-generation path was not measured.",
+                "The option-level diagnostic mechanism removes the model's degrees of freedom for hallucination on the key attribution chain through discrete rule mappings."
             ],
             "forbidden_sentences": [
-                "本系统有效降低了 AI 幻觉率",
-                "本系统实现了 0% 幻觉率",
-                "MMLU 准确率提升证明了幻觉率降低",
-                "145 个测试全通证明了输出内容客观真实"
+                "This system effectively reduces the AI hallucination rate",
+                "This system achieves a 0% hallucination rate",
+                "The MMLU accuracy improvement proves that the hallucination rate decreased",
+                "All 145 tests passing proves that the output content is objectively true"
             ],
             "banned_terms_found": banned_findings
         },

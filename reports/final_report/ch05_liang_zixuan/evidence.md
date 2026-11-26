@@ -8,7 +8,7 @@ Run from repository root (`D:\jc2001`):
 # 1. Verify single-port FastAPI launch & StaticFiles mount
 python backend/run.py
 
-# 2. Verify 147 automated pytest cases pass offline
+# 2. Verify 189 automated pytest cases pass offline
 python -m pytest tests/ -q
 
 # 3. Verify zero hardcoded credentials and clean online-baseline fallback

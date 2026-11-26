@@ -27,8 +27,8 @@ def test_get_demo_users():
     # Verify team lead Wu Yuxuan is present
     lead = next((u for u in users if u["id"] == "50106070"), None)
     assert lead is not None
-    assert lead["name"] == "吴宇轩"
-    assert "PM" in lead["role"] or "项目经理" in lead["role"] or "组长" in lead["role"]
+    assert lead["name"] == "Wu Yuxuan"
+    assert "PM" in lead["role"] or "Project Manager" in lead["role"] or "Team Lead" in lead["role"]
 
 
 def test_login_known_student_by_id():
@@ -38,18 +38,18 @@ def test_login_known_student_by_id():
     data = res.json()
     assert data["status"] == "ok"
     assert data["user"]["id"] == "50106070"
-    assert data["user"]["name"] == "吴宇轩"
+    assert data["user"]["name"] == "Wu Yuxuan"
     assert "session_token" in data
     assert data["session_token"].startswith("sess_50106070_")
 
 
 def test_login_known_student_by_name():
-    """Login with student full name (Chinese)."""
-    res = client.post("/api/auth/login", json={"student_id": "林泳桐"})
+    """Login with student full name."""
+    res = client.post("/api/auth/login", json={"student_id": "Lin Yongtong"})
     assert res.status_code == 200
     data = res.json()
     assert data["user"]["id"] == "50106038"
-    assert data["user"]["name"] == "林泳桐"
+    assert data["user"]["name"] == "Lin Yongtong"
 
 
 def test_login_guest_student():
@@ -58,16 +58,16 @@ def test_login_guest_student():
     assert res.status_code == 200
     data = res.json()
     assert data["user"]["id"] == "guest"
-    assert "访客" in data["user"]["name"] or "Guest" in data["user"]["name"]
+    assert "Guest" in data["user"]["name"]
 
 
 def test_login_new_student_dynamic_provisioning():
     """Login with an unlisted custom student name provisions a new profile."""
-    res = client.post("/api/auth/login", json={"student_id": "张小凡"})
+    res = client.post("/api/auth/login", json={"student_id": "Zhang Xiaofan"})
     assert res.status_code == 200
     data = res.json()
-    assert data["user"]["name"] == "张小凡"
-    assert data["user"]["avatar"] == "张"
+    assert data["user"]["name"] == "Zhang Xiaofan"
+    assert data["user"]["avatar"] == "Z"
     assert "session_token" in data
 
 
@@ -75,7 +75,7 @@ def test_register_new_student():
     """Register a new student with custom discipline."""
     payload = {
         "student_id": "50109999",
-        "name": "李同学",
+        "name": "Li",
         "preferred_subject": "law",
         "password": "mypassword"
     }
@@ -84,7 +84,7 @@ def test_register_new_student():
     data = res.json()
     assert data["status"] == "ok"
     assert data["user"]["id"] == "50109999"
-    assert data["user"]["name"] == "李同学"
+    assert data["user"]["name"] == "Li"
     assert data["user"]["preferred_subject"] == "law"
 
 
@@ -116,9 +116,59 @@ def test_register_accepts_camel_case_alias():
     """Registration accepts camelCase studentId/preferredSubject and still serializes snake_case."""
     res = client.post(
         "/api/auth/register",
-        json={"studentId": "50999991", "name": "别名测试", "preferredSubject": "law"},
+        json={"studentId": "50999991", "name": "Alias Test", "preferredSubject": "law"},
     )
     assert res.status_code == 200
     data = res.json()
     assert data["user"]["id"] == "50999991"
     assert "preferred_subject" in data["user"]
+
+
+def test_register_with_password_and_login_success():
+    """Registered user with a password can authenticate with matching credentials."""
+    reg_res = client.post(
+        "/api/auth/register",
+        json={
+            "student_id": "50888001",
+            "name": "Password Check Student",
+            "preferred_subject": "econ",
+            "password": "secret-pass-42"
+        },
+    )
+    assert reg_res.status_code == 200
+
+    login_res = client.post(
+        "/api/auth/login",
+        json={"student_id": "50888001", "password": "secret-pass-42"},
+    )
+    assert login_res.status_code == 200
+    data = login_res.json()
+    assert data["user"]["id"] == "50888001"
+    assert data["user"]["name"] == "Password Check Student"
+    assert data["user"]["preferred_subject"] == "econ"
+
+
+def test_login_registered_user_wrong_password_returns_401():
+    """Registered password-protected user fails with HTTP 401 when password is wrong or missing."""
+    reg_res = client.post(
+        "/api/auth/register",
+        json={
+            "student_id": "50888002",
+            "name": "Password Reject Student",
+            "preferred_subject": "law",
+            "password": "correct-password"
+        },
+    )
+    assert reg_res.status_code == 200
+
+    wrong_res = client.post(
+        "/api/auth/login",
+        json={"student_id": "50888002", "password": "wrong-password"},
+    )
+    assert wrong_res.status_code == 401
+
+    missing_res = client.post(
+        "/api/auth/login",
+        json={"student_id": "50888002"},
+    )
+    assert missing_res.status_code == 401

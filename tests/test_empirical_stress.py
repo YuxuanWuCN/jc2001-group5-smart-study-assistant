@@ -80,12 +80,41 @@ def test_exhaustive_option_click_simulation(client: TestClient):
     """
     total_checks = 0
     for q in SEED_QUESTIONS:
-        qid = getattr(q, "question_id", None) or q["question_id"]
-        correct_answer = getattr(q, "answer", None) or q["answer"]
-        options = getattr(q, "options", None) or q["options"]
+        get_field = (lambda name, default=None, item=q: item.get(name, default)) if isinstance(q, dict) else (lambda name, default=None, item=q: getattr(item, name, default))
+        qid = get_field("question_id") or get_field("id")
+        qtype = get_field("question_type") or "single_choice"
+        correct_answer = get_field("answer")
+        options = get_field("options")
+
+        if qtype == "fill_blank":
+            blank_answers = get_field("blank_answers") or ([correct_answer] if correct_answer else [])
+            assert blank_answers, f"Fill-blank question {qid} must declare at least one accepted answer"
+
+            # Verify accepted answer passes
+            total_checks += 1
+            ok_res = client.post("/api/diagnose", json={"question_id": qid, "user_answer_text": blank_answers[0]})
+            assert ok_res.status_code == 200, f"Failed fill-blank correct check for {qid}: {ok_res.text}"
+            ok_validated = DiagnoseResponse.model_validate(ok_res.json())
+            assert ok_validated.is_correct is True, f"Expected is_correct=True for fill-blank {qid}"
+            assert ok_validated.socratic_guidance
+
+            # Verify wrong answer produces structured diagnostic feedback
+            total_checks += 1
+            err_res = client.post(
+                "/api/diagnose",
+                json={"question_id": qid, "user_answer_text": "__intentionally_wrong_answer__"}
+            )
+            assert err_res.status_code == 200, f"Failed fill-blank wrong check for {qid}: {err_res.text}"
+            err_validated = DiagnoseResponse.model_validate(err_res.json())
+            assert err_validated.is_correct is False, f"Expected is_correct=False for fill-blank {qid}"
+            assert err_validated.trap_name and len(err_validated.trap_name) > 0
+            assert err_validated.concept_name and len(err_validated.concept_name) > 0
+            assert err_validated.socratic_guidance and len(err_validated.socratic_guidance) > 0
+            continue
+
         if hasattr(options, "keys"):
             opt_keys = options.keys()
-        elif isinstance(options, list):
+        elif isinstance(options, list) and options:
             opt_keys = [o.key if hasattr(o, "key") else o["key"] for o in options]
         else:
             opt_keys = ["A", "B", "C", "D"]
@@ -161,7 +190,8 @@ def test_offline_fallback_zero_500_guarantee(client: TestClient):
     data = res.json()
     assert data["fallback_mode"] is True
     assert data["is_correct"] is False
-    assert "遗漏变量" in data["concept_name"] or "内生性" in data["concept_name"]
+    concept_name = data["concept_name"].lower()
+    assert "omitted" in concept_name or "endogen" in concept_name
 
 
 def test_offline_graceful_handling_unknown_question(client: TestClient):
@@ -203,7 +233,9 @@ def test_single_port_static_serving(client: TestClient):
     assert root_res.status_code == 200
     assert "text/html" in root_res.headers.get("content-type", "")
     assert "<!DOCTYPE html>" in root_res.text
-    assert "智学罗盘" in root_res.text
+    # English is the shipped default; the Chinese title lives in the i18n dictionary.
+    assert "SmartStudy Compass" in root_res.text
+    assert 'data-i18n="portalDocumentTitle"' in root_res.text
     assert 'data-theme="dark"' in root_res.text
 
     # 2. /style.css

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-JC2001 Smart Study Assistant System (智学罗盘) PoC MVP - Standalone Quality Gate & Verification Runner
+JC2001 Smart Study Assistant System (SmartStudy Compass) PoC MVP - Standalone Quality Gate & Verification Runner
 Course: JC2001 Introduction to Software Engineering (2026–27)
-Group:  Group 5 (BSc BMIS, 10 members, Leader: 吴宇轩 50106070)
+Group:  Group 5 (BSc BMIS, 10 members, Leader: Yuxuan Wu 50106070)
 Target: scripts/verify_poc.py
 
 This script performs comprehensive end-to-end verification across:
@@ -424,8 +424,8 @@ def check_9_frontend_mount() -> CheckResult:
         resp_root = client.get("/")
         if resp_root.status_code != 200:
             errors.append(f"Root static route '/' returned HTTP {resp_root.status_code}")
-        elif "智学罗盘" not in resp_root.text:
-            errors.append("Root HTML response does not contain '智学罗盘'")
+        elif "SmartStudy" not in resp_root.text:
+            errors.append("Root HTML response does not contain 'SmartStudy'")
         else:
             details.append("Root route '/' successfully serves DeepSeek console HTML")
 
@@ -506,7 +506,7 @@ def main() -> int:
     args = parser.parse_args()
 
     print("=" * 80)
-    print("  JC2001 SMART STUDY ASSISTANT SYSTEM (智学罗盘) PoC MVP - QUALITY GATE")
+    print("  JC2001 SMART STUDY ASSISTANT SYSTEM (SmartStudy Compass) PoC MVP - QUALITY GATE")
     print("  Group 5 | University of Aberdeen / BMIS | Quality & Acceptance Verification")
     print("=" * 80)
 

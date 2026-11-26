@@ -1,38 +1,38 @@
-# JC2001 Group 5 项目与第三周规划假设登记表 (Assumptions Log)
+# JC2001 Group 5 Project and Week 3 Planning Assumptions Log
 
-**项目名称**：基于知识图谱与智能排雷的大学生理工科智能助学系统（Smart Study Assistant System）  
-**课程编号**：JC2001 Introduction to Software Engineering (2026–27)  
-**文档路径**：`reports/assumptions.md`  
-**最后更新**：2026年10月17日  
-**基准依据**：`JC2001-GroupProjectDescription-and-Requirements-2026-27(1).pdf` 与现有 PoC 基线
-
----
-
-## 1. 事实与假设边界总则
-
-依据软件工程规范与评审纪律，本团队严格区分“已验证事实”与“推演/阶段性假设”，杜绝将未验证推测作为完成依据：
-
-- **已验证事实 (Facts)**：有实际运行代码、已执行通过的自动化测试（如 114 个 pytest 测试用例）、官方课程规范文字、已归档图件或已提交提案。
-- **阶段性假设 (Assumptions)**：在当前阶段（第三周 / M2.2 准备期）为推进设计与分工而设定的前置条件与预期，后续需经导师确认、用户实测或联调验证予以转正或修正。
+**Project Name**: Smart Study Assistant System for STEM Undergraduates Based on Knowledge Graphs and Intelligent Troubleshooting  
+**Course Code**: JC2001 Introduction to Software Engineering (2026–27)  
+**Document Path**: `reports/assumptions.md`  
+**Last Updated**: October 17, 2026  
+**Baseline References**: `JC2001-GroupProjectDescription-and-Requirements-2026-27(1).pdf` and the existing PoC baseline
 
 ---
 
-## 2. 关键假设清单及其对结论的影响
+## 1. General Principles for the Boundary Between Facts and Assumptions
 
-| 编号 | 核心假设 (Assumption) | 事实依据 (Grounding Fact) | 对结论/架构/交付的影响 | 验证/转正方式 | 当前状态 |
+In line with software engineering norms and review discipline, the team strictly distinguishes "verified facts" from "inferred/stage assumptions", and prohibits treating unverified speculation as a basis for completion:
+
+- **Verified Facts (Facts)**: Code that actually runs, automated tests that have been executed and passed (e.g., 114 pytest test cases), official course specification text, archived diagrams, or submitted proposals.
+- **Stage Assumptions (Assumptions)**: Preconditions and expectations set at the current stage (Week 3 / M2.2 preparation period) to advance design and division of labor; these must later be confirmed, validated through user testing or integration testing, and thereby promoted or corrected.
+
+---
+
+## 2. List of Key Assumptions and Their Impact on Conclusions
+
+| ID | Core Assumption (Assumption) | Grounding Fact | Impact on Conclusions/Architecture/Deliverables | Validation/Promotion Method | Current Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **ASM-01** | **Reports 模块“完成一半”指核心业务主流程贯通（50% 核心链路）而非全功能堆砌** | 导师反馈要求“太像 AI 做，下周期把 reports 做到起码 half 进度” | 团队集中攻克“时间/范围筛选 -> 核心学情指标 -> 趋势与分布 -> 数据来源/时间戳”一条垂直切片，不分散精力做无效静态页面。 | 本周初向导师汇报此定义并获得认可。 | 待确认 (Pending) |
-| **ASM-02** | **第三周 PoC 阶段学情数据可使用标注清晰的 Session / Mock 数据服务** | 当前处于 Phase 2 架构设计阶段，真实云端 Neo4j 完整图谱与持久化学生答题日志按 Proposal 规划在 Phase 3 (M3.2) 上线 | 避免在第三周强行引入重型数据库造成过度设计；接口明确返回 `source: "mock"` 或 `source: "session"`，诚实展示技术演进阶段。 | 导师确认允许原型阶段标注 mock，期末联调前替换为真实数据源。 | 活跃有效 (Active) |
-| **ASM-03** | **Reports 优先服务学生自我学情诊断（Student Persona）而非教师大屏** | Proposal 中核心目标是帮助本科生解决复习超载与错因定位，PoC 当前为学生端控制台 | 第三周暂缓开发教师端班级宏观热力图（Cohort Heatmap），防止需求膨胀导致两头未落定。 | 纳入第三周提问清单第 2 题向导师核对。 | 活跃有效 (Active) |
-| **ASM-04** | **40–60 页技术报告在第三周只需完成骨架锁死与核心章节初稿（约 15–20 页）** | 官方评分标准要求 Technical Report 在期末提交，正文 40–60 页，不计代码 | 避免组员在需求与架构未最终冻结时盲目水字数；第三周以结构、追踪矩阵（RTM）和核心图件为主。 | 对齐课程第 6 周节奏与期末进度要求。 | 活跃有效 (Active) |
-| **ASM-05** | **本地一键运行（FastAPI + Vanilla JS SPA）符合 PoC 考核中关于“Runnable Software”的要求** | 官方 PoC 规范（Page 7）要求“Complete source code required to run and evaluate... does not need to be production-ready” | 团队无需额外维护 Docker/K8s 集群，降低组员运行门槛，保持本科生级别高质量代码简洁性。 | 在 User Manual 中给出本地一键启动测试验证步骤。 | 活跃有效 (Active) |
-| **ASM-06** | **苏格拉底式反问（不直接泄露答案）是系统区别于常规 AI 助手的核心学术护城河** | 官方评分侧重“Consistency with Technical Report”及项目创新与教育价值 | 诊断接口在任何降级模式下都必须坚持反问式启发，不得因为图谱未命中直接打印标准答案。 | 纳入自动化测试契约（如 `test_diagnose.py` 断言）。 | 活跃有效 (Active) |
+| **ASM-01** | **"Half-complete" for the Reports module means the core business main flow is connected end to end (50% of the core path), not an accumulation of all features** | Supervisor feedback requires that it "looks too AI-made; bring reports to at least half progress next cycle" | The team concentrates on one vertical slice: "time/scope filtering -> core learning-progress metrics -> trends and distributions -> data source/timestamp", rather than spreading effort across ineffective static pages. | Report this definition to the supervisor early this week and obtain approval. | Pending confirmation (Pending) |
+| **ASM-02** | **Learning-progress data in the Week 3 PoC stage may use clearly labeled Session / Mock data services** | The project is currently in the Phase 2 architecture design stage; the real cloud Neo4j full graph and persistent student answer logs are scheduled to go live in Phase 3 (M3.2) per the Proposal | Avoid over-engineering by forcing a heavy database into Week 3; the API explicitly returns `source: "mock"` or `source: "session"`, honestly reflecting the current stage of technical evolution. | The supervisor confirms that labeling mock data in the prototype stage is allowed; replace it with a real data source before final integration testing. | Active |
+| **ASM-03** | **Reports prioritizes student self-diagnosis (Student Persona) over a teacher-facing dashboard** | The core goal in the Proposal is to help undergraduates cope with review overload and locate error causes; the current PoC is a student-side console | Defer the teacher-side class-level macro heatmap (Cohort Heatmap) in Week 3 to prevent scope creep from leaving both sides unfinished. | Include as question 2 in the Week 3 question list to confirm with the supervisor. | Active |
+| **ASM-04** | **For the 40–60 page technical report, Week 3 only needs a locked-down skeleton and first drafts of core chapters (about 15–20 pages)** | The official grading criteria require the Technical Report to be submitted at the end of term, with 40–60 pages of body text, excluding code | Prevent team members from padding word counts while requirements and architecture are not yet frozen; Week 3 focuses on structure, the requirements traceability matrix (RTM), and core figures. | Align with the course's Week 6 pace and end-of-term progress requirements. | Active |
+| **ASM-05** | **Local one-command startup (FastAPI + Vanilla JS SPA) meets the "Runnable Software" requirement in the PoC assessment** | The official PoC specification (Page 7) requires "Complete source code required to run and evaluate... does not need to be production-ready" | The team does not need to maintain a Docker/K8s cluster, lowering the barrier for team members to run the project and preserving the simplicity of high-quality undergraduate-level code. | Provide local one-command startup and test verification steps in the User Manual. | Active |
+| **ASM-06** | **Socratic questioning (not directly revealing answers) is the core academic moat that distinguishes the system from conventional AI assistants** | Official grading emphasizes "Consistency with Technical Report" plus project innovation and educational value | The diagnosis API must maintain question-based elicitation under any degraded mode and must not print the standard answer directly just because the graph lookup misses. | Incorporate into the automated test contract (e.g., assertions in `test_diagnose.py`). | Active |
 
 ---
 
-## 3. 假设失效应急预案 (Contingency Plans)
+## 3. Contingency Plans for Assumption Failure
 
-1. **若导师坚持 Reports 必须具备真实数据库存储**：
-   - 立即启用 SQLite 作为单机轻量过渡数据库，记录学生本地答题日志，耗时预计增加 3–4 小时，不影响全局架构。
-2. **若导师要求 Reports 必须包含教师视角**：
-   - 在前端预留“角色切换（Student / Instructor Preview）”模拟视角，并在报告中诚实声明教师聚合数据为算法仿真样本。
+1. **If the supervisor insists that Reports must have real database storage**:
+   - Immediately enable SQLite as a lightweight single-machine transitional database to record students' local answer logs; estimated additional effort of 3–4 hours, with no impact on the overall architecture.
+2. **If the supervisor requires Reports to include a teacher perspective**:
+   - Reserve a "role switch (Student / Instructor Preview)" simulated view in the frontend, and honestly state in the report that teacher aggregate data are algorithmic simulation samples.

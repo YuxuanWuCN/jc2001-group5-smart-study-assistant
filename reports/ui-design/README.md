@@ -1,7 +1,7 @@
 # StudyGraph UI/UX Design Documents
 
 **Course & Group:** JC2001 / Group 5  
-**Project:** Smart Study Assistant System (智学罗盘)  
+**Project:** Smart Study Assistant System (StudyGraph)  
 **Owner:** 50105989 (UI/UX Designer)  
 **Document status:** Initial version, design framework in progress  
 **Aligned documents:** Personal RTM (50106035), Use Case Specifications UC-05 ~ UC-08

@@ -2,7 +2,7 @@
 
 ## 2026-09-16T06:55:14Z
 
-Deliver a complete JC2001 Software Engineering Week 1 package for Group 5 (BSc BMIS, 10 members, Leader: 吴宇轩 50106070). This includes: (1) Practical Session 1 deliverables (icebreaker profile, 10-member role assignment matrix, project vision, and supervisor kickoff email), and (2) a submission-ready, academically rigorous 4-8 page Project Proposal in Markdown, DOCX, and PDF formats based on the "Smart Study Assistant System" powered by GraphRAG and Neo4j diagnostic engines.
+Deliver a complete JC2001 Software Engineering Week 1 package for Group 5 (BSc BMIS, 10 members, Leader: Wu Yuxuan 50106070). This includes: (1) Practical Session 1 deliverables (icebreaker profile, 10-member role assignment matrix, project vision, and supervisor kickoff email), and (2) a submission-ready, academically rigorous 4-8 page Project Proposal in Markdown, DOCX, and PDF formats based on the "Smart Study Assistant System" powered by GraphRAG and Neo4j diagnostic engines.
 
 Working directory: d:/jc2001
 Integrity mode: benchmark
@@ -11,18 +11,18 @@ Integrity mode: benchmark
 - **Course**: JC2001 Introduction to Software Engineering (2026-27)
 - **Group Number**: Group 5
 - **Programme of Study**: BSc (BMIS)
-- **Team Leader & PM**: 吴宇轩 (50106070)
+- **Team Leader & PM**: Wu Yuxuan (50106070)
 - **Team Members (10)**:
-  1. 吴宇轩 (50106070) — Project Manager & Team Lead
-  2. 林泳桐 (50106038) — Lead Business Analyst (Requirements Capture)
-  3. 王思鉴 (50106045) — System Architect (UML & Knowledge Graph Architecture)
-  4. 江昊 (50106065) — PoC Lead Developer (GraphRAG & Neo4j Engine)
-  5. 谢炜昕 (50106034) — QA & Technical Report Lead
-  6. 张梓健 (50106035) — Business Analyst (User Stories & Acceptance Criteria)
-  7. 习羽赛 (50105989) — UI/UX Designer & Wireframe Lead
-  8. 董思钦 (50106060) — PoC Logic Developer (Diagnostic API & Quiz Engine)
-  9. 杨明杰 (50106061) — Software Testing & User Manual Lead
-  10. 梁子铉 (50106037) — Presentation, Media & Deployment Lead
+  1. Wu Yuxuan (50106070) — Project Manager & Team Lead
+  2. Lin Yongtong (50106038) — Lead Business Analyst (Requirements Capture)
+  3. Wang Sijian (50106045) — System Architect (UML & Knowledge Graph Architecture)
+  4. Jiang Hao (50106065) — PoC Lead Developer (GraphRAG & Neo4j Engine)
+  5. Xie Weixin (50106034) — QA & Technical Report Lead
+  6. Zhang Zijian (50106035) — Business Analyst (User Stories & Acceptance Criteria)
+  7. Xi Yusai (50105989) — UI/UX Designer & Wireframe Lead
+  8. Dong Siqin (50106060) — PoC Logic Developer (Diagnostic API & Quiz Engine)
+  9. Yang Mingjie (50106061) — Software Testing & User Manual Lead
+  10. Liang Zixuan (50106037) — Presentation, Media & Deployment Lead
 
 ## Requirements
 
@@ -31,14 +31,14 @@ Produce a complete practical session record matching JC2001 Practical 1 sheet:
 - Comprehensive 10-member icebreaker answers covering all 5 questions from socards.org (instant cheer-ups, favourite food memory, hometown highlights, historical moments, energy restoration).
 - 10-member role allocation matrix explicitly detailing responsibilities across all 4 project phases (Requirements, Design/UML, PoC Development, Report/Testing/Presentation).
 - Project Topic definition addressing: WHAT the system does, WHO it targets, major technical/time constraints, and long-term vision.
-- Formal academic email draft addressed to the academic supervisor from Team Leader 吴宇轩 requesting the Week 1/2 kick-off meeting to discuss project scope.
+- Formal academic email draft addressed to the academic supervisor from Team Leader Wu Yuxuan requesting the Week 1/2 kick-off meeting to discuss project scope.
 
 ### R2. Submission-Grade Project Proposal (`reports/project_proposal.md`)
 Develop an in-depth, academically rigorous proposal meeting JC2001 specifications:
 - Proposal Title Page (Group 5, BSc BMIS, full roster of 10 student names and IDs).
 - Section 1: Project Title: "To Design and Implement a Smart Study Assistant System for University Students".
 - Section 2: Problem: Academic stress, disorganised learning materials, rote memorisation inefficiencies, and the critical lack of structured diagnostic feedback on conceptual blind spots and examination traps.
-- Section 3: Solution: GraphRAG-powered smart study assistant integrating Neo4j knowledge graphs, automated exam question diagnostic parsing via LLM (Qwen/DashScope), trap/misconception relationship mapping ("易错于"), dynamic quiz generation, and student mastery visualization.
+- Section 3: Solution: GraphRAG-powered smart study assistant integrating Neo4j knowledge graphs, automated exam question diagnostic parsing via LLM (Qwen/DashScope), trap/misconception relationship mapping ("error-prone at"), dynamic quiz generation, and student mastery visualization.
 - Section 4: Objectives: Specific, Measurable, Achievable, Relevant, and Time-bound (SMART) objectives ensuring functional PoC delivery on or before 14 December 2026.
 - Section 5: Benefits: Tangible academic and cognitive benefits for undergraduate students and instructors.
 - Section 6: Timeline: 4 distinct project phases with explicit milestones from 14 September 2026 through 14 December 2026.
@@ -57,7 +57,7 @@ Implement a standalone verification script that validates:
 - Presence and non-emptiness of all required deliverables (`practical1_deliverables.md`, `reports/project_proposal.md`, `reports/project_proposal.docx`, `reports/project_proposal.pdf`).
 - Absence of unresolved placeholders or bracketed marks.
 - Page count of the compiled PDF/DOCX strictly between 4 and 8 pages (excluding Title Page).
-- Inclusion of all 10 real group members and leader 吴宇轩 in both documents.
+- Inclusion of all 10 real group members and leader Wu Yuxuan in both documents.
 
 ## Acceptance Criteria
 
@@ -71,13 +71,13 @@ Implement a standalone verification script that validates:
 
 ## 2026-09-16T07:19:12Z
 
-[User Request Update] 用户补充需求：全部交付物完成后，请另外生成一份专门供 10 位组员审阅检查的汇总版 PDF 文档（如 `reports/week1_team_review_pack.pdf`），包含：
-1. 第一周任务总体完成情况与关键提交节点（9月25日 Proposal 提交要求）；
-2. 10 位组员具体分工职责矩阵、破冰记录核对；
-3. 开题报告（Project Proposal）核心设计精要与审查要点速览；
-4. 导师首期开题会议沟通邮件草稿及组内准备事项；
-5. 组员审阅确认清单（Review Checklist & Sign-off Table），便于全组同学在微信群或邮件中逐项核对确认。
-请在生成完主交付物后确保该汇总审查 PDF 同步生成。
+[User Request Update] Supplementary user request: after all deliverables are complete, please additionally generate a consolidated PDF document for the ten team members to review and check (e.g. `reports/week1_team_review_pack.pdf`), containing:
+1. Overall completion status of the Week 1 tasks and the key submission milestones (Proposal submission on 25 September);
+2. The specific responsibility matrix for the ten team members, and verification of the icebreaker records;
+3. A quick overview of the core design highlights and review points of the Project Proposal;
+4. The draft email for the supervisor kick-off meeting and the related internal preparation items;
+5. A member review and confirmation checklist (Review Checklist & Sign-off Table), so that all team members can verify and confirm it item by item in the WeChat group or by email.
+Please make sure this consolidated review PDF is generated together with the main deliverables.
 
 ## 2026-09-17T00:40:08Z
 
@@ -105,7 +105,7 @@ Identify and formulate the universal architectural and mathematical patterns tha
 
 ### R3. Systematic Gap Analysis Against Group 5 System
 Directly benchmark the identified competitor mechanics against our current architecture:
-- Current: Neo4j GraphRAG (考点/定理/易错于 连边), Qwen-Turbo zero-shot trap extractor, Socratic chat prompts, and static 5-dimension ECharts radar chart.
+- Current: Neo4j GraphRAG (exam point/theorem/error-prone edge types), Qwen-Turbo zero-shot trap extractor, Socratic chat prompts, and static 5-dimension ECharts radar chart.
 - Target: Identify exact missing layers (e.g., student-level temporal state tracking, dynamic difficulty weighting, variant problem synthesis).
 - Compile an exhaustive comparison matrix highlighting mechanism, competitor implementation, our current status, and gap severity.
 
@@ -130,7 +130,7 @@ Synthesize high-impact, realistic recommendations that Group 5 can incorporate i
 
 ## 2026-09-22T04:50:39Z
 
-将 **智学罗盘 SmartStudy AI** 的前端（`d:\jc2001\frontend\`，含 `index.html` 与 `style.css`）的整体视觉风格重构为 **DeepSeek Eval Harness 评测控制台风格**：深色背景默认主题、指标卡片、数据表格、进度条布局。`app.js` 中所有业务逻辑**严禁改动**，只允许修改 HTML 结构与 CSS。
+Refactor the overall visual style of the **SmartStudy AI** frontend (`d:\jc2001\frontend\`, including `index.html` and `style.css`) into the **DeepSeek Eval Harness evaluation console style**: a dark background as the default theme, metric cards, data tables, and a progress-bar layout. All business logic in `app.js` **must not be modified**; only the HTML structure and CSS may be changed.
 
 Working directory: d:\jc2001\frontend
 Integrity mode: demo
@@ -139,65 +139,65 @@ Integrity mode: demo
 
 ## Requirements
 
-### R1. DeepSeek Eval Harness 视觉风格重构（style.css）
+### R1. DeepSeek Eval Harness Visual Style Refactor (style.css)
 
-重写 `style.css`，使整体 UI 对齐 DeepSeek Eval Harness 评测控制台的设计语言：
+Rewrite `style.css` so that the overall UI aligns with the design language of the DeepSeek Eval Harness evaluation console:
 
-- **色彩系统**：深色主题为默认（背景 ~`#0d1117` 或等效深蓝黑），亮色切换保留；品牌主色改为 DeepSeek 蓝（~`#4f8ef7` 或等效）。
-- **布局**：导航栏改为左侧固定深色侧边栏（sidebar），右侧为主内容区域；在侧边栏宽度不足时可折叠为顶部 Tab。
-- **组件**：统计卡片采用 `border + monospace 大数字` 样式，表格行采用条纹背景，进度条带百分比标签，图谱面板保持独立全宽展示区。
-- **字体排印**：正文采用 `JetBrains Mono` 或 `Fira Code` 等 monospace 风格增强数据感；中文标题保留 sans-serif。
-- **动效**：去除大量过渡动画，保留 hover 高亮与 active 状态即可，整体更「克制」。
+- **Color system**: the dark theme is the default (background ~`#0d1117` or an equivalent dark blue-black), while the light theme toggle is retained; the primary brand color is changed to DeepSeek blue (~`#4f8ef7` or equivalent).
+- **Layout**: change the navigation bar into a fixed dark sidebar on the left, with the main content area on the right; when the sidebar width is insufficient, it may collapse into top tabs.
+- **Components**: statistic cards use a `border + monospace large number` style, table rows use striped backgrounds, progress bars carry percentage labels, and the graph panel keeps an independent full-width display area.
+- **Typography**: body text uses a monospace style such as `JetBrains Mono` or `Fira Code` to strengthen the data-oriented feel; headings retain sans-serif.
+- **Motion**: remove most transition animations, keeping only hover highlighting and active states, for a more restrained overall feel.
 
-### R2. HTML 结构微调（index.html）
+### R2. HTML Structure Fine-Tuning (index.html)
 
-在不破坏任何 `app.js` 引用的 `id`、`class`、`data-*` 属性的前提下：
+Without breaking any `id`, `class`, or `data-*` attributes referenced by `app.js`:
 
-- 将 `<header class="navbar">` 结构重构为左侧垂直 sidebar（`<aside class="sidebar">`）+ 右侧主区（`<main class="main-content">`）。
-- 统计卡片（`analytics-grid`）布局改为 2 列表格式卡片，每张卡片显示指标名 + 大数字 + 子说明行。
-- 学情诊断视图（`view-report`）中的薄弱点列表改为数据表格样式（`<table>` 或等价 CSS grid 行）。
-- 其余三个视图（quiz / tutor / graph）保持功能不变，仅调整容器样式与配色。
+- Refactor the `<header class="navbar">` structure into a left vertical sidebar (`<aside class="sidebar">`) plus a right main area (`<main class="main-content">`).
+- Change the statistic card (`analytics-grid`) layout into two-column grid cards, each card showing the metric name, a large number, and a sub-description line.
+- Change the weak-point list in the learning diagnosis view (`view-report`) into a data-table style (`<table>` or equivalent CSS grid rows).
+- The other three views (quiz / tutor / graph) keep their functionality unchanged; only the container styles and color schemes are adjusted.
 
-### R3. 兼容性与功能保全
+### R3. Compatibility and Functionality Preservation
 
-- `app.js` 文件**不得修改**。
-- `app.js` 依赖的所有 DOM 选择器（`id`、`class`、`data-view`、`data-subject`）在重构后必须完整保留，不得删除或重命名。
-- ECharts（CDN 加载）与 SVG 图谱相关容器尺寸需合理适配新布局，图表不能出现渲染为 0×0 的情况。
-- 亮/暗主题切换按钮保留，切换后两套主题均需完整呈现（不能白屏或样式丢失）。
+- The `app.js` file **must not be modified**.
+- All DOM selectors that `app.js` depends on (`id`, `class`, `data-view`, `data-subject`) must be fully retained after the refactor and must not be deleted or renamed.
+- The containers related to ECharts (loaded via CDN) and the SVG graph must adapt reasonably to the new layout; charts must not render at 0x0.
+- Keep the light/dark theme toggle button; after switching, both themes must render completely (no white screen or missing styles).
 
 ---
 
 ## Acceptance Criteria
 
-### 无 JS 错误
-- [ ] 在浏览器 Console 中打开 `index.html`，无任何红色 Error（仅网络类 warning 可接受，例如 CSP 无法加载 CDN 字体）。
+### No JS Errors
+- [ ] Open `index.html` in the browser Console, with no red Error messages (only network-type warnings are acceptable, e.g. CSP blocking CDN fonts).
 
-### 四大视图功能正常
-- [ ] **刷题视图**：点击选项卡可切换学科，题目题干与选项正常渲染，点击选项后 diagnostic-drawer 展开/收起。
-- [ ] **聊天视图**：输入框可输入文字，点击发送后消息气泡出现在 `chat-msgs-container`。
-- [ ] **图谱视图**：SVG 画布非空，图谱节点可见（不全白/全黑）。
-- [ ] **学情视图**：ECharts 雷达图正常渲染（非零尺寸），薄弱点列表有内容。
+### All Four Views Function Correctly
+- [ ] **Quiz view**: clicking the tabs switches subjects, question stems and options render correctly, and clicking an option expands/collapses the diagnostic-drawer.
+- [ ] **Chat view**: the input box accepts text, and after clicking send the message bubble appears in `chat-msgs-container`.
+- [ ] **Graph view**: the SVG canvas is non-empty and graph nodes are visible (not all white or all black).
+- [ ] **Learning diagnosis view**: the ECharts radar chart renders correctly (non-zero size) and the weak-point list has content.
 
-### DeepSeek Eval Harness 视觉对标
-- [ ] 页面默认以深色主题加载（`body` 背景 luminance < 0.1）。
-- [ ] 侧边栏（或顶部 Tab）导航可见，品牌名与四个功能项清晰展示。
-- [ ] 统计卡片数字区域使用等宽字体（monospace 系列）。
-- [ ] 整体界面去除圆角过大、渐变色过重等「学生端轻奢」特征，对齐「工程/评测控制台」审美。
+### DeepSeek Eval Harness Visual Benchmark
+- [ ] The page loads with the dark theme by default (`body` background luminance < 0.1).
+- [ ] Sidebar (or top tab) navigation is visible, with the brand name and the four function items clearly displayed.
+- [ ] The number area of the statistic cards uses a monospace font family.
+- [ ] The overall interface removes "student-side light-luxury" features such as excessive rounded corners and heavy gradients, aligning with an "engineering/evaluation console" aesthetic.
 
-### 主题切换
-- [ ] 点击亮/暗切换按钮，背景、文字、卡片颜色均正确翻转，无裸露白块或黑块。
+### Theme Switching
+- [ ] Clicking the light/dark toggle button correctly flips the background, text, and card colors, with no exposed white or black blocks.
 
 
 ## 2026-10-08T01:34:27Z
 
-Build an end-to-end runnable Proof-of-Concept (PoC) MVP for the JC2001 Smart Study Assistant System (智学罗盘). The PoC integrates the existing DeepSeek-style console frontend with a lightweight, robust FastAPI backend that delivers question loading, distractor trap misconception diagnosis, Socratic hints, and automated verification tests.
+Build an end-to-end runnable Proof-of-Concept (PoC) MVP for the JC2001 Smart Study Assistant System. The PoC integrates the existing DeepSeek-style console frontend with a lightweight, robust FastAPI backend that delivers question loading, distractor trap misconception diagnosis, Socratic hints, and automated verification tests.
 
 Working directory: d:/jc2001
 Integrity mode: development
-Requested team: Full team (架构、后端、前端、QA测试并行多角色分工协作)
+Requested team: Full team (architecture, backend, frontend, and QA testing in parallel with multi-role collaboration)
 
 Special User Directive:
-The user specifically requested: "记得搭建好前端给我看哦". Ensure the frontend (`frontend/index.html` + `frontend/app.js`) is completely and smoothly wired up to the backend, fully runnable via local HTTP server / uvicorn / static mount, with zero CORS issues, fluid interactive diagnostic drawer, and clear instructions/preview links for the user to view and test it immediately.
+The user specifically requested: "Remember to build the frontend so I can see it." Ensure the frontend (`frontend/index.html` + `frontend/app.js`) is completely and smoothly wired up to the backend, fully runnable via local HTTP server / uvicorn / static mount, with zero CORS issues, fluid interactive diagnostic drawer, and clear instructions/preview links for the user to view and test it immediately.
 
 ## Requirements
 

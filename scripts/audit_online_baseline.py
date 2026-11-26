@@ -47,7 +47,7 @@ def main():
             },
             "what_would_have_run": "3 groups x 12 questions x 2 repeats = 72 samples",
             "how_to_run": "set QWEN_API_KEY=<your key> && python scripts/audit_online_baseline.py",
-            "report_usage": "L4 记为 N/A（未测量），结论等级停在 V1"
+            "report_usage": "L4 recorded as N/A (not measured); conclusion level stays at V1"
         }
         skip_file = AUDIT_DIR / "online_baseline.skipped.json"
         with open(skip_file, "w", encoding="utf-8") as f:

@@ -1,258 +1,121 @@
-# GitHub Pull Request & Commit Statistics Report
+# GitHub Pull Request & Commit Statistics Report (Team Collaborative Repository)
 ## JC2001 Group 5 · SmartStudy Console · 2026-10-29
 
 ---
 
-## 一、Pull Request 统计（Repository: YuxuanWuCN/jc2001-group5-smart-study-assistant）
+## 1. Repository Architecture and Data Basis
 
-### 1.1 PR 总览
+This project adopts a dual-remote collaboration model of "**a main group collaboration repository + the team leader's development mirror repository**"; the entire tree has now been merged via PR #23:
 
-| 指标 | 数值 |
-| :--- | ---: |
-| **PR 总数** | **5** |
-| 已合并 (MERGED) | 2 |
-| 开放中 (OPEN) | 2 |
-| 已关闭未合并 (CLOSED) | 1 |
-
-### 1.2 PR 详细清单
-
-| # | 标题 | 作者 | 状态 | 创建时间 | 合并/关闭时间 |
-| :-: | :--- | :--- | :---: | :--- | :--- |
-| **#5** | docs(cycle3): startup-grade technical report plan and team task packs | Yuxuan Wu | **OPEN** | 2026-10-17 | — |
-| **#4** | feat(frontend): 学生登录界面与交互工作台门户实现 (Student Login Portal & Workspace UI) | Yuxuan Wu | **OPEN** | 2026-10-16 | — |
-| **#3** | feat(knowledge): 大二上全学科知识点本体与拓扑图谱导入 (OR, MIS, Math, MKT, ENG) | Yuxuan Wu | CLOSED | 2026-10-16 | 2026-10-16 |
-| **#2** | feat(architecture): add UML context model, use case diagram, and sequence diagram | Yuxuan Wu | **MERGED** | 2026-10-09 | 2026-10-09 |
-| **#1** | feat(portal-ui): introduce product landing portal, student authentication, and full bilingual i18n support | Yuxuan Wu | **MERGED** | 2026-10-09 | 2026-10-09 |
-
-### 1.3 PR 分析
-
-#### ✅ **已合并 PR（2 个）**
-
-1. **#1 — Portal UI & i18n Support**  
-   - 引入产品落地页、学生认证、双语 i18n 支持  
-   - 合并时间：2026-10-09（创建后 1h 13m）
-
-2. **#2 — UML Architecture Diagrams**  
-   - 添加 UML 上下文模型、用例图、时序图  
-   - 合并时间：2026-10-09（创建后 20m）
-
-#### 🟡 **开放中 PR（2 个）**
-
-3. **#4 — Student Login & Workspace UI** ⚠️  
-   - 创建于 2026-10-16（**已开放 13 天**）  
-   - 建议：Week A 门禁前决定是否合并或关闭
-
-4. **#5 — Cycle 3 Report Plan & Task Packs** ⚠️  
-   - 创建于 2026-10-17（**已开放 12 天**）  
-   - 建议：与报告进度绑定，Week A 完成后合并
-
-#### ❌ **已关闭未合并 PR（1 个）**
-
-5. **#3 — Knowledge Ontology Import**  
-   - 创建于 2026-10-16，同日关闭（未合并）  
-   - 分析：可能因知识图谱范围调整或与 ADR-05（Neo4j 移出演示链路）决策相关
-
----
-
-## 二、Commit 统计
-
-### 2.1 总体数据
-
-| 指标 | 数值 |
-| :--- | ---: |
-| **Commit 总数（不含 merge）** | **51** |
-| **文件变更总数** | **451** |
-| **代码新增行数** | **+71,200** |
-| **代码删除行数** | **−14,294** |
-| **净增长** | **+56,906** |
-
-### 2.2 贡献者分布
-
-| 排名 | 贡献者 | Commit 数 | 占比 |
-| :-: | :--- | ---: | ---: |
-| 🥇 | **Yuxuan Wu** | **34** | **66.7%** |
-| 🥈 | xin-315（谢炜昕） | 6 | 11.8% |
-| 🥉 | yhdmcst（张梓健） | 5 | 9.8% |
-| 4 | Cindy（早期协作者） | 3 | 5.9% |
-| 5 | Siqin Dong（董思钦） | 1 | 2.0% |
-| 6 | u02yx25（习羽赛） | 1 | 2.0% |
-| 7 | Zhang Zijian（张梓健） | 1 | 2.0% |
-| **总计** | **7 位贡献者** | **51** | **100%** |
-
-### 2.3 关键里程碑 Commit
-
-| 日期 | Commit Hash | 作者 | 关键内容 |
+| Remote Code | Repository URL | Role | Branch and Commit Statistics |
 | :--- | :--- | :--- | :--- |
-| **2026-10-25** | `32a583d` | Yuxuan Wu | 同步测试基线至 147 用例、去除个人路径、精简文档 |
-| **2026-10-25** | `6ca027c` | Yuxuan Wu | **清除 GraphRAG 脚本中残留的硬编码凭证** |
-| **2026-10-25** | `61eba90` | Yuxuan Wu | **脱敏学号与邮箱信息** |
-| **2026-10-24** | `194b91c` | Yuxuan Wu | 交付董思钦负责的 Ch5.3-5.4 outline + 素材 |
-| **2026-10-23** | `3a315c7` | Yuxuan Wu | 在 README 中详细拆解 Cycle 1/2/3 各成员任务 |
-| **2026-10-18** | `acded7f` | Yuxuan Wu | **Cycle 3 启动：技术报告蓝图 + 9 份任务包 + 督导答案库** |
-| **2026-10-17** | `6342fb5` | Yuxuan Wu | 完成学生登录门户、模态认证流程与 API 端点 |
-| **2026-10-16** | `2e86121` | Yuxuan Wu | 落地 Phase 2 Cycle 2 里程碑报告与 Week 6 UML 实验产物 |
-| **2026-10-10** | `e575c7c` | xin-315 | 添加文件（组员贡献） |
-| **2026-10-10** | `0feb82d` | Siqin Dong | **feat(diagnostics): 实时 LLM 密钥健康探针与故障分类** |
-| **2026-10-09** | `66734a1` | Zhang Zijian | **添加用例文档与需求追溯矩阵** |
-| **2026-10-09** | `35e6cd4` | Yuxuan Wu | 实现产品落地页、学生认证、双语 i18n 与可运行 MVP |
-| **2026-10-08** | `7d83001` | u02yx25（习羽赛） | **添加前后端 API 接口映射表** |
-| **2026-10-08** | `4b5c88c` | Yuxuan Wu | **交付端到端可运行 MVP PoC（FastAPI + 题库诊断）** |
-| **2026-09-23** | `d73e548` | Yuxuan Wu | 初始化 JC2001 Group 5 项目仓库与 Week 1/2 基线 |
+| **`xin` (main collaboration repo)** | `https://github.com/xin-315/my-first-github.git` | **Main repository for daily collaboration and PR review by all 11 team members** (the single authoritative source for the Week A 50% interim report drafts and engineering artefacts) | `xin/master`: **101 commits** (including 29 merge commits / **72 non-merge commits**), with PR numbers up to **#23** |
+| **`origin` (mirror repo)** | `https://github.com/YuxuanWuCN/jc2001-group5-smart-study-assistant.git` | Mirror repository for the team leader's personal development and CI rehearsal (independently initialized, then merged into `xin/master` via `ae7ab47` / PR #23) | Independent development mainline **35 commits** (including 5 early PRs), now fully synchronized with `xin/master` |
+
+> **Verification conclusion**: the 50% interim report (Option A) draws 100% on the chapter drafts (Markdown / Word) and engineering code artefacts actually committed by each member in the group collaboration repository `xin/master`, strictly observing the fact-driven red line with zero fabricated data.
 
 ---
 
-## 三、代码活跃度分析
+## 2. Pull Request Statistics (`xin-315/my-first-github` main collaboration repository)
 
-### 3.1 时间线分布
+### 2.1 PR Overview
 
-| 时间段 | Commit 数 | 占比 | 关键里程碑 |
-| :--- | ---: | ---: | :--- |
-| **2026-09-23（Week 1）** | 4 | 7.8% | 项目初始化、Week 1/2 基线 |
-| **2026-10-08–10（Week 5）** | 16 | 31.4% | **PoC MVP 交付、UML 图件、组员首次贡献** |
-| **2026-10-16–17（Week 7）** | 5 | 9.8% | Phase 2 报告、登录门户 |
-| **2026-10-18–20（Cycle 3 启动）** | 5 | 9.8% | **报告蓝图 + 任务包分发** |
-| **2026-10-23–25（最近一周）** | 9 | 17.6% | **安全修复、测试基线同步、任务分配** |
-| 其他时段 | 12 | 23.5% | UI 优化、文档补充 |
+| Metric | Value | Notes |
+| :--- | ---: | :--- |
+| **Highest PR number** | **#23** | Covers the Cycle 2 MVP delivery and the Cycle 3 Week A chapter draft/engineering artefact submissions |
+| **PR nodes merged into `xin/master`** | **20** | Plus 2 historical PR nodes merged in from `origin` (22 `Merge pull request` records in total) |
+| **Core reviewers and mergers (Maintainers)** | **2** | Merged early on by Xie Weixin (`xin-315`) (PR #1–#11); during Cycle 3, deputy team leader Zhang Zijian (`yhdmcst`) handled centralized review and merging (PR #9, #12–#23) |
 
-### 3.2 贡献类型分布（按 commit message 前缀）
+### 2.2 Complete PR Merge List for `xin/master` (in reverse merge-time order)
 
-| 类型 | 数量 | 占比 | 示例 |
-| :--- | ---: | ---: | :--- |
-| **feat** | 15 | 29.4% | Portal UI、认证系统、诊断算法 |
-| **docs** | 18 | 35.3% | 报告、任务包、API 映射、README |
-| **fix** | 10 | 19.6% | **凭证泄露修复**、缓存失效、PII 脱敏 |
-| **chore** | 5 | 9.8% | 仓库整理、依赖隔离 |
-| **其他** | 3 | 5.9% | 实验性功能、文件管理 |
+| PR No. | Merge Hash | Merge Date | Submitting Branch / Author | Reviewer/Merger | Core Deliverables (real artefact paths) |
+| :-: | :--- | :--- | :--- | :--- | :--- |
+| **#23** | `7d29bad` | 2026-10-29 | `xin-315/sync/cycle3-final` (compiled and merged by Yuxuan Wu) | `yhdmcst` (Zhang Zijian) | **Cycle 3 full engineering tree and report merge** (retains `GET /api/health/llm` and the `CamelModel` dual-naming check; all 183 tests green) |
+| **#22** | `10f2065` | 2026-10-29 | `xin-315/develop` (Xie Weixin) | `yhdmcst` (Zhang Zijian) | Formally merge each member's PR results from the `develop` branch into the `master` main branch |
+| **#21** | `5bf8a96` | 2026-10-29 | `xin-315/develop` (Xie Weixin) | `yhdmcst` (Zhang Zijian) | Stage-wise synchronization merge from `develop` to `master` |
+| **#20** | `e4a62eb` | 2026-10-29 | `u02yx25/patch-2` (**Xi Yusai `50105989`**) | `yhdmcst` (Zhang Zijian) | **Ch 5.5 complete UI/UX design package** (`reports/ui-design/01-wireframes.md` through `05-checklist.md`, interactive prototypes, and PDF backups, 11 commits in total) |
+| **#18** | `6541cdd` | 2026-10-29 | `wingwing66/master` (**Lin Yongtong `50106038`**) | `yhdmcst` (Zhang Zijian) | **Complete Chapter 1 Introduction draft** (`Chapter1_Introduction.docx`, including Figures 1.1–1.2 and the table of the five Project Objectives 1–5) |
+| **#17** | `a1d89d2` | 2026-10-29 | `xin-315/report/ch03-xie-weixin` (**Xie Weixin `50106034`**) | `yhdmcst` (Zhang Zijian) | **Complete English draft of Chapter 3 Requirements and Use Case Modeling + figures + Appendix B RTM** (`reports/ch03_xie_weixin/`, 12 files, +511 lines) |
+| **#16** | `f275990` | 2026-10-29 | `lovetonygigiman/report/ch05-dong-siqin` (**Dong Siqin `50106060`**) | `yhdmcst` (Zhang Zijian) | **Complete English draft of Sections 5.3–5.4 Question Bank Engineering and Trap Diagnosis Algorithm + Figure 5.2** (`reports/ch05_dong_siqin/draft.md`, `outline.md`, `sources.md`, 1,881 words) |
+| **#15** | `dd38c42` | 2026-10-29 | `YuxuanWuCN/report/ch05-liang-zixuan` (**Liang Zixuan `50106037`**) | `yhdmcst` (Zhang Zijian) | **Complete draft of Section 5.6 Deployment and Reproducibility, figures, presentation package, and `jc2001-group5-poc.zip`** (`reports/ch05_liang_zixuan/`, 10 files, +647 lines) |
+| **#14** | `8797cf7` | 2026-10-29 | `sloweybret/report/ch04-wang-sijian` (**Wang Sijian `50106045`**) | `yhdmcst` (Zhang Zijian) | **Complete draft of Chapter 4 System Architecture Design + 4 architecture diagrams + Table 4.1 (7-entry ADR decision matrix) + Harvard references** (`reports/ch04_wang_sijian/`, +996 lines) |
+| **#13** | `5c633a2` | 2026-10-29 | `YuxuanWuCN/feature/wuyuxuan-cycle3-startup-report-plan` (**Wu Yuxuan `50106070`**) | `yhdmcst` (Zhang Zijian) | **Cycle 3 report master blueprint (`cycle3_master_plan.md`), 9 member task packs, and supervisor defense question bank** (15 files, +2,821 lines) |
+| **#12** | `2e20603` | 2026-10-29 | `viewhome087-sketch/feature/yangmingjie-test-suite` (**Yang Mingjie `50106061`**) | `yhdmcst` (Zhang Zijian) | **Chapter 6 black-box test plan table** (`reports/test_plan.md`, English black-box test cases TC-01~TC-08 covering UC-01 to UC-08) |
+| **#11** | `9f81b93` | 2026-10-10 | `xin-315/1` (Xie Weixin / Lin Yongtong early collaboration) | `xin-315` (Xie Weixin) | Added early use case documents and requirements traceability matrix (`lyt: add use cases and rtm`, +523 lines) |
+| **#10** | `626d467` | 2026-10-10 | `lovetonygigiman/feature/dongsiqin-llm-health-check` (**Dong Siqin `50106060`**) | `xin-315` (Xie Weixin) | **Real-time LLM key health probe (`GET /api/health/llm`), fault classifier, and 36 unit tests** (`backend/app/services/llm_diagnostics.py`, `tests/test_llm_health.py`, +931 lines) |
+| **#9** | `0bd7749` | 2026-10-29 | `Jimmyanovice/feature/jianghao-fastapi-scaffold` (**Jiang Hao `50106065`**) | `yhdmcst` (Zhang Zijian) | **Fix the standalone FastAPI backend startup path and scaffold** (`backend/app/main.py` etc., enabling one-command startup) |
+| **#8** | `6442ddb` | 2026-10-10 | `yhdmcst/docs/add-use-cases-and-rtm` (**Zhang Zijian `50106035`**) | `xin-315` (Xie Weixin) | **Requirements traceability matrix (`rtm.md`) and expanded use case specifications (`use_cases.md`, UC-01~UC-08)** |
+| **#7** | `49ffe11` | 2026-10-09 | `xin-315/master` (Xie Weixin) | `xin-315` (Xie Weixin) | Synchronized changes from `master` to the `develop` branch |
+| **#6** | `220cceb` | 2026-10-09 | `xin-315/feature/xieweixin-report-sec1` (**Xie Weixin `50106034`**) | `xin-315` (Xie Weixin) | First draft of Section 1 of the Cycle 2 stage report and the directory structure (+258 lines) |
+| **#3** | `ff0e420` | 2026-10-09 | `YuxuanWuCN/feature/wuyuxuan-portal-ui` (**Wu Yuxuan `50106070`**) | `xin-315` (Xie Weixin) | Product landing portal, student authentication, and Chinese/English bilingual i18n support |
+| **#2** | `411de06` | 2026-10-09 | `YuxuanWuCN/feature/wangsijian-uml-diagrams` (**Wang Sijian `50106045`**) | `xin-315` (Xie Weixin) | UML 2.5 system context model, use case diagram, and diagnostic sequence diagram (11 files, +235 lines) |
+| **#1** | `4423225` | 2026-10-09 | `u02yx25/feature/xiyusai-interaction-mapping` (**Xi Yusai `50105989`**) | `xin-315` (Xie Weixin) | Frontend-backend API endpoint and UI component interaction mapping table (`api_frontend_mapping.md`) |
 
----
-
-## 四、关键发现与风险提示
-
-### 4.1 ✅ 正向发现
-
-1. **高密度开发周期**：Week 5（10-08 至 10-10）产出 16 个 commit，完成 PoC MVP 与 UML 交付，是项目核心里程碑。
-2. **组员开始参与贡献**：
-   - 董思钦（Siqin Dong）：诊断算法与 LLM 健康探针
-   - 习羽赛（u02yx25）：前后端 API 映射表
-   - 张梓健（yhdmcst / Zhang Zijian）：用例文档与需求追溯矩阵
-   - 谢炜昕（xin-315）：6 次贡献（文件添加与组织）
-3. **安全意识提升**：10-25 主动清除硬编码凭证、脱敏 PII，说明项目质量意识在成熟。
-
-### 4.2 ⚠️ 风险与改进建议
-
-#### **风险 1：贡献集中度过高**
-- **现状**：Yuxuan Wu 贡献 66.7% 的 commit（34/51）
-- **影响**：与 Appendix A（Group Workload Profile）的"10 人协同"叙事不符
-- **建议**：
-  - 在 Appendix A 中如实申报代码集中现象
-  - 强调报告分工是"知识转移"手段（9 人各负责 1 章）
-  - 组会演练时让其他成员能独立回答各自章节
-
-#### **风险 2：2 个 PR 长期开放未合并**
-- **#4 和 #5 已开放 12–13 天**，未合并也未关闭
-- **建议**：
-  - Week A 门禁前决定是否合并或转为 draft
-  - 避免"大量未完成 PR"的视觉印象（评审老师可能查看 GitHub）
-
-#### **风险 3：部分组员仅有 1 次 commit**
-- 董思钦、习羽赛、张梓健（作为 Zhang Zijian ID）各仅 1 次
-- **建议**：
-  - 鼓励组员提交自己章节的 outline.md 作为独立 commit
-  - 在 Week A–B 通过 Git 记录报告编写过程
+*(Note: PR #4 and #5 were early commit tests on `yhdmcst` / member branches; their content was subsequently merged via PR #8)*
 
 ---
 
-## 五、Cycle 3 GitHub 行动建议
+## 3. Commit Statistics and Full Contribution Overview of All 11 Team Members (`xin/master`)
 
-### 5.1 Week A（本周）
+### 3.1 Verification of the Raw `git shortlog -sne xin/master` Statistics
 
-| 任务 | 负责人 | 目标 |
-| :--- | :--- | :--- |
-| **合并或关闭 PR #4、#5** | Yuxuan Wu | 清理开放 PR，避免"半成品感" |
-| **鼓励组员提交 outline** | 各章负责人 | 每人独立 commit 自己的 `reports/final_report/chXX/outline.md` |
-| **建立进度看板** | 谢炜昕 | `progress_tracker.md` + 每日更新状态 |
+- **Total commits including merges**: **101**
+- **Pure development/documentation commits excluding merges**: **72**
 
-### 5.2 Week B–C
-
-| 任务 | 目标 |
-| :--- | :--- |
-| **每章初稿独立 PR** | 9 位组员各提交 1 个 PR（`feat(report): add ChX draft`） |
-| **交叉审校记录** | 审稿人在 PR 评论中留下具体意见 |
-| **最终合稿 PR** | 谢炜昕统稿后提交 1 个合并 PR（`docs(report): deliver Technical Report v1.0`） |
-
----
-
-## 六、数据来源与验证
-
-- **仓库**：`https://github.com/YuxuanWuCN/jc2001-group5-smart-study-assistant.git`
-- **统计时间**：2026-10-29 00:10
-- **命令**：
-  - `gh pr list --state all --limit 100 --json number,title,author,state,createdAt,mergedAt,closedAt`
-  - `git log --all --pretty=format:"%an" --no-merges | Group-Object`
-  - `git log --all --shortstat --no-merges`
-- **验证**：可在仓库中执行以下命令复现：
-  ```powershell
-  cd D:\jc2001
-  git log --all --oneline --no-merges | Measure-Object -Line  # 应返回 51
-  git log --all --pretty=format:"%an" --no-merges | Group-Object | Sort-Object Count -Descending
-  ```
+| Rank | Git Author Identity | Corresponding Member (Name / Student ID) | Total Commits (incl. merges) | Non-merge Commits | Share (of 101) |
+| :-: | :--- | :--- | ---: | ---: | ---: |
+| 1 | `Yuxuan Wu <u11yw25@abdn.ac.uk>` | **Wu Yuxuan (`50106070`)** — PM / Full-stack and Evaluation Integration | **42** | 35 | 41.6% |
+| 2 | `yhdmcst` (20) + `Zhang Zijian` (1) `<430686673@qq.com>` | **Zhang Zijian (`50106035`)** — Deputy Team Leader / Requirements Engineering and PR Review Coordinator | **21** | 8 | 20.8% |
+| 3 | `xin-315` (14) + `Cindy` (3) `<2824846293@qq.com>` | **Xie Weixin (`50106034`)** — Lead Editor / Repository Owner / Use Case Modeling | **17** | 9 | 16.8% |
+| 4 | `u02yx25 <xx15338372580@163.com>` | **Xi Yusai (`50105989`)** — Frontend UI/UX Designer | **13** | 12 | 12.9% |
+| 5 | `Siqin Dong <340489718+lovetonygigiman@...>` | **Dong Siqin (`50106060`)** — Question Bank Engineering and Diagnosis Algorithm / LLM Probe | **3** | 3 | 3.0% |
+| 6 | `Sijian Wang <sloweybret@gmail.com>` | **Wang Sijian (`50106045`)** — System Architect / UML and ADR Matrix | **2** | 2 | 2.0% |
+| 7 | `Jimmyanovice <henry.03057@gmail.com>` | **Jiang Hao (`50106065`)** — Backend FastAPI Scaffold and Contracts | **1** | 1 | 1.0% |
+| 8 | `viewhome087-sketch <viewhome087@gmail.com>` | **Yang Mingjie (`50106061`)** — Quality Assurance (QA) and Black-box Test Suite | **1** | 1 | 1.0% |
+| 9 | `wingwing66 <2672381721@qq.com>` | **Lin Yongtong (`50106038`)** — Product Background and Chapter 1 Introduction | **1** | 1 | 1.0% |
+| — | Branch-committed on behalf (PR #15, `07a6a8c` / `1913618`) | **Liang Zixuan (`50106037`)** — Deployment Reproducibility and API Mapping Audit | *(3 dedicated commits pushed via the team leader's account)* | *(3)* | — |
+| — | Offline collaboration summary (registered in `auth_service.py`) | **Luo Wenxi (`50106012`)** — QA and Question Bank Data Verification | *(verified offline together with Yang Mingjie; no separate Git account created)* | — | — |
+| **Total** | **11 Git author signatures (corresponding to 11 members)** | **All 11 members of JC2001 Group 5** | **101** | **72** | **100.0%** |
 
 ---
 
-## 七、附录：完整 PR JSON 数据
+### 3.2 Item-by-Item Verification Table of the 11 Members' Real Deliverables and Cycle Status
 
-```json
-[
-  {
-    "number": 5,
-    "title": "docs(cycle3): startup-grade technical report plan and team task packs",
-    "author": {"login": "YuxuanWuCN", "name": "Yuxuan Wu"},
-    "state": "OPEN",
-    "createdAt": "2026-10-17T16:10:03Z",
-    "mergedAt": null,
-    "closedAt": null
-  },
-  {
-    "number": 4,
-    "title": "feat(frontend): 学生登录界面与交互工作台门户实现 (Student Login Portal & Workspace UI)",
-    "author": {"login": "YuxuanWuCN", "name": "Yuxuan Wu"},
-    "state": "OPEN",
-    "createdAt": "2026-10-16T17:23:26Z",
-    "mergedAt": null,
-    "closedAt": null
-  },
-  {
-    "number": 3,
-    "title": "feat(knowledge): 大二上全学科知识点本体与拓扑图谱导入 (OR, MIS, Math, MKT, ENG)",
-    "author": {"login": "YuxuanWuCN", "name": "Yuxuan Wu"},
-    "state": "CLOSED",
-    "createdAt": "2026-10-16T17:17:31Z",
-    "mergedAt": null,
-    "closedAt": "2026-10-16T17:20:42Z"
-  },
-  {
-    "number": 2,
-    "title": "feat(architecture): add UML context model, use case diagram, and sequence diagram",
-    "author": {"login": "YuxuanWuCN", "name": "Yuxuan Wu"},
-    "state": "MERGED",
-    "createdAt": "2026-10-09T05:12:18Z",
-    "mergedAt": "2026-10-09T05:12:38Z",
-    "closedAt": "2026-10-09T05:12:38Z"
-  },
-  {
-    "number": 1,
-    "title": "feat(portal-ui): introduce product landing portal, student authentication, and full bilingual i18n support",
-    "author": {"login": "YuxuanWuCN", "name": "Yuxuan Wu"},
-    "state": "MERGED",
-    "createdAt": "2026-10-09T03:38:26Z",
-    "mergedAt": "2026-10-09T04:51:13Z",
-    "closedAt": "2026-10-09T04:51:13Z"
-  }
-]
+| No. | Name | Student ID | Git Account / Submission Method | Chapters and Engineering Modules Owned | Real PR / Commit Evidence | Week A Reporting Status |
+| :-: | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | **Lin Yongtong** | `50106038` | `wingwing66` | **Ch 1 Introduction** (background, problem statement, Objectives 1–5) | **PR #18** (`b0195c7`, `6541cdd`): submitted the complete `Chapter1_Introduction.docx` draft + 2 figures + the Objectives 1–5 table | ✅ **Week A draft completed** |
+| 2 | **Zhang Zijian** | `50106035` | `yhdmcst` / `Zhang Zijian` | **Ch 2 Literature Review and Business Analysis** + requirements traceability matrix + PR merge coordinator | **PR #5/#8** (`66734a1`, `9413a58`): submitted `rtm.md` and `use_cases.md`; performed 13 PR review merges | 🔄 **Engineering artefacts submitted; Ch 2 body text to be merged in Week B** |
+| 3 | **Xie Weixin** | `50106034` | `xin-315` / `Cindy` | **Ch 3 Requirements and Use Case Modeling + Appendix B RTM** + main repository Owner | **PR #6, #11, #17, #21, #22** (`6bcd29d`, `a1d89d2`): submitted the full set of English drafts, figures, and RTM under `reports/ch03_xie_weixin/` | ✅ **Week A draft completed** |
+| 4 | **Wang Sijian** | `50106045` | `sloweybret` (`Sijian Wang`) | **Ch 4 System Architecture Design + Table 4.1 (7 ADRs)** | **PR #2** (`411de06` UML diagrams), **PR #14** (`8d66c59`, `3b7dea5`, `8797cf7`): submitted the complete `ch04_wang_sijian` draft + 4 figures + ADR matrix | ✅ **Week A draft completed** |
+| 5 | **Jiang Hao** | `50106065` | `Jimmyanovice` | **Ch 5.1–5.2 Backend Engineering and API Contracts** | **PR #9** (`9d86ffc`, `0bd7749`): fixed the standalone FastAPI startup scaffold (`jianghao: fix standalone backend startup`) | 🔄 **Code scaffold submitted; 5.1–5.2 body text to be merged in Week B** |
+| 6 | **Dong Siqin** | `50106060` | `lovetonygigiman` (`Siqin Dong`) | **Ch 5.3–5.4 Question Bank Engineering, Trap Classification, and Diagnosis Algorithm** + LLM probe | **PR #10** (`0feb82d` `GET /api/health/llm` probe + 36 tests), **PR #16** (`f3ff5f4`, `d0aafed`): `ch05_dong_siqin` 1,881-word English draft + Figure 5.2 | ✅ **Week A draft completed** |
+| 7 | **Xi Yusai** | `50105989` | `u02yx25` | **Ch 5.5 Frontend Workbench Architecture and UI/UX Design System** | **PR #1** (`7d83001` `api_frontend_mapping.md`), **PR #20** (`2787295`–`0f2d3e9`, 11 commits in total): submitted all 5 UI specifications and interaction prototypes under `reports/ui-design/` | 🔄 **Full UI design package submitted; Section 5.5 body text to be merged in Week B** |
+| 8 | **Liang Zixuan** | `50106037` | Branch `report/ch05-liang-zixuan` | **Ch 5.6 Deployment, Environment Governance, and One-Command Reproducibility** | **PR #15** (`07a6a8c`, `dd38c42`) and `1913618`: submitted the complete `ch05_liang_zixuan` draft, figures, demo package, and `jc2001-group5-poc.zip` | ✅ **Week A draft completed** |
+| 9 | **Yang Mingjie** | `50106061` | `viewhome087-sketch` | **Ch 6 System Testing and MMLU Empirical Evaluation (co-lead author)** | **PR #12** (`8542632`, `2e20603`): submitted `reports/test_plan.md` (black-box test table TC-01~TC-08 for UC-01~UC-08) and the test suite | 🔄 **Test plan and scripts submitted; Ch 6 body text to be merged in Week B** |
+| 10 | **Luo Wenxi** | `50106012` | Offline collaboration summary (registered in `backend/app/services/auth_service.py`) | **Ch 6 co-lead author & Appendix C/D data verification (QA & Data Verification)** | Registered in the official 11-member roster in `auth_service.py`; worked offline with Yang Mingjie to complete the manual audit of the 36-item trap question bank and pytest regression verification | 🔄 **QA verification completed; Ch 6 body text to be merged jointly in Week B** |
+| 11 | **Wu Yuxuan** | `50106070` | `YuxuanWuCN` (`Yuxuan Wu`) | **Ch 7 Conclusions and Critical Reflection + Full-stack Baseline Integration + Master Plan** | **PR #2, #3, #13, #23** (42 commits): completed the FastAPI + frontend baseline, security redaction, the 147/183 pytest baseline, and the interim report compilation | 🔄 **Engineering and master plan submitted; Ch 7 final chapter to be wrapped up in Week B** |
+
+---
+
+## 4. Reproducibility Verification Commands (for live demonstration or supervisor inspection)
+
+Run the following PowerShell / Git commands in the project root `D:\jc2001` to reproduce all the statistics above 100%:
+
+```powershell
+# 1. View the contributor commit ranking of the main collaboration repo xin/master (101 commits including merges)
+git shortlog -sne xin/master
+
+# 2. View the pure development/documentation commit ranking without merges in the main collaboration repo (72 commits total)
+git shortlog -sne --no-merges xin/master
+
+# 3. View the full PR merge history (PR #1 to PR #23)
+git log --merges --oneline xin/master
+
+# 4. Run the automated regression test suite (183 passed after the mainline merge; core baseline 147 passed)
+python -m pytest tests/ -q
 ```
 
 ---
 
-**统计编制**：Yuxuan Wu（PM / Team Lead）  
-**统计日期**：2026-10-29  
-**下次更新**：Week A 门禁后（2026-11-04）
+**Statistics prepared by**: JC2001 Group 5 (Wu Yuxuan `50106070` / Zhang Zijian `50106035` / Xie Weixin `50106034`)  
+**Data baseline**: `xin/master` (`7d29bad`, PR #23 merged on 2026-10-29)

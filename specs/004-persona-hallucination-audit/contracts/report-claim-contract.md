@@ -1,98 +1,98 @@
-# 报告主张契约 (Report Claim Contract)
+# Report Claim Contract
 
-**功能编号**：`004-persona-hallucination-audit`
-**适用范围**：`reports/` 下所有 Cycle 3 交付文本（`cycle3_master_plan.md` 及各 `cycle3_task_packs/*.md`）
-**性质**：本文件是"措辞许可协议"，不是建议。任何句子若无法在本契约中找到对应的"可支撑"行，即不得写入报告。
+**Feature ID**: `004-persona-hallucination-audit`
+**Scope**: all Cycle 3 delivery text under `reports/` (`cycle3_master_plan.md` and every `cycle3_task_packs/*.md`)
+**Nature**: this document is a "wording licence agreement", not a suggestion. Any sentence that cannot find a corresponding "supportable" row in this contract must not be written into the report.
 
 ---
 
-## 一、证据源登记表
+## 1. Evidence-Source Register
 
-| 编号 | 证据源 | 类型 | 规模 | 归属文件 | 复现命令 |
+| ID | Evidence source | Type | Scale | Owning file | Reproduction command |
 | :-: | :--- | :--- | :--- | :--- | :--- |
-| `EVID-MMLU` | MMLU 12 学科GraphRAG 对照结果 | 离线实证 | n=4,445 | `graphrag（终）/final_systematic_report.csv` | `python scripts/run_mmlu_eval.py`（历史脚本） |
-| `EVID-PYTEST` | pytest 测试套件 | 回归基线 | 9 文件 / 145 用例 | `tests/` | `python -m pytest tests/ -q` |
-| `EVID-OFFLINE` | 离线查表兜底路径 | 机制事实 | 12 题 | `backend/app/data/seed_questions.py` | `python scripts/audit_hallucination_l1_l3.py` |
-| `EVID-L1` | L1 内容幻觉审计 | 离线实证 | 分母 84 | `reports/audit/l1_content_audit.csv` | 同上 |
-| `EVID-L2` | L2 归因幻觉审计 | 离线实证 | 分母 36 | `reports/audit/l2_attribution_audit.csv` | 同上 |
-| `EVID-L3` | L3 泄漏幻觉审计 | 离线实证 | 分母 12 | `reports/audit/l3_leakage_audit.csv` | 同上 |
-| `EVID-L4` | 在线三分组对照 | 在线实验（**可能 skipped**） | 每格 N≥20 | `reports/audit/online_baseline.csv` \| `online_baseline.skipped.json` | `python scripts/audit_online_baseline.py` |
-| `EVID-PERSONA` | 画像溯源审计 | 文档审计 | PA-01…PA-nn | `reports/audit/persona_provenance.csv` | `python scripts/audit_persona_claims.py` |
+| `EVID-MMLU` | MMLU 12-subject GraphRAG controlled comparison | offline empirical | n=4,445 | `graphrag_final/final_systematic_report.csv` | `python scripts/run_mmlu_eval.py` (historical script) |
+| `EVID-PYTEST` | pytest test suite | regression baseline | 9 files / 145 cases | `tests/` | `python -m pytest tests/ -q` |
+| `EVID-OFFLINE` | offline table-lookup fallback path | mechanistic fact | 12 questions | `backend/app/data/seed_questions.py` | `python scripts/audit_hallucination_l1_l3.py` |
+| `EVID-L1` | L1 content hallucination audit | offline empirical | denominator 84 | `reports/audit/l1_content_audit.csv` | same as above |
+| `EVID-L2` | L2 attribution hallucination audit | offline empirical | denominator 36 | `reports/audit/l2_attribution_audit.csv` | same as above |
+| `EVID-L3` | L3 leakage hallucination audit | offline empirical | denominator 12 | `reports/audit/l3_leakage_audit.csv` | same as above |
+| `EVID-L4` | online three-group comparison | online experiment (**may be skipped**) | N≥20 per cell | `reports/audit/online_baseline.csv` \| `online_baseline.skipped.json` | `python scripts/audit_online_baseline.py` |
+| `EVID-PERSONA` | persona provenance audit | documentation audit | PA-01…PA-nn | `reports/audit/persona_provenance.csv` | `python scripts/audit_persona_claims.py` |
 
 ---
 
-## 二、禁止互引矩阵（硬约束）
+## 2. Forbidden Cross-Reference Matrix (hard constraint)
 
-> 读法：行 = 你手上有的证据；"✅"= 该证据可以支撑的结论类型；"⛔"= 严禁用来支撑的结论类型。任何 ⛔ 组合一旦出现在报告正文或答辩演示中，视为学术诚信违规。
+> How to read: row = the evidence you hold; "✅" = conclusion types this evidence may support; "⛔" = conclusion types it is strictly forbidden to support. Any ⛔ combination appearing in the report body or a defence presentation counts as an academic-integrity violation.
 
-| 证据 ↓ \ 结论 → | 答题准确率提升 | 幻觉率降低 | 输出内容正确 | 系统健壮不崩 | 学习效果提升 | 真实学生受益 |
+| Evidence ↓ \ Conclusion → | Improved answering accuracy | Reduced hallucination rate | Correct output content | System robust and does not crash | Improved learning outcomes | Real students benefit |
 | :--- | :-: | :-: | :-: | :-: | :-: | :-: |
 | `EVID-MMLU` (n=4,445) | ✅ | ⛔ | ⛔ | ⛔ | ⛔ | ⛔ |
 | `EVID-PYTEST` (145) | ⛔ | ⛔ | ⛔ | ✅ | ⛔ | ⛔ |
-| `EVID-OFFLINE` (fallback) | ⛔ | ⛔（尤其禁止"=0%"） | ✅ 仅限"该路径内容来自人工编写" | ✅ | ⛔ | ⛔ |
-| `EVID-L1`/`L2`/`L3` | ⛔ | ✅ **仅限离线确定性路径** | ✅ 仅限所审对象 | ⛔ | ⛔ | ⛔ |
-| `EVID-L4` | ⛔ | ✅ 仅限实验条件下的相对比较 | ⛔ | ⛔ | ⛔ | ⛔ |
-| `EVID-PERSONA` | ⛔ | ⛔ | ⛔ | ⛔ | ⛔ | ⛔（只能支撑"画像依赖等级"） |
+| `EVID-OFFLINE` (fallback) | ⛔ | ⛔ (especially "=0%") | ✅ only "this path's content is human-written" | ✅ | ⛔ | ⛔ |
+| `EVID-L1`/`L2`/`L3` | ⛔ | ✅ **only for the offline deterministic path** | ✅ only for the audited objects | ⛔ | ⛔ | ⛔ |
+| `EVID-L4` | ⛔ | ✅ only relative comparison under experimental conditions | ⛔ | ⛔ | ⛔ | ⛔ |
+| `EVID-PERSONA` | ⛔ | ⛔ | ⛔ | ⛔ | ⛔ | ⛔ (can only support "persona dependence level") |
 
-**三个最高频踩坑点（答辩必考题）**
-1. `EVID-MMLU` → "幻觉率降低"：MMLU 衡量的是"选对没选对"，幻觉衡量的是"说出来的东西是不是真的"。**答对但解释编造 = 有幻觉；答错但诚实说不知道 = 无幻觉。** 二者构念不同，不可互换。
-2. `EVID-OFFLINE` → "幻觉率 0%"：离线路径没有生成面，按定义无法产生 L4；把"没有生成"记成"生成得对"是逻辑谬误（分母为 0 不构成 0%）。
-3. `EVID-PYTEST` → "内容正确"：`tests/test_empirical_stress.py:113-121` 只断言 `trap_name` 非空，字段有值 ≠ 字段说的是真的。
+**The three most frequent pitfalls (guaranteed defence questions)**
+1. `EVID-MMLU` → "reduced hallucination rate": MMLU measures "whether the right option was chosen"; hallucination measures "whether what was said is true". **Answering correctly but fabricating the explanation = hallucination; answering wrongly but honestly saying you do not know = no hallucination.** They are different constructs and cannot be interchanged.
+2. `EVID-OFFLINE` → "hallucination rate 0%": the offline path has no generation surface, so by definition it cannot produce L4; recording "no generation" as "generated correctly" is a logical fallacy (a denominator of 0 does not constitute 0%).
+3. `EVID-PYTEST` → "content is correct": `tests/test_empirical_stress.py:113-121` only asserts that `trap_name` is non-empty; a field having a value ≠ the field being true.
 
 ---
 
-## 三、图片像证据等级的措辞许可
+## 3. Wording Licence by Persona Evidence Level
 
-| 等级 | 定义 | **允许**的措辞 | **禁止**的措辞 |
+| Level | Definition | **Permitted** wording | **Forbidden** wording |
 | :-: | :--- | :--- | :--- |
-| **E0** | 纯构造，无任何外部来源 | "我们**假设**目标用户是…"、"**我们预期**…"、"若该假设成立，则…" | "用户**需要**…"、"**数据显示**…"、"调研**表明**…"、"**典型**学生…" |
-| **E1** | 有二手来源（文献 / 竞品公开行为） | "依据 XXX 的公开资料，**该群体常见**…"、"竞品 XXX 提供该功能，**暗示**需求存在" | "**我们的**用户…"、"**访谈中**用户提到…" |
-| **E2** | 组内成员或同学间非正式验证（n≈10） | "在**组内** n=10 的非正式验证中，多数成员表示…（**非代表性样本**）" | "**用户反馈**显示…"（不注明样本即为虚指）、"**调研**证实…" |
-| **E3** | 有代表性抽样 + 明确方法（n≥8 半结构化访谈等） | 可作直接陈述，但**必须**同时给出 n、抽样方式、时间与地点 | —（仍禁止用"所有用户"这类全称量化） |
+| **E0** | pure construction, no external source whatsoever | "we **assume** the target user is…", "**we expect**…", "if this assumption holds, then…" | "users **need**…", "**data show**…", "research **indicates**…", "**typical** students…" |
+| **E1** | secondary sources exist (literature / publicly observable competitor behaviour) | "according to the public material of XXX, **this group commonly**…", "competitor XXX offers this feature, **suggesting** the need exists" | "**our** users…", "during **interviews**, users mentioned…" |
+| **E2** | informal verification among team members or classmates (n≈10) | "in an informal **within-team** verification with n=10, most members said… (**non-representative sample**)" | "**user feedback** shows…" (without stating the sample, this is a vague reference), "**research** confirmed…" |
+| **E3** | representative sampling + explicit method (n≥8 semi-structured interviews, etc.) | may be stated directly, but **must** give n, sampling method, time and place | — (universal quantifiers such as "all users" remain forbidden) |
 
-**关键规则**：等级是**逐断言**的，不是逐 Persona 的。同一个 Persona A 里，"大二学生"（E1，文献可查）与"考前 2 周会打开答案群"（E0，纯构造）必须分别标注。**禁止把整个 Persona 打一个总等级**——那等于用高等级断言为低等级断言背书。
+**Key rule**: the level is **per assertion**, not per persona. Within the same Persona A, "second-year student" (E1, checkable in the literature) and "will open the answer-sharing group in the two weeks before an exam" (E0, pure construction) must be labelled separately. **Giving a whole persona a single overall level is forbidden** - that amounts to using high-level assertions to vouch for low-level assertions.
 
 ---
 
-## 四、结论等级（V0–V3）的对外表述模板
+## 4. External Wording Templates for Verdict Levels (V0–V3)
 
-| 等级 | 触发条件 | 报告可写的一句话结论（模板） | 答辩时应主动承认的话 |
+| Level | Trigger condition | One-sentence conclusion writable in the report (template) | What to acknowledge proactively at the defence |
 | :-: | :--- | :--- | :--- |
-| **V0** | L1–L3 覆盖不全 | "本项目**尚未**完成对幻觉的测量；现有的准确率与测试结果**不能**用于推断幻觉水平。" | "我们目前没有资格说降低了幻觉。" |
-| **V1** | L1–L3 全覆盖，L4 未测 | "在离线确定性路径上，我们对 84 个选项/陷阱事实断言、36 条归因映射、12 道题的引导语做了全覆盖审计，错误率分别为 x% / y% / z%；**在线自由生成路径的幻觉率未测量**。" | "V1 只覆盖'我们写死的内容'，不覆盖'模型现编的内容'。" |
-| **V2** | V1 + L4 三分组含 Wilson CI，κ≥0.6 | "相对无约束自由生成基线，选项级约束把 L4 幻觉点估计由 a 降至 b（95% Wilson CI [..], [..]），评分者一致性 κ=…。" | "实验样本为 N≥20/格，属**机械性差异证明**，不代表真实学生学习效果。" |
-| **V3** | V2 + 用户侧可测收益 | 可宣称"对真实学生产生可测收益" | 本规格 W1 明确不做，**当前不可达** |
+| **V0** | L1–L3 coverage incomplete | "This project has **not yet** completed a measurement of hallucination; the existing accuracy and test results **cannot** be used to infer hallucination levels." | "We are currently not entitled to claim that hallucination was reduced." |
+| **V1** | L1–L3 fully covered, L4 not measured | "On the offline deterministic path we audited all 84 option/trap factual assertions, 36 attribution mappings, and the guidance text of 12 questions, with error rates of x% / y% / z% respectively; **the hallucination rate of the online free-generation path was not measured**." | "V1 only covers 'the content we hard-coded', not 'the content the model makes up on the fly'." |
+| **V2** | V1 + L4 three-group with Wilson CI, κ≥0.6 | "Relative to the unconstrained free-generation baseline, option-level constraints reduced the L4 hallucination point estimate from a to b (95% Wilson CI [..], [..]), with rater agreement κ=…." | "The experimental sample is N≥20 per cell; this is a **mechanistic difference demonstration** and does not represent real students' learning outcomes." |
+| **V3** | V2 + user-side measurable benefit | may claim "a measurable benefit for real students" | explicitly out of scope under W1 of this specification, **currently unreachable** |
 
 ---
 
-## 五、禁用词表（继承并扩展 `cycle3_master_plan.md` 既有清单）
+## 5. Banned-Word List (inherits and extends the existing list in `cycle3_master_plan.md`)
 
-**中文**：赋能、闭环、生态、全方位、深度融合、显著提升、综上所述。
-**英文**：leverage、cutting-edge、seamlessly、revolutionise。
+**Chinese-origin terms**: empower, closed loop, ecosystem, all-round, deep integration, significantly improve, in summary.
+**English terms**: leverage, cutting-edge, seamlessly, revolutionise.
 
-**本契约新增禁用（幻觉语境专用）**：
-| 禁用措辞 | 原因 | 应改为 |
+**New bans introduced by this contract (specific to the hallucination context)**:
+| Banned wording | Reason | Replace with |
 | :--- | :--- | :--- |
-| "有效降低幻觉" | 无对照即无"降低" | "在 X 路径上测得错误率为 y%" |
-| "幻觉率 0%" / "零幻觉" | 分母为 0 时的伪结论 | "离线路径无生成面，L4 记为 N/A" |
-| "从根本上解决" | 不可证伪 | "在 L1–L3 三层上覆盖率为 100%" |
-| "验证了设计正确" | 无外部标准 | "四条可证伪命题中 D1–D4 的观测结果如 Table 6.6" |
-| "显著"（用于比率比较） | 小样本下未做统计检验 | 给出 Wilson CI 并说明是否重叠 |
-| "证明 AI 更可信" | 可信度≠真实性 | 分 L1/L2/L3/L4 报告 |
+| "effectively reduces hallucination" | without a control there is no "reduction" | "the measured error rate on path X is y%" |
+| "hallucination rate 0%" / "zero hallucination" | pseudo-conclusion when the denominator is 0 | "the offline path has no generation surface; L4 is recorded as N/A" |
+| "fundamentally solves" | unfalsifiable | "coverage is 100% across layers L1–L3" |
+| "verified that the design is correct" | no external standard | "the observed results for D1–D4 among the four falsifiable propositions are as shown in Table 6.6" |
+| "significant" (for rate comparisons) | no statistical test performed on a small sample | give the Wilson CI and state whether the intervals overlap |
+| "proves the AI is more trustworthy" | trustworthiness ≠ truthfulness | report L1/L2/L3/L4 separately |
 
 ---
 
-## 六、审计脚本的输出与本文档的绑定
+## 6. Binding of the Audit Script Output to This Document
 
-`scripts/audit_hallucination_l1_l3.py` 与 `scripts/audit_persona_claims.py` 在 `reports/audit/verdict.json` 中生成 `claim_matrix` 字段，其内容**直接由本契约第二、四节推导**：
+`scripts/audit_hallucination_l1_l3.py` and `scripts/audit_persona_claims.py` generate the `claim_matrix` field in `reports/audit/verdict.json`, whose content is **derived directly from sections 2 and 4 of this contract**:
 
 ```json
 "claim_matrix": {
   "verdict_level": "V1",
-  "allowed_sentences": [ "...（按第四节模板填空后的句子）" ],
-  "forbidden_sentences": [ "...（按第二节矩阵推导的 ⛔ 组合）" ],
-  "banned_terms_found": []          // 对报告正文做禁用词扫描，返回命中位置
+  "allowed_sentences": [ "... (sentences filled into the section 4 templates)" ],
+  "forbidden_sentences": [ "... (the ⛔ combinations derived from the section 2 matrix)" ],
+  "banned_terms_found": []          // scans the report body for banned terms and returns hit locations
 }
 ```
 
-**验收**：`banned_terms_found` 必须为空数组，否则脚本以退出码 0 结束但在 stdout 打印 `WARN` 提示需人工修订（不阻断，因为报告正文可能在审计脚本运行后才写作）。
+**Acceptance**: `banned_terms_found` must be an empty array; otherwise the script exits with code 0 but prints a `WARN` to stdout noting that manual revision is required (non-blocking, because the report body may be written after the audit script has run).

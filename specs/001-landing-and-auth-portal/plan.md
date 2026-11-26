@@ -1,90 +1,90 @@
-# 实现计划：产品介绍与迎新登录门户 (Landing & Auth Portal)
+# Implementation Plan: Landing & Auth Portal
 
-**分支**：`001-landing-and-auth-portal` | **日期**：2026-10-08 | **规格**：[spec.md](spec.md)  
-**输入**：来自 `specs/001-landing-and-auth-portal/spec.md` 的功能规格
-
----
-
-## 概要
-
-针对用户反馈“当前界面不伦不类、直接进入冷峻高密度的 Eval Harness 导致体验突兀”的问题，设计并落地**高颜值大学生理工科智能助学产品介绍与迎新登录门户 (Landing & Auth Portal)**。
-该门户作为整个系统的第一接待站，清晰传达阿伯丁大学 JC2001 Group 5 的项目定位、错因图谱核心创新价值及四大功能模块；内置课题组 10 人核心成员学籍档案快速登入通道；支持一键平滑过渡至日常刷题与排雷工作台（“平时的界面”），并在工作台提供随时返回产品介绍页面的双向通道。
+**Branch**: `001-landing-and-auth-portal` | **Date**: 2026-10-08 | **Spec**: [spec.md](spec.md)  
+**Input**: Feature specification from `specs/001-landing-and-auth-portal/spec.md`
 
 ---
 
-## 技术背景
+## Summary
 
-- **语言/运行环境**：原生 ES6+ JavaScript, HTML5, CSS3（与已有前端代码零摩擦融合）
-- **后端服务**：FastAPI (Python 3.11/3.13), Uvicorn 异步服务，静态挂载模式
-- **依赖管理**：零外部新增前端打包依赖（无 Webpack/Vite 编译负担，秒开秒测），沿用已安装的 ECharts 5.5.1 CDN
-- **状态存储**：浏览器本地持久化缓存（`localStorage`：`smartstudy_auth_session`, `smartstudy_theme`）
-- **目标平台**：现代 Chromium 浏览器 / Firefox / Edge / Safari，自适应移动端与桌面端
-- **性能指标**：首页加载时间 < 100ms，门户与工作台视图切换延迟 < 150ms（60fps 硬件加速过渡）
-- **核心约束**：
-  1. 严格遵守 JC2001 本科生软件工程规范，不进行商业级过度设计；
-  2. 保持对已有 114 个自动化后端测试与已部署的 `/api/diagnose` 逻辑 100% 零破坏兼容；
-  3. 符合零根目录污染、外科手术式精准修改与空间整洁原则。
+In response to user feedback that "the current interface is awkward, and going straight into the cold, dense Eval Harness makes the experience abrupt", design and deliver a polished **Landing & Auth Portal for an undergraduate STEM intelligent study-assistant product**.
+As the system's first reception point, the portal clearly communicates the University of Aberdeen JC2001 Group 5 project positioning, the core innovative value of the misconception graph, and the four feature modules; it embeds a quick-login channel for the ten core team members' student profiles; it supports a one-click smooth transition into the daily practice and trap-detection workspace (the "everyday interface"), and it offers a bidirectional channel in the workspace to return to the product introduction page at any time.
 
 ---
 
-## 宪章检查 (Constitution Checks)
+## Technical Context
 
-| 检查项 | 状态 | 评估与正当化理由 |
+- **Language/runtime**: native ES6+ JavaScript, HTML5, CSS3 (zero-friction integration with the existing frontend code)
+- **Backend service**: FastAPI (Python 3.11/3.13), Uvicorn asynchronous service, static-mount mode
+- **Dependency management**: zero new external frontend build dependencies (no Webpack/Vite compilation burden, instant open and instant test), reusing the already installed ECharts 5.5.1 CDN
+- **State storage**: browser local persistent cache (`localStorage`: `smartstudy_auth_session`, `smartstudy_theme`)
+- **Target platforms**: modern Chromium browsers / Firefox / Edge / Safari, responsive on mobile and desktop
+- **Performance targets**: home-page load time < 100ms, portal-to-workspace view switch latency < 150ms (60fps hardware-accelerated transition)
+- **Core constraints**:
+  1. Strictly follow JC2001 undergraduate software-engineering conventions, without commercial-grade over-engineering;
+  2. Maintain 100% non-breaking compatibility with the existing 114 automated backend tests and the deployed `/api/diagnose` logic;
+  3. Comply with the zero-root-pollution, surgical-precision modification, and workspace-tidiness principles.
+
+---
+
+## Constitution Checks
+
+| Check Item | Status | Assessment and Justification |
 | :--- | :--- | :--- |
-| **本科生能力边界** | ✅ 通过 | 采用经典 SPA 双容器轻量切换模式，逻辑清晰可解释，答辩时易于向导师阐述。 |
-| **测试与质量回归** | ✅ 通过 | 不破坏任何已有路由与数据模型，保证现有 `pytest tests/` 保持 100% 通过率。 |
-| **文件操作纪律** | ✅ 通过 | 新增文档全部归集于 `specs/001-landing-and-auth-portal/`，禁止根目录污染。 |
-| **既有代码完整性** | ✅ 通过 | 原有 `#app-shell` 控制台逻辑一律作为受保护的受控子容器，仅做增量包裹与桥接。 |
+| **Undergraduate capability boundary** | ✅ Pass | Uses the classic lightweight dual-container SPA switching pattern; the logic is clear and explainable, and easy to present to tutors during the defence. |
+| **Test and quality regression** | ✅ Pass | Does not break any existing route or data model, guaranteeing the existing `pytest tests/` keeps a 100% pass rate. |
+| **File operation discipline** | ✅ Pass | All new documents are collected under `specs/001-landing-and-auth-portal/`; root-directory pollution is prohibited. |
+| **Existing code integrity** | ✅ Pass | All original `#app-shell` console logic is treated as a protected controlled sub-container, with incremental wrapping and bridging only. |
 
 ---
 
-## 项目结构
+## Project Structure
 
-### 规范工件 (此功能)
+### Specification artifacts (this feature)
 
 ```text
 specs/001-landing-and-auth-portal/
-├── spec.md              # 需求工程与用户故事规格书
-├── plan.md              # 本实施计划文件
-├── research.md          # 第 0 阶段：架构抉择与状态机转换
-├── data-model.md        # 第 1 阶段：学生身份与会话数据模型
-├── contracts/           # 第 1 阶段：视图流转与接口契约
+├── spec.md              # Requirements engineering and user-story specification
+├── plan.md              # This implementation plan file
+├── research.md          # Phase 0: architectural choices and state-machine transitions
+├── data-model.md        # Phase 1: student identity and session data model
+├── contracts/           # Phase 1: view lifecycle and interface contracts
 │   └── portal-auth-contracts.md
-└── quickstart.md        # 第 1 阶段：一键启动与验收核对单
+└── quickstart.md        # Phase 1: one-click startup and acceptance checklist
 ```
 
-### 源代码变动区域 (Repository Layout)
+### Source code change areas (Repository Layout)
 
 ```text
 frontend/
-├── index.html           # 增量嵌入 #portal-landing 门户结构，与 #app-shell 协同
-├── style.css            # 增量添加产品介绍门户与角色卡片的响应式样式
-└── app.js               # 增量注入 switchRootView、initAuthPortal 与预设账号联动逻辑
+├── index.html           # Incrementally embed the #portal-landing portal structure, coordinating with #app-shell
+├── style.css            # Incrementally add responsive styles for the product introduction portal and role cards
+└── app.js               # Incrementally inject switchRootView, initAuthPortal and preset-account wiring
 ```
 
-**结构决策**：采用内聚扩展模式，将介绍门户作为前端根层级的第一级路由器。用户未登录或主动查看介绍时展示 `#portal-landing`，进入后激活原有的 `#app-shell` 工作台。
+**Structure decision**: use a cohesive extension pattern, making the introduction portal the first-level router at the frontend root level. When the user is not signed in or actively views the introduction, `#portal-landing` is shown; after entry, the original `#app-shell` workspace is activated.
 
 ---
 
-## 复杂度跟踪
+## Complexity Tracking
 
-*无需填报（未触发任何架构门禁违规，无过度设计引入）。*
+*No entries required (no architectural gate violations triggered, no over-engineering introduced).*
 
 ---
 
-## 实施阶段任务分解 (Work Breakdown)
+## Work Breakdown
 
-### 阶段 0: 架构与技术调研 (已完成)
-- [x] 产出 `research.md`：解决 SPA 容器切换、localStorage 持久化及双模主题自适应方案。
+### Phase 0: Architecture and technical research (complete)
+- [x] Produced `research.md`: resolved the SPA container switching, localStorage persistence, and dual-mode theme adaptation approach.
 
-### 阶段 1: 模型与契约设计 (已完成)
-- [x] 产出 `spec.md`：明确产品介绍、角色选择、返回主页三大需求。
-- [x] 产出 `data-model.md`：标准化 `StudentProfile`、`AuthSession` 及预设账号。
-- [x] 产出 `contracts/portal-auth-contracts.md`：定义 `switchRootView` 与 `loginStudent`。
-- [x] 产出 `quickstart.md`：制定快速启动与三步验收核验单。
+### Phase 1: Model and contract design (complete)
+- [x] Produced `spec.md`: clarified the three major requirements - product introduction, role selection, and return to home page.
+- [x] Produced `data-model.md`: standardised `StudentProfile`, `AuthSession`, and the preset accounts.
+- [x] Produced `contracts/portal-auth-contracts.md`: defined `switchRootView` and `loginStudent`.
+- [x] Produced `quickstart.md`: defined the quick-start and three-step acceptance checklist.
 
-### 阶段 2: 精准实施编码 (Ready to Execute)
-1. **HTML 骨架注入** (`frontend/index.html`)：在 `#app-shell` 前注入现代感 `#portal-landing` 门户节点；在 `#app-sidebar` 内注入“返回产品首页”通道。
-2. **CSS 样式补充** (`frontend/style.css`)：编写 Hero 横幅、四大功能卡片网格、预设身份一键切换面板及流畅转场动效。
-3. **JS 逻辑连接** (`frontend/app.js`)：实现 `initAuthPortal()`、`switchRootView()`、预设角色快捷载入及双向平滑切换。
-4. **验证与回归**：启动服务验证交互、运行 pytest 测试套件并截取验收图景。
+### Phase 2: Precise implementation coding (ready to execute)
+1. **HTML skeleton injection** (`frontend/index.html`): inject the contemporary `#portal-landing` portal node before `#app-shell`; inject a "Back to product home" channel inside `#app-sidebar`.
+2. **CSS styling additions** (`frontend/style.css`): write the Hero banner, the four-feature card grid, the preset-identity quick-switch panel, and fluid transition animations.
+3. **JS logic wiring** (`frontend/app.js`): implement `initAuthPortal()`, `switchRootView()`, quick loading of preset roles, and bidirectional smooth switching.
+4. **Verification and regression**: start the service and verify the interactions, run the pytest test suite, and capture acceptance screenshots.

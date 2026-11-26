@@ -16,10 +16,10 @@ by execution rather than by reading, the measurement conditions are stated. Repo
 | `README.md` | 4,372 B | 5.6.2, 5.6.3 | The declared Python floor; the quick-start that omits backend startup |
 | `.env.example` | 471 B | 5.6.3, 5.6.5 | Which keys exist, and that they ship as placeholders |
 | `tests/conftest.py` | 2,791 B | 5.6.4 | The session fixture that deletes `DASHSCOPE_API_KEY` and `QWEN_API_KEY` |
-| `tests/*.py` (9 test files) | — | 5.6.4 | 80 test functions → 150 collected cases |
-| `backend/app/data/seed_questions.py` | 59,653 B / 657 lines | 5.6.1, 5.6.4 | The question bank is source code, not a database export |
-| `frontend/index.html` | 40,390 B | 5.6.1 | Size match with the `GET /` response |
-| `graphrag(终)/` (directory) | 17 files | 5.6.4, 5.6.5 | 12 MMLU subject CSVs; `final_systematic_report.csv` (741 B); the evaluation scripts, now reading credentials from the environment |
+| `tests/*.py` (10 test files) | — | 5.6.4 | 105 test functions → 189 collected cases |
+| `backend/app/data/seed_questions.py` | 101,293 B / 932 lines | 5.6.1, 5.6.4 | The question bank is source code, not a database export |
+| `frontend/index.html` | 63,914 B | 5.6.1 | Size match with the `GET /` response |
+| `graphrag_final/` (directory) | 17 files | 5.6.4, 5.6.5 | 12 MMLU subject CSVs; `final_systematic_report.csv` (741 B); the evaluation scripts, now reading credentials from the environment |
 
 ## 2. Measurements taken by execution
 
@@ -29,14 +29,14 @@ present, 19 October 2026.
 | Measurement | Value | How it was taken |
 | :--- | :--- | :--- |
 | Cold start (process launch → first `200` on `/api/health`) | 1.12 s | uvicorn launched as a subprocess, polled every 50 ms |
-| `GET /` | 200, `text/html; charset=utf-8`, 40,390 B, 50.9 ms | direct request against the running service |
+| `GET /` | 200, `text/html; charset=utf-8`, 63,914 B, 50.9 ms | direct request against the running service |
 | `/api/health` payload | `{"status":"ok","service":"smartstudy-poc","version":"1.0.0","mode":"dual-mode","has_api_key":false}` | direct request; proves offline mode |
-| Test suite | `150 passed, 1 warning in 1.79 s` | `python -m pytest tests/ -q` |
+| Test suite | `189 passed in 2.54 s` with zero warnings | `python -m pytest tests/ -q` |
 | Virtual environment creation | 7.6 s | `python -m venv .venv`, timed with a stopwatch |
 | Full dependency installation (`-r requirements.txt`) | 396.7 s, 63 packages, 416 MB environment | fresh virtual environment, `pip install -r requirements.txt`, exit code 0 |
 | Minimal installation (7 runtime/test packages) | 43.9 s (9.0 s venv + 34.8 s pip), 32 packages, 50 MB environment | `pip install fastapi uvicorn[standard] pydantic httpx pytest python-dotenv requests` |
-| Test suite on the minimal installation | `150 passed in 3.07 s` | proves the trimmed manifest is sufficient |
-| Submission archive built and unpacked | 48 entries, 1.05 MB, top-level folder `jc2001-group5-poc/`, no `__pycache__`/`.venv`/`.env` | built from the `develop` snapshot with the four exclusions; unpacked into an empty directory, where `pytest` reported 150 passed and `/api/health` returned 200 |
+| Test suite on the minimal installation | `189 passed in 2.54 s` | proves the trimmed manifest is sufficient |
+| Submission archive built and unpacked | 64 entries, 1.57 MB, top-level folder `jc2001-group5-poc/`, no `__pycache__`/`.venv`/`.env` | built from the submitted snapshot with the four exclusions; unpacked into an empty directory, where `pytest` reported 189 passed and `/api/health` returned 200 |
 | Repository size | 3.99 MB extracted; 2.78 MB as ZIP | filesystem measurement of the downloaded archive |
 | Virtual environment size | 350 MB (full `requirements.txt`) | filesystem measurement after installation |
 | `python backend/run.py` | fails: `ModuleNotFoundError: No module named 'backend'` | executed from the repository root |
@@ -57,7 +57,7 @@ present, 19 October 2026.
 git clone https://github.com/xin-315/my-first-github && cd my-first-github
 python -m venv .venv && .venv/Scripts/activate
 pip install -r requirements.txt
-python -m pytest tests/ -q          # expect: 150 passed
+python -m pytest tests/ -q          # expect: 189 passed
 uvicorn backend.app.main:app --port 8000
 ```
 

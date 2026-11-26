@@ -2,7 +2,7 @@
 
 ### 5.5.1 Pedagogical Design Principles (`P1`–`P3`)
 
-In educational software engineering, visual polish is meaningless unless every interface decision serves a concrete cognitive objective. When designing the StudyGraph Single-Page Application (`frontend/index.html`, `frontend/app.js`, and `frontend/styles.css`), we established three pedagogical design principles that directly counter the failure modes of existing flashcard and chatbot tools identified in Chapter 1:
+In educational software engineering, visual polish is meaningless unless every interface decision serves a concrete cognitive objective. When designing the StudyGraph Single-Page Application (`frontend/index.html`, `frontend/app.js`, and `frontend/style.css`), we established three pedagogical design principles that directly counter the failure modes of existing flashcard and chatbot tools identified in Chapter 1:
 
 | Principle ID & Name | Pedagogical Objective | Concrete Visual & DOM Realisation (`frontend/`) |
 | :--- | :--- | :--- |
@@ -14,10 +14,10 @@ Notably, Principle **`P1`** is the direct UI-layer enforcement of our Chapter 1 
 
 ### 5.5.2 Zero-Build Interface Architecture and Design Iteration Velocity
 
-As justified from a systems perspective in `Section 4.6` (`AD-2`) and `Section 5.1`, the frontend uses vanilla HTML5, CSS3 Custom Properties (`frontend/styles.css`), and native ES6+ JavaScript (`frontend/app.js`) without Webpack, Vite, or Tailwind compilation. From a UI/UX engineering perspective, this zero-build architecture was not a performance gimmick—**it was the primary driver of our design iteration velocity**:
+As justified from a systems perspective in `Section 4.6` (`AD-2`) and `Section 5.1`, the frontend uses vanilla HTML5, CSS3 Custom Properties (`frontend/style.css`), and native ES6+ JavaScript (`frontend/app.js`) without Webpack, Vite, or Tailwind compilation. From a UI/UX engineering perspective, this zero-build architecture was not a performance gimmick—**it was the primary driver of our design iteration velocity**:
 
-1. **Zero Compilation Latency (`Edit → Refresh`)**: Modifying a CSS custom property or drawer transition in `frontend/styles.css` takes effect on browser reload in `< 50 ms`, eliminating the `Edit → Transpile → Bundle → Hot-Reload` cycle of heavy Node.js toolchains. This allowed us to refine the Cyber Obsidian / Academic Daylight dual-theme token hierarchy across multiple team review rounds within a two-week sprint.
-2. **Centralised State Transitions (`frontend/app.js`)**: Rather than scattering UI state across dozens of React component files and hooks, `frontend/app.js` maintains a single, inspectable client state object (`currentQuestion`, `selectedOption`, `lastDiagnosis`, `activeLang`, `activeTheme`), directly implementing the five-state UML behavioural state machine specified in `Figure 3.2` (`Section 3.4`).
+1. **Zero Compilation Latency (`Edit → Refresh`)**: Modifying a CSS custom property or drawer transition in `frontend/style.css` takes effect on browser reload in `< 50 ms`, eliminating the `Edit → Transpile → Bundle → Hot-Reload` cycle of heavy Node.js toolchains. This allowed us to refine the Cyber Obsidian / Academic Daylight dual-theme token hierarchy across multiple team review rounds within a two-week sprint.
+2. **Centralised State Transitions (`frontend/app.js`)**: Rather than scattering UI state across dozens of React component files and hooks, `frontend/app.js` maintains a single, inspectable client state object (`currentQuestion`, `selectedOption`, `lastDiagnosis`, `activeTheme`), directly implementing the five-state UML behavioural state machine specified in `Figure 3.2` (`Section 3.4`).
 3. **Custom Semantic Visual Language**: Writing custom CSS design tokens rather than relying on default Bootstrap or Tailwind utility classes ensured that our five-layer Trap Drawer, prerequisite pill badges, and 1-hop SVG knowledge-graph canvas match the exact structural hierarchy of `TrapDetail` and `GraphData`.
 
 ### 5.5.3 The Five-Layer Trap Drawer: Core Diagnostic Interaction (`Figure 5.3`)
@@ -29,9 +29,9 @@ The centrepiece of the StudyGraph interface is the slide-out **Trap Drawer**, wh
 | Visual Layer | UI Component & Visual Cue | Bound Backend Schema Field | Pedagogical Intent |
 | :-: | :--- | :--- | :--- |
 | **Layer 1** | **Attempt Verdict Header** (`✘ Option A Selected — Misconception Detected`) | `DiagnoseResponse.selected_option` & `correct` (`false`) | Establish immediate, unambiguous cognitive conflict on the specific option clicked. |
-| **Layer 2** | **Named Fallacy Pill Badge** (e.g., *Conflating Limitation Period with Preclusive Period*) | `TrapDetail.title` / `TrapDetail.title_en` | Give the learner's mistake a memorable, canonical diagnostic label rather than a generic "Wrong". |
-| **Layer 3** | **Conceptual Conflict Breakdown Card** | `TrapDetail.desc` / `TrapDetail.desc_en` | Explain *why* the chosen distractor is seductive and *where* its rule conflicts with the question stem. |
-| **Layer 4** | **Actionable Prerequisite & Dimension Tag** (e.g., `Prereq: Civil Code Art. 152 vs. Art. 188` · `Hit: Boundary`) | `TrapDetail.prereq` / `prereq_en` & `TrapDetail.radar_hit` | Translate "You got this wrong" into an actionable remediation target ("Go review this exact prerequisite"). |
+| **Layer 2** | **Named Fallacy Pill Badge** (e.g., *Conflating Limitation Period with Preclusive Period*) | `TrapDetail.title` | Give the learner's mistake a memorable, canonical diagnostic label rather than a generic "Wrong". |
+| **Layer 3** | **Conceptual Conflict Breakdown Card** | `TrapDetail.desc` | Explain *why* the chosen distractor is seductive and *where* its rule conflicts with the question stem. |
+| **Layer 4** | **Actionable Prerequisite & Dimension Tag** (e.g., `Prereq: Civil Code Art. 152 vs. Art. 188` · `Hit: Boundary`) | `TrapDetail.prereq` & `TrapDetail.radar_hit` | Translate "You got this wrong" into an actionable remediation target ("Go review this exact prerequisite"). |
 | **Layer 5** | **1-Hop Knowledge-Graph Subgraph + Socratic Reasoning Accordion** | `DiagnoseResponse.graph` (`nodes`, `edges`), `socratic_prompt`, & `QuizItem.explanation` | Visually contrast the `core`, `prereq`, and `trap` nodes (`GraphData`), prompt self-reflection, and provide the authoritative statutory/theorem reference. |
 
 **Why a Slide-Out Drawer Instead of a Centred Modal Dialog?**
@@ -54,14 +54,14 @@ Clicking the **Competency Analytics** view (`GET /api/reports/summary` and `GET 
 
 ![Figure 5.4](figures/fig5_4_main_console.svg)
 
-### 5.5.5 Bilingual Switching, Dual-Theme Tokens, and Graceful Degradation
+### 5.5.5 Locale Bundle, Dual-Theme Tokens, and Graceful Degradation
 
 To satisfy non-functional requirements `NFR-04`, `NFR-06`, and `NFR-08` (`R07`, `R08`), the interface implements three resilience mechanisms summarised in Table 5.5b:
 
-**Table 5.5b: Frontend implementation and verification of bilingual (`R07`), dual-theme (`R08`), and fault-tolerant degradation (`NFR-04`) capabilities.**
+**Table 5.5b: Frontend implementation and verification of the locale layer (`R07`), dual-theme (`R08`), and fault-tolerant degradation (`NFR-04`) capabilities.**
 
 | Capability | Frontend Implementation Mechanism (`frontend/`) | Verification & Honest Scope Boundary |
 | :--- | :--- | :--- |
-| **Runtime Bilingual Toggle (`zh` / `en`, `R07`)** | `I18N` dictionary in `frontend/app.js` + bilingual schema fields (`stem_en`, `options_en`, `title_en`, `desc_en`, `prereq_en`, `socratic_prompt_en`) re-bound in `< 16 ms` without page reload. | Verified by `tests/test_e2e_frontend.py` and `tests/test_quiz.py`. Both UI chrome and all 12 curated questions (`36 traps`) carry English and Chinese fields. |
+| **Runtime Locale Bundle (`en` shipped, `R07`)** | `I18N` resource layer in `frontend/app.js` resolves every label through a key table, so a new locale pack is a data change rather than a component change. | Verified by `tests/test_e2e_frontend.py`. The submitted bundle ships one complete English locale covering UI chrome and all 17 curated questions (`51 traps`); `zh` resources are not shipped. |
 | **Dual-Theme Ergonomics (`Dark` / `Light`, `R08`)** | CSS Custom Properties on `:root` (`Cyber Obsidian` dark: `#0B0F19` bg / `#F8FAFC` text; `[data-theme="light"]` `Academic Daylight`: `#F8FAFC` bg / `#0F172A` text) persisted in `localStorage`. | Luminance contrast ratios (`17.4:1` dark, `16.8:1` light) exceed WCAG 2.1 Level AA (`4.5:1` minimum, `NFR-06`). |
 | **Graceful API Error & Offline Degradation (`NFR-04`)** | Centralised `apiFetch()` wrapper in `frontend/app.js` catches HTTP `401`/`404`/`422`/`500` and network disconnects, rendering a non-blocking toast notification rather than an unhandled blank screen. | Verified by `tests/test_adversarial_backend.py` and manual server-stop fault injection. |

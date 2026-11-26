@@ -1,239 +1,239 @@
-# 功能规格：基于用户画像的系统设计合理性审视与「幻觉降低」主张实证审计
+# Feature Specification: A User-Persona-Based Review of System Design Rationality and an Empirical Audit of the "Hallucination Reduction" Claim
 
-**功能编号**：`004-persona-hallucination-audit`
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)
-**创建日期**：2026-10-18
-**状态**：DRAFT / READY FOR PLANNING
-**关联分支**：`004-persona-hallucination-audit`
-**输入**（用户原话，m00001）：
-> "根据用户画像重新审视一下我的系统设计的合理性这个东西到底有没有成功的降低AI的幻觉概、率"
-
----
-
-## 0. 大前提：这是审计 + 规划，不是功能开发
-
-本规格**不新增产品功能**。它的交付物是**一组可复现的审计证据 + 一份诚实的结论 + 一份面向评分与答辩的论证修订方案**。
-
-仓库当前已经有一套完整的 Cycle 3 报告机器（7 章任务包、17 图 / 21 表预分配、145 个 pytest 用例、MMLU 12 学科实测）。但其中**关于"幻觉"的因果主张从未被单独测量过**，而"用户画像"是**构造的假设**而非实测事实。本规格要回答的正是：在这两个前提下，现有设计论证是否站得住、哪些句子必须改写、需要补做哪一次最小成本的实验才能让主张成立。
-
-**唯一正确的失败模式是**：得出"证据不足"或"主张不成立"的结论。**唯一不可接受的失败模式是**：为了让结论好看而编造数据。
+**Feature ID**: `004-persona-hallucination-audit`
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)
+**Created**: 2026-10-18
+**Status**: DRAFT / READY FOR PLANNING
+**Related branch**: `004-persona-hallucination-audit`
+**Input** (user's original words, m00001):
+> "Re-examine the rationality of my system design based on the user persona - has this thing actually succeeded in reducing the probability of AI hallucination?"
 
 ---
 
-## 1. 业务背景与问题诊断
+## 0. Premise: This Is an Audit + Plan, Not Feature Development
 
-### 1.1 用户问题的确切指向
+This specification **adds no product features**. Its deliverables are **a set of reproducible audit evidence + an honest verdict + a revised argumentation plan for marking and the defence**.
 
-用户问的是三件事，而不是一件：
+The repository currently already has a complete Cycle 3 report machine (7 chapter task packs, 17 figures / 21 tables pre-allocated, 145 pytest cases, 12-subject MMLU measurements). But the **causal claim about "hallucination" has never been measured on its own**, and the "user persona" is a **constructed assumption** rather than a measured fact. This specification answers exactly this: under those two premises, does the current design argument hold up, which sentences must be rewritten, and what minimal-cost experiment must be added for the claim to stand.
 
-| # | 用户的隐含问题 | 本规格的对应章节 |
+**The only correct failure mode is**: concluding "insufficient evidence" or "the claim does not hold". **The only unacceptable failure mode is**: fabricating data to make the conclusion look good.
+
+---
+
+## 1. Business Context and Problem Diagnosis
+
+### 1.1 What the User's Question Precisely Targets
+
+The user is asking three things, not one:
+
+| # | The user's implicit question | Corresponding section of this specification |
 | :-: | :--- | :--- |
-| Q1 | 我的「用户画像」到底靠不靠谱？拿它当设计依据合不合理？ | FR-1、FR-2 |
-| Q2 | 我的系统设计（选项级陷阱 + 知识图谱 + 离线查表）对着这些画像，合理性如何？ | FR-3 |
-| Q3 | **它到底有没有成功降低 AI 的幻觉率？** | FR-4、FR-5 |
+| Q1 | Is my "user persona" reliable at all? Is it reasonable to use it as a design basis? | FR-1, FR-2 |
+| Q2 | How reasonable is my system design (option-level traps + knowledge graph + offline table lookup) against those personas? | FR-3 |
+| Q3 | **Has it actually succeeded in reducing the AI hallucination rate?** | FR-4, FR-5 |
 
-Q3 是重心。Q1、Q2 是回答 Q3 所需的前提。
+Q3 is the centre of gravity. Q1 and Q2 are the premises required to answer Q3.
 
-### 1.2 现状诊断：三个必须先拆开的事实
+### 1.2 Current-State Diagnosis: Three Facts That Must First Be Separated
 
-**事实 A：仓库里不存在实测用户画像。**
-`reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:50` 自承"Persona 基于文献与竞品行为推断，而非实测用户画像"。Table 1.3 的三张 Persona（A 突击型考试生 / B 系统复习者 / C 课程教师，后者明确标为**非目标用户**）是**构造的**。`reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:183` 已经把这一点写成了答辩口径（"我们认为把没做的调研说成做了，比承认没做更危险"）。
+**Fact A: No measured user persona exists in the repository.**
+`reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:50` itself admits "Persona is inferred from literature and competitor behaviour, not based on a measured user persona". The three Personas in Table 1.3 (A: last-minute exam student / B: systematic reviewer / C: course teacher, the latter explicitly marked as a **non-target user**) are **constructed**. `reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:183` has already turned this into a defence position ("we believe presenting research that was not done as done is more dangerous than admitting it wasn't done").
 
-→ 因此任何"根据用户画像证明设计合理"的论证，本质上是**"根据假设证明假设"**，属于循环论证。审计必须把这层说清楚，并给出一个不依赖实测数据的替代论证结构。
+→ Therefore any argument of the form "we prove the design is reasonable from the user persona" is essentially **"proving an assumption from the assumption"**, i.e. circular reasoning. The audit must make this layer explicit and provide an alternative argument structure that does not depend on measured data.
 
-**事实 B："降低幻觉"这个说法在仓库里有四个互不相同的指代对象。**
-在 `frontend/index.html`、`frontend/app.js`、`backend/app/data/seed_questions.py`、`reports/competitor_analysis.md`、`specs/002-frontend-visual-overhaul/research.md` 中，"幻觉 / hallucination / 防剧透 / 陷阱"混用了至少四层含义：
+**Fact B: The phrase "reduce hallucination" refers to four different objects in the repository.**
+In `frontend/index.html`, `frontend/app.js`, `backend/app/data/seed_questions.py`, `reports/competitor_analysis.md`, and `specs/002-frontend-visual-overhaul/research.md`, "hallucination / anti-spoiler / trap" are mixed across at least four layers of meaning:
 
-| 层 | 名称 | 指什么 | 是否可测量 | 当前是否有测量 |
+| Layer | Name | What it refers to | Measurable | Currently measured |
 | :-: | :--- | :--- | :-: | :-: |
-| L1 | **内容幻觉** | 系统陈述的学科事实本身是错的（如把 152 条除斥期间说成 3 年） | ✅ 可逐条人工判定 | ❌ 无 |
-| L2 | **归因幻觉** | 学生选错后，系统给出的"你为什么错"是错的（学生其实没错在这个概念上） | ✅ 可测量（需受控注入） | ❌ 无 |
-| L3 | **泄漏幻觉 / Answer Spoiling** | 引导语直接把正确答案说了出来，毁掉检索练习 | ✅ 可用正则 + 人工双判 | ❌ 无（仅靠断言间接测） |
-| L4 | **推理幻觉** | 在线 LLM 路径（Qwen-Turbo / GraphRAG 在线链路）生成的自由文本里有不实陈述 | ✅ 可测量 | ⚠️ 仅经"离线兜底"绕过，未正面测量 |
+| L1 | **Content hallucination** | The subject-matter facts the system states are themselves wrong (e.g. saying that the exclusion period in Article 152 is 3 years) | ✅ item-by-item manual judgement | ❌ none |
+| L2 | **Attribution hallucination** | After a student chooses a wrong option, the system's "why you are wrong" is itself wrong (the student did not actually err on that concept) | ✅ measurable (requires controlled injection) | ❌ none |
+| L3 | **Leakage hallucination / Answer Spoiling** | The guidance text states the correct answer directly, ruining retrieval practice | ✅ regex + manual double judgement | ❌ none (only indirectly tested through assertions) |
+| L4 | **Reasoning hallucination** | The free text generated by the online LLM path (Qwen-Turbo / GraphRAG online chain) contains untrue statements | ✅ measurable | ⚠️ only bypassed through "offline fallback", never directly measured |
 
-**仓库里所有"降低幻觉"的论证都默认在说 L4，而系统实际最有把握、最有证据能力的是 L1–L3。** 这是一个必须修的口径错位。
+**All "reduce hallucination" arguments in the repository implicitly refer to L4, whereas the system is actually most confident and most evidential on L1–L3.** This is a framing misalignment that must be fixed.
 
-**事实 C：现有的"证据"其实不测幻觉，也不测用户收益。**
+**Fact C: The existing "evidence" does not actually measure hallucination, nor user benefit.**
 
-| 现有证据 | 它实际证明了什么 | 它不能证明什么 |
+| Existing Evidence | What It Actually Proves | What It Cannot Prove |
 | :--- | :--- | :--- |
-| MMLU 12 学科 Δ（`graphrag（终）/final_systematic_report.csv`） | 知识图谱增强的**答题准确率**变化（7 正 / 3 平 / 2 负，全样本 n=4,445） | 不测生成内容的真实性、不测错误归因、不测任何用户侧效果 |
-| 145 个 pytest 用例 | 回归基线与接口健壮性 | 不测语义正确性；`tests/test_diagnose.py` 只断言字段**非空**，不断言内容**为真** |
-| `trap_name is not None and len(...) > 0` 类断言 | 结构完整性 | 与"幻觉率"无因果关系 |
-| 离线查表（`fallback_mode=True`） | 演示时无外部依赖 | "把 LLM 关掉"是**规避**幻觉，不是**降低**幻觉 |
+| MMLU 12-subject Δ (`graphrag_final/final_systematic_report.csv`) | change in **answering accuracy** with knowledge-graph augmentation (7 positive / 3 neutral / 2 negative, full sample n=4,445) | does not measure the truthfulness of generated content, does not measure wrong attribution, does not measure any user-side effect |
+| 145 pytest cases | regression baseline and interface robustness | does not test semantic correctness; `tests/test_diagnose.py` only asserts that fields are **non-empty**, never that the content is **true** |
+| assertions of the form `trap_name is not None and len(...) > 0` | structural completeness | no causal relationship with "hallucination rate" |
+| offline table lookup (`fallback_mode=True`) | no external dependency during demos | "turning the LLM off" **avoids** hallucination; it does not **reduce** it |
 
-→ **结论雏形：按当前仓库的证据，"系统成功降低了 AI 幻觉率"这一句无法被支持。** 它能被支持的、也更强的说法写在 §4 的结论契约里。审计要把这句话从"不可证主张"改写为"可证主张"，而不是把它删掉。
-
----
-
-## 2. 用户故事与验收规约
-
-### US-01：画像可追溯性审计（Persona Provenance Audit）（优先级 P0）
-
-**场景**：作为报告作者/答辩人，我需要逐条知道 Table 1.3 的每个断言来自哪里（文献 / 竞品观察 / 组内讨论 / 纯构造），以便在被追问时给出诚实且不塌房的回答。
-
-**验收场景**
-1. **给定** Table 1.3 的三张 Persona，**当** 执行画像溯源审计，**则** 每个"痛点/期待"条目都被标注为 `文献` / `竞品行为` / `组内讨论` / `无来源` 四类之一，并给出可点开的引用位置（文件:行号 或 文献条目）。
-2. **给定** 审计结果，**当** 统计 `无来源` 占比，**则** 产出一个明确数字，并据此判定画像的**证据等级**（见 §4 的 E0–E3 分级）。
-3. **给定** 判定结果，**当** 发现某 Persona 的**核心痛点**为 `无来源`，**则** 该痛点不得再被用作 SMART 目标或需求的**唯一**依据。
-
-**独立测试**：随机抽查 5 个画像断言，审计记录必须能在 ≤2 次点击内定位到来源或明确标记"无来源"。
+→ **Embryonic conclusion: on the current repository evidence, the sentence "the system successfully reduced the AI hallucination rate" cannot be supported.** The defensible - and stronger - statement is written in the conclusion contract in §4. The audit must rewrite this sentence from an "unprovable claim" into a "provable claim", not delete it.
 
 ---
 
-### US-02：设计—画像映射与循环论证检测（Design-Persona Fit & Circularity Check）（优先级 P0）
+## 2. User Stories and Acceptance Specification
 
-**场景**：作为评审者，我要看到"哪条需求服务哪张画像的哪个痛点"，以及**反过来**"哪条需求根本没有画像支撑（属于团队自嗨的架构趣味）"。
+### US-01: Persona Provenance Audit (Priority P0)
 
-**验收场景**
-1. **给定** Ch2 的 14 条 MoSCoW 需求（R01–R14），**当** 执行映射，**则** 每条需求都有一行记录：服务的 Persona、服务的痛点、**若痛点为构造假设则标注"假设驱动"**。
-2. **给定** 映射表，**当** 检查反向依赖，**则** 明确列出"有功能但无画像支撑"的需求（预期命中：R10 GraphRAG 增强、五维雷达的具体维度划分）与"有痛点但无功能"的缺口（预期命中：Persona A 的"5 分钟内知道该补哪块"是否真的被满足）。
-3. **给定** 发现的循环论证（如"Persona A 需要选项级诊断"→"我们做了选项级诊断"→"所以设计合理"），**则** 每条都被改写为一个**可证伪的外部命题**（例："若学生只拿到对错反馈，其重复同类错误的率高于拿到选项级归因的学生"）。
+**Scenario**: As the report author / defence speaker, I need to know, item by item, where every assertion in Table 1.3 comes from (literature / competitor observation / team discussion / pure construction), so that when questioned I can answer honestly without the whole argument collapsing.
 
-**独立测试**：映射表必须能导出成一张 14 行 × 4 列的 CSV；循环论证清单每条都带"改写后的可证伪命题"。
+**Acceptance Scenarios**
+1. **Given** the three Personas in Table 1.3, **when** the persona provenance audit is run, **then** every "pain point / expectation" entry is labelled as one of the four classes `literature` / `competitor behaviour` / `team discussion` / `no source`, with a clickable citation location (file:line or literature entry).
+2. **Given** the audit results, **when** computing the share of `no source`, **then** a definite number is produced and used to determine the persona's **evidence level** (E0–E3 in §4).
+3. **Given** the verdict, **when** a persona's **core pain point** is found to be `no source`, **then** that pain point must no longer be used as the **sole** basis for a SMART goal or requirement.
 
----
-
-### US-03：四级幻觉评测框架（Hallucination Taxonomy & Measurement Harness）（优先级 P0）
-
-**场景**：作为测试负责人，我要一套**能跑、能复现、离线可用、无需 API Key** 的评测装置，把 L1–L4 四级幻觉各自的**分母与分子**都算出来。
-
-**验收场景**
-1. **给定** `backend/app/data/seed_questions.py` 的 12 题 / 48 选项 / 36 陷阱，**当** 运行 L1 内容审计，**则** 产出 48 个选项的逐条判定（选项文本是否成立、`is_correct` 标记是否唯一且正确、`TrapDetail.desc`/`prereq` 是否与学科事实一致），并给出**人工复核状态列**（`已复核 / 待复核`）。
-2. **给定** 同一题库，**当** 运行 L3 泄漏检测，**则** 对每题的正确选项文本、`TrapDetail.title`、`socratic_guidance` 文本做规则化检测（正确选项的**关键实体**是否出现在引导语中），产出泄漏率，并**明确记录检测器的假阳性来源**。
-3. **给定** L2 归因一致性：**当** 对每个"选项→陷阱"映射构造一组**受控同义改写**（把学生选择改写为明确指向另一误区的表述），**则** 系统应给出**可区分的**陷阱命名；若两次不同误区映射到同一 `trap_name`，计入归因幻觉。
-4. **给定** 全部评测，**当** 在同一台机器上重复运行两次，**则** 结果**逐位一致**（离线、确定性），并把运行环境（Python 版本、pytest 版本、commit hash、时间戳）写进结果 JSON。
-
-**独立测试**：`python -m pytest tests/ -q` 仍然 100% 通过；新增的审计装置放在 `scripts/`（非 `tests/`），**不污染现有 145 个用例的语义**；根目录零污染。
+**Independent Test**: randomly sample 5 persona assertions; the audit record must locate a source within ≤2 clicks or explicitly mark it "no source".
 
 ---
 
-### US-04：在线 LLM 路径的幻觉对照实验设计（Online-vs-Offline Hallucination Baseline）（优先级 P1）
+### US-02: Design-Persona Fit & Circularity Check (Priority P0)
 
-**场景**：作为答辩人，当考官问"你怎么证明比直接问 LLM 幻觉少"，我需要一个有分母、有分组、有评价口径的实验，而不是一句"我们离线"。
+**Scenario**: As a reviewer, I want to see "which requirement serves which pain point of which persona", and **conversely** "which requirement has no persona support at all (architecture fun for the team's own amusement)".
 
-**验收场景**
-1. **给定** 现有离线查表路径，**当** 设计对照实验，**则** 明确 **A 组 = 原始 Qwen/DashScope 自由生成**、**B 组 = 离线查表（本系统）**、**C 组 = 图谱约束 + 查表（当前 GraphRAG 离线路径）** 的分组定义、每组的 prompt 模板、采样数（每格 N 次）与评价者（≥2 人独立双盲 + Cohen's κ）。
-2. **给定** `QWEN_API_KEY` 缺失，**当** 执行实验，**则** 实验脚本**不报错退出**，而是产出 `skipped / reason=NO_API_KEY` 的显式记录，且规格要求报告必须据此写"未运行"而非编造数字（沿用 `07-ch6-testing-yang-mingjie.md:111` 的诚信红线）。
-3. **给定** 实验跑完，**当** 输出结果，**则** 必须同时给出**点估计 + 置信区间 + 样本量**；任何"显著降低"的措辞必须有统计检验支撑，否则改写为"点估计方向一致但样本不足以宣称显著"。
+**Acceptance Scenarios**
+1. **Given** the 14 MoSCoW requirements (R01–R14) in Ch2, **when** the mapping is run, **then** each requirement has one row: the Persona served, the pain point served, **and if the pain point is a constructed assumption, mark it "assumption-driven"**.
+2. **Given** the mapping table, **when** checking reverse dependencies, **then** explicitly list the requirements with "functionality but no persona support" (expected hits: R10 GraphRAG enhancement, the specific dimension split of the five-dimension radar) and the gaps with "pain point but no functionality" (expected hit: whether Persona A's "know within 5 minutes what to catch up on" is actually satisfied).
+3. **Given** the detected circular arguments (e.g. "Persona A needs option-level diagnosis" → "we built option-level diagnosis" → "therefore the design is reasonable"), **then** each is rewritten as a **falsifiable external proposition** (e.g. "if students receive only right/wrong feedback, their rate of repeating the same error type is higher than that of students receiving option-level attribution").
 
-**独立测试**：无 Key 环境下脚本以 0 退出码结束并写出 skip 记录；有 Key 环境下产出符合表结构的 CSV。
-
----
-
-### US-05：结论与论证修订（Verdict & Claim Rewrite）（优先级 P0）
-
-**场景**：作为报告作者，我需要一份**明确到句子级**的改写指令：哪句必须删、哪句必须降级、哪句可以升级、加在哪章哪表。
-
-**验收场景**
-1. **给定** 审计与实验的全部产出，**当** 生成结论，**则** 必须落在 §4 定义的**结论等级**之一，且给出支撑该等级的证据清单（文件:行号）。
-2. **给定** 结论等级，**当** 生成修订清单，**则** 至少覆盖：`reports/cycle3_task_packs/01-ch1-*.md` 的 1.4 与 Table 1.2/1.3、`02-ch2-*.md` 的需求来源表、`07-ch6-*.md` 的 6.3/6.5/6.6 三节，以及 master plan 的 O4 口径。
-3. **给定** 修订清单，**当** 检查禁用词，**则** 不得引入 master plan 禁用词表（赋能/闭环/生态/全方位/深度融合/显著提升/综上所述、leverage/cutting-edge/seamlessly/revolutionise）。
-
-**独立测试**：修订清单每条都能被"改前/改后"两段文字直接执行，不需要再解释。
+**Independent Test**: the mapping table must export as a 14-row × 4-column CSV; every circular-argument item carries a "rewritten falsifiable proposition".
 
 ---
 
-### US-06：答辩防御弹药（Defence Library Extension）（优先级 P2）
+### US-03: Four-Level Hallucination Taxonomy & Measurement Harness (Priority P0)
 
-**场景**：作为答辩人，我需要把审计结论转成 30 秒可说的答法，并预判追问。
+**Scenario**: As test lead, I need a harness that **runs, reproduces, works offline, and requires no API key**, computing the **denominator and numerator** of each of the four hallucination levels L1–L4.
 
-**验收场景**
-1. **给定** US-05 的结论，**当** 生成问答，**则** 至少覆盖 5 个追问："你的用户画像是编的吧？""你怎么知道降低了幻觉？""离线不算降低幻觉吧？""MMLU 涨了不就等于幻觉降了吗？""物理学科为什么跌了？"
-2. **给定** 每个问答，**当** 检查，**则** 每个回答都含**一个具体数字 + 一个承认局限的句子**，且不出现禁用词。
+**Acceptance Scenarios**
+1. **Given** the 12 questions / 48 options / 36 traps in `backend/app/data/seed_questions.py`, **when** the L1 content audit is run, **then** produce an item-by-item verdict for the 48 options (whether the option text holds, whether the `is_correct` flag is unique and correct, whether `TrapDetail.desc`/`prereq` agree with the subject facts), with a **manual review status column** (`reviewed / pending review`).
+2. **Given** the same question bank, **when** the L3 leakage detection is run, **then** apply rule-based detection to each question's correct-option text, `TrapDetail.title`, and `socratic_guidance` text (does the correct option's **key entity** appear in the guidance text), produce a leakage rate, and **explicitly record the detector's sources of false positives**.
+3. **Given** L2 attribution consistency: **when** constructing a set of **controlled paraphrase rewrites** for each "option → trap" mapping (rewriting the student's choice into a statement that clearly points to a different misconception), **then** the system should output **distinguishable** trap names; if two different misconceptions map to the same `trap_name`, count it as attribution hallucination.
+4. **Given** all measurements, **when** run twice on the same machine, **then** the results must be **bit-for-bit identical** (offline, deterministic), with the runtime environment (Python version, pytest version, commit hash, timestamp) written into the result JSON.
 
----
-
-## 3. 功能需求（FR）
-
-### FR-1 画像溯源与证据分级
-- FR-1.1 建立 Table 1.3 全部断言的溯源台账（四类来源 + 定位）。
-- FR-1.2 定义并应用画像证据等级 **E0–E3**（见 §4）。
-- FR-1.3 产出可执行的访谈/问卷最小补测方案（n 与题量必须现实：建议 n=8–12 半结构化访谈 + 12 题在线问卷，2 周内可完成），标注"若来不及则进入 Threats to Validity"。
-
-### FR-2 需求—画像双向映射
-- FR-2.1 14 条需求 → Persona/痛点全映射。
-- FR-2.2 反向缺口清单（有功能无需求 / 有痛点无功能）。
-- FR-2.3 循环论证清单与可证伪改写。
-
-### FR-3 设计合理性结构化评估（不依赖实测用户）
-把"合理性"拆成四个可独立论证的维度，避免整体性空谈：
-- **D1 构念效度**：系统输出的"陷阱命名"是否真的对应学生头脑中的误区（当前只能靠语料来源与前置知识边界自证）。
-- **D2 机制合理性**：选项级查表在**结构上**能否前置于 LLM 自由生成（即幻觉的**生成面**是否被真的堵住，而不是事后过滤）。
-- **D3 经济性**：边际推理成本 = 0、离线可跑，在 Persona A 的"2 周 4 门考试、时间稀缺、网络不一定稳定"场景下是否构成真实优势。
-- **D4 可证伪性**：每一层设计都给出"什么观测会推翻它"。
-
-### FR-4 四级幻觉评测装置（见 US-03）
-- FR-4.1 L1 内容审计器（48 选项 + 36 陷阱逐条）。
-- FR-4.2 L2 归因区分度检测（陷阱命名唯一性 / 可区分性）。
-- FR-4.3 L3 泄漏检测器（正确选项关键实体是否提前出现在引导语）。
-- FR-4.4 L4 在线路径对照实验脚手架（无 Key 优雅跳过）。
-- FR-4.5 结果 JSON 契约（固定字段、含分母、含环境指纹、含人工复核状态）。
-
-### FR-5 结论等级与修订清单
-- FR-5.1 判定结论等级（V0–V3，见 §4）。
-- FR-5.2 句子级修订清单（改前/改后）。
-- FR-5.3 图表影响分析：本审计是否触发 17 图 / 21 表的增删（预期：**新增** Table 6.x 幻觉分层表 + 可能新增一张画像证据等级表；不改动已定编号）。
-
-### FR-6 报告侧落位
-- FR-6.1 结论必须进 Ch6（测试与评估），画像审计必须进 Ch1（1.4）与 Ch6.6（Threats to Validity），口径统一。
-- FR-6.2 不得与既有 Table 6.3（MMLU）口径冲突：MMLU 回答"准确率是否提升"，新表回答"幻觉是否被约束"，两者不得互相引用为对方的证据。
+**Independent Test**: `python -m pytest tests/ -q` still passes 100%; the new audit harness lives in `scripts/` (not `tests/`) and **does not pollute the semantics of the existing 145 cases**; zero root-directory pollution.
 
 ---
 
-## 4. 关键定义（本规格的契约语言）
+### US-04: Online-vs-Offline Hallucination Baseline Experiment Design (Priority P1)
 
-### 4.1 画像证据等级（Persona Evidence Level）
+**Scenario**: As defence speaker, when the examiner asks "how do you prove it hallucinates less than asking an LLM directly", I need an experiment with a denominator, groupings, and evaluation criteria, not just "we are offline".
 
-| 等级 | 定义 | 允许的论证用法 |
+**Acceptance Scenarios**
+1. **Given** the existing offline table-lookup path, **when** designing the controlled experiment, **then** explicitly define **Group A = original Qwen/DashScope free generation**, **Group B = offline table lookup (this system)**, **Group C = graph-constrained + table lookup (current GraphRAG offline path)**, with group definitions, per-group prompt templates, sample count (N runs per cell), and evaluators (≥2 independent double-blind raters + Cohen's κ).
+2. **Given** `QWEN_API_KEY` is missing, **when** the experiment is run, **then** the experiment script must **not exit with an error**; instead it produces an explicit `skipped / reason=NO_API_KEY` record, and the specification requires the report to say "not run" rather than fabricate numbers (following the integrity red line at `07-ch6-testing-yang-mingjie.md:111`).
+3. **Given** the experiment has finished, **when** outputting results, **then** it must provide **point estimate + confidence interval + sample size** together; any wording like "significantly reduced" must be backed by a statistical test, otherwise rewrite it as "point estimates point in the same direction but the sample is insufficient to claim significance".
+
+**Independent Test**: in a no-key environment the script exits with code 0 and writes a skip record; in a key environment it produces a CSV matching the table structure.
+
+---
+
+### US-05: Verdict & Claim Rewrite (Priority P0)
+
+**Scenario**: As report author, I need a **sentence-level** rewrite instruction: which sentence must be deleted, which must be downgraded, which can be upgraded, and in which chapter/table it goes.
+
+**Acceptance Scenarios**
+1. **Given** all audit and experiment outputs, **when** generating the verdict, **then** it must fall into one of the **verdict levels** defined in §4, with an evidence list (file:line) supporting that level.
+2. **Given** the verdict level, **when** generating the revision list, **then** it must cover at least: §1.4 and Table 1.2/1.3 of `reports/cycle3_task_packs/01-ch1-*.md`, the requirement-source table of `02-ch2-*.md`, sections 6.3/6.5/6.6 of `07-ch6-*.md`, and the O4 wording in the master plan.
+3. **Given** the revision list, **when** checking banned words, **then** it must not introduce the master-plan banned-word list (empower / closed loop / ecosystem / all-round / deep integration / significantly improve / in summary, leverage / cutting-edge / seamlessly / revolutionise).
+
+**Independent Test**: every revision item can be executed directly from the "before / after" pair without any further explanation.
+
+---
+
+### US-06: Defence Library Extension (Priority P2)
+
+**Scenario**: As defence speaker, I need to turn the audit conclusions into 30-second answers and anticipate follow-up questions.
+
+**Acceptance Scenarios**
+1. **Given** the US-05 verdict, **when** generating Q&A, **then** cover at least 5 follow-ups: "your personas are made up, right?" "how do you know hallucination was reduced?" "being offline doesn't count as reducing hallucination, does it?" "MMLU went up, doesn't that mean hallucination went down?" "why did Physics drop?"
+2. **Given** each Q&A, **when** checked, **then** each answer contains **one concrete number + one sentence acknowledging limitations**, and no banned words appear.
+
+---
+
+## 3. Functional Requirements (FR)
+
+### FR-1 Persona Provenance and Evidence Grading
+- FR-1.1 Build a provenance ledger for all assertions in Table 1.3 (four source classes + locations).
+- FR-1.2 Define and apply persona evidence levels **E0–E3** (see §4).
+- FR-1.3 Produce an executable minimal supplementary interview/questionnaire plan (n and item counts must be realistic: suggested n=8–12 semi-structured interviews + a 12-item online questionnaire, completable within 2 weeks), marked "if not possible, move to Threats to Validity".
+
+### FR-2 Bidirectional Requirement-Persona Mapping
+- FR-2.1 Full mapping of the 14 requirements → Persona/pain point.
+- FR-2.2 Reverse gap list (functionality without requirement / pain point without functionality).
+- FR-2.3 Circular-argument list and falsifiable rewrites.
+
+### FR-3 Structured Evaluation of Design Rationality (without measured users)
+Split "rationality" into four independently arguable dimensions, avoiding holistic hand-waving:
+- **D1 Construct validity**: does the "trap naming" the system outputs actually correspond to the misconceptions in students' minds (currently only self-justifiable via corpus provenance and prerequisite-knowledge boundaries).
+- **D2 Mechanism plausibility**: can option-level table lookup, **structurally**, precede LLM free generation (i.e. is the **generation surface** of hallucination actually blocked, rather than filtered after the fact).
+- **D3 Economics**: marginal inference cost = 0 and it runs offline - does this constitute a real advantage in Persona A's scenario of "4 exams in 2 weeks, scarce time, possibly unstable network".
+- **D4 Falsifiability**: every layer of the design states "what observation would overturn it".
+
+### FR-4 Four-Level Hallucination Measurement Harness (see US-03)
+- FR-4.1 L1 content auditor (48 options + 36 traps item by item).
+- FR-4.2 L2 attribution discriminability detection (trap-name uniqueness / distinguishability).
+- FR-4.3 L3 leakage detector (whether the correct option's key entity appears in the guidance text in advance).
+- FR-4.4 L4 online-path controlled-experiment scaffolding (graceful skip without a key).
+- FR-4.5 Result JSON contract (fixed fields, includes denominators, includes environment fingerprint, includes manual review status).
+
+### FR-5 Verdict Levels and Revision List
+- FR-5.1 Determine the verdict level (V0–V3, see §4).
+- FR-5.2 Sentence-level revision list (before / after).
+- FR-5.3 Figure/table impact analysis: does this audit trigger additions or deletions to the 17 figures / 21 tables (expected: **add** a Table 6.x hallucination-layer table + possibly a persona evidence-level table; do not change already-assigned numbers).
+
+### FR-6 Report-Side Placement
+- FR-6.1 The verdict must go into Ch6 (Testing and Evaluation), and the persona audit must go into Ch1 (1.4) and Ch6.6 (Threats to Validity), with consistent framing.
+- FR-6.2 Must not conflict with the existing Table 6.3 (MMLU) framing: MMLU answers "did accuracy improve", the new table answers "is hallucination constrained"; the two must not be cited as evidence for each other.
+
+---
+
+## 4. Key Definitions (this specification's contract language)
+
+### 4.1 Persona Evidence Level
+
+| Level | Definition | Allowed argumentative use |
 | :-: | :--- | :--- |
-| **E0** | 纯构造，无来源 | 仅可作为"设计假设"陈述，**禁止**用于 SMART 目标与需求优先级 |
-| **E1** | 有二手来源（文献 / 竞品行为分析），无本校样本 | 可作为"有据可依的假设"，必须在 Threats to Validity 声明 |
-| **E2** | 有组内（n≈10）非正式验证或小样本问卷 | 可作为"初步用户证据"，需报告样本构成偏差 |
-| **E3** | 有代表性的目标用户样本（n≥8 访谈且含非组内本科生） | 可支撑"用户需求已验证"的措辞 |
+| **E0** | Pure construction, no source | May only be stated as a "design assumption"; **forbidden** for SMART goals and requirement priorities |
+| **E1** | Secondary sources exist (literature / competitor behaviour analysis), no local sample | May be used as a "grounded assumption"; must be declared in Threats to Validity |
+| **E2** | Informal verification within the team (n≈10) or a small-sample questionnaire | May be used as "preliminary user evidence"; must report sample-composition bias |
+| **E3** | Representative target-user sample (n≥8 interviews including undergraduates outside the team) | Supports wording such as "user requirements have been validated" |
 
-**判定规则**：三张 Persona 中任一张的核心痛点为 E0，则全文不得出现"我们了解用户真实痛点"一类断言。
+**Decision rule**: if the core pain point of any of the three Personas is E0, the document must not contain assertions such as "we understand users' real pain points".
 
-### 4.2 四级幻觉（与 §1.2 事实 B 一致）
-L1 内容幻觉 / L2 归因幻觉 / L3 泄漏幻觉 / L4 推理幻觉。每级必须分别报告**分子（错误条目数）/ 分母（可判定条目总数）**，禁止合并成一个"幻觉率"。
+### 4.2 Four Hallucination Levels (consistent with Fact B in §1.2)
+L1 content hallucination / L2 attribution hallucination / L3 leakage hallucination / L4 reasoning hallucination. Each level must report **numerator (number of erroneous items) / denominator (total number of judgeable items)** separately; merging them into one "hallucination rate" is forbidden.
 
-### 4.3 结论等级（Verdict Level）
+### 4.3 Verdict Level
 
-| 等级 | 判据 | 对应的可写结论 |
+| Level | Criterion | Corresponding writable conclusion |
 | :-: | :--- | :--- |
-| **V0** | 未做任何测量 | "我们未测量幻觉，这是一个限制" |
-| **V1** | 仅完成 L1–L3 的离线确定性审计，无在线对照 | "在**离线确定性路径**上，我们消除了 L4 的生成自由面；L1–L3 的错误率为 X%/Y%/Z%" |
-| **V2** | V1 + 完成在线 vs 离线对照实验（有 API Key，含置信区间） | "相对自由生成基线，幻觉率点估计下降 a→b（95% CI …），N=…" |
-| **V3** | V2 + 有用户侧收益证据（前后测或对照班） | "降幻觉转化为学习收益：…" |
+| **V0** | No measurement performed | "We did not measure hallucination; this is a limitation" |
+| **V1** | Only the offline deterministic audit of L1–L3 is complete, with no online control | "On the **offline deterministic path** we eliminated L4's free-generation surface; the error rates of L1–L3 are X%/Y%/Z%" |
+| **V2** | V1 + completed online-vs-offline controlled experiment (with API key, including confidence intervals) | "Relative to the free-generation baseline, the hallucination-rate point estimate drops from a to b (95% CI ...), N=..." |
+| **V3** | V2 + user-side benefit evidence (pre/post test or control class) | "Reduced hallucination translates into learning gains: ..." |
 
-**本规格的目标是**：无论实验跑没跑完，都能给出 V0/V1/V2 之一，并让全文措辞与之严格匹配。**不允许**在没有 V3 时出现任何"提升了学习效果"的因果句。
-
----
-
-## 5. 非功能性需求与约束
-
-- **NFR-1 学术诚信硬约束**：任何数值必须有可点开的产出文件支撑；缺数据一律显式记 `skipped + reason`，禁止补全、插值、估计后写成实测。
-- **NFR-2 离线可复现**：核心审计（L1–L3）必须在无网络、无 API Key 环境下完成，结果确定性可重复。
-- **NFR-3 零破坏兼容**：不修改 `backend/app/` 的业务语义；现有 145 个 pytest 用例 100% 通过（宪法原则 III）。
-- **NFR-4 零根目录污染**：审计脚本放 `scripts/`，临时探针放仓库外（`%LOCALAPPDATA%\Temp`），规格工件归 `specs/004-persona-hallucination-audit/`（宪法原则 V）。
-- **NFR-5 零重型依赖**：审计用 Python 标准库 + 已有依赖（pandas/numpy 已在环境内），不引入新三方包。
-- **NFR-6 论文口径一致性**：新增表格编号需与 master plan 的 17 图 / 21 表分配兼容（增补而非重排）。
-- **NFR-7 禁用词**：master plan §禁用词清单全文适用。
+**The goal of this specification is**: whether or not the experiment is complete, always produce one of V0/V1/V2, and make the whole document's wording strictly match it. **Not allowed** to include any causal sentence about "improved learning outcomes" without V3.
 
 ---
 
-## 6. 明确不做（Out of Scope / Won't）
+## 5. Non-Functional Requirements and Constraints
 
-| 编号 | 不做 | 理由 |
+- **NFR-1 Academic-integrity hard constraint**: every number must be backed by a clickable output file; missing data is always explicitly recorded as `skipped + reason`; completion, interpolation, or estimation written as measurement is forbidden.
+- **NFR-2 Offline reproducibility**: the core audit (L1–L3) must complete with no network and no API key, with deterministically repeatable results.
+- **NFR-3 Zero-breakage compatibility**: do not modify the business semantics of `backend/app/`; the existing 145 pytest cases pass 100% (Constitution Principle III).
+- **NFR-4 Zero root pollution**: audit scripts go in `scripts/`, temporary probes outside the repository (`%LOCALAPPDATA%\Temp`), and specification artifacts under `specs/004-persona-hallucination-audit/` (Constitution Principle V).
+- **NFR-5 Zero heavy dependencies**: the audit uses the Python standard library plus existing dependencies (pandas/numpy already in the environment); no new third-party packages.
+- **NFR-6 Paper framing consistency**: new table numbers must be compatible with the master plan's 17 figures / 21 tables allocation (additions, not reordering).
+- **NFR-7 Banned words**: the master plan's banned-word list applies throughout.
+
+---
+
+## 6. Out of Scope / Won't
+
+| No. | Not Doing | Reason |
 | :-: | :--- | :--- |
-| W1 | 组织正式的用户实验（招募真实学生、跑前后测） | 周期不允许；降级为"最小补测方案 + Threats to Validity" |
-| W2 | 重构评测为 LLM-as-a-judge 大流水线 | 引入 API 依赖，违反离线可复现（NFR-2），且本身引入新的幻觉源 |
-| W3 | 修改业务代码以"修掉"审计发现的内容错误 | 本规格只**报告**；是否修题属另一变更（会被单独提出） |
-| W4 | 重跑 MMLU 全量评估 | 与幻觉测量是不同构念（§1.2 事实 C），混做会制造新的构念效度问题 |
-| W5 | 为教师 Persona（C）补功能 | 已有 lean scoping 决策（R11–R14 Won't），审计只需确认该决策被正确论证 |
+| W1 | Organise formal user experiments (recruit real students, run pre/post tests) | The cycle does not allow it; downgraded to "minimal supplementary plan + Threats to Validity" |
+| W2 | Refactor the evaluation into a large LLM-as-a-judge pipeline | Introduces API dependency, violating offline reproducibility (NFR-2), and introduces a new hallucination source itself |
+| W3 | Modify business code to "fix" the content errors found by the audit | This specification only **reports**; whether to fix questions is a separate change (to be raised separately) |
+| W4 | Rerun the full MMLU evaluation | It is a different construct from hallucination measurement (Fact C in §1.2); mixing them creates new construct-validity problems |
+| W5 | Add functionality for the teacher Persona (C) | The lean-scoping decision already exists (R11–R14 Won't); the audit only needs to confirm that the decision is correctly argued |
 
 ---
 
-## 7. 验收总则以「一句话结论」收口
+## 7. Overall Acceptance Concludes with a "One-Sentence Verdict"
 
-本规格完成的标志是能写出**一段不超过 200 字、每个数字都可点开、不出现禁用词**的结论，并归入 §4.3 的某一等级。写不出这段文字（而不是写出"好结论"）才是失败。
+This specification is complete when it can produce **a paragraph of no more than 200 words in which every number is clickable and no banned words appear**, classified into one of the levels in §4.3. Failure is being unable to write that paragraph (not failing to write a "good verdict").

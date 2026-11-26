@@ -100,7 +100,7 @@
   <text x="965" y="101" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">«package» Offline Research &amp; Audit</text>
 
   <rect x="856" y="130" width="218" height="190" rx="6" fill="#ffffff" stroke="#d8b4fe" stroke-width="1.5"/>
-  <text x="868" y="152" font-size="12" font-weight="700" fill="#581c87">graphrag（终）/</text>
+  <text x="868" y="152" font-size="12" font-weight="700" fill="#581c87">graphrag_final/</text>
   <text x="868" y="174" font-size="11" fill="#475569">• graphrag_pipeline.py (12-stage)</text>
   <text x="868" y="194" font-size="11" fill="#475569">• real_graph_engine.py (Neo4j)</text>
   <text x="868" y="214" font-size="11" fill="#475569">• ragas_evaluator.py (4 metrics)</text>

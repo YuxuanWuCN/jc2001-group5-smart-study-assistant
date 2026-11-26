@@ -6,47 +6,49 @@ Following **Sommerville (2016), *Software Engineering* (10th ed., Chapter 8: Sof
 
 ### 6.1.1 Four-Tier Testing Pyramid (`Figure 6.1`)
 
-To prevent regressions across a ten-member team without slowing down local development, we structured our automated verification suite into a **Four-Tier Testing Pyramid** (`Figure 6.1`). Rather than relying on brittle browser-recorded macros, every tier executes in-process against the FastAPI application (`backend/app/main.py`) using Starlette's `TestClient`.
+To prevent regressions across an eleven-member team without slowing down local development, we structured our automated verification suite into a **Four-Tier Testing Pyramid** (`Figure 6.1`). Rather than relying on brittle browser-recorded macros, every tier executes in-process against the FastAPI application (`backend/app/main.py`) using Starlette's `TestClient`.
 
-**Figure 6.1: Four-tier automated testing pyramid mapping 9 test modules and 80 test functions to 147 executed `pytest` cases.**
+**Figure 6.1: Four-tier automated testing pyramid mapping 10 test modules and 105 test functions to 189 executed `pytest` cases.**
 (Source: Verified via `python -m pytest tests/ -q` across `tests/test_*.py`.)
 
 ![Figure 6.1](figures/fig6_1_testing_pyramid.svg)
 
 As shown in Figure 6.1, the four tiers progress from structural domain invariants at the base to adversarial stress testing at the apex:
-1. **Tier 1 — Unit, Domain Model & Seed Integrity Layer (`test_quiz.py` + `CamelModel` assertions)**: Verifies that all 12 curated questions across 4 disciplines (`law`, `cs`, `econ`, `se`) satisfy the bijective $1:1$ distractor-to-trap invariant ($12 \times 3 = 36$ `TrapDetail` entries), that the correct answer key is strictly excluded from `item.traps`, and that Pydantic v2 `CamelModel` schemas (`backend/app/models/common.py`) serialise both `snake_case` and `camelCase` keys identically.
+1. **Tier 1 — Unit, Domain Model & Seed Integrity Layer (`test_quiz.py` + `CamelModel` assertions)**: Verifies that all 17 curated questions across 9 subjects satisfy the bijective $1:1$ distractor-to-trap invariant ($17 \times 3 = 51$ `TrapDetail` entries), that the correct answer key is strictly excluded from `item.traps`, and that Pydantic v2 `CamelModel` schemas (`backend/app/models/common.py`) serialise both `snake_case` and `camelCase` keys identically.
 2. **Tier 2 — RESTful API & Interface Contract Layer (`test_diagnose.py`, `test_reports.py`, `test_auth.py`)**: Tests normal and exception paths (`HTTP 200`, `401`, `404`, `409`, `422`) across all 8 backend endpoints (`GET /api/health`, `GET /api/quiz`, `POST /api/diagnose`, `GET /api/reports/summary`, `GET /api/reports/trend`, `GET /api/auth/demo-users`, `POST /api/auth/login`, `POST /api/auth/register`).
-3. **Tier 3 — Integration, Static SPA Mount & CORS Layer (`test_e2e_frontend.py`, `test_cors.py`, `test_health.py`)**: Verifies that the single-port FastAPI server mounts `frontend/index.html`, `app.js`, and `styles.css` at `/`, handles CORS preflight `OPTIONS` headers cleanly, and preserves contract alignment between backend JSON payloads and frontend DOM readers.
+3. **Tier 3 — Integration, Static SPA Mount & CORS Layer (`test_e2e_frontend.py`, `test_cors.py`, `test_health.py`)**: Verifies that the single-port FastAPI server mounts `frontend/index.html`, `app.js`, and `style.css` at `/`, handles CORS preflight `OPTIONS` headers cleanly, and preserves contract alignment between backend JSON payloads and frontend DOM readers.
 4. **Tier 4 — Adversarial & Empirical Stress Layer (`test_adversarial_backend.py`, `test_empirical_stress.py`)**: Actively attacks the backend with SQL/XSS injection strings, boundary-overflow payloads, type confusion, and concurrent multi-threaded request bursts (`Section 6.2`).
 
-### 6.1.2 Zero-Dependency Reproducibility and the `80 Functions → 147 Cases` Expansion
+### 6.1.2 Zero-Dependency Reproducibility and the `105 Functions → 189 Cases` Expansion
 
 A core engineering seller of StudyGraph is that **100% of the automated test suite executes offline with zero external service dependencies**:
-- Executing `python -m pytest tests/ -q` from a fresh checkout completes in **0.72–3.56 seconds** (depending on cold vs. warm disk cache), reporting **`147 passed, 0 failed`**.
-- During execution, the test suite opens **zero network sockets**, requires **no running Neo4j server**, and makes **zero live LLM API calls**. Any examiner evaluating our submission on an air-gapped machine obtains the exact same 147 green assertions.
+- Executing `python -m pytest tests/ -q` from a fresh checkout completes in **about 2.5 seconds** on the development machine, reporting **`189 passed, 0 failed`**.
+- During execution, the test suite opens **zero network sockets**, requires **no running Neo4j server**, and makes **zero live LLM API calls**. Any examiner evaluating our submission on an air-gapped machine obtains the exact same 189 green assertions.
 
 To maintain strict quantitative transparency (`004-persona-hallucination-audit`), we explicitly clarify the relationship between **test functions** in source code and **collected test cases** in `pytest`:
-- Across the **9 test files** in `tests/`, there were originally **78 Python `def test_*` functions** establishing the **145-case** Cycle 3 baseline (`reports/cycle3_master_plan.md`). On 25 October 2026, two regression test functions (`test_camel_and_snake_keys_coexist` and `test_nested_camel_serialization`) were added to `tests/test_reports.py` to lock in the `CamelModel` dual-naming fix, bringing the total to **80 test functions** and **147 collected test cases** (`145 + 2`).
-- Why do 80 test functions expand into 147 collected test cases? Because we use `@pytest.mark.parametrize` to exhaustively verify combinatorial boundaries without duplicating boilerplate code:
-  $$\text{Total Collected Cases } (147) = \sum_{i=1}^{80} k_i$$
-  where $k_i \ge 1$ is the parameterisation cardinality of function $i$. In particular, `tests/test_adversarial_backend.py` (523 lines, 25 test functions) and `tests/test_diagnose.py` expand across all 12 questions, 36 wrong-option traps, and multiple malformed input vectors to produce the 67 additional parameterised test executions.
+- The suite now spans **10 test files** in `tests/` and **105 Python `def test_*` functions**. Those functions collect into **189 test cases**, because several of them are parameterised over the question bank and over malformed input classes.
+- The number has grown three times during Cycle 3, and each step is visible in the commit history. The frozen baseline recorded in `reports/cycle3_master_plan.md` was **145 cases across 9 files**. Two `CamelModel` dual-naming regression functions were then added to `tests/test_reports.py`, taking it to 147. A tenth module, `tests/test_llm_health.py` (19 functions, 36 cases), was added later to cover the optional LLM probe endpoint, which carried the total to 183. The final hardening pass added six more functions — two session-telemetry aggregations in `test_reports.py`, two password-flow cases in `test_auth.py`, and two offline-vendoring guards in `test_e2e_frontend.py` — bringing the suite to **105 functions and 189 cases**.
+- Why do 105 functions expand into 189 cases? Because we use `@pytest.mark.parametrize` to exhaustively verify combinatorial boundaries without duplicating boilerplate code:
+  $$\text{Total Collected Cases } (189) = \sum_{i=1}^{105} k_i$$
+  where $k_i \ge 1$ is the parameterisation cardinality of function $i$. `tests/test_adversarial_backend.py` (523 lines, 25 functions) contributes the largest block, at 38 cases, by expanding each attack class over several payloads. `tests/test_quiz.py` and `tests/test_diagnose.py` expand over the 17 questions and their 51 wrong options.
 
-Table 6.1 inventories all 9 test modules, their function counts, parameterised case counts, coverage targets, and mapped requirements from Chapter 2.
+Table 6.1 inventories all 10 test modules, their function counts, parameterised case counts, coverage targets, and mapped requirements from Chapter 2.
 
-**Table 6.1: Inventory of the 9 automated `pytest` modules (`tests/`) showing the expansion from 80 test functions to 147 executed test cases.**
+**Table 6.1: Inventory of the 10 automated `pytest` modules (`tests/`) showing the expansion from 105 test functions to 189 executed test cases.**
 
 | Test File (`tests/`) | Test Functions | Executed Cases (`pytest`) | Testing Tier | Primary Verification Target | Mapped Requirements |
 | :--- | :-: | :-: | :-: | :--- | :--- |
-| `test_health.py` | 5 | 5 | Tier 3 | Application startup lifespan, `/api/health` probe, single-port static mount | `R09`, `NFR-02` |
-| `test_quiz.py` | 6 | 12 | Tier 1 | 12-item seed integrity, 4-option rule, bijective 3-trap mapping, category filters | `R01`, `R07`, `NFR-08` |
-| `test_diagnose.py` | 8 | 44 | Tier 2 | $O(1)$ diagnosis across 12 correct & 36 wrong options, `TrapDetail` & radar mapping | `R02`, `R03`, `NFR-01` |
-| `test_reports.py` | 11 *(9+2)* | 15 *(13+2)* | Tier 1 & 2 | 5D radar summary, session trend aggregation, 0-attempt baseline, `CamelModel` sync | `R04`, `R05`, `NFR-07`, `NFR-10` |
-| `test_auth.py` | 8 | 12 | Tier 2 | Registration, login, demo-user fixtures, salted SHA-256 hashing, `401`/`409` guards | `R06`, `NFR-09` |
-| `test_cors.py` | 4 | 4 | Tier 3 | Cross-Origin Resource Sharing (`CORS`) headers and `OPTIONS` preflight handling | `R09` |
-| `test_e2e_frontend.py` | 6 | 8 | Tier 3 | Static HTML/JS/CSS delivery, bilingual DOM keys, frontend-backend contract match | `R07`, `R08`, `R09` |
+| `test_health.py` | 5 | 8 | Tier 3 | Application startup lifespan, `/api/health` probe, single-port static mount | `R09`, `NFR-02` |
+| `test_quiz.py` | 6 | 21 | Tier 1 | 17-item seed integrity, four-option rule, bijective three-trap mapping, subject filters | `R01`, `R07`, `NFR-08` |
+| `test_diagnose.py` | 8 | 10 | Tier 2 | $O(1)$ diagnosis over correct and distractor options, `TrapDetail` and radar mapping | `R02`, `R03`, `NFR-01` |
+| `test_reports.py` | 11 | 25 | Tier 1 & 2 | 5D radar summary, session trend aggregation, 0-attempt baseline, `CamelModel` sync | `R04`, `R05`, `NFR-07`, `NFR-10` |
+| `test_auth.py` | 12 | 12 | Tier 2 | Registration, login, demo-user fixtures, salted hashing, `401`/`409` guards | `R06`, `NFR-09` |
+| `test_cors.py` | 4 | 19 | Tier 3 | CORS headers and `OPTIONS` preflight handling | `R09` |
+| `test_e2e_frontend.py` | 8 | 8 | Tier 3 | Static HTML/JS/CSS delivery, required DOM ids, frontend-backend contract match, vendored ECharts offline readiness | `R07`, `R08`, `R09` |
 | `test_adversarial_backend.py` | 25 | 38 | Tier 4 | Malformed IDs, invalid options, SQL/XSS strings, 10k-char overflow, type confusion | `R01`–`R09`, `NFR-04` |
-| `test_empirical_stress.py` | 7 | 9 | Tier 4 | Multi-threaded concurrent bursts on `/api/diagnose` and P95 latency assertions | `NFR-01`, `NFR-03` |
-| **Total Baseline** | **80** *(78+2)* | **147** *(145+2)* | **Tiers 1–4** | **100% pass rate (`147 passed in 0.72s–3.56s`), zero external dependencies** | **`R01`–`R09`, `NFR-01`–`NFR-10`** |
+| `test_empirical_stress.py` | 7 | 12 | Tier 4 | DOM audit, option-click simulation, zero-500 offline guarantee, single-port serving | `NFR-01`, `NFR-03` |
+| `test_llm_health.py` | 19 | 36 | Tier 2 | Optional LLM probe: key masking, HTTP status classification, timeout and transport failure paths | `R10`, `NFR-09` |
+| **Total** | **105** | **189** | **Tiers 1–4** | **100% pass rate (`189 passed`), zero external dependencies** | **`R01`–`R10`, `NFR-01`–`NFR-10`** |
 
 ---
 
@@ -73,19 +75,19 @@ Crucially, writing these 25 adversarial functions was not merely a post-hoc form
 
 ## 6.3 Empirical Evaluation: MMLU Benchmark (`n = 4,445`, `Table 6.3`, `Figure 6.2`)
 
-While Sections 6.1 and 6.2 verify that our software engineering implementation satisfies its functional contracts, a critical research question remains (`Objective O4`, `Requirement R10`): **Does augmenting an LLM with structured domain knowledge graphs (`GraphRAG`) actually improve multiple-choice reasoning accuracy over a zero-shot LLM baseline, and in which academic disciplines does it help or hurt?**
+While Sections 6.1 and 6.2 verify that our software engineering implementation satisfies its functional contracts, a critical research question remains (`Objective 4`, `Requirement R10`): **Does augmenting an LLM with structured domain knowledge graphs (`GraphRAG`) actually improve multiple-choice reasoning accuracy over a zero-shot LLM baseline, and in which academic disciplines does it help or hurt?**
 
-To answer this question using an external benchmark rather than self-authored questions, we evaluated our 12-stage offline GraphRAG pipeline (`graphrag（终）/systematic_eval_engine.py` and `graphrag_pipeline.py`) against the standard zero-shot baseline across **12 subject subsets ($n = 4,445$ questions total) of the Massive Multitask Language Understanding (MMLU) benchmark** (Hendrycks et al., 2021). The authoritative quantitative output is stored in `graphrag（终）/final_systematic_report.csv`.
+To answer this question using an external benchmark rather than self-authored questions, we evaluated our 12-stage offline GraphRAG pipeline (`graphrag_final/systematic_eval_engine.py` and `graphrag_pipeline.py`) against the standard zero-shot baseline across **12 subject subsets ($n = 4,445$ questions total) of the Massive Multitask Language Understanding (MMLU) benchmark** (Hendrycks et al., 2021). The authoritative quantitative output is stored in `graphrag_final/final_systematic_report.csv`.
 
 Figure 6.2 visualises the accuracy delta ($\Delta = \text{Ours} - \text{Base}$, in percentage points $\text{pp}$) across all 12 MMLU subjects, and Table 6.3 reports the complete per-subject numerical breakdown.
 
 **Figure 6.2: MMLU 12-subject accuracy delta bar chart (`Ours` vs. `Base`, $n = 4,445$) showing 7 positive gains (green), 3 ties (grey), and 2 negative regressions (red).**
-(Source: Plotted directly from `graphrag（终）/final_systematic_report.csv`.)
+(Source: Plotted directly from `graphrag_final/final_systematic_report.csv`.)
 
 ![Figure 6.2](figures/fig6_2_mmlu_delta.svg)
 
 **Table 6.3: Empirical evaluation of the offline GraphRAG pipeline (`Ours`) versus zero-shot baseline (`Base`) across 12 MMLU subject subsets ($n = 4,445$).**
-(Source: `graphrag（终）/final_systematic_report.csv`.)
+(Source: `graphrag_final/final_systematic_report.csv`.)
 
 | Rank | MMLU Subject Subset | Base Accuracy | Ours (GraphRAG) | Absolute Delta ($\Delta$, pp) | Outcome Category | Dominant Cognitive / Structural Characteristic |
 | :-: | :--- | :-: | :-: | :-: | :-: | :--- |
@@ -118,24 +120,24 @@ Rather than cherry-picking only the positive subjects, reporting the full **7 Wi
 
 ## 6.4 RAGAS Evaluation of the Graph-Augmented Path (`Table 6.4`)
 
-To complement answer-accuracy benchmarking on MMLU, we designed an automated generation-quality evaluation pipeline in `graphrag（终）/ragas_evaluator.py` (96 lines) following the **RAGAS (Retrieval-Augmented Generation Assessment)** framework (Es et al., 2024). The evaluation design targets four complementary dimensions across three model tiers (`glm-4-flash`, `glm-4-air`, and `glm-4-plus` with GraphRAG context) accompanied by an exponential-backoff retry wrapper (`safe_request`, $2^i\text{ s}$ backoff) and a three-stage regex answer extractor (`extract_ans`):
+To complement answer-accuracy benchmarking on MMLU, we designed an automated generation-quality evaluation pipeline in `graphrag_final/ragas_evaluator.py` (96 lines) following the **RAGAS (Retrieval-Augmented Generation Assessment)** framework (Es et al., 2024). The evaluation design targets four complementary dimensions across three model tiers (`glm-4-flash`, `glm-4-air`, and `glm-4-plus` with GraphRAG context) accompanied by an exponential-backoff retry wrapper (`safe_request`, $2^i\text{ s}$ backoff) and a three-stage regex answer extractor (`extract_ans`):
 
 1. **Faithfulness**: Measures whether the generated diagnostic explanation is factually grounded in the retrieved knowledge-graph triples without fabricating statutory articles or equations.
 2. **Answer Relevancy**: Measures whether the generated feedback directly addresses the specific distractor option selected by the student rather than outputting generic textbook summaries.
 3. **Context Precision**: Evaluates the signal-to-noise ratio of the retrieved 1-hop/2-hop graph nodes relative to the target misconception.
 4. **Context Recall**: Evaluates whether the retrieved subgraph successfully captures the required antecedent prerequisite node (`prereq`).
 
-> **Academic Integrity & Execution Boundary Disclosure**: In strict compliance with our project's anti-hallucination constitution (`004-persona-hallucination-audit` and `NFR-10`), **we do not fabricate end-to-end RAGAS composite scores**. While `graphrag（终）/ragas_evaluator.py` is fully implemented with checkpoint resumption (`final_comparison.csv`) and multi-model comparison hooks (`glm-4-flash` / `glm-4-air` / `glm-4-plus`), completing full four-metric RAGAS judge-LLM scoring across all $4,445$ items exceeded our external embedding and commercial API token quota prior to code freeze. Table 6.4 therefore documents the implemented evaluation architecture, verified control-group accuracy script status, and the exact quota boundary.
+> **Academic Integrity & Execution Boundary Disclosure**: In strict compliance with our project's anti-hallucination constitution (`004-persona-hallucination-audit` and `NFR-10`), **we do not fabricate end-to-end RAGAS composite scores**. While `graphrag_final/ragas_evaluator.py` is fully implemented with checkpoint resumption (`final_comparison.csv`) and multi-model comparison hooks (`glm-4-flash` / `glm-4-air` / `glm-4-plus`), completing full four-metric RAGAS judge-LLM scoring across all $4,445$ items exceeded our external embedding and commercial API token quota prior to code freeze. Table 6.4 therefore documents the implemented evaluation architecture, verified control-group accuracy script status, and the exact quota boundary.
 
-**Table 6.4: RAGAS evaluation framework design and execution status in `graphrag（终）/ragas_evaluator.py`.**
+**Table 6.4: RAGAS evaluation framework design and execution status in `graphrag_final/ragas_evaluator.py`.**
 
-| Metric / Component | Theoretical Construct (Es et al., 2024) | Implementation Anchor in `graphrag（终）/` | Verification Status at Code Freeze |
+| Metric / Component | Theoretical Construct (Es et al., 2024) | Implementation Anchor in `graphrag_final/` | Verification Status at Code Freeze |
 | :--- | :--- | :--- | :--- |
 | **Multi-Model Control Loop** | Comparative accuracy across `glm-4-flash`, `glm-4-air`, and `glm-4-plus` (GraphRAG) | `ragas_evaluator.py:54-94` (`main()`, `ask_model()`, `extract_ans()`) | ✅ Script implemented with crash-safe CSV checkpointing (`final_comparison.csv`) |
-| **Faithfulness** | Fraction of explanation claims entailed by retrieved graph triples | `graphrag_pipeline.py` Stage 11–12 grounding check + `audit_hallucination_l1_l3.py` | ⚠️ Verified offline on PoC 36 traps (`L1=0` fabrications); full 4,445-item LLM-judge run capped by API quota |
-| **Answer Relevancy** | Cosine similarity / relevance of explanation to the chosen distractor | `audit_hallucination_l1_l3.py` (`L2` attribution audit) | ⚠️ Verified offline on PoC 36 traps (`L2=0` mismatches); full LLM-embedding run omitted (quota cap) |
+| **Faithfulness** | Fraction of explanation claims entailed by retrieved graph triples | `graphrag_pipeline.py` Stage 11–12 grounding check + `audit_hallucination_l1_l3.py` | ⚠️ Verified offline on the PoC trap bank (`L1=0` fabrications); full 4,445-item LLM-judge run capped by API quota |
+| **Answer Relevancy** | Cosine similarity / relevance of explanation to the chosen distractor | `audit_hallucination_l1_l3.py` (`L2` attribution audit) | ⚠️ Verified offline on the PoC trap bank (`L2=0` mismatches); full LLM-embedding run omitted (quota cap) |
 | **Context Precision** | Proportion of retrieved graph nodes relevant to the misconception | Reflected indirectly in MMLU $\Delta$ (`Table 6.3`: high in `Law` `+2.50 pp`, low in `Physics` `-1.32 pp`) | ⚠️ Full per-item RAGAS judge score deferred to Phase 2 (`Section 7.2`) |
-| **Context Recall** | Coverage of ground-truth prerequisite (`prereq`) in retrieved subgraph | 100% bijective coverage in curated PoC seed bank (`test_quiz.py`) | ✅ 36/36 `prereq` fields verified in PoC; open-corpus RAGAS recall deferred to Phase 2 |
+| **Context Recall** | Coverage of ground-truth prerequisite (`prereq`) in retrieved subgraph | 100% bijective coverage in curated PoC seed bank (`test_quiz.py`) | ✅ All 51 `prereq` fields verified in the PoC; open-corpus RAGAS recall deferred to Phase 2 |
 
 ---
 
@@ -147,23 +149,23 @@ In accordance with the official JC2001 Project Brief (*"evaluate the system agai
 
 | Req ID | Requirement Summary (Aligned with Chapter 2) | Priority / Category | Achievement Status | Empirical & Automated Verification Evidence |
 | :-: | :--- | :-: | :-: | :--- |
-| **R01** | Browse & filter multi-disciplinary questions (`law`, `cs`, `econ`, `se`) | Must | ✅ **Fully Met** | `GET /api/quiz`, `tests/test_quiz.py` (6 functions / 12 cases pass) |
+| **R01** | Browse & filter multi-disciplinary questions (`law`, `cs`, `econ`, `se`) | Must | ✅ **Fully Met** | `GET /api/quiz`, `tests/test_quiz.py` (6 functions / 21 cases pass) |
 | **R02** | Interactive option selection (`A`–`D`) & attempt submission | Must | ✅ **Fully Met** | `POST /api/diagnose`, `tests/test_e2e_frontend.py` & `test_diagnose.py` |
-| **R03** | Option-level misconception & trap diagnosis (`36` traps) | Must | ✅ **Fully Met** | `diagnostic_service.py`, `tests/test_diagnose.py` (8 functions / 44 cases) |
+| **R03** | Option-level misconception & trap diagnosis (`36` traps) | Must | ✅ **Fully Met** | `diagnostic_service.py`, `tests/test_diagnose.py` (8 functions / 10 cases) |
 | **R04** | Five-dimensional competency radar profiling (`[0, 100]`) | Must | ✅ **Fully Met** | `GET /api/reports/summary` & `/trend`, `tests/test_reports.py` |
 | **R05** | Session learning summary cards, trap distribution & reset | Must | ✅ **Fully Met** | `GET /api/reports/summary`, `POST /api/reports/reset`, `test_reports.py` |
-| **R06** | Local session authentication (`login`, `register`, `demo-users`) | Should / Must | ✅ **Fully Met** | `/api/auth/*`, `tests/test_auth.py` (8 functions / 12 cases pass) |
-| **R07** | Runtime bilingual interface & payload switching (`zh` / `en`) | Should | ✅ **Fully Met** | `frontend/app.js` (`I18N`), `seed_questions.py`, `test_e2e_frontend.py` |
-| **R08** | Dual-theme visual ergonomics (`Cyber Obsidian` / `Daylight`) | Should | ✅ **Fully Met** | `frontend/styles.css` CSS variables, WCAG 2.1 AA contrast $\ge 16.8:1$ |
-| **R09** | 100% offline zero-build single-process execution | Must | ✅ **Fully Met** | `backend/app/main.py` (`StaticFiles`), `tests/test_health.py` (5 cases) |
+| **R06** | Local session authentication (`login`, `register`, `demo-users`) | Should / Must | ✅ **Fully Met** | `/api/auth/*`, `tests/test_auth.py` (12 functions / 12 cases pass) |
+| **R07** | Runtime interface locale layer (`en` shipped) | Should | ⚠️ **Partially Met** | `frontend/app.js` (`I18N`), `seed_questions.py`, `test_e2e_frontend.py` |
+| **R08** | Dual-theme visual ergonomics (`Cyber Obsidian` / `Daylight`) | Should | ✅ **Fully Met** | `frontend/style.css` CSS variables, WCAG 2.1 AA contrast $\ge 16.8:1$ |
+| **R09** | 100% offline zero-build single-process execution | Must | ✅ **Fully Met** | `backend/app/main.py` (`StaticFiles`), `tests/test_health.py` (8 cases) |
 | **R10** | GraphRAG knowledge-graph enhancement & online baseline hook | Could / Should | ⚠️ **Partially Met** | **Offline evaluation path completed (`Section 6.3`, $n=4,445$) & CLI skip hook (`audit_online_baseline.py`) verified; deliberately not wired into live online demo path (`AD-1` / `ADR-05`)** |
 | **R11–R14** | Four `Won't Have` items (Teacher Admin, Live LLM critical path, Unmoderated UGC, Native Mobile App) | Won't | ➖ **Intentionally Excluded** | Scoped out by design (`Section 2.4`); verified 0 dead UI buttons |
 | **NFR-01** | Diagnostic API latency (`P95 < 5.0 ms`, target `< 50 ms`) | Performance | ✅ **Fully Met** | Measured mean `1.8 ms`, P95 `3.4 ms` (`test_empirical_stress.py`) |
 | **NFR-02** | Application cold-start time (`< 2.0 s`) | Performance | ✅ **Fully Met** | Measured `0.65 s` via `uvicorn` lifespan (`test_health.py`) |
-| **NFR-03** | Zero-network offline determinism (`100%` availability) | Reliability | ✅ **Fully Met** | `147 passed` with network interfaces disabled (`0` outbound sockets) |
+| **NFR-03** | Zero-network offline determinism (`100%` availability) | Reliability | ✅ **Fully Met** | `189 passed` with network interfaces disabled (`0` outbound sockets) |
 | **NFR-04** | Fault isolation against malformed/adversarial inputs (`0` 500s) | Reliability | ✅ **Fully Met** | `test_adversarial_backend.py` (25 functions / 38 cases, `0` unhandled 500s) |
 | **NFR-05** | Diagnostic interaction efficiency (`≤ 3 clicks`, `< 5 s`) | Usability | ✅ **Fully Met** | Verified in GUI walkthrough (`Section 5.5`: Select → Option → Diagnose) |
-| **NFR-06** | WCAG 2.1 AA visual contrast (`≥ 4.5 : 1`) across both themes | Usability | ✅ **Fully Met** | Dark `17.4 : 1`, Light `16.8 : 1` verified in `frontend/styles.css` |
+| **NFR-06** | WCAG 2.1 AA visual contrast (`≥ 4.5 : 1`) across both themes | Usability | ✅ **Fully Met** | Dark `17.4 : 1`, Light `16.8 : 1` verified in `frontend/style.css` |
 | **NFR-07** | Cross-language naming contract (`CamelModel` dual-key sync) | Maintainability | ✅ **Fully Met** | `backend/app/models/common.py` + 2 regression tests in `test_reports.py` |
 | **NFR-08** | Zero-build frontend & data-code separation | Maintainability | ✅ **Fully Met** | Zero `node_modules`; adding items to `seed_questions.py` updates UI automatically |
 | **NFR-09** | Credential hygiene (`SHA-256` salted hash, zero active secrets) | Security | ✅ **Fully Met** | `auth_service.py`, `test_auth.py`, `.env.example` remediation (`Section 5.6`) |
@@ -172,7 +174,7 @@ In accordance with the official JC2001 Project Brief (*"evaluate the system agai
 ### Why Requirement `R10` Is Honestly Marked "Partially Met"
 
 We explicitly highlight Requirement `R10` (*GraphRAG Knowledge-Graph Enhancement*) as **Partially Met (`⚠️`)** rather than claiming 100% completion. During Cycle 2 and Cycle 3, we faced a fundamental engineering trade-off:
-- On the **offline research path**, we fully built and evaluated the 12-stage GraphRAG pipeline (`graphrag（终）/`) across $4,445$ MMLU questions (`Section 6.3`) and distilled its structural subgraph insights into our 12 embedded `GraphData` neighbourhoods and 36 `TrapDetail` records (`seed_questions.py`).
+- On the **offline research path**, we fully built and evaluated the 12-stage GraphRAG pipeline (`graphrag_final/`) across $4,445$ MMLU questions (`Section 6.3`) and distilled its structural subgraph insights into our 17 embedded `GraphData` neighbourhoods and 51 `TrapDetail` records (`seed_questions.py`).
 - On the **interactive runtime demo path (`POST /api/diagnose`)**, however, we deliberately chose **not** to connect the live web console to a cloud Neo4j Aura instance or live LLM endpoint by default (`AD-1` / `AD-3` in Chapter 4). Had we made live Neo4j + LLM calls mandatory at runtime, any examiner running our submission without cloud credentials or campus internet would encounter connection timeouts, and physics/calculation questions would suffer from the $-1.32\text{ pp}$ neighbour-noise regression identified in `Section 6.3`. Marking `R10` as **Partially Met** reflects our engineering judgment: prioritizing 100% offline examiner reproducibility (`R09`) and sub-5 ms diagnostic determinism (`NFR-01`) over a fragile live-cloud dependency.
 
 ---
@@ -182,13 +184,13 @@ We explicitly highlight Requirement `R10` (*GraphRAG Knowledge-Graph Enhancement
 Following software engineering empirical evaluation standards (Wohlin et al., 2012; Sommerville, 2016), we identify six concrete threats to validity across four methodological categories:
 
 1. **Internal Validity — Author-Written Acceptance Tests (Confirmation Bias)**:
-   The 80 test functions (147 cases) in `tests/` were authored by the same development team that implemented `backend/app/`, creating a risk of confirmation bias where tests only assert expected happy paths. We mitigated this threat by dedicating 25 test functions (`test_adversarial_backend.py`, 523 LOC) to adversarial boundary, type-confusion, and injection attacks (`Section 6.2`), and by enforcing automated schema audits (`scripts/audit_hallucination_l1_l3.py`).
-2. **External Validity — Limited PoC Question Corpus (`12 Questions × 4 Disciplines`)**:
-   While our offline MMLU benchmark spans $4,445$ items across 12 subjects, the interactive StudyGraph web console (`seed_questions.py`) is scoped to **12 deeply curated questions and 36 distractor traps** across Law, Computer Architecture, Econometrics, and Software Engineering. This fixed corpus validates the proof-of-concept mechanism (`O1`) but does not yet prove generalisability across a full semester-long university question bank of $500+$ items.
+   The 105 test functions (189 cases) in `tests/` were authored by the same development team that implemented `backend/app/`, creating a risk of confirmation bias where tests only assert expected happy paths. We mitigated this threat by dedicating 25 test functions (`test_adversarial_backend.py`, 523 LOC) to adversarial boundary, type-confusion, and injection attacks (`Section 6.2`), and by enforcing automated schema audits (`scripts/audit_hallucination_l1_l3.py`).
+2. **External Validity — Limited PoC Question Corpus (`17 Questions × 9 Subjects`)**:
+   While our offline MMLU benchmark spans $4,445$ items across 12 subjects, the interactive StudyGraph web console (`seed_questions.py`) is scoped to **17 deeply curated questions and 51 distractor traps** across nine subjects: Law, Computer Science, Econometrics and Software Engineering carry three questions each, and Operational Research, Management Information Systems, Probability and Statistics, Marketing and Academic English carry one each. This fixed corpus validates the proof-of-concept mechanism (Objective 1) but does not yet prove generalisability across a full semester-long university question bank of $500+$ items.
 3. **External Validity — Domain Gap Between MMLU and University Exam Revision**:
    MMLU (Hendrycks et al., 2021) is a general multiple-choice knowledge benchmark rather than a longitudinal student misconception dataset. High GraphRAG performance on MMLU `Professional Law` (`+2.50 pp`) demonstrates strong rule-boundary disambiguation for an LLM, which supports—but does not directly equate to—human learning retention gains during exam revision.
 4. **External Validity — Absence of an $N \ge 30$ External Human Crossover Trial (`E1`/`E2` Persona Boundary)**:
-   As documented in `Section 1.4.1` and `reports/audit/persona_provenance.csv`, our user personas (`Personas A and B`) and usability metrics (`NFR-05`) are grounded in peer-reviewed educational literature (**E1**, e.g., Hattie & Timperley, 2007; Roediger & Karpicke, 2006) and structured internal team walkthroughs across our 10 BSc BMIS undergraduate members (**E2**). We did not conduct a formal $N \ge 30$ randomised controlled pre-/post-test trial with external students during this 10-week cycle.
+   As documented in `Section 1.4.1` and `reports/audit/persona_provenance.csv`, our user personas (`Personas A and B`) and usability metrics (`NFR-05`) are grounded in peer-reviewed educational literature (**E1**, e.g., Hattie & Timperley, 2007; Roediger & Karpicke, 2006) and structured internal team walkthroughs across our 11 BSc BMIS undergraduate members (**E2**). We did not conduct a formal $N \ge 30$ randomised controlled pre-/post-test trial with external students during this 10-week cycle.
 5. **Construct Validity — Five-Axis Radar Scores as a Proxy for Cognitive Mastery**:
    StudyGraph models student competency across five heuristic radar dimensions (`recall`, `boundary`, `trapDefense`, `synthesis`, `precision`) updated via rule-based weights in `reports.py`. While pedagogically motivated, this 5-axis vector is an engineering proxy rather than a psychometrically calibrated Item Response Theory (IRT) or Knowledge Tracing (`BKT`/`DKT`) latent trait model (Corbett & Anderson, 1994).
 6. **Statistical Conclusion Validity — Single-Pass MMLU Evaluation Without Confidence Intervals**:
@@ -198,24 +200,25 @@ Following software engineering empirical evaluation standards (Wohlin et al., 20
 
 ## Appendix C: Test Case Inventory and PoC Quick-Start User Manual Summary
 
-### C.1 Complete Automated Test Suite Inventory (`147 Executed Cases`)
+### C.1 Complete Automated Test Suite Inventory (`189 Executed Cases`)
 
-To keep the main body within the 40–60 page limit while providing full auditability, Table C.1 summarises the test function groups across all 9 files in `tests/` and how `@pytest.mark.parametrize` expands the 80 test functions into 147 executed cases.
+To keep the main body within the 40–60 page limit while providing full auditability, Table C.1 summarises the test function groups across all 10 files in `tests/` and how `@pytest.mark.parametrize` expands the 105 test functions into 189 executed cases.
 
-**Table C.1: Detailed breakdown of the 9 `pytest` modules, test classes/functions, and parameterised expansion (`80 functions → 147 cases`).**
+**Table C.1: Detailed breakdown of the 10 `pytest` modules, test classes/functions, and parameterised expansion (`105 functions → 189 cases`).**
 
 | Module (`tests/`) | Lines of Code | Functions | Collected Cases | Key Test Functions & Parameterisation Structure |
 | :--- | :-: | :-: | :-: | :--- |
-| `test_health.py` | 68 | 5 | 5 | `test_health_endpoint_ok`, `test_root_serves_index_html`, `test_static_assets_accessible`, `test_lifespan_seed_loaded`, `test_health_schema_fields` |
-| `test_quiz.py` | 142 | 6 | 12 | `test_get_all_quiz_items` (12 items), `test_filter_by_category` (parameterised across `law`, `cs`, `econ`, `se` + case-insensitivity), `test_unknown_category_empty`, `test_each_question_has_four_options`, `test_each_question_has_three_traps`, `test_trap_keys_exclude_correct_answer` |
-| `test_diagnose.py` | 215 | 8 | 44 | `test_correct_answer_returns_no_trap` (parameterised $\times 12$ items), `test_wrong_answer_returns_specific_trap` (parameterised $\times 36$ distractors), `test_diagnose_unknown_question_404`, `test_diagnose_invalid_option_422` |
-| `test_reports.py` | 238 | 11 | 15 | `test_summary_seed_baseline_on_zero_attempts`, `test_radar_scores_bounded_0_100`, `test_telemetry_accumulates_after_diagnose`, `test_trend_trap_distribution`, `test_reset_restores_seed_baseline`, + **2 `CamelModel` dual-key regression tests (`test_camel_and_snake_keys_coexist`, `test_nested_camel_serialization`)** |
-| `test_auth.py` | 184 | 8 | 12 | `test_demo_users_list`, `test_login_valid_demo_user`, `test_login_wrong_password_401`, `test_register_new_user_200`, `test_register_duplicate_username_409`, `test_auth_me_token_validation`, `test_logout_revokes_token` |
-| `test_cors.py` | 64 | 4 | 4 | `test_cors_preflight_options`, `test_cors_headers_on_get_quiz`, `test_cors_headers_on_post_diagnose`, `test_allowed_methods` |
-| `test_e2e_frontend.py` | 156 | 6 | 8 | `test_index_html_contains_core_containers`, `test_app_js_and_styles_css_served`, `test_api_contract_matches_frontend_camel_keys`, `test_bilingual_fields_present_in_payloads` |
-| `test_adversarial_backend.py` | 523 | 25 | 38 | Groups `A1`–`A4` & `A6`: parameterised SQLi (`' OR 1=1 --`), XSS (`<script>`), path traversal (`../`), 10k-char strings, null bytes, type confusion (`list`/`dict`/`int`), negative/999 IDs |
-| `test_empirical_stress.py` | 148 | 7 | 9 | Group `A5`: 50-request & 100-request concurrent `ThreadPoolExecutor` bursts on `/api/diagnose`, `/api/quiz`, `/api/reports/summary`; P95 latency $< 5\text{ ms}$ assertion |
-| **Total** | **1,738** | **80** | **147** | **`python -m pytest tests/ -q` → `147 passed in 0.72s` (warm) / `3.56s` (cold)** |
+| `test_health.py` | 77 | 5 | 8 | `test_health_probe_success`, `test_health_probe_schema_fields`, `test_health_probe_content_type_header`, `test_health_probe_disallowed_methods`, `test_health_probe_repeatability` |
+| `test_quiz.py` | 178 | 6 | 21 | `test_quiz_endpoint_valid_subjects` (parameterised over subject aliases), `test_quiz_default_subject_query`, `test_quiz_subject_aliasing`, `test_quiz_subject_case_insensitivity`, `test_quiz_invalid_subject_graceful_handling`, `test_quiz_adversarial_subject_inputs` |
+| `test_diagnose.py` | 204 | 8 | 10 | `test_diagnose_distractor_trap_offline_fallback`, `test_diagnose_correct_option`, `test_diagnose_multi_subject_distractors` (parameterised over the 17 questions), `test_diagnose_missing_fields_unprocessable_entity`, `test_diagnose_nonexistent_question_id`, `test_diagnose_camel_case_input_interoperability`, `test_diagnose_resilience_under_mocked_network_outage`, `test_diagnose_socratic_guidance_pedagogical_depth` |
+| `test_reports.py` | 230 | 11 | 25 | `test_report_summary_default`, `test_report_trend_default`, `test_report_summary_valid_subjects`, `test_report_summary_aliasing`, `test_report_trend_valid_subjects`, `test_report_unknown_subject_zero_state`, `test_report_trend_unknown_subject_neutral`, `test_report_camelcase_interoperability`, `test_report_adversarial_resilience`, `test_cold_start_reports_label_demo_baseline`, `test_reports_aggregate_live_session_telemetry` |
+| `test_auth.py` | 174 | 12 | 12 | `test_get_demo_users`, `test_login_known_student_by_id`, `test_login_known_student_by_name`, `test_login_guest_student`, `test_login_new_student_dynamic_provisioning`, `test_register_new_student`, `test_login_empty_id_fallback`, `test_login_missing_field_422`, `test_login_accepts_camel_case_alias`, `test_register_accepts_camel_case_alias`, `test_register_with_password_and_login_success`, `test_login_registered_user_wrong_password_returns_401` |
+| `test_cors.py` | 103 | 4 | 19 | `test_cors_headers_on_get_health`, `test_cors_headers_on_post_diagnose`, `test_cors_preflight_options_for_diagnose`, `test_cors_preflight_options_for_quiz` |
+| `test_e2e_frontend.py` | 168 | 8 | 8 | `test_frontend_root_static_mount_serves_html`, `test_frontend_index_html_direct_route`, `test_frontend_static_stylesheet_serves_css`, `test_frontend_static_script_serves_javascript`, `test_frontend_files_exist_on_disk`, `test_html_dom_elements_required_by_app_js`, `test_frontend_vendored_echarts_offline_ready`, `test_frontend_index_has_no_remote_cdn_or_unverified_claims` |
+| `test_adversarial_backend.py` | 523 | 25 | 38 | Malformed JSON, non-string types, SQLi (`' OR 1=1 --`), XSS (`<script>`), path traversal (`../`), 10k-char strings, null bytes, type confusion, simulated DashScope timeout / connection failure / upstream 500, rapid concurrent load, unsupported methods and unmapped routes |
+| `test_empirical_stress.py` | 253 | 7 | 12 | `test_exhaustive_dom_audit_and_null_guards`, `test_exhaustive_option_click_simulation`, `test_option_click_dual_naming_convention`, `test_offline_fallback_zero_500_guarantee`, `test_offline_graceful_handling_unknown_question`, `test_offline_graceful_handling_invalid_option_key`, `test_single_port_static_serving` |
+| `test_llm_health.py` | 380 | 19 | 36 | LLM probe contract: `test_health_llm_reports_missing_key`, key masking and non-echo assertions, `test_classify_http_status`, `test_classify_timeout_and_network_exceptions`, `test_dashscope_business_codes`, `test_probe_never_raises_on_transport_failures`, `test_truncate_safely_*` (four cases), `test_mask_secret_never_returns_the_input`, `test_cli_exit_codes` |
+| **Total** | **2,290** | **105** | **189** | **`python -m pytest tests/ -q` → `189 passed in 2.54 s` with zero warnings** |
 
 ### C.2 PoC Quick-Start User Manual Summary (5-Minute Examiner Guide)
 
@@ -230,7 +233,7 @@ To keep the main body within the 40–60 page limit while providing full auditab
    # Step 1: Install lightweight Python dependencies (FastAPI, Uvicorn, Pydantic v2, Pytest)
    pip install -r requirements.txt
 
-   # Step 2 (Optional): Verify all 147 automated regression & adversarial tests pass
+   # Step 2 (Optional): Verify all 189 automated regression & adversarial tests pass
    python -m pytest tests/ -q
 
    # Step 3: Start the single-process StudyGraph web console on port 8000
@@ -240,9 +243,9 @@ To keep the main body within the 40–60 page limit while providing full auditab
 3. **Five-Minute Interactive Walkthrough**:
    - **Step 1 — Open Console**: Navigate to `http://127.0.0.1:8000` in your browser.
    - **Step 2 — Sign In with One-Click Demo Account**: Click the user badge in the top-right corner and select **`demo_student`** (or sign in via `/api/auth/demo-users` credentials).
-   - **Step 3 — Filter by Discipline & Select a Question**: Click **`Law` (`法学`)** or **`Econometrics` (`计量经济学`)** in the top category bar, then select Question `law_1` (*Civil Code Art. 152 Rescission Period*).
+   - **Step 3 — Filter by Discipline & Select a Question**: Click **`Law`** or **`Econometrics`** in the top category bar, then select Question `law_1` (*Civil Code Art. 152 Rescission Period*).
    - **Step 4 — Trigger an Option-Level Misconception Trap**: Click Distractor **Option A** (*"3-year limitation period applies"*) and click **"Submit & Diagnose"**. Observe the slide-out **Trap Drawer** open in $< 5\text{ ms}$, displaying: (i) the amber fallacy badge (*Conflating Limitation Period with Preclusive Period*), (ii) the statutory conflict explanation, (iii) the violated prerequisite badge (`Formative Right vs. Claim Right`), (iv) the interactive 1-hop knowledge-graph neighbourhood, and (v) the Socratic reflection prompt.
-   - **Step 5 — Inspect 5-Axis Competency Radar & Toggle Language/Theme**: Open the **Competency Analytics** tab to inspect how the attempt updated your `boundary` radar score (`data_source: "session_telemetry"`). Click **`EN / 中文`** and the **Theme Toggle (`☀️ / 🌙`)** in the header to verify instant runtime bilingual and dual-theme switching.
+   - **Step 5 — Inspect 5-Axis Competency Radar & Toggle Theme**: Open the **Competency Analytics** tab to inspect how the attempt updated your `boundary` radar score (`data_source: "session_telemetry"`). Click the **Theme Toggle (`☀️ / 🌙`)** in the header to verify instant runtime dual-theme switching.
 4. **Troubleshooting**:
    - **Port `8000` Already in Use**: Run `uvicorn backend.app.main:app --port 8080` and open `http://127.0.0.1:8080`.
    - **Resetting Demo State**: Click **"Reset Session"** in the Analytics panel (or call `POST /api/reports/reset`) to restore `total_attempts = 0` (`seed_baseline`).

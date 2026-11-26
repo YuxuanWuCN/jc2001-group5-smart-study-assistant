@@ -1,6 +1,6 @@
 # Chapter 4 System Design and Architecture — Outline (Week A)
 
-**王思鉴 (50106045)** · branch `report/ch04-wang-sijian` · baseline `develop` @ `626d467`
+**Wang Sijian (50106045)** · branch `report/ch04-wang-sijian` · baseline `develop` @ `626d467`
 **Target:** 9–11 pages · 2,600–3,400 English words · 4 figures + 2 tables
 
 ## Thesis
@@ -35,7 +35,7 @@ Three external entities: Student (primary, operates the system), Instructor (sec
 
 Browser → router (Pydantic) → diagnostic service → question bank → response. The model call happens after the verdict, with a four-second timeout, and cannot change the answer.
 
-**Required sentence** (must match 董思钦 Chapter 5.4):
+**Required sentence** (must match Dong Siqin Chapter 5.4):
 
 > The diagnosis path performs no model inference. Every diagnosis is a dictionary lookup followed by field assembly.
 
@@ -45,7 +45,7 @@ Browser → router (Pydantic) → diagnostic service → question bank → respo
 
 ### 4.3.1 Four domain classes and their relationships
 
-`QuizItem` 1—* `OptionItem` (12 / 48); `OptionItem` *—1 `TrapDetail` (wrong options only, 36 traps); `TrapDetail` 1—1 `RadarDimension` (recall, boundary, trapDefense, synthesis, precision). `GraphData` / `GraphNode` / `GraphEdge` shown as a secondary aggregate that carries no diagnostic weight.
+`QuizItem` 1—* `OptionItem` (17 / 68); `OptionItem` *—1 `TrapDetail` (wrong options only, 51 traps); `TrapDetail` 1—1 `RadarDimension` (recall, boundary, trapDefense, synthesis, precision). `GraphData` / `GraphNode` / `GraphEdge` shown as a secondary aggregate that carries no diagnostic weight.
 
 ### 4.3.2 The modelling decision that made diagnosis deterministic
 
@@ -75,7 +75,7 @@ Index lookup → selected-key normalisation → single option scan → key compa
 
 ### 4.6.1 Quality attributes as design consequences
 
-Rewrite 张梓健's five NFR classes as consequences of the decisions in 4.4, not as aspirations:
+Rewrite Zhang Zijian's five NFR classes as consequences of the decisions in 4.4, not as aspirations:
 
 | Attribute | Mechanism | Known weakness |
 | :--- | :--- | :--- |
@@ -100,11 +100,11 @@ The Security row must state the weakness. A report claiming no weaknesses contra
 | Table 4.1 | Architecture decision records | `table_4_1_adr.md` | — |
 | Table 4.2 | Component responsibilities and permitted dependencies | draft §4.1.3 | — |
 
-Table 4.2 was added during drafting and is not in the global allocation in `cycle3_master_plan.md` §2.3. Either obtain a number from 吴宇轩 or fold it into the §4.1.3 prose.
+Table 4.2 was added during drafting and is not in the global allocation in `cycle3_master_plan.md` §2.3. Either obtain a number from Wu Yuxuan or fold it into the §4.1.3 prose.
 
 ## Materials register
 
-Baseline `develop` @ `626d467`. Status: ✅ usable ｜ ⚠️ exists but needs checking ｜ ❌ missing.
+Baseline `develop` @ `626d467`. Status: ✅ usable | ⚠️ exists but needs checking | ❌ missing.
 
 ### Verified and usable
 
@@ -122,7 +122,7 @@ Baseline `develop` @ `626d467`. Status: ✅ usable ｜ ⚠️ exists but needs c
 
 | Material | Path | Issue |
 | :--- | :--- | :--- |
-| Report draft | `reports/technical_report_draft.md` | Ch4 has three subsections; this outline has six. Confirm with 谢炜昕 |
+| Report draft | `reports/technical_report_draft.md` | Ch4 has three subsections; this outline has six. Confirm with Xie Weixin |
 | API mapping | `reports/api_frontend_mapping.md` | Documents the retired stdlib backend (`/api/answer`, `/api/tutor`) |
 
 ### Missing from the repository
@@ -145,7 +145,7 @@ Measured on `develop@626d467`. Use these, not the plan's restated values.
 | Graph nodes | 60 | AST count of `GraphNode(` |
 | Radar dimensions | 5 | `radar_hit` values; `frontend/app.js:1250-1254` |
 | LLM timeout | 4.0 s | `config.py:29` |
-| Core latency | 0.6 µs median, p95 0.7 µs | 720 samples over 36 wrong-answer cases |
+| Core latency | 0.6 µs median, p95 0.7 µs | 720 samples over 51 wrong-answer cases |
 | HTTP latency | 1.5 ms median `POST /api/diagnose` | 200 iterations, local uvicorn |
 | Model calls on verdict path | 0 | `diagnostic_service.py` branch structure |
 
@@ -158,14 +158,14 @@ The plan's restatements (8 endpoints, 5 routers / 5 services / 5 models, 932 lin
 | R-01 | Figure 4.4 shows LLM or Neo4j on the diagnosis path | Resolved; verified absent from the diagram body |
 | R-02 | Figure 4.2 still says `server.py` | Resolved; now `backend/app/main.py` |
 | R-03 | Diagram source and export disagree | All exports regenerated from the committed `.mmd` |
-| R-04 | Instructor required here (task pack 04) but excluded from the use-case diagram (task pack 09) | Context model includes it; confirm wording with 谢炜昕 |
+| R-04 | Instructor required here (task pack 04) but excluded from the use-case diagram (task pack 09) | Context model includes it; confirm wording with Xie Weixin |
 | R-05 | Quoting numbers that do not match the code | Only the verified table is used |
 | R-06 | Overlap with Chapters 5.1 / 5.2 | This chapter explains why; endpoint and field tables stay in 5.2 |
-| R-07 | Subsection structure differs from the current report draft | Raise with 谢炜昕 before merging |
+| R-07 | Subsection structure differs from the current report draft | Raise with Xie Weixin before merging |
 
 ## Still to do
 
 1. Insert Harvard inline citations — `sources.md` §5 lists nine references that are not yet in the running text.
-2. Confirm subsection structure and Instructor wording with 谢炜昕 (R-04, R-07).
-3. Obtain a number for Table 4.2 from 吴宇轩, or fold it into prose.
+2. Confirm subsection structure and Instructor wording with Xie Weixin (R-04, R-07).
+3. Obtain a number for Table 4.2 from Wu Yuxuan, or fold it into prose.
 4. Peer-review Chapter 6 as assigned in `cycle3_master_plan.md` §4.

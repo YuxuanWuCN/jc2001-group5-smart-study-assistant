@@ -35,7 +35,7 @@ the evidence for it. Nothing in this section introduces a new feature.
 - ADR-01; the assessed artefact runs on the examiner's machine
 - Offline execution is a requirement, not a limitation
 #### 5.6.1.3 Measured behaviour of the deployed shape
-- Cold start 1.12 s; `GET /` 40,390 B in 50.9 ms
+- Cold start 1.12 s; `GET /` 63,914 B in 50.9 ms
 - `has_api_key: false` throughout ⇒ measurements taken offline
 
 ### 5.6.2 Environment and Prerequisites
@@ -63,10 +63,10 @@ the evidence for it. Nothing in this section introduces a new feature.
 ### 5.6.4 Verification and Reproducibility
 
 #### 5.6.4.1 Test evidence
-- 150 passed / 1.79 s; 80 test functions in nine files
+- 189 passed / 2.54 s; 105 test functions in ten files
 - Credentials cleared by the fixture ⇒ offline path is what is tested
 #### 5.6.4.2 Content and data evidence
-- `seed_questions.py` (657 lines) is the whole question bank
+- `seed_questions.py` (932 lines) is the whole question bank
 - `GET /api/quiz` returned twelve items
 #### 5.6.4.3 What is not reproducible, and why
 - Evaluation needs a Neo4j Aura instance whose credential was rotated
@@ -76,7 +76,7 @@ the evidence for it. Nothing in this section introduces a new feature.
 ### 5.6.5 Packaging for Submission
 
 #### 5.6.5.1 Archive structure required by the brief
-- `backend/`, `frontend/`, `tests/`, `requirements.txt`, `README.md`, `docs/User_Manual.pdf`, `graphrag(终)/`
+- `backend/`, `frontend/`, `tests/`, `requirements.txt`, `README.md`, `docs/User_Manual.pdf`, `graphrag_final/`
 #### 5.6.5.2 Four enforced exclusions
 - no `.venv/`, no `__pycache__/`, no `.git/`, no `.env`
 #### 5.6.5.3 Credential scan and the outstanding manual
@@ -94,9 +94,9 @@ the evidence for it. Nothing in this section introduces a new feature.
 | Runtime configuration | `backend/app/config.py` | HOST/PORT defaults, `has_api_key`, `FRONTEND_DIR` |
 | Start script | `backend/run.py` | the broken documented command |
 | Dependency manifest | `requirements.txt` | twelve dependencies, no pins, Python floor statement |
-| Test suite | `tests/` (9 test files + `conftest.py`) | 80 functions → 150 cases; credential-clearing fixture |
+| Test suite | `tests/` (10 test files + `conftest.py`) | 105 functions → 189 cases; credential-clearing fixture |
 | Seed data | `backend/app/data/seed_questions.py` | the twelve-item bank, no database |
-| Evaluation data | `graphrag(终)/` (directory) | 12 MMLU subject CSVs + `final_systematic_report.csv`; the scripts read credentials from the environment |
+| Evaluation data | `graphrag_final/` (directory) | 12 MMLU subject CSVs + `final_systematic_report.csv`; the scripts read credentials from the environment |
 | Environment template | `.env.example` | the optional keys and their placeholders |
 | Format and numbering | `reports/cycle3_task_packs/08-...md`, `reports/cycle3_task_packs/README.md` | section budget, Figure 5.5 / Table 5.7 allocation |
 | Architecture decisions | ADR-01, ADR-05 (Chapter 4) | single process, Neo4j offline only |
@@ -114,6 +114,6 @@ the evidence for it. Nothing in this section introduces a new feature.
 | :--- | :--- |
 | Single process and single port (a consequence of ADR-01) | Chapter 4 states ADR-01 itself |
 | Neo4j is dashed and offline-only | Chapter 4, Figure 4.2 |
-| 150 cases in 1.79 s | Section 6.1.2 must quote the same numbers |
+| 189 cases in 2.54 s | Section 6.1.2 must quote the same numbers |
 | Partial reproducibility of the evaluation | Section 6.6 (threats to validity), Chapter 7 (limitations) |
 | `docs/User_Manual.pdf` is required inside the archive | The manual itself is delivered by the testing chapter |

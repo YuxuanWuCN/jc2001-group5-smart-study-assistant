@@ -1,48 +1,48 @@
 %%{init: {"sequence": {"useMaxWidth": false, "actorMargin": 38, "boxMargin": 9, "messageMargin": 30, "mirrorActors": true, "wrap": false, "width": 118, "height": 42, "noteFontSize": 12, "messageFontSize": 12, "actorFontSize": 13}}}%%
-%% 图 3：核心业务时序图 —— 错题排雷全流程 (Sequence Diagram: Diagnose)
-%% JC2001 Group 5 / 智学罗盘 Smart Study Assistant
-%% 说明：
-%%   1. 参与者与核心契约对齐当前 FastAPI 模块化服务架构：POST /api/diagnose
-%%      （接收 question_id 与 selected_option）；可选规划扩展 POST /api/tutor。
-%%   2. 图中 alt 分支即 NFR-02「离线可靠性」：外部图谱与外部模型均为可选，
-%%      任一不可用时核心流程仍以本地策展内容返回结果。
-%%   3. 标签 [已实现] = 已在 backend/app 与 frontend/app.js 落地并通过测试；
-%%      [规划中] = 设计目标，尚未接入真实外部服务；[可选] = 由环境变量注入。
+%% Figure 3: Core Business Sequence Diagram -- Full Wrong-Answer Trap Diagnosis Flow (Sequence Diagram: Diagnose)
+%% JC2001 Group 5 / StudyGraph Smart Study Assistant
+%% Notes:
+%%   1. Participants and core contracts align with the current FastAPI modular service architecture: POST /api/diagnose
+%%      (receives question_id and selected_option); optional planned extension POST /api/tutor.
+%%   2. The alt branches in the figure are NFR-02 "offline reliability": the external graph and external model are both optional;
+%%      when either is unavailable the core flow still returns results from local curated content.
+%%   3. Label [Implemented] = already landed in backend/app and frontend/app.js and covered by tests;
+%%      [Planned] = design goal, not yet wired to a real external service; [Optional] = injected via environment variable.
 sequenceDiagram
     autonumber
-    actor User as 在校大学生
-    participant UI as 前端控制台 (app.js)
-    participant API as 业务中枢 (backend/app)
-    participant Store as 题库与知识库 (seed_questions.py)
-    participant Graph as Neo4j 图谱 (云端)
-    participant Qwen as 通义千问 Qwen-Turbo
+    actor User as University Student
+    participant UI as Frontend Console (app.js)
+    participant API as Business Hub (backend/app)
+    participant Store as Question Bank and Knowledge Base (seed_questions.py)
+    participant Graph as Neo4j Graph (cloud)
+    participant Qwen as Qwen-Turbo
 
-    User->>UI: 点击题目干扰项（如选项 B）
+    User->>UI: Clicks a distractor option (e.g. option B)
     UI->>API: POST /api/diagnose {question_id, selected_option}
-    API->>Store: 读取题干、标准答案与陷阱映射 [已实现]
+    API->>Store: Read question stem, standard answer and trap mappings [Implemented]
     Store-->>API: trap_id, misconception, prerequisite
-    Note over API,Store: 答案与错因映射不下发客户端公共题目接口
-    API->>API: evaluate_answer 判定 is_correct=false
-    alt 外部图谱可用 [规划中]
+    Note over API,Store: Answers and misconception mappings are not exposed by the public question API
+    API->>API: evaluate_answer sets is_correct=false
+    alt External graph available [Planned]
         API->>Graph: MATCH (q:Question)-[:PRONE_TO]->(t:Trap)
-        Graph-->>API: 考点名称、前驱概念与诱因标签
-    else 图谱未命中或超时 [降级]
-        API->>API: 降级为本地策展错因拓扑与先修知识
+        Graph-->>API: Topic names, predecessor concepts and trigger labels
+    else Graph miss or timeout [degraded]
+        API->>API: Fall back to the local curated misconception topology and prerequisite knowledge
     end
     API-->>UI: 200 OK (DiagnoseResponse: {is_correct, trap, socratic_hint, prerequisite, radar_updates})
-    UI->>UI: 展开右侧诊断抽屉并高亮对应选项
-    UI-->>User: 展示苏格拉底启发指引、前置概念与避坑建议
-    opt 学生继续多轮追问 [规划中 · 导师追问扩展]
-        User->>UI: 在对话抽屉输入追问
+    UI->>UI: Expand the right-hand diagnosis drawer and highlight the option
+    UI-->>User: Show Socratic guidance, prerequisite concepts and pitfall-avoidance advice
+    opt Student continues with follow-up rounds [Planned · tutor follow-up extension]
+        User->>UI: Types a follow-up into the chat drawer
         UI->>API: POST /api/tutor {question_id, message}
-        alt 已配置外部模型 [可选]
-            API->>Qwen: 兼容协议请求 /chat/completions
-            Qwen-->>API: 返回深度启发式追问回复
-        else 未配置模型或调用超时 [本地降级]
-            API->>API: local_tutor_reply 由已审核证据链生成
+        alt External model configured [Optional]
+            API->>Qwen: Compatible-protocol request /chat/completions
+            Qwen-->>API: Returns a deeper heuristic follow-up reply
+        else Model not configured or call timed out [local fallback]
+            API->>API: local_tutor_reply generated from the reviewed evidence chain
         end
         API-->>UI: 200 OK {reply, mode}
-        UI-->>User: 展示带来源标注的导师回复
+        UI-->>User: Show the tutor reply with source annotations
     end
-    UI->>UI: 追加作答记录至 localStorage
-    UI-->>User: 刷新学情掌握度雷达与维度过关状态
+    UI->>UI: Append the answer record to localStorage
+    UI-->>User: Refresh the mastery radar and dimension pass status

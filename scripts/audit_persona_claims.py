@@ -16,183 +16,183 @@ AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 PERSONA_CLAIMS = [
     {
         "claim_id": "PA-01",
-        "persona": "A_突击型考试生",
-        "claim_text": "大二/大三，4 门考试集中在 2 周",
-        "claim_kind": "身份",
-        "source_type": "文献",
+        "persona": "A_EXAM_CRAMMER",
+        "claim_text": "Second or third-year undergraduate with four exams concentrated in two weeks",
+        "claim_kind": "identity",
+        "source_type": "literature",
         "source_locator": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:78",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "依据公开文献/教学场景说明，该群体常见",
-        "auditor": "审计团队"
+        "allowed_usage": "Described as common for this group based on public literature/teaching scenarios",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PA-02",
-        "persona": "A_突击型考试生",
-        "claim_text": "Quizlet 卡片、同学错题本、群里的答案汇总",
-        "claim_kind": "当前工具",
-        "source_type": "竞品行为",
+        "persona": "A_EXAM_CRAMMER",
+        "claim_text": "Quizlet cards, classmates' mistake notebooks, answer summaries shared in group chats",
+        "claim_kind": "current_tools",
+        "source_type": "competitor_behaviour",
         "source_locator": "reports/competitor_analysis.md:32",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "竞品提供该功能，暗示需求存在",
-        "auditor": "审计团队"
+        "allowed_usage": "A competitor offers this feature, which implies the need exists",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PA-03",
-        "persona": "A_突击型考试生",
-        "claim_text": "错了不知道为什么错，没时间深究（二元反馈陷阱）",
-        "claim_kind": "痛点",
-        "source_type": "文献",
+        "persona": "A_EXAM_CRAMMER",
+        "claim_text": "Gets an answer wrong without knowing why, and has no time to dig deeper (binary-feedback trap)",
+        "claim_kind": "pain_point",
+        "source_type": "literature",
         "source_locator": "VanLehn 2011; Hattie & Timperley 2007",
         "evidence_level": "E1",
         "is_core": True,
-        "allowed_usage": "依据细粒度反馈文献，该痛点在备考中广泛存在",
-        "auditor": "审计团队"
+        "allowed_usage": "Based on fine-grained feedback literature, this pain point is widespread during exam preparation",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PA-04",
-        "persona": "A_突击型考试生",
-        "claim_text": "5 分钟内知道该补哪一块",
-        "claim_kind": "期待",
-        "source_type": "组内讨论",
+        "persona": "A_EXAM_CRAMMER",
+        "claim_text": "Wants to know within five minutes which area to catch up on",
+        "claim_kind": "expectation",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:37",
         "evidence_level": "E2",
         "is_core": True,
-        "allowed_usage": "在组内 n=10 讨论中成员表示期待快速诊断（非代表性样本）",
-        "auditor": "审计团队"
+        "allowed_usage": "Members expressed this expectation for rapid diagnosis during an internal n=10 discussion (non-representative sample)",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PA-05",
-        "persona": "A_突击型考试生",
-        "claim_text": "主要目标用户",
-        "claim_kind": "是否目标用户",
-        "source_type": "组内讨论",
+        "persona": "A_EXAM_CRAMMER",
+        "claim_text": "Primary target user",
+        "claim_kind": "is_target_user",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_master_plan.md:100",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "依据 Lean Scoping 决策确定为主目标用户",
-        "auditor": "审计团队"
+        "allowed_usage": "Established as the primary target user by the Lean Scoping decision",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PB-01",
-        "persona": "B_系统复习者",
-        "claim_text": "研究生，长期系统性复习",
-        "claim_kind": "身份",
-        "source_type": "文献",
+        "persona": "B_SYSTEMATIC_REVIEWER",
+        "claim_text": "Postgraduate student doing long-term systematic revision",
+        "claim_kind": "identity",
+        "source_type": "literature",
         "source_locator": "Corbett & Anderson 1994 (BKT)",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "依据学术文献与研究生备考模式",
-        "auditor": "审计团队"
+        "allowed_usage": "Based on academic literature and postgraduate exam-preparation patterns",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PB-02",
-        "persona": "B_系统复习者",
-        "claim_text": "Anki、笔记软件、论文",
-        "claim_kind": "当前工具",
-        "source_type": "竞品行为",
+        "persona": "B_SYSTEMATIC_REVIEWER",
+        "claim_text": "Anki, note-taking software, academic papers",
+        "claim_kind": "current_tools",
+        "source_type": "competitor_behaviour",
         "source_locator": "reports/competitor_analysis.md:45",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "竞品观察表明系统备考者偏好间隔记忆工具",
-        "auditor": "审计团队"
+        "allowed_usage": "Competitor observation shows that systematic learners prefer spaced-repetition tools",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PB-03",
-        "persona": "B_系统复习者",
-        "claim_text": "知道自己弱，但看不出弱在哪个能力维度",
-        "claim_kind": "痛点",
-        "source_type": "文献",
-        "source_locator": "Koedinger et al. 2012 (前置知识框架)",
+        "persona": "B_SYSTEMATIC_REVIEWER",
+        "claim_text": "Knows they are weak but cannot see which ability dimension is weak",
+        "claim_kind": "pain_point",
+        "source_type": "literature",
+        "source_locator": "Koedinger et al. 2012 (prerequisite knowledge framework)",
         "evidence_level": "E1",
         "is_core": True,
-        "allowed_usage": "依据认知科学多维能力评估模型",
-        "auditor": "审计团队"
+        "allowed_usage": "Based on multi-dimensional ability assessment models in cognitive science",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PB-04",
-        "persona": "B_系统复习者",
-        "claim_text": "看到能力维度的长期趋势",
-        "claim_kind": "期待",
-        "source_type": "组内讨论",
+        "persona": "B_SYSTEMATIC_REVIEWER",
+        "claim_text": "Wants to see long-term trends across ability dimensions",
+        "claim_kind": "expectation",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_task_packs/02-ch2-requirements-moscow-zhang-zijian.md:37",
         "evidence_level": "E2",
         "is_core": True,
-        "allowed_usage": "组内讨论形成的学情追踪期待",
-        "auditor": "审计团队"
+        "allowed_usage": "Expectation for learning-progress tracking formed through internal discussion",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PB-05",
-        "persona": "B_系统复习者",
-        "claim_text": "主要目标用户",
-        "claim_kind": "是否目标用户",
-        "source_type": "组内讨论",
+        "persona": "B_SYSTEMATIC_REVIEWER",
+        "claim_text": "Primary target user",
+        "claim_kind": "is_target_user",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_master_plan.md:100",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "定位于长期备考目标用户",
-        "auditor": "审计团队"
+        "allowed_usage": "Positioned as a target user for long-term exam preparation",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PC-01",
-        "persona": "C_课程教师",
-        "claim_text": "本课程讲师 / 助教",
-        "claim_kind": "身份",
-        "source_type": "组内讨论",
+        "persona": "C_COURSE_TEACHER",
+        "claim_text": "Lecturer / teaching assistant for this course",
+        "claim_kind": "identity",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:78",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "课程背景利益相关者",
-        "auditor": "审计团队"
+        "allowed_usage": "Stakeholder within the course context",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PC-02",
-        "persona": "C_课程教师",
-        "claim_text": "学习平台后台、Excel",
-        "claim_kind": "当前工具",
-        "source_type": "竞品行为",
+        "persona": "C_COURSE_TEACHER",
+        "claim_text": "Learning-platform back office, Excel",
+        "claim_kind": "current_tools",
+        "source_type": "competitor_behaviour",
         "source_locator": "reports/competitor_analysis.md:60",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "常见高校教师管理工具",
-        "auditor": "审计团队"
+        "allowed_usage": "Common administration tools for university teachers",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PC-03",
-        "persona": "C_课程教师",
-        "claim_text": "无法在批改之外看到学生的具体误区分布",
-        "claim_kind": "痛点",
-        "source_type": "文献",
+        "persona": "C_COURSE_TEACHER",
+        "claim_text": "Cannot see the specific distribution of student misconceptions beyond marking",
+        "claim_kind": "pain_point",
+        "source_type": "literature",
         "source_locator": "Hattie & Timperley 2007",
         "evidence_level": "E1",
         "is_core": True,
-        "allowed_usage": "文献指出的班级共性诊断盲区",
-        "auditor": "审计团队"
+        "allowed_usage": "Class-level diagnostic blind spot identified in the literature",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PC-04",
-        "persona": "C_课程教师",
-        "claim_text": "（不直接使用）",
-        "claim_kind": "期待",
-        "source_type": "组内讨论",
+        "persona": "C_COURSE_TEACHER",
+        "claim_text": "(Not used directly)",
+        "claim_kind": "expectation",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:81",
         "evidence_level": "E1",
         "is_core": False,
-        "allowed_usage": "不直接操作系统",
-        "auditor": "审计团队"
+        "allowed_usage": "Does not operate the system directly",
+        "auditor": "Audit Team"
     },
     {
         "claim_id": "PC-05",
-        "persona": "C_课程教师",
-        "claim_text": "明确为非目标用户",
-        "claim_kind": "是否目标用户",
-        "source_type": "组内讨论",
+        "persona": "C_COURSE_TEACHER",
+        "claim_text": "Explicitly designated as a non-target user",
+        "claim_kind": "is_target_user",
+        "source_type": "team_discussion",
         "source_locator": "reports/cycle3_task_packs/01-ch1-introduction-lin-yongtong.md:84",
         "evidence_level": "E1",
         "is_core": True,
-        "allowed_usage": "明确排除出 MVP 目标用户范围（Lean Scoping）",
-        "auditor": "审计团队"
+        "allowed_usage": "Explicitly excluded from the MVP target-user scope (Lean Scoping)",
+        "auditor": "Audit Team"
     }
 ]
 
@@ -200,7 +200,7 @@ PERSONA_CLAIMS = [
 REQUIREMENT_MAPPINGS = [
     {
         "requirement_id": "R01",
-        "requirement_text": "按学科浏览题目列表并加载对应选项与陷阱标签",
+        "requirement_text": "Browse question lists by subject and load the corresponding options and trap labels",
         "moscow": "Must",
         "served_personas": "A, B",
         "served_pain_points": "PA-01, PB-01",
@@ -211,7 +211,7 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R02",
-        "requirement_text": "提交作答并记录正误状态",
+        "requirement_text": "Submit answers and record correct/incorrect status",
         "moscow": "Must",
         "served_personas": "A, B",
         "served_pain_points": "PA-03, PB-03",
@@ -222,29 +222,29 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R03",
-        "requirement_text": "选项级陷阱诊断抽屉（误区命名/错因解释/前置盲区/雷达归因）",
+        "requirement_text": "Option-level trap-diagnosis drawer (misconception naming / error-cause explanation / prerequisite blind spots / radar attribution)",
         "moscow": "Must",
         "served_personas": "A",
         "served_pain_points": "PA-03",
         "assumption_driven": True,
         "hallucination_layers": "L1, L2, L3",
-        "external_falsifiable_claim": "若学生只拿到对错二元反馈，其重复同类概念错误的概率显著高于拿到选项级归因的学生",
+        "external_falsifiable_claim": "If students receive only binary right/wrong feedback, their probability of repeating the same conceptual error is significantly higher than that of students who receive option-level attribution",
         "gap_reason": ""
     },
     {
         "requirement_id": "R04",
-        "requirement_text": "五维雷达能力趋势展示（按答题结果实时更新能力分值）",
+        "requirement_text": "Five-dimension radar ability-trend display (ability scores updated in real time from quiz results)",
         "moscow": "Must",
         "served_personas": "B",
         "served_pain_points": "PB-03, PB-04",
         "assumption_driven": True,
         "hallucination_layers": "L1",
-        "external_falsifiable_claim": "多维雷达图能够有效揭示单项总分掩盖的局部定理认知短板",
+        "external_falsifiable_claim": "A multi-dimensional radar chart can effectively reveal local theorem-related cognitive weaknesses hidden by a single aggregate score",
         "gap_reason": ""
     },
     {
         "requirement_id": "R05",
-        "requirement_text": "学情卡与薄弱知识点摘要（作答次数/掌握率/核心易错前置点）",
+        "requirement_text": "Learning-status card and weak exam-point summary (attempt count / mastery rate / core error-prone prerequisite points)",
         "moscow": "Must",
         "served_personas": "A, B",
         "served_pain_points": "PA-04, PB-04",
@@ -255,7 +255,7 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R06",
-        "requirement_text": "学号免密/密码登录与会话隔离（含预设 demo 账号快速切换）",
+        "requirement_text": "Student-ID password-free / password login with session isolation (including quick switching between preset demo accounts)",
         "moscow": "Must",
         "served_personas": "A, B",
         "served_pain_points": "PA-01, PB-01",
@@ -266,7 +266,7 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R07",
-        "requirement_text": "界面中英双语国际化切换",
+        "requirement_text": "Bilingual English/Chinese interface internationalisation toggle",
         "moscow": "Should",
         "served_personas": "A, B",
         "served_pain_points": "PA-01",
@@ -277,7 +277,7 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R08",
-        "requirement_text": "深色控制台与浅色学术双主题（符合 WCAG AA 对比度）",
+        "requirement_text": "Dark console and light academic dual themes (meeting WCAG AA contrast)",
         "moscow": "Should",
         "served_personas": "A, B",
         "served_pain_points": "PA-01",
@@ -288,69 +288,69 @@ REQUIREMENT_MAPPINGS = [
     },
     {
         "requirement_id": "R09",
-        "requirement_text": "完全离线、零外部云依赖单端口运行（StaticFiles 挂载与本地字典）",
+        "requirement_text": "Fully offline, zero external cloud dependency, single-port operation (StaticFiles mount and local dictionary)",
         "moscow": "Must",
         "served_personas": "A",
         "served_pain_points": "PA-01",
         "assumption_driven": True,
         "hallucination_layers": "L4",
-        "external_falsifiable_claim": "在离线确定性查表条件下，系统在消除网络波动的同时间接消除了自由生成面的推理幻觉",
+        "external_falsifiable_claim": "Under offline deterministic lookup, while eliminating network fluctuation the system also indirectly eliminates reasoning hallucination on the free-generation surface",
         "gap_reason": ""
     },
     {
         "requirement_id": "R10",
-        "requirement_text": "GraphRAG 离线准确率增强与基准验证",
+        "requirement_text": "GraphRAG offline accuracy enhancement and baseline validation",
         "moscow": "Should",
         "served_personas": "B",
         "served_pain_points": "PB-03",
         "assumption_driven": True,
         "hallucination_layers": "L4",
-        "external_falsifiable_claim": "在概念与法条密集学科中，先验图谱能够提供结构化约束以提高检索准确度",
+        "external_falsifiable_claim": "In concept- and statute-dense subjects, a prior knowledge graph can provide structural constraints that improve retrieval accuracy",
         "gap_reason": ""
     },
     {
         "requirement_id": "R11",
-        "requirement_text": "多租户与教师端班级监控大屏",
+        "requirement_text": "Multi-tenant and teacher-side class-monitoring dashboard",
         "moscow": "Won't",
         "served_personas": "",
         "served_pain_points": "",
         "assumption_driven": False,
         "hallucination_layers": "",
         "external_falsifiable_claim": "",
-        "gap_reason": "非核心学生闭环，超出12周零预算团队容量，已主动剪枝"
+        "gap_reason": "Not part of the core student loop; beyond the capacity of a zero-budget team in 12 weeks, so it was proactively pruned"
     },
     {
         "requirement_id": "R12",
-        "requirement_text": "移动端原生 App 开发（iOS / Android）",
+        "requirement_text": "Native mobile App development (iOS / Android)",
         "moscow": "Won't",
         "served_personas": "",
         "served_pain_points": "",
         "assumption_driven": False,
         "hallucination_layers": "",
         "external_falsifiable_claim": "",
-        "gap_reason": "Web 端已支持移动视口响应式，原生 App 维护成本高"
+        "gap_reason": "The web client already supports responsive mobile viewports, and a native App has high maintenance cost"
     },
     {
         "requirement_id": "R13",
-        "requirement_text": "社交化错题分享与讨论社区",
+        "requirement_text": "Social mistake-sharing and discussion community",
         "moscow": "Won't",
         "served_personas": "",
         "served_pain_points": "",
         "assumption_driven": False,
         "hallucination_layers": "",
         "external_falsifiable_claim": "",
-        "gap_reason": "容易引入内容审核与隐私风险，背离独立沉浸复习场景"
+        "gap_reason": "Easily introduces content-moderation and privacy risks, and conflicts with the independent immersive revision scenario"
     },
     {
         "requirement_id": "R14",
-        "requirement_text": "AI 自动实时无限出题组卷",
+        "requirement_text": "AI automatic real-time unlimited question generation and paper assembly",
         "moscow": "Won't",
         "served_personas": "",
         "served_pain_points": "",
         "assumption_driven": False,
         "hallucination_layers": "",
         "external_falsifiable_claim": "",
-        "gap_reason": "缺乏专家审核机制时极易引发高频幻觉，威胁备考严肃性"
+        "gap_reason": "Without expert review mechanisms it easily triggers high-frequency hallucination, threatening the seriousness of exam preparation"
     }
 ]
 

@@ -11,7 +11,7 @@
   <rect x="844" y="81" width="105" height="26" rx="6" fill="#334155"/>
   <text x="896" y="98" text-anchor="middle" font-size="11" fill="#e2e8f0">Theme: Dark/Light</text>
   <rect x="960" y="81" width="96" height="26" rx="6" fill="#334155"/>
-  <text x="1008" y="98" text-anchor="middle" font-size="11" fill="#e2e8f0">Lang: EN / 中文</text>
+  <text x="1008" y="98" text-anchor="middle" font-size="11" fill="#e2e8f0">Lang: EN</text>
 
   <!-- KPI Summary Cards -->
   <rect x="28" y="132" width="246" height="90" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>

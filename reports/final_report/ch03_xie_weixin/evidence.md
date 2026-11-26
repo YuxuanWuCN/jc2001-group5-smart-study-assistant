@@ -5,7 +5,7 @@
 Run from repository root (`D:\jc2001`):
 
 ```powershell
-# 1. Verify UC-01 (Question Filtering & Bilingual Fields)
+# 1. Verify UC-01 (Question Filtering & English-Only Question Schema)
 python -m pytest tests/test_quiz.py -v
 
 # 2. Verify UC-02 & UC-03 (Submit Answer, 36 Trap Diagnoses, and 404/422 Exception Flows)

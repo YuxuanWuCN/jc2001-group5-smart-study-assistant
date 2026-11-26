@@ -1,6 +1,6 @@
 # Chapter 4 Package — System Design and Architecture
 
-- **Author**: Wang Sijian (王思鉴, `50106045`)
+- **Author**: Wang Sijian (`50106045`)
 - **Role**: Software Architect
 - **Target Pages / Words**: 4.5 pages (~2,000–2,400 words; actual draft: ~2,100 words)
 - **Sections Covered**: `4.1`–`4.7`

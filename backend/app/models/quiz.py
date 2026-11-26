@@ -81,7 +81,7 @@ class GraphEdge(CamelModel):
     """Directed edge in knowledge subgraph topology."""
     from_node: str = Field(..., alias="from", description="Source node id")
     to_node: str = Field(..., alias="to", description="Target node id")
-    label: str = Field(..., description="Semantic edge label, e.g. '易错于', '保证无偏前提'")
+    label: str = Field(..., description="Semantic edge label, e.g. 'Common error', 'Premise guaranteeing unbiasedness'")
 
 
 class GraphData(CamelModel):
@@ -112,6 +112,14 @@ class QuizItem(CamelModel):
     graph: Optional[GraphData] = Field(default=None, description="Interactive knowledge subgraph topology")
     socratic_prompt: Optional[str] = Field(default=None, description="Guiding Socratic prompt")
     socraticPrompt: Optional[str] = Field(default=None, description="CamelCase alias for socratic_prompt")
+    question_type: str = Field(default="single_choice", description="Question type: single_choice or fill_blank")
+    questionType: Optional[str] = Field(default="single_choice", description="CamelCase alias for question_type")
+    knowledge_level: str = Field(default="L3", description="Knowledge ladder level: L1-L4")
+    knowledgeLevel: Optional[str] = Field(default="L3", description="CamelCase alias for knowledge_level")
+    source_ref: str = Field(default="", description="Source file and page/slide reference")
+    sourceRef: Optional[str] = Field(default="", description="CamelCase alias for source_ref")
+    blank_answers: List[str] = Field(default_factory=list, description="Accepted normalized answers for fill-blank items")
+    blankAnswers: Optional[List[str]] = Field(default_factory=list, description="CamelCase alias for blank_answers")
 
     @model_validator(mode="before")
     @classmethod
@@ -127,6 +135,22 @@ class QuizItem(CamelModel):
             prompt = data.get("socratic_prompt") or data.get("socraticPrompt")
             data["socratic_prompt"] = prompt
             data["socraticPrompt"] = prompt
+
+            qtype = data.get("question_type") or data.get("questionType") or "single_choice"
+            data["question_type"] = qtype
+            data["questionType"] = qtype
+
+            level = data.get("knowledge_level") or data.get("knowledgeLevel") or "L3"
+            data["knowledge_level"] = level
+            data["knowledgeLevel"] = level
+
+            source = data.get("source_ref") or data.get("sourceRef") or ""
+            data["source_ref"] = source
+            data["sourceRef"] = source
+
+            answers = data.get("blank_answers") or data.get("blankAnswers") or []
+            data["blank_answers"] = list(answers)
+            data["blankAnswers"] = list(answers)
             
             # Normalize hint
             hint = data.get("trap_hint") or data.get("trapHint")
@@ -159,6 +183,19 @@ class QuizItem(CamelModel):
         prompt = self.socratic_prompt or self.socraticPrompt
         self.socratic_prompt = prompt
         self.socraticPrompt = prompt
+
+        qtype = self.question_type or self.questionType or "single_choice"
+        self.question_type = qtype
+        self.questionType = qtype
+        level = self.knowledge_level or self.knowledgeLevel or "L3"
+        self.knowledge_level = level
+        self.knowledgeLevel = level
+        source = self.source_ref or self.sourceRef or ""
+        self.source_ref = source
+        self.sourceRef = source
+        answers = self.blank_answers or self.blankAnswers or []
+        self.blank_answers = list(answers)
+        self.blankAnswers = list(answers)
 
         # Synchronize trap hints
         th = self.trap_hint or self.trapHint

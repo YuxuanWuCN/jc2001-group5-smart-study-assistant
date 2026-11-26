@@ -5,15 +5,26 @@ Never returns unhandled 500 exceptions.
 """
 
 import logging
-from typing import Optional, List
+import re
+from typing import Optional, List, Tuple
 import httpx
 
 from backend.app.config import settings
 from backend.app.models.quiz import QuizItem, TrapDetail, OptionItem
 from backend.app.models.diagnose import DiagnoseRequest, DiagnoseResponse
 from backend.app.services.quiz_service import quiz_service
+from backend.app.services.report_service import report_service
 
 logger = logging.getLogger("diagnostic_engine")
+
+
+def _normalize_blank_answer(value: Optional[str]) -> str:
+    """Normalize fill-in-the-blank answers for case- and delimiter-tolerant matching."""
+    text = str(value or "").strip().lower()
+    text = re.sub(r"[,;:/]", ",", text)
+    text = text.replace("−", "-")
+    text = re.sub(r"\s+", " ", text)
+    return text
 
 
 class DiagnosticService:
@@ -42,18 +53,20 @@ class DiagnosticService:
         }
 
         system_prompt = (
-            "你是一个严谨深刻的大学学科苏格拉底式启发导师。"
-            "你的任务是针对学生做题时踩中的认知陷阱与前置盲区进行启发性提问引导。"
-            "绝对死命令：1. 严禁直接说出正确答案字母；2. 紧扣考点前置定理与易错盲区；"
-            "3. 采用追问方式启发学生反思，语言亲和但学术严谨，字数严格控制在 120 字以内。"
+            "You are a rigorous and incisive Socratic tutor for university subjects. "
+            "Your task is to ask probing, guiding questions about the cognitive traps and prerequisite blind spots "
+            "that students hit while answering questions. "
+            "Absolute commands: 1. Never state the correct option letter directly; 2. Stay anchored to the prerequisite "
+            "theorems and common-error blind spots of the examination point; 3. Use follow-up questioning to prompt "
+            "students to reflect, in an approachable yet academically rigorous tone, strictly within 120 words."
         )
 
         user_content = (
-            f"【题目内容】：{question.stem}\n"
-            f"【学生误选】：选项 {selected_key}\n"
-            f"【出题陷阱】：{trap_title}\n"
-            f"【知识盲区/先修定理】：{prerequisite}\n"
-            "请给出一段不剧透答案的苏格拉底式追问与点拨："
+            f"[Question stem]: {question.stem}\n"
+            f"[Student's wrong choice]: option {selected_key}\n"
+            f"[Trap set by the examiner]: {trap_title}\n"
+            f"[Knowledge blind spot / prerequisite]: {prerequisite}\n"
+            "Now give a Socratic follow-up and hint that does not reveal the answer:"
         )
 
         payload = {
@@ -85,6 +98,42 @@ class DiagnosticService:
                 logger.warning(f"DashScope API returned HTTP {resp.status_code}: {resp.text}")
         return None
 
+    async def _resolve_socratic_guidance(
+        self,
+        question: QuizItem,
+        selected_key: str,
+        trap_title: str,
+        prerequisite: str,
+        fallback_socratic: str,
+        include_socratic: bool
+    ) -> Tuple[str, bool, str]:
+        """Attempt live Qwen Socratic rephrasing when enabled, falling back safely offline."""
+        socratic_text: Optional[str] = None
+        model_used = "local-knowledge-seed"
+        fallback_mode = True
+
+        if settings.has_api_key and include_socratic:
+            try:
+                socratic_text = await self._call_dashscope_qwen(
+                    question=question,
+                    selected_key=selected_key,
+                    trap_title=trap_title,
+                    prerequisite=prerequisite
+                )
+                if socratic_text and socratic_text.strip():
+                    fallback_mode = False
+                    model_used = settings.QWEN_MODEL
+            except Exception as e:
+                logger.warning(f"Live Qwen LLM call exception ({e}), engaging local seed fallback.")
+                socratic_text = None
+
+        if not socratic_text:
+            socratic_text = fallback_socratic
+            fallback_mode = True
+            model_used = "local-knowledge-seed"
+
+        return socratic_text, fallback_mode, model_used
+
     async def diagnose_answer(self, req: DiagnoseRequest) -> DiagnoseResponse:
         """
         Main asynchronous diagnostic entrypoint.
@@ -95,7 +144,7 @@ class DiagnosticService:
             q_id = req.question_id
             question = quiz_service.get_question_by_id(q_id)
             
-            # If not found by given ID, attempt fallback to first question
+            # If not found by given ID, return graceful safe fallback without polluting telemetry
             if not question:
                 logger.warning(f"Question id '{q_id}' not found in database, using graceful safe fallback.")
                 return DiagnoseResponse(
@@ -103,23 +152,127 @@ class DiagnosticService:
                     question_id=q_id or "unknown",
                     selected_key=req.selected_key or "A",
                     correct_key="B",
-                    explanation="未能定位到指定题目编号，系统已启动知识本体应急兜底模式。",
+                    explanation="Could not locate the specified question id, so the system has engaged the knowledge-ontology emergency fallback mode.",
                     trap_id="trap_fallback",
-                    trap_title="🚨 题目检索未命中",
-                    trap_name="题目检索未命中",
-                    concept_name="概念边界检索与匹配",
-                    misconception="未在题库索引中匹配到题目编号",
-                    prerequisite="系统题目本体完整性",
+                    trap_title="🚨 Question lookup miss",
+                    trap_name="Question lookup miss",
+                    concept_name="Concept boundary retrieval and matching",
+                    misconception="No matching question id was found in the question-bank index",
+                    prerequisite="System question-ontology integrity",
                     radar_dimension="boundary",
                     score_delta=-2,
-                    socratic_guidance="请检查题目索引是否有效，请尝试从该学科的基础概念定理出发进行推导。",
-                    socratic_hint="请检查题目索引是否有效，请尝试从该学科的基础概念定理出发进行推导。",
-                    knowledge_nodes=["概念检索", "基础假定"],
+                    socratic_guidance="Please check that the question index is valid, and try deriving from the foundational conceptual theorems of this subject.",
+                    socratic_hint="Please check that the question index is valid, and try deriving from the foundational conceptual theorems of this subject.",
+                    knowledge_nodes=["Concept retrieval", "Basic assumptions"],
                     fallback_mode=True,
                     model_used="local-safe-fallback"
                 )
 
-            # 2. Determine selected option key
+            # Extract graph concept nodes if available
+            knowledge_nodes: List[str] = []
+            if question.graph and question.graph.nodes:
+                knowledge_nodes = [node.label for node in question.graph.nodes]
+            elif question.tag:
+                knowledge_nodes = [question.tag]
+
+            # 2a. Handle fill-in-the-blank items
+            if question.question_type == "fill_blank":
+                raw_text = (
+                    req.user_answer_text
+                    if req.user_answer_text is not None
+                    else (req.selected_key or req.selected_option or "")
+                )
+                accepted_raw = list(question.blank_answers or [])
+                if not accepted_raw and question.answer:
+                    accepted_raw = [question.answer]
+
+                norm_input = _normalize_blank_answer(raw_text)
+                is_correct = bool(norm_input) and any(
+                    _normalize_blank_answer(ans) == norm_input for ans in accepted_raw
+                )
+                canonical_answer = question.answer or (accepted_raw[0] if accepted_raw else "")
+
+                if is_correct:
+                    report_service.record_attempt(
+                        subject=question.subject,
+                        question_id=question.id,
+                        is_correct=True,
+                        trap_name=None,
+                        concept_name=question.tag or "Core concept",
+                        recommendation="",
+                        radar_dimension="recall",
+                        score_delta=5
+                    )
+                    guidance = question.explanation or "The blank answer matched the core concept exactly!"
+                    return DiagnoseResponse(
+                        is_correct=True,
+                        question_id=question.id,
+                        selected_key=raw_text.strip(),
+                        correct_key=canonical_answer,
+                        explanation=question.explanation,
+                        trap_id=None,
+                        trap_title=None,
+                        trap_name=None,
+                        concept_name=question.tag or "Examination concept matched exactly",
+                        misconception=None,
+                        prerequisite="Mastered the definition of this core concept",
+                        radar_dimension="recall",
+                        score_delta=5,
+                        socratic_guidance=guidance,
+                        socratic_hint=guidance,
+                        knowledge_nodes=knowledge_nodes,
+                        fallback_mode=False,
+                        model_used="rule-evaluation"
+                    )
+
+                trap_title = "🚨 Concept blank-answer wording deviation"
+                prerequisite = question.tag or "Course foundational concept"
+                misconception = f"The submitted answer deviates from the standard formulation (reference answer: {canonical_answer})."
+                fallback_socratic = (
+                    question.socratic_prompt
+                    or question.explanation
+                    or "Please review the core definition and standard terminology of this examination point."
+                )
+                socratic_text, fallback_mode, model_used = await self._resolve_socratic_guidance(
+                    question=question,
+                    selected_key=raw_text.strip() or "(empty)",
+                    trap_title=trap_title,
+                    prerequisite=prerequisite,
+                    fallback_socratic=fallback_socratic,
+                    include_socratic=req.include_socratic
+                )
+                report_service.record_attempt(
+                    subject=question.subject,
+                    question_id=question.id,
+                    is_correct=False,
+                    trap_name=trap_title,
+                    concept_name=prerequisite,
+                    recommendation=question.explanation or prerequisite,
+                    radar_dimension="precision",
+                    score_delta=-5
+                )
+                return DiagnoseResponse(
+                    is_correct=False,
+                    question_id=question.id,
+                    selected_key=raw_text.strip(),
+                    correct_key=canonical_answer,
+                    explanation=question.explanation,
+                    trap_id=f"trap_blank_{question.id}",
+                    trap_title=trap_title,
+                    trap_name=trap_title,
+                    concept_name=prerequisite,
+                    misconception=misconception,
+                    prerequisite=prerequisite,
+                    radar_dimension="precision",
+                    score_delta=-5,
+                    socratic_guidance=socratic_text,
+                    socratic_hint=socratic_text,
+                    knowledge_nodes=knowledge_nodes,
+                    fallback_mode=fallback_mode,
+                    model_used=model_used
+                )
+
+            # 2b. Determine selected option key for multiple-choice items
             selected_key = (req.selected_key or req.selected_option or "A").strip().upper()
             
             # 3. Locate correct option and student option
@@ -142,15 +295,18 @@ class DiagnosticService:
             correct_key = correct_opt.key.upper() if correct_opt else (question.answer or "A").upper()
             is_correct = (selected_key == correct_key)
 
-            # Extract graph concept nodes if available
-            knowledge_nodes: List[str] = []
-            if question.graph and question.graph.nodes:
-                knowledge_nodes = [node.label for node in question.graph.nodes]
-            elif question.tag:
-                knowledge_nodes = [question.tag]
-
             # 4. Handle correct option
             if is_correct:
+                report_service.record_attempt(
+                    subject=question.subject,
+                    question_id=question.id,
+                    is_correct=True,
+                    trap_name=None,
+                    concept_name=question.tag or "Core concept",
+                    recommendation="",
+                    radar_dimension="trapDefense",
+                    score_delta=5
+                )
                 return DiagnoseResponse(
                     is_correct=True,
                     question_id=question.id,
@@ -160,20 +316,19 @@ class DiagnosticService:
                     trap_id=None,
                     trap_title=None,
                     trap_name=None,
-                    concept_name="考点概念精准命中",
+                    concept_name="Examination concept matched exactly",
                     misconception=None,
-                    prerequisite="已完全掌握该知识点核心定理与边界条件",
+                    prerequisite="Fully mastered the core theorem and boundary conditions of this knowledge point",
                     radar_dimension="trapDefense",
                     score_delta=5,
-                    socratic_guidance="太棒了！考点精准命中，成功避开出题陷阱！基础概念牢固度与陷阱防御指数均已提升。",
-                    socratic_hint="太棒了！考点精准命中，成功避开出题陷阱！基础概念牢固度与陷阱防御指数均已提升。",
+                    socratic_guidance="Excellent! The examination point was hit precisely and the trap was successfully avoided! Both the solidity of your foundational concepts and your trap-defence index have improved.",
+                    socratic_hint="Excellent! The examination point was hit precisely and the trap was successfully avoided! Both the solidity of your foundational concepts and your trap-defence index have improved.",
                     knowledge_nodes=knowledge_nodes,
                     fallback_mode=False,
                     model_used="rule-evaluation"
                 )
 
             # 5. Handle incorrect option (distractor trap hit)
-            # Find matched trap
             trap_id = student_opt.trap_id if student_opt and student_opt.trap_id else None
             trap: Optional[TrapDetail] = None
             if trap_id and question.traps and trap_id in question.traps:
@@ -182,39 +337,35 @@ class DiagnosticService:
                 trap_id = next(iter(question.traps.keys()))
                 trap = question.traps[trap_id]
 
-            trap_title = trap.title if trap else "🚨 核心概念理解偏差陷阱"
-            misconception = trap.desc if trap else "该选项触碰了该学科考点的典型认知盲区。"
-            prerequisite = trap.prereq if trap else (question.tag or "先修定理前置与概念边界")
+            trap_title = trap.title if trap else "🚨 Core-concept comprehension deviation trap"
+            misconception = trap.desc if trap else "This option touches a typical cognitive blind spot of this subject's examination point."
+            prerequisite = trap.prereq if trap else (question.tag or "Prerequisite theorems and conceptual boundaries")
             radar_dim = trap.radar_hit if trap else "trapDefense"
             fallback_socratic = (
                 question.socratic_prompt 
-                or (trap.desc if trap else "请回忆相关先修定理的严格数学或法理边界条件。")
+                or (trap.desc if trap else "Recall the strict mathematical or legal boundary conditions of the relevant prerequisite theorem.")
             )
 
             # 6. Dual-Mode Evaluation: Attempt Live LLM with timeout, else Graceful Fallback
-            socratic_text: Optional[str] = None
-            model_used = "local-knowledge-seed"
-            fallback_mode = True
+            socratic_text, fallback_mode, model_used = await self._resolve_socratic_guidance(
+                question=question,
+                selected_key=selected_key,
+                trap_title=trap_title,
+                prerequisite=prerequisite,
+                fallback_socratic=fallback_socratic,
+                include_socratic=req.include_socratic
+            )
 
-            if settings.has_api_key and req.include_socratic:
-                try:
-                    socratic_text = await self._call_dashscope_qwen(
-                        question=question,
-                        selected_key=selected_key,
-                        trap_title=trap_title,
-                        prerequisite=prerequisite
-                    )
-                    if socratic_text and socratic_text.strip():
-                        fallback_mode = False
-                        model_used = settings.QWEN_MODEL
-                except Exception as e:
-                    logger.warning(f"Live Qwen LLM call exception ({e}), engaging local seed fallback.")
-                    socratic_text = None
-
-            if not socratic_text:
-                socratic_text = fallback_socratic
-                fallback_mode = True
-                model_used = "local-knowledge-seed"
+            report_service.record_attempt(
+                subject=question.subject,
+                question_id=question.id,
+                is_correct=False,
+                trap_name=trap_title,
+                concept_name=prerequisite,
+                recommendation=misconception,
+                radar_dimension=radar_dim,
+                score_delta=-5
+            )
 
             return DiagnoseResponse(
                 is_correct=False,
@@ -245,18 +396,18 @@ class DiagnosticService:
                 question_id=getattr(req, "question_id", "unknown"),
                 selected_key=getattr(req, "selected_key", "A") or "A",
                 correct_key="B",
-                explanation="诊断服务处于高可用应急兜底模式，解析正常生效。",
+                explanation="The diagnostic service is in high-availability emergency fallback mode; parsing continues to work normally.",
                 trap_id="trap_failsafe",
-                trap_title="🚨 高可用安全兜底",
-                trap_name="高可用安全兜底",
-                concept_name="系统容灾高可用性",
-                misconception="服务遇到偶发未知扰动，已完成毫秒级无损降级",
-                prerequisite="系统鲁棒性与异常隔离原则",
+                trap_title="🚨 High-availability safety net",
+                trap_name="High-availability safety net",
+                concept_name="System disaster-recovery high availability",
+                misconception="The service encountered an occasional unknown perturbation and completed millisecond-level lossless degradation",
+                prerequisite="System robustness and exception-isolation principles",
                 radar_dimension="trapDefense",
                 score_delta=0,
-                socratic_guidance="请思考该题考查的核心定义，结合排除法分析各选项的内在逻辑合理性。",
-                socratic_hint="请思考该题考查的核心定义，结合排除法分析各选项的内在逻辑合理性。",
-                knowledge_nodes=["高可用兜底"],
+                socratic_guidance="Think about the core definition this question tests, and use elimination to analyse the internal logical plausibility of each option.",
+                socratic_hint="Think about the core definition this question tests, and use elimination to analyse the internal logical plausibility of each option.",
+                knowledge_nodes=["High-availability safety net"],
                 fallback_mode=True,
                 model_used="local-failsafe-shield"
             )

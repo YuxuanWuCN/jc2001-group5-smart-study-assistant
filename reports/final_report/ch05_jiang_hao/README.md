@@ -1,6 +1,6 @@
 # Chapter 5.1–5.2 Package — Technologies, Software Structure & API Contracts
 
-- **Author**: Jiang Hao (江昊, `50106065`)
+- **Author**: Jiang Hao (`50106065`)
 - **Role**: PoC Lead Developer
 - **Sections Covered**: `5.1` (*Technologies, Tools, Frameworks and Software Structure*) & `5.2` (*API Contracts and Domain Model*)
 

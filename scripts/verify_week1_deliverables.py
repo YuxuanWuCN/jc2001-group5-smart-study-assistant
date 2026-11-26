@@ -3,7 +3,7 @@
 """
 JC2001 Software Engineering Week 1 - Deliverables Quality Gate & Verification Suite
 Course: JC2001 Introduction to Software Engineering (2026–27)
-Group:  Group 5 (BSc BMIS, 10 members, Leader: 吴宇轩 50106070)
+Group:  Group 5 (BSc BMIS, 10 members, Leader: Yuxuan Wu 50106070)
 Target: scripts/verify_week1_deliverables.py
 Milestone: Milestone 5 - Automated Verification & Quality Gate
 
@@ -41,21 +41,21 @@ if sys.platform == "win32":
 # Domain Constants & Specifications
 # ==============================================================================
 
-# Official 10-Member Team Roster (Chinese Name, English Pinyin, Student ID, Role)
+# Official 10-Member Team Roster (Surname-first name, Western-order name, Student ID, Role)
 ROSTER: List[Tuple[str, str, str, str]] = [
-    ("吴宇轩", "Yuxuan Wu", "50106070", "Project Manager & Team Lead"),
-    ("林泳桐", "Yongtong Lin", "50106038", "Principal Concept Co-Originator & Lead Domain Analyst"),
-    ("王思鉴", "Sijian Wang", "50106045", "System Architect (UML & Knowledge Graph)"),
-    ("江昊", "Hao Jiang", "50106065", "PoC Lead Developer (GraphRAG & Neo4j Engine)"),
-    ("谢炜昕", "Weixin Xie", "50106034", "Principal Concept Co-Originator & QA Lead"),
-    ("张梓健", "Zijian Zhang", "50106035", "Business Analyst (User Stories & Acceptance)"),
-    ("习羽赛", "Yusai Xi", "50105989", "UI/UX Designer & Wireframe Lead"),
-    ("董思钦", "Siqin Dong", "50106060", "PoC Logic Developer (Diagnostic API & Quiz)"),
-    ("杨明杰", "Mingjie Yang", "50106061", "Software Testing & User Manual Lead"),
-    ("梁子铉", "Zixuan Liang", "50106037", "Presentation, Media & Deployment Lead"),
+    ("Wu Yuxuan", "Yuxuan Wu", "50106070", "Project Manager & Team Lead"),
+    ("Lin Yongtong", "Yongtong Lin", "50106038", "Principal Concept Co-Originator & Lead Domain Analyst"),
+    ("Wang Sijian", "Sijian Wang", "50106045", "System Architect (UML & Knowledge Graph)"),
+    ("Jiang Hao", "Hao Jiang", "50106065", "PoC Lead Developer (GraphRAG & Neo4j Engine)"),
+    ("Xie Weixin", "Weixin Xie", "50106034", "Principal Concept Co-Originator & QA Lead"),
+    ("Zhang Zijian", "Zijian Zhang", "50106035", "Business Analyst (User Stories & Acceptance)"),
+    ("Xi Yusai", "Yusai Xi", "50105989", "UI/UX Designer & Wireframe Lead"),
+    ("Dong Siqin", "Siqin Dong", "50106060", "PoC Logic Developer (Diagnostic API & Quiz)"),
+    ("Yang Mingjie", "Mingjie Yang", "50106061", "Software Testing & User Manual Lead"),
+    ("Liang Zixuan", "Zixuan Liang", "50106037", "Presentation, Media & Deployment Lead"),
 ]
 
-LEADER_NAME = "吴宇轩"
+LEADER_NAME = "Wu Yuxuan"
 LEADER_PINYIN = "Yuxuan Wu"
 LEADER_ID = "50106070"
 
@@ -258,7 +258,7 @@ class DeliverablesVerifier:
                 ):
                     continue
 
-                # Whitelist Cypher relationship definitions like [:DEPENDS_ON {type: "易错于"}]
+                # Whitelist Cypher relationship definitions like [:DEPENDS_ON {type: "PRONE_TO"}]
                 if inner.startswith(":") or "DEPENDS_ON" in inner:
                     continue
 
@@ -487,17 +487,17 @@ class DeliverablesVerifier:
                 res.add_warning(f"Could not inspect PDF for roster: {e}")
 
         # Check Leader assignment
-        leader_p1_match = re.search(r"(?:吴宇轩|Yuxuan Wu).*?(?:Leader|Project Manager|PM)", p1_text, re.IGNORECASE)
+        leader_p1_match = re.search(r"(?:Wu Yuxuan|Yuxuan Wu).*?(?:Leader|Project Manager|PM)", p1_text, re.IGNORECASE)
         if not leader_p1_match:
             res.add_error(f"Leader {LEADER_NAME} / {LEADER_PINYIN} ({LEADER_ID}) not explicitly designated as Team Leader / PM in practical1_deliverables.md")
         else:
-            res.add_detail("Leader Yuxuan Wu (吴宇轩) verified as Project Manager & Team Lead in practical1_deliverables.md")
+            res.add_detail("Leader Yuxuan Wu (Wu Yuxuan) verified as Project Manager & Team Lead in practical1_deliverables.md")
 
-        leader_prop_match = re.search(r"(?:吴宇轩|Yuxuan Wu).*?(?:Leader|Project Manager|PM)", prop_md_text, re.IGNORECASE)
+        leader_prop_match = re.search(r"(?:Wu Yuxuan|Yuxuan Wu).*?(?:Leader|Project Manager|PM)", prop_md_text, re.IGNORECASE)
         if not leader_prop_match:
             res.add_error(f"Leader {LEADER_NAME} / {LEADER_PINYIN} ({LEADER_ID}) not explicitly designated as Team Leader / PM in reports/project_proposal.md")
         else:
-            res.add_detail("Leader Yuxuan Wu (吴宇轩) verified as Project Manager & Team Lead in reports/project_proposal.md")
+            res.add_detail("Leader Yuxuan Wu (Wu Yuxuan) verified as Project Manager & Team Lead in reports/project_proposal.md")
 
         return res
 
@@ -571,7 +571,7 @@ class DeliverablesVerifier:
                 res.add_error(f"Topic definition missing core element: '{label}'")
         res.add_detail("4-Element Topic Definition verified (WHAT, WHO, Constraints, Long-Term Vision)")
 
-        # Sub-check 4: Supervisor email draft from Leader 吴宇轩
+        # Sub-check 4: Supervisor email draft from Leader Yuxuan Wu
         if "## 5. Formal Academic Email Draft to Academic Supervisor" not in p1_text:
             res.add_error("Section 5 'Email Draft to Academic Supervisor' missing in practical1_deliverables.md")
         else:
@@ -582,7 +582,7 @@ class DeliverablesVerifier:
                 res.add_error("Kick-Off meeting request missing from supervisor email draft")
             if "Option A" not in email_section or "Option B" not in email_section:
                 res.add_error("Proposed meeting time slots (Options A, B, C) missing from supervisor email")
-            res.add_detail("Formal supervisor kick-off meeting email draft from Leader 吴宇轩 verified")
+            res.add_detail("Formal supervisor kick-off meeting email draft from Leader Yuxuan Wu verified")
 
         return res
 
@@ -628,7 +628,7 @@ class DeliverablesVerifier:
             ("GraphRAG", r"\bGraphRAG\b"),
             ("Neo4j", r"\bNeo4j\b"),
             ("Qwen-Turbo or DashScope", r"Qwen-Turbo|DashScope"),
-            ("Misconception Relation", r"PRONE_TO_MISCONCEPTION|易错于"),
+            ("Misconception Relation", r"PRONE_TO_MISCONCEPTION|PRONE_TO"),
             ("SMART Objectives", r"\bSMART\b"),
             ("Deadline (14 December 2026)", r"14 December 2026"),
             ("WBS Table", r"WBS\s+1\.1"),
@@ -667,7 +667,7 @@ class DeliverablesVerifier:
         print("=" * 78)
         print("  JC2001 INTRODUCTION TO SOFTWARE ENGINEERING (2026–27)")
         print("  WEEK 1 DELIVERABLES AUTOMATED VERIFICATION & QUALITY GATE")
-        print("  Group: Group 5 (BSc BMIS) | Team Leader: 吴宇轩 (50106070)")
+        print("  Group: Group 5 (BSc BMIS) | Team Leader: Yuxuan Wu (50106070)")
         print("=" * 78)
         print(f"Working Directory: {self.root_dir}\n")
 

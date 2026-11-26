@@ -60,8 +60,8 @@ class ReportSummaryResponse(CamelModel):
     cognitiveScore: Optional[float] = Field(50.0, description="CamelCase alias for cognitive_score")
     streak_days: int = Field(default=1, description="Active study streak in days")
     streakDays: Optional[int] = Field(1, description="CamelCase alias for streak_days")
-    data_source: str = Field(default="session_telemetry", description="Provenance marker: session_telemetry, seed_baseline, or mock")
-    dataSource: Optional[str] = Field("session_telemetry", description="CamelCase alias for data_source")
+    data_source: str = Field(default="demo_baseline", description="Provenance marker: live_session_telemetry, demo_baseline, or demo_baseline (empty)")
+    dataSource: Optional[str] = Field("demo_baseline", description="CamelCase alias for data_source")
     generated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat(), description="ISO 8601 generation timestamp")
     generatedAt: Optional[str] = Field(None, description="CamelCase alias for generated_at")
     weak_points: List[WeakPointItem] = Field(default_factory=list, description="Top diagnosed misconception bottlenecks")
@@ -155,8 +155,8 @@ class ReportTrendResponse(CamelModel):
         default_factory=list,
         description="CamelCase alias for trap_distribution"
     )
-    data_source: str = Field(default="session_telemetry", description="Data provenance marker")
-    dataSource: Optional[str] = Field("session_telemetry", description="CamelCase alias for data_source")
+    data_source: str = Field(default="demo_baseline", description="Data provenance marker: live_session_telemetry, demo_baseline, or demo_baseline (empty)")
+    dataSource: Optional[str] = Field("demo_baseline", description="CamelCase alias for data_source")
     generated_at: str = Field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(),
         description="ISO 8601 generation timestamp"
@@ -171,7 +171,7 @@ class ReportTrendResponse(CamelModel):
             data["trap_distribution"] = td
             data["trapDistribution"] = td
 
-            ds = data.get("data_source") if "data_source" in data else data.get("dataSource", "session_telemetry")
+            ds = data.get("data_source") if "data_source" in data else data.get("dataSource", "demo_baseline")
             data["data_source"] = ds
             data["dataSource"] = ds
 

@@ -4,7 +4,7 @@
 JC2001 Software Engineering Week 1 - Comprehensive Team Review Pack Generator
 Course: JC2001 Introduction to Software Engineering (2026-27)
 Group: Group 5 (BSc BMIS, 10 Members)
-Team Leader: 吴宇轩 (Yuxuan Wu) | Student ID: 50106070
+Team Leader: Yuxuan Wu | Student ID: 50106070
 Deliverable Target: reports/week1_team_review_pack.pdf
 
 This standalone Python generator compiles a dedicated, polished, professional
@@ -493,7 +493,7 @@ class ReviewPackDocxBuilder:
         meta_table = self.doc.add_table(rows=3, cols=2)
         meta_data = [
             ("Course & Group: JC2001 (2026–27) | Group 5 (BSc BMIS)", "Academic Supervisor: Dr. Shahzad Mumtaz (shahzad.mumtaz@abdn.ac.uk)"),
-            ("Team Leader: 吴宇轩 (50106070) | u11yw25@abdn.ac.uk", "Next Hard Milestone: Proposal Submission (Fri 25 Sep 2026, 23:59 CST)"),
+            ("Team Leader: Yuxuan Wu (50106070) | u11yw25@abdn.ac.uk", "Next Hard Milestone: Proposal Submission (Fri 25 Sep 2026, 23:59 CST)"),
             ("Review Issue Date: Wednesday, 16 September 2026", "Overall Review Status: 100% CONFIRMED & APPROVED by All 10 Members"),
         ]
         for row_idx, (col1, col2) in enumerate(meta_data):
@@ -526,7 +526,7 @@ class ReviewPackDocxBuilder:
             self.doc,
             "During Week 1 of **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**, "
             "**Group 5** successfully completed all preparatory, organizational, analytical, and authoring deliverables. "
-            "Under the leadership of Project Manager **吴宇轩 (50106070)**, the ten undergraduate members from the "
+            "Under the leadership of Project Manager **Yuxuan Wu (50106070)**, the ten undergraduate members from the "
             "**BSc Business Management and Information Systems (BSc BMIS)** programme formulated an academically rigorous, "
             "empirically grounded project proposal centered on a novel educational intelligence architecture: "
             "the **Smart Study Assistant System** driven by **GraphRAG and Neo4j knowledge graphs**."
@@ -576,7 +576,7 @@ class ReviewPackDocxBuilder:
                 "• **Submission Portal**: University of Aberdeen MyAberdeen JC2001 Assessment Portal.",
                 "• **Target Artifact**: `reports/project_proposal.pdf` (Dual-format compiled PDF).",
                 "• **Strict Penalty Policy**: Submissions after 23:59 CST incur a late deduction of up to **10%** from the overall course grade.",
-                "• **Submission Governance**: Project Manager **吴宇轩** executes formal upload. QA Lead **谢炜昕** conducts Turnitin similarity and formatting pre-checks at 18:00 CST on 25 September.",
+                "• **Submission Governance**: Project Manager **Yuxuan Wu** executes formal upload. QA Lead **Weixin Xie** conducts Turnitin similarity and formatting pre-checks at 18:00 CST on 25 September.",
             ],
             bg_hex="FEF3C7",
             border_hex="D97706",
@@ -658,16 +658,16 @@ class ReviewPackDocxBuilder:
             roster_table.cell(0, c_idx).paragraphs[0].text = h
 
         roster_data = [
-            ("1", "吴宇轩 (Yuxuan Wu)", "50106070", "Project Manager & Team Lead", "u11yw25@abdn.ac.uk"),
-            ("2", "林泳桐 (Yongtong Lin)", "50106038", "Lead Business Analyst (Requirements Capture)", "u19yl25@abdn.ac.uk"),
-            ("3", "王思鉴 (Sijian Wang)", "50106045", "System Architect (UML & Knowledge Graph)", "u14sw25@abdn.ac.uk"),
-            ("4", "江昊 (Hao Jiang)", "50106065", "PoC Lead Developer (GraphRAG & Neo4j Engine)", "h.jiang.25@abdn.ac.uk"),
-            ("5", "谢炜昕 (Weixin Xie)", "50106034", "QA & Technical Report Lead", "u02wx25@abdn.ac.uk"),
-            ("6", "张梓健 (Zijian Zhang)", "50106035", "Business Analyst (User Stories & Acceptance)", "u17zz25@abdn.ac.uk"),
-            ("7", "习羽赛 (Yusai Xi)", "50105989", "UI/UX Designer & Wireframe Lead", "u02yx25@abdn.ac.uk"),
-            ("8", "董思钦 (Siqin Dong)", "50106060", "PoC Logic Developer (Diagnostic API & Quiz)", "u20sd25@abdn.ac.uk"),
-            ("9", "杨明杰 (Mingjie Yang)", "50106061", "Software Testing & User Manual Lead", "u05my25@abdn.ac.uk"),
-            ("10", "梁子铉 (Zixuan Liang)", "50106037", "Presentation, Media & Deployment Lead", "u14zl25@abdn.ac.uk"),
+            ("1", "Yuxuan Wu", "50106070", "Project Manager & Team Lead", "u11yw25@abdn.ac.uk"),
+            ("2", "Yongtong Lin", "50106038", "Lead Business Analyst (Requirements Capture)", "u19yl25@abdn.ac.uk"),
+            ("3", "Sijian Wang", "50106045", "System Architect (UML & Knowledge Graph)", "u14sw25@abdn.ac.uk"),
+            ("4", "Hao Jiang", "50106065", "PoC Lead Developer (GraphRAG & Neo4j Engine)", "h.jiang.25@abdn.ac.uk"),
+            ("5", "Weixin Xie", "50106034", "QA & Technical Report Lead", "u02wx25@abdn.ac.uk"),
+            ("6", "Zijian Zhang", "50106035", "Business Analyst (User Stories & Acceptance)", "u17zz25@abdn.ac.uk"),
+            ("7", "Yusai Xi", "50105989", "UI/UX Designer & Wireframe Lead", "u02yx25@abdn.ac.uk"),
+            ("8", "Siqin Dong", "50106060", "PoC Logic Developer (Diagnostic API & Quiz)", "u20sd25@abdn.ac.uk"),
+            ("9", "Mingjie Yang", "50106061", "Software Testing & User Manual Lead", "u05my25@abdn.ac.uk"),
+            ("10", "Zixuan Liang", "50106037", "Presentation, Media & Deployment Lead", "u14zl25@abdn.ac.uk"),
         ]
 
         for r_idx, row_vals in enumerate(roster_data, start=1):
@@ -714,16 +714,16 @@ class ReviewPackDocxBuilder:
             matrix_table.cell(0, c_idx).paragraphs[0].text = h
 
         matrix_data = [
-            ("吴宇轩\n50106070", "Project Manager & Team Lead", "Governance, proposal coordination, supervisor kickoff lead, WBS management", "Sprint planning, risk register, Project Update 1 submission lead, UML cross-check", "PoC build integration, API rate-limit monitoring, Project Updates 2 & 3 authoring", "Final Technical Report executive review, workload profile arbitration, submission packaging"),
-            ("林泳桐\n50106038", "Lead Business Analyst", "**Phase 1 Lead**: Stakeholder pain points, requirements analysis, Section 2 & 3 drafting", "Requirements specification, Use Case diagrams, Traceability Matrix", "Requirements validation, edge-case testing, Socratic dialogue pedagogical review", "Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review"),
-            ("王思鉴\n50106045", "System Architect", "Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope", "**Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design", "Graph database indexing, Cypher schema optimization, AuraDB cloud management", "Technical Report authoring (System Architecture & Design sections), architectural figures"),
-            ("江昊\n50106065", "PoC Lead Developer", "Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation", "Core retrieval pipeline design, Cypher graph traversal algorithms", "**Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter", "Technical Report authoring (Implementation chapters), code structure documentation"),
-            ("谢炜昕\n50106034", "QA & Report Lead", "Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations", "Test strategy formulation, UML consistency audit, quality metrics definition", "Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis", "**Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile"),
-            ("张梓健\n50106035", "Business Analyst", "User persona formulation, student survey analysis on exam stress, Section 5 Benefits drafting", "**Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions", "User acceptance testing (UAT), student feedback loop coordination, quiz usability checks", "Technical Report authoring (Evaluation & User Testing sections), user survey analysis"),
-            ("习羽赛\n50105989", "UI/UX Designer", "Initial interface concept wireframing, user journey mapping, proposal UI figures", "High-fidelity interactive wireframes (Figma), component token library, design guidelines", "Frontend interface implementation, responsive ECharts radar integration, dark/light themes", "Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation"),
-            ("董思钦\n50106060", "PoC Logic Developer", "Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives", "RESTful API endpoint design, diagnostic JSON schema specification", "**Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm", "Technical Report authoring (Algorithms & Testing chapters), API reference documentation"),
-            ("杨明杰\n50106061", "Testing & Manual Lead", "Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest)", "Test case design, boundary condition planning, stress test scenario scripting", "Automated unit test execution, HTTP 429 backoff testing, integration test logging", "**Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report"),
-            ("梁子铉\n50106037", "Presentation & Media Lead", "Team communication infrastructure setup, presentation timeline planning, media assets", "Demonstration scenario scripting, deployment containerization (Docker / Render), audio design", "Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging", "**Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx)"),
+            ("Yuxuan Wu\n50106070", "Project Manager & Team Lead", "Governance, proposal coordination, supervisor kickoff lead, WBS management", "Sprint planning, risk register, Project Update 1 submission lead, UML cross-check", "PoC build integration, API rate-limit monitoring, Project Updates 2 & 3 authoring", "Final Technical Report executive review, workload profile arbitration, submission packaging"),
+            ("Yongtong Lin\n50106038", "Lead Business Analyst", "**Phase 1 Lead**: Stakeholder pain points, requirements analysis, Section 2 & 3 drafting", "Requirements specification, Use Case diagrams, Traceability Matrix", "Requirements validation, edge-case testing, Socratic dialogue pedagogical review", "Technical Report authoring (Sections 1–3), Appendix collation, Turnitin compliance review"),
+            ("Sijian Wang\n50106045", "System Architect", "Technical feasibility analysis, GraphRAG architectural design, Section 3 architectural scope", "**Phase 2 Co-Lead**: Formal UML modeling (Class, Sequence, Component), Neo4j ontology design", "Graph database indexing, Cypher schema optimization, AuraDB cloud management", "Technical Report authoring (System Architecture & Design sections), architectural figures"),
+            ("Hao Jiang\n50106065", "PoC Lead Developer", "Prototype feasibility testing, Neo4j connectivity benchmarking, API evaluation", "Core retrieval pipeline design, Cypher graph traversal algorithms", "**Phase 3 Co-Lead**: GraphRAG pipeline development, Neo4j backend integration, noise filter", "Technical Report authoring (Implementation chapters), code structure documentation"),
+            ("Weixin Xie\n50106034", "QA & Report Lead", "Proposal editorial review, formatting compliance checks, Section 8 Integrity declarations", "Test strategy formulation, UML consistency audit, quality metrics definition", "Systematic benchmark evaluation (`systematic_eval_engine.py`), empirical delta analysis", "**Phase 4 Co-Lead**: Lead author for 40–60 page Technical Report, Turnitin pre-check, workload profile"),
+            ("Zijian Zhang\n50106035", "Business Analyst", "User persona formulation, student survey analysis on exam stress, Section 5 Benefits drafting", "**Phase 2 Co-Lead**: User story decomposition, Gherkin acceptance criteria, boundary definitions", "User acceptance testing (UAT), student feedback loop coordination, quiz usability checks", "Technical Report authoring (Evaluation & User Testing sections), user survey analysis"),
+            ("Yusai Xi\n50105989", "UI/UX Designer", "Initial interface concept wireframing, user journey mapping, proposal UI figures", "High-fidelity interactive wireframes (Figma), component token library, design guidelines", "Frontend interface implementation, responsive ECharts radar integration, dark/light themes", "Authoring UI/UX walkthrough chapters in 8–12 page User Manual, visual assets for presentation"),
+            ("Siqin Dong\n50106060", "PoC Logic Developer", "Exam question diagnostic parsing research, benchmark data collection, Section 4 SMART objectives", "RESTful API endpoint design, diagnostic JSON schema specification", "**Phase 3 Co-Lead**: Qwen-Turbo LLM diagnostic prompt parser, dynamic quiz generation algorithm", "Technical Report authoring (Algorithms & Testing chapters), API reference documentation"),
+            ("Mingjie Yang\n50106061", "Testing & Manual Lead", "Quality assurance metrics proposal, test environment scoping, tool evaluation (pytest)", "Test case design, boundary condition planning, stress test scenario scripting", "Automated unit test execution, HTTP 429 backoff testing, integration test logging", "**Phase 4 Co-Lead**: Authoring the 8–12 page User Manual PDF, installation guides, test report"),
+            ("Zixuan Liang\n50106037", "Presentation & Media Lead", "Team communication infrastructure setup, presentation timeline planning, media assets", "Demonstration scenario scripting, deployment containerization (Docker / Render), audio design", "Packaging runnable PoC ZIP bundle, runtime environment reproduction, demo data staging", "**Phase 4 Co-Lead**: 15-minute video presentation production (MP4), presentation slide deck (.pptx)"),
         ]
 
         for r_idx, row_vals in enumerate(matrix_data, start=1):
@@ -749,23 +749,23 @@ class ReviewPackDocxBuilder:
         )
 
         p1_profiles = [
-            ("1. 吴宇轩 (50106070) — Team Leader & PM | Hometown: Shenzhen (深圳)", [
+            ("1. Yuxuan Wu (50106070) — Team Leader & PM | Hometown: Shenzhen", [
                 "• **Q1 (Instant Cheer-up)**: Clean multi-branch `git merge` passing CI on first push; velvety single-origin Ethiopian flat white at 8 AM; sunset bicycle ride along Shenzhen Bay promenade.",
                 "• **Q2 (Favourite Food & Memory)**: Steamed Seafood Feast & hand-crafted shrimp dumplings (*Ha Jiao*) at Shekou teahouse during Lunar New Year family gatherings.",
                 "• **Q3 (Hometown Tour)**: Nanshan High-Tech Park robotics corridors; Lianhuashan Park Deng Xiaoping statue; OCT-LOFT indie art and jazz spaces.",
                 "• **Q4 (Historical Moment)**: Apollo 11 lunar module touchdown (July 20, 1969) witnessing Margaret Hamilton's asynchronous software recovery triumph under pressure.",
                 "• **Q5 (Energy Restoration)**: Solitary two-hour night cycling along Shenzhen Bay Coastal Greenway with synthwave music, followed by reflective journaling overlooking HK skyline.",
             ]),
-            ("2. 林泳桐 (50106038) — Lead Business Analyst | Hometown: Guangzhou (广州)", [
+            ("2. Yongtong Lin (50106038) — Lead Business Analyst | Hometown: Guangzhou", [
                 "• **Q1 (Instant Cheer-up)**: Autumn rain on windowpanes with Osmanthus Oolong tea; discovering an elegant user story abstraction; color-coordinating physical stationery.",
-                "• **Q2 (Favourite Food & Memory)**: Slow-simmered duck soup with lotus root and 10-year aged tangerine peel (*莲藕陈皮老鸭汤*) prepared by grandmother during gaokao prep.",
+                "• **Q2 (Favourite Food & Memory)**: Slow-simmered duck soup with lotus root and 10-year aged tangerine peel prepared by grandmother during gaokao prep.",
                 "• **Q3 (Hometown Tour)**: Xiguan arcade houses on Enning Road; Chen Clan Ancestral Hall Lingnan wood carvings; Shamian Island colonial architectural enclave.",
                 "• **Q4 (Historical Moment)**: Opening of the Great Exhibition at Crystal Palace (London, 1851), observing the dawn of global industrial information architecture.",
                 "• **Q5 (Energy Restoration)**: Reading cultural anthropology books in a quiet, plant-filled vintage red-brick villa bookstore in Dongshankou for three uninterrupted hours.",
             ]),
-            ("3. 王思鉴 (50106045) — System Architect | Hometown: Hangzhou (杭州)", [
+            ("3. Sijian Wang (50106045) — System Architect | Hometown: Hangzhou", [
                 "• **Q1 (Instant Cheer-up)**: Multi-hop Neo4j Cypher query returning in under 50ms; fingerpicking classical acoustic guitar; chilled matcha latte with Basque cheesecake.",
-                "• **Q2 (Favourite Food & Memory)**: Father's homemade West Lake vinegar fish (*西湖醋鱼*) celebrating university admission letter arrival.",
+                "• **Q2 (Favourite Food & Memory)**: Father's homemade West Lake vinegar fish celebrating university admission letter arrival.",
                 "• **Q3 (Hometown Tour)**: Grand Canal Water Bus from Wulin Gate to Gongchen Bridge; cycling Longjing tea hills; twilight stroll along West Lake Su Causeway.",
                 "• **Q4 (Historical Moment)**: Hut 8 at Bletchley Park (1940), watching Alan Turing power on the electromechanical Bombe to decipher the German naval Enigma.",
                 "• **Q5 (Energy Restoration)**: Solitary walk through bamboo forests surrounding Faxi and Lingyin temples in the hills west of Hangzhou.",
@@ -779,23 +779,23 @@ class ReviewPackDocxBuilder:
     def _build_section_2_profiles_p2(self) -> None:
         """Builds Section 2 Icebreaker Profiles on Page 6: Members 4 to 6."""
         p2_profiles = [
-            ("4. 江昊 (50106065) — PoC Lead Developer | Hometown: Wuhan (武汉)", [
+            ("4. Hao Jiang (50106065) — PoC Lead Developer | Hometown: Wuhan", [
                 "• **Q1 (Instant Cheer-up)**: Ingesting 5,000 questions into Neo4j without dropped packets; spicy oil-braised crawfish; pet cat purring on keyboard during late programming.",
                 "• **Q2 (Favourite Food & Memory)**: Wuhan hot dry noodles (*Reganmian*) eaten on curbs near Hubu Alley on frosty winter mornings with classmates before dawn.",
                 "• **Q3 (Hometown Tour)**: Yellow Crane Tower overlooking the double-deck Yangtze River Bridge; 100km East Lake Greenway cycling; Hankou riverside night food markets.",
                 "• **Q4 (Historical Moment)**: Bell Labs (Summer 1969), watching Ken Thompson and Dennis Ritchie boot up the first experimental UNIX kernel on a DEC PDP-7.",
                 "• **Q5 (Energy Restoration)**: 8-kilometer twilight run along Hankou River Beach park (*Jiangtan*) watching cargo freighters pass beneath illuminated bridges.",
             ]),
-            ("5. 谢炜昕 (50106034) — QA & Report Lead | Hometown: Shantou (汕头)", [
+            ("5. Weixin Xie (50106034) — QA & Report Lead | Hometown: Shantou", [
                 "• **Q1 (Instant Cheer-up)**: Isolating a non-deterministic race condition bug and confirming test suite green; crisp tactile mechanical keyboard; cold-brew Yirgacheffe coffee.",
-                "• **Q2 (Favourite Food & Memory)**: Hand-hammered Chaoshan beef meatball hotpot (*潮汕牛肉火锅*) on New Year's Eve with three generations around bubbling broth.",
+                "• **Q2 (Favourite Food & Memory)**: Hand-hammered Chaoshan beef meatball hotpot on New Year's Eve with three generations around bubbling broth.",
                 "• **Q3 (Hometown Tour)**: Little Park Historic District Baroque-Lingnan arcade architecture; Nan'ao Island coastal wind turbines; Chaoshan Kung Fu tea ceremony.",
                 "• **Q4 (Historical Moment)**: London (1843), watching Ada Lovelace finalize Note G of Babbage's Analytical Engine, authoring the first computer algorithm.",
                 "• **Q5 (Energy Restoration)**: Performing an elaborate Chaoshan Kung Fu tea ceremony in private study with aged Phoenix Dancong leaves and mountain spring water.",
             ]),
-            ("6. 张梓健 (50106035) — Business Analyst | Hometown: Foshan (佛山)", [
+            ("6. Zijian Zhang (50106035) — Business Analyst | Hometown: Foshan", [
                 "• **Q1 (Instant Cheer-up)**: Crisp breezy autumn athletic training; clean down-the-line smash winner in badminton doubles; tactile mechanical snap of analog film camera shutter.",
-                "• **Q2 (Favourite Food & Memory)**: Shunde double-skin milk pudding (*双皮奶*) and crispy roast goose at a riverside garden restaurant in Daliang after gaokao.",
+                "• **Q2 (Favourite Food & Memory)**: Shunde double-skin milk pudding and crispy roast goose at a riverside garden restaurant in Daliang after gaokao.",
                 "• **Q3 (Hometown Tour)**: Foshan Ancestral Temple (*Zumiao*) watching Southern Lion Dance acrobatics; 500-year-old Nanfeng Ancient Kiln; Qiandeng Lake laser light shows.",
                 "• **Q4 (Historical Moment)**: CERN Geneva (Christmas 1990), watching Tim Berners-Lee demonstrate the first HTTP client-server communication on a NeXT computer.",
                 "• **Q5 (Energy Restoration)**: Twilight road bike ride around Qiandeng Lake greenway, concluding with a warm bowl of sweet ginger milk soup.",
@@ -809,28 +809,28 @@ class ReviewPackDocxBuilder:
     def _build_section_2_profiles_p3(self) -> None:
         """Builds Section 2 Icebreaker Profiles on Page 7: Members 7 to 10."""
         p3_profiles = [
-            ("7. 习羽赛 (50105989) — UI/UX Designer | Hometown: Chengdu (成都)", [
+            ("7. Yusai Xi (50105989) — UI/UX Designer | Hometown: Chengdu", [
                 "• **Q1 (Instant Cheer-up)**: Harmonious color palette & typographic hierarchy; freshly baked butter croissants; warm crackling lo-fi chillhop vinyl while sketching UI flows.",
-                "• **Q2 (Favourite Food & Memory)**: Authentic Chengdu spicy tallow hotpot (*麻辣火锅*) in a copper pot with secondary school design club friends on rainy winter evenings.",
+                "• **Q2 (Favourite Food & Memory)**: Authentic Chengdu spicy tallow hotpot in a copper pot with secondary school design club friends on rainy winter evenings.",
                 "• **Q3 (Hometown Tour)**: Chengdu Giant Panda Breeding Research Base; open-air teahouse in People's Park drinking Jasmine tea (*Gaiwancha*); Kuanzhai Alley design boutiques.",
                 "• **Q4 (Historical Moment)**: Giverny Normandy (Summer 1899), standing on the wooden bridge watching Claude Monet mix oil pigments to capture water lilies.",
                 "• **Q5 (Energy Restoration)**: Sketching botanical plants with fountain pens and watercolors at a greenhouse cafe filled with monstera ferns while sipping oat milk chai.",
             ]),
-            ("8. 董思钦 (50106060) — PoC Logic Developer | Hometown: Xiamen (厦门)", [
+            ("8. Siqin Dong (50106060) — PoC Logic Developer | Hometown: Xiamen", [
                 "• **Q1 (Instant Cheer-up)**: Overnight model training cross-entropy loss curve descending smoothly to zero; maritime breeze with frangipani scents; ice-blended fresh mango smoothie.",
-                "• **Q2 (Favourite Food & Memory)**: Minnan satay noodles (*沙茶面*) with grandfather at a historic alleyway shop near Shapowei Port in Xiamen with squid and tofu puffs.",
+                "• **Q2 (Favourite Food & Memory)**: Minnan satay noodles with grandfather at a historic alleyway shop near Shapowei Port in Xiamen with squid and tofu puffs.",
                 "• **Q3 (Hometown Tour)**: Vehicle-free Gulangyu Island alleys and Organ Museum; Huandao Coastal Boulevard cycling; South Putuo Temple sunset over XMU campus.",
                 "• **Q4 (Historical Moment)**: Princeton (June 1945), watching John von Neumann distribute the First Draft of a Report on the EDVAC stored-program architecture.",
                 "• **Q5 (Energy Restoration)**: Sitting on the cool granite seawall at Baicheng Beach near sunset, listening to crashing waves as ferry lights ignite across the bay.",
             ]),
-            ("9. 杨明杰 (50106061) — Testing & Manual Lead | Hometown: Changsha (长沙)", [
+            ("9. Mingjie Yang (50106061) — Testing & Manual Lead | Hometown: Changsha", [
                 "• **Q1 (Instant Cheer-up)**: 300-assertion automated test suite passing with unbroken green progress bar; new barbell deadlift PR; spicy aroma of fermented black beans hitting hot wok.",
-                "• **Q2 (Favourite Food & Memory)**: Changsha crispy stinky tofu and spicy crayfish (*口味虾*) on Pozi Street after high school basketball team won regional championship.",
+                "• **Q2 (Favourite Food & Memory)**: Changsha crispy stinky tofu and spicy crayfish on Pozi Street after high school basketball team won regional championship.",
                 "• **Q3 (Hometown Tour)**: Mount Yuelu and Song Dynasty Yuelu Academy (976 AD); Orange Isle young Mao Zedong sculpture; Huangxing Road 24-hour food street.",
                 "• **Q4 (Historical Moment)**: Helsinki (August 1991), watching 21-year-old Linus Torvalds post to comp.os.minix announcing the Linux kernel.",
                 "• **Q5 (Energy Restoration)**: 90-minute heavy compound resistance workout (squats, bench press, deadlifts) at the gym followed by hot shower to reboot mental drive.",
             ]),
-            ("10. 梁子铉 (50106037) — Presentation & Media Lead | Hometown: Zhuhai (珠海)", [
+            ("10. Zixuan Liang (50106037) — Presentation & Media Lead | Hometown: Zhuhai", [
                 "• **Q1 (Instant Cheer-up)**: Complex 4K 60fps video timeline rendering to 100% without dropped frames; coastal breeze through car windows; indie acoustic pop during color-grading.",
                 "• **Q2 (Favourite Food & Memory)**: Portuguese egg tarts (*Pastel de Nata*) and steamed Hengqin garlic oysters at an open-air coastal restaurant overlooking Lingdingyang waters.",
                 "• **Q3 (Hometown Tour)**: Lovers' Road (*Qinglv Lu*) Fisher Girl statue; Zhuhai Grand Theatre 'Twin Scallops' on Yeli Island; Hong Kong-Zhuhai-Macao Bridge observation deck.",
@@ -861,8 +861,8 @@ class ReviewPackDocxBuilder:
             "The system architecture integrates five tightly coupled technical pillars grounded in Cognitive Load Theory "
             "(Sweller, 2020) and Bloom's Two-Sigma Tutoring Paradigm (Bloom, 1984):"
         )
-        add_numbered(self.doc, "1", "**GraphRAG Retrieval Pipeline + Neo4j Cloud AuraDB**: Represents academic syllabi as a structured property graph of `:Concept` nodes across four roles (`核心考点` Core Concept, `定理条件` Prerequisite Condition, `易错漏洞` Misconception / Trap, `计算操作` Operational Step).")
-        add_numbered(self.doc, "2", "**Directional '易错于' Misconception Ontology**: Fundamental graph relationship `(:Concept)-[:DEPENDS_ON {type: '易错于'}]->(:Concept)`. Rather than treating exam questions as isolated text, the graph explicitly links questions to the cognitive traps students fall into, aggregated dynamically via Cypher `MERGE`.")
+        add_numbered(self.doc, "1", "**GraphRAG Retrieval Pipeline + Neo4j Cloud AuraDB**: Represents academic syllabi as a structured property graph of `:Concept` nodes across four roles (`Core Concept`, `Prerequisite Condition`, `Misconception / Trap`, `Operational Step`).")
+        add_numbered(self.doc, "2", "**Directional 'PRONE_TO' Misconception Ontology**: Fundamental graph relationship `(:Concept)-[:DEPENDS_ON {type: 'PRONE_TO'}]->(:Concept)`. Rather than treating exam questions as isolated text, the graph explicitly links questions to the cognitive traps students fall into, aggregated dynamically via Cypher `MERGE`.")
         add_numbered(self.doc, "3", "**Automated Diagnostic Proposition Parser (`qwen-turbo`)**: Uses Alibaba Cloud DashScope API acting as a hyper-critical Academic Proposition & Logic Diagnostic Expert to parse exam questions into structured JSON. Includes exponential backoff with jitter and regex validation against HTTP 429 rate limits.")
         add_numbered(self.doc, "4", "**Active Socratic Diagnostic Tutoring Engine**: Constrained by Neo4j subgraph topology, the tutor strictly refuses to provide direct answers. Instead, it poses focused Socratic questions (<150 words) compelling students to inspect their reasoning and identify missed prerequisite boundaries.")
         add_numbered(self.doc, "5", "**Dynamic Diagnostic Quiz Engine & ECharts 5.5.1 Radar**: Generates adaptive quiz items where distractors map directly to known misconception nodes. Performance is visualized in an interactive 5-dimensional competency radar chart (Basic Concepts, Boundary Deductions, Trap Defense, Cross-Chapter Synthesis, Computational Precision).")
@@ -883,11 +883,11 @@ class ReviewPackDocxBuilder:
             b_table.cell(0, c_idx).paragraphs[0].text = h
 
         benchmarks = [
-            ("Professional Law (法律职业资格)", "61.00%", "63.50%", "**+2.50%**", "Procedural boundary condition omissions; strict liability vs fault liability traps"),
-            ("High School Computer Science (高中计算机)", "86.00%", "88.00%", "**+2.00%**", "Recursive stack overflow boundaries; array index off-by-one fencepost errors"),
-            ("Public Relations (公共关系学)", "72.73%", "74.55%", "**+1.82%**", "Conflation of crisis communication protocols and brand positioning strategies"),
-            ("Econometrics (经济学计量分析)", "64.91%", "66.67%", "**+1.75%**", "Endogeneity biases; incorrect instrument variable orthogonality verification"),
-            ("High School History (高中历史)", "76.50%", "78.00%", "**+1.50%**", "Chronological causality confusion in multi-treaty diplomatic progressions"),
+            ("Professional Law (Legal Professional Qualification)", "61.00%", "63.50%", "**+2.50%**", "Procedural boundary condition omissions; strict liability vs fault liability traps"),
+            ("High School Computer Science", "86.00%", "88.00%", "**+2.00%**", "Recursive stack overflow boundaries; array index off-by-one fencepost errors"),
+            ("Public Relations", "72.73%", "74.55%", "**+1.82%**", "Conflation of crisis communication protocols and brand positioning strategies"),
+            ("Econometrics", "64.91%", "66.67%", "**+1.75%**", "Endogeneity biases; incorrect instrument variable orthogonality verification"),
+            ("High School History", "76.50%", "78.00%", "**+1.50%**", "Chronological causality confusion in multi-treaty diplomatic progressions"),
         ]
 
         for r_idx, row_vals in enumerate(benchmarks, start=1):
@@ -920,7 +920,7 @@ class ReviewPackDocxBuilder:
             "Prior to the upcoming supervisor kick-off meeting and formal proposal submission on 25 September, "
             "all team members must verify the following three compliance checkpoints:"
         )
-        add_bullet(self.doc, "**Checkpoint 1: SMART Objectives Feasibility**: Confirm that all 5 objectives (functional PoC by Dec 14, 250+ concepts / 300+ '易错于' edges / sub-2000ms latency, 85%+ parsing accuracy, 80%+ pytest branch coverage, and complete JC2001 documentation) are achievable within your individual workload.")
+        add_bullet(self.doc, "**Checkpoint 1: SMART Objectives Feasibility**: Confirm that all 5 objectives (functional PoC by Dec 14, 250+ concepts / 300+ 'PRONE_TO' edges / sub-2000ms latency, 85%+ parsing accuracy, 80%+ pytest branch coverage, and complete JC2001 documentation) are achievable within your individual workload.")
         add_bullet(self.doc, "**Checkpoint 2: WBS Allocation Ownership**: Cross-check your assigned tasks in WBS 1.1 through 4.5. Ensure you understand your primary deliverables, paired partners, and phase lead responsibilities.")
         add_bullet(self.doc, "**Checkpoint 3: Formatting & Academic Integrity Rigour**: Adhere strictly to the course rubric: standard A4 paper, 1-inch margins, 12pt Times New Roman body text, 1.5 line spacing, 4–8 pages body limit, strict Turnitin originality (<3–4 sentences unquoted), and zero raw code in the Technical Report.")
 
@@ -931,14 +931,14 @@ class ReviewPackDocxBuilder:
         add_body_p(
             self.doc,
             "Course allocations for academic supervisors have been published on MyAberdeen (Allocated Supervisor: **Dr. Shahzad Mumtaz**). "
-            "Team Leader **吴宇轩** will immediately dispatch the following formal correspondence to schedule our "
+            "Team Leader **Yuxuan Wu** will immediately dispatch the following formal correspondence to schedule our "
             "Week 2 kick-off consultation ahead of the 25 September proposal submission deadline."
         )
 
         add_heading_2(self.doc, "4.1 Formal Academic Email Draft")
 
         email_lines = [
-            "**From**: 吴宇轩 (Yuxuan Wu) | Student ID: 50106070 | Group Leader, JC2001 Group 5 (BSc BMIS)",
+            "**From**: Yuxuan Wu | Student ID: 50106070 | Group Leader, JC2001 Group 5 (BSc BMIS)",
             "**To**: Dr. Shahzad Mumtaz (Academic Supervisor, JC2001 Group 5) | Email: `shahzad.mumtaz@abdn.ac.uk`",
             "**Cc**: All 9 Group 5 Members (`u19yl25@abdn.ac.uk`, `u14sw25@abdn.ac.uk`, `h.jiang.25@abdn.ac.uk`, `u02wx25@abdn.ac.uk`, `u17zz25@abdn.ac.uk`, `u02yx25@abdn.ac.uk`, `u20sd25@abdn.ac.uk`, `u05my25@abdn.ac.uk`, `u14zl25@abdn.ac.uk`)",
             "**Date**: Friday, 18 September 2026",
@@ -949,7 +949,7 @@ class ReviewPackDocxBuilder:
             "",
             "I hope this email finds you well.",
             "",
-            "My name is Yuxuan Wu (吴宇轩, Student ID: 50106070), writing to you as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. Following the supervisor allocations published on MyAberdeen today, we are delighted to have you as our academic supervisor for this semester-long group project.",
+            "My name is Yuxuan Wu (Student ID: 50106070), writing to you as the elected Team Leader and Project Manager for **Group 5** in **JC2001 Introduction to Software Engineering (Academic Year 2026–27)**. Our group consists of ten second-year undergraduate students enrolled in the **BSc Business Management and Information Systems (BSc BMIS)** programme. Following the supervisor allocations published on MyAberdeen today, we are delighted to have you as our academic supervisor for this semester-long group project.",
             "",
             "**1. Project Background & Proposed Scope**",
             "Over the past week, our team has completed Practical Session 1, conducted an initial literature review, and formulated our proposed project topic: *'To Design and Implement a Smart Study Assistant System for University Students: A GraphRAG and Knowledge Graph Diagnostic Approach to Misconception Remediation and Exam Preparation'*. The project addresses exam cognitive overload, fragmented revision materials, and rote memorization by coupling **Neo4j property knowledge graphs** with **Retrieval-Augmented Generation (GraphRAG)** powered by the Alibaba Cloud Qwen-Turbo API. The core innovation is an explicit directional misconception ontology (`[:DEPENDS_ON {type: 'PRONE_TO_MISCONCEPTION'}]`) and an active Socratic diagnostic dialogue tutor, complemented by an interactive ECharts 5.5.1 competency radar visualization. Preliminary empirical testing has demonstrated notable accuracy improvements (+2.50% in Law, +2.00% in CS).",
@@ -963,7 +963,7 @@ class ReviewPackDocxBuilder:
             "Thank you very much for your time, support, and academic guidance. We look forward to your reply.",
             "",
             "Yours sincerely,",
-            "**Yuxuan Wu (吴宇轩)** | Team Leader & Project Manager, Group 5 | Student ID: 50106070 | `u11yw25@abdn.ac.uk`",
+            "**Yuxuan Wu** | Team Leader & Project Manager, Group 5 | Student ID: 50106070 | `u11yw25@abdn.ac.uk`",
         ]
 
         add_callout_box(
@@ -990,12 +990,12 @@ class ReviewPackDocxBuilder:
             prep_table.cell(0, c_idx).paragraphs[0].text = h
 
         prep_items = [
-            ("Project Management & Leadership", "吴宇轩 (50106070)", "Compile 6-slide kick-off presentation deck (.pptx); print 2 physical copies of Proposal Executive Summary; prepare meeting minutes template", "Mon 21 Sep 12:00 CST"),
-            ("Business Analysis & Requirements", "林泳桐 (50106038)\n张梓健 (50106035)", "Consolidate student exam stress survey statistics (n=45 BMIS students); prepare 3 typical student user personas and initial use case list", "Mon 21 Sep 14:00 CST"),
-            ("System & Knowledge Architecture", "王思鉴 (50106045)", "Draft formal Neo4j graph ontology diagram showing `:Concept` node labels and `易错于` edges; prepare GraphRAG retrieval dataflow schematic", "Mon 21 Sep 15:00 CST"),
-            ("PoC Engineering & Logic", "江昊 (50106065)\n董思钦 (50106060)", "Set up local runnable Neo4j + Qwen-Turbo demo instance; prepare API response latency benchmark logs and rate-limit backoff verification", "Mon 21 Sep 16:00 CST"),
-            ("QA, Testing & Verification", "谢炜昕 (50106034)\n杨明杰 (50106061)", "Prepare pytest test plan overview, Turnitin originality compliance report (<5% target), and 12-discipline benchmark rescue delta tables", "Mon 21 Sep 17:00 CST"),
-            ("UI/UX Design & Media", "习羽赛 (50105989)\n梁子铉 (50106037)", "Figma interactive wireframe click-through demo (mobile/desktop views); ECharts 5.5.1 radar chart demo; set up audio recording for meeting", "Mon 21 Sep 18:00 CST"),
+            ("Project Management & Leadership", "Yuxuan Wu (50106070)", "Compile 6-slide kick-off presentation deck (.pptx); print 2 physical copies of Proposal Executive Summary; prepare meeting minutes template", "Mon 21 Sep 12:00 CST"),
+            ("Business Analysis & Requirements", "Yongtong Lin (50106038)\nZijian Zhang (50106035)", "Consolidate student exam stress survey statistics (n=45 BMIS students); prepare 3 typical student user personas and initial use case list", "Mon 21 Sep 14:00 CST"),
+            ("System & Knowledge Architecture", "Sijian Wang (50106045)", "Draft formal Neo4j graph ontology diagram showing `:Concept` node labels and `PRONE_TO` edges; prepare GraphRAG retrieval dataflow schematic", "Mon 21 Sep 15:00 CST"),
+            ("PoC Engineering & Logic", "Hao Jiang (50106065)\nSiqin Dong (50106060)", "Set up local runnable Neo4j + Qwen-Turbo demo instance; prepare API response latency benchmark logs and rate-limit backoff verification", "Mon 21 Sep 16:00 CST"),
+            ("QA, Testing & Verification", "Weixin Xie (50106034)\nMingjie Yang (50106061)", "Prepare pytest test plan overview, Turnitin originality compliance report (<5% target), and 12-discipline benchmark rescue delta tables", "Mon 21 Sep 17:00 CST"),
+            ("UI/UX Design & Media", "Yusai Xi (50105989)\nZixuan Liang (50106037)", "Figma interactive wireframe click-through demo (mobile/desktop views); ECharts 5.5.1 radar chart demo; set up audio recording for meeting", "Mon 21 Sep 18:00 CST"),
         ]
 
         for r_idx, row_vals in enumerate(prep_items, start=1):
@@ -1011,7 +1011,7 @@ class ReviewPackDocxBuilder:
 
         add_heading_2(self.doc, "4.3 Meeting Conduct & Minutes Taking Protocol")
         add_bullet(self.doc, "**Punctuality & Attire**: All 10 members must arrive at the designated meeting venue (or online Teams room) 10 minutes prior to scheduled start in smart-casual academic attire.")
-        add_bullet(self.doc, "**Designated Meeting Scribe**: Business Analyst **张梓健 (50106035)** will record real-time meeting minutes, noting supervisor comments, scope modifications, and agreed action items.")
+        add_bullet(self.doc, "**Designated Meeting Scribe**: Business Analyst **Zijian Zhang (50106035)** will record real-time meeting minutes, noting supervisor comments, scope modifications, and agreed action items.")
         add_bullet(self.doc, "**Post-Meeting Minutes Circulation**: Scribe and PM will publish formalized meeting minutes to the team repository within **6 hours** of meeting conclusion.")
 
     def _build_section_5_table(self) -> None:
@@ -1035,16 +1035,16 @@ class ReviewPackDocxBuilder:
             so_table.cell(0, c_idx).paragraphs[0].text = h
 
         sign_offs = [
-            ("1", "吴宇轩", "50106070", "Project Manager & Team Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Proposal scope and WBS schedule are fully calibrated to 12 weeks with zero buffer overlap. Prepared to lead supervisor kickoff."),
-            ("2", "林泳桐", "50106038", "Lead Business Analyst", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "User stories and requirements capture accurately reflect university exam stress pain points. Traceability Matrix planned for Phase 2."),
-            ("3", "王思鉴", "50106045", "System Architect", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Neo4j property graph schema and '易错于' relationship specification verified. Cypher query latency confirmed under 50ms locally."),
-            ("4", "江昊", "50106065", "PoC Lead Developer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "GraphRAG retrieval pipeline tested with Neo4j Cloud AuraDB. Exponential backoff handles Qwen-Turbo rate limits cleanly."),
-            ("5", "谢炜昕", "50106034", "QA & Report Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Turnitin originality compliance verified. Document structure meets JC2001 rubric. Proposal body verified at 6 pages within 4-8 budget."),
-            ("6", "张梓健", "50106035", "Business Analyst", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "User acceptance criteria drafted in Gherkin syntax. Stakeholder benefit matrix in Section 5 accurately captures revision time savings."),
-            ("7", "习羽赛", "50105989", "UI/UX Designer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Figma wireframe design system prepared. ECharts 5.5.1 radar visualization mockup approved with dark/light theme switching."),
-            ("8", "董思钦", "50106060", "PoC Logic Developer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Qwen-Turbo diagnostic prompt templates validated. Dynamic quiz generation algorithm maps distractors directly to misconception nodes."),
-            ("9", "杨明杰", "50106061", "Testing & Manual Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Pytest test suite structure defined for 80%+ branch coverage. Stress testing scripts planned for Phase 3 to verify sub-2s query latency."),
-            ("10", "梁子铉", "50106037", "Presentation & Media Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Docker containerization and Render hosting workflow drafted. 15-minute video presentation timeline mapped for Phase 4."),
+            ("1", "Yuxuan Wu", "50106070", "Project Manager & Team Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Proposal scope and WBS schedule are fully calibrated to 12 weeks with zero buffer overlap. Prepared to lead supervisor kickoff."),
+            ("2", "Yongtong Lin", "50106038", "Lead Business Analyst", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "User stories and requirements capture accurately reflect university exam stress pain points. Traceability Matrix planned for Phase 2."),
+            ("3", "Sijian Wang", "50106045", "System Architect", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Neo4j property graph schema and 'PRONE_TO' relationship specification verified. Cypher query latency confirmed under 50ms locally."),
+            ("4", "Hao Jiang", "50106065", "PoC Lead Developer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "GraphRAG retrieval pipeline tested with Neo4j Cloud AuraDB. Exponential backoff handles Qwen-Turbo rate limits cleanly."),
+            ("5", "Weixin Xie", "50106034", "QA & Report Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Turnitin originality compliance verified. Document structure meets JC2001 rubric. Proposal body verified at 6 pages within 4-8 budget."),
+            ("6", "Zijian Zhang", "50106035", "Business Analyst", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "User acceptance criteria drafted in Gherkin syntax. Stakeholder benefit matrix in Section 5 accurately captures revision time savings."),
+            ("7", "Yusai Xi", "50105989", "UI/UX Designer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Figma wireframe design system prepared. ECharts 5.5.1 radar visualization mockup approved with dark/light theme switching."),
+            ("8", "Siqin Dong", "50106060", "PoC Logic Developer", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Qwen-Turbo diagnostic prompt templates validated. Dynamic quiz generation algorithm maps distractors directly to misconception nodes."),
+            ("9", "Mingjie Yang", "50106061", "Testing & Manual Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Pytest test suite structure defined for 80%+ branch coverage. Stress testing scripts planned for Phase 3 to verify sub-2s query latency."),
+            ("10", "Zixuan Liang", "50106037", "Presentation & Media Lead", "Practical 1, Proposal, WBS", "[CONFIRMED / APPROVED]", "Docker containerization and Render hosting workflow drafted. 15-minute video presentation timeline mapped for Phase 4."),
         ]
 
         for r_idx, row_vals in enumerate(sign_offs, start=1):
@@ -1073,14 +1073,14 @@ class ReviewPackDocxBuilder:
             self.doc,
             "FORMAL TEAM LEAD ATTESTATION & PRE-SUBMISSION CLEARANCE DECLARATION",
             [
-                "I, **吴宇轩 (Yuxuan Wu)**, in my capacity as elected Team Leader and Project Manager for JC2001 Group 5, "
+                "I, **Yuxuan Wu**, in my capacity as elected Team Leader and Project Manager for JC2001 Group 5, "
                 "hereby certify on behalf of all ten group members that:",
                 "1. All ten registered group members have actively participated in Week 1 practical sessions, icebreaker profiling, and proposal reviews.",
                 "2. The proposed system scope, technical architecture, and WBS resource allocations are agreed unanimously with zero outstanding disputes.",
                 "3. All deliverables meet JC2001 academic integrity and formatting guidelines. Turnitin similarity pre-checks confirm originality.",
                 "4. Group 5 is fully prepared and authorized to submit `reports/project_proposal.pdf` on MyAberdeen ahead of the 25 September deadline.",
                 "",
-                "**Signed**: *Yuxuan Wu (吴宇轩)*  |  **Date**: 16 September 2026  |  **Status**: **CLEARED FOR SUBMISSION**",
+                "**Signed**: *Yuxuan Wu (Yuxuan Wu)*  |  **Date**: 16 September 2026  |  **Status**: **CLEARED FOR SUBMISSION**",
             ],
             bg_hex=HEX_GREEN_BG,
             border_hex=HEX_GREEN_BORDER,
@@ -1092,8 +1092,8 @@ class ReviewPackDocxBuilder:
             "To guarantee flawless execution on the final submission date, the team will adhere to the following timeline on "
             "**Friday, 25 September 2026**:"
         )
-        add_numbered(self.doc, "1", "**18:00 CST (Pre-Flight Check)**: QA Lead **谢炜昕** runs the automated verification suite (`scripts/generate_proposal_docs.py --no-verify`) to confirm PDF integrity, page budget (strictly 4–8 body pages), and metadata compliance.")
-        add_numbered(self.doc, "2", "**20:00 CST (Formal Upload)**: Team Leader **吴宇轩** logs into MyAberdeen, accesses the JC2001 Assessment Portal, and submits `reports/project_proposal.pdf` to the designated Turnitin drop-box.")
+        add_numbered(self.doc, "1", "**18:00 CST (Pre-Flight Check)**: QA Lead **Weixin Xie** runs the automated verification suite (`scripts/generate_proposal_docs.py --no-verify`) to confirm PDF integrity, page budget (strictly 4–8 body pages), and metadata compliance.")
+        add_numbered(self.doc, "2", "**20:00 CST (Formal Upload)**: Team Leader **Yuxuan Wu** logs into MyAberdeen, accesses the JC2001 Assessment Portal, and submits `reports/project_proposal.pdf` to the designated Turnitin drop-box.")
         add_numbered(self.doc, "3", "**20:30 CST (Receipt Verification)**: Digital submission receipt and Turnitin digital stamp downloaded, archived in `reports/submission_receipts/`, and verified.")
         add_numbered(self.doc, "4", "**21:00 CST (All-Hands Confirmation)**: Confirmation screenshot and submission hash posted to the team WeChat group and archived to GitHub.")
 
@@ -1207,16 +1207,16 @@ class ReviewPackVerifier:
 
         # 1. Check all 10 students and IDs
         students = [
-            ("吴宇轩", "50106070"),
-            ("林泳桐", "50106038"),
-            ("王思鉴", "50106045"),
-            ("江昊", "50106065"),
-            ("谢炜昕", "50106034"),
-            ("张梓健", "50106035"),
-            ("习羽赛", "50105989"),
-            ("董思钦", "50106060"),
-            ("杨明杰", "50106061"),
-            ("梁子铉", "50106037"),
+            ("Yuxuan Wu", "50106070"),
+            ("Yongtong Lin", "50106038"),
+            ("Sijian Wang", "50106045"),
+            ("Hao Jiang", "50106065"),
+            ("Weixin Xie", "50106034"),
+            ("Zijian Zhang", "50106035"),
+            ("Yusai Xi", "50105989"),
+            ("Siqin Dong", "50106060"),
+            ("Mingjie Yang", "50106061"),
+            ("Zixuan Liang", "50106037"),
         ]
 
         for name, sid in students:
@@ -1242,7 +1242,7 @@ class ReviewPackVerifier:
             "GraphRAG",
             "Neo4j",
             "Qwen-Turbo",
-            "易错于",
+            "PRONE_TO",
             "Socratic",
             "ECharts",
             "+2.50%",

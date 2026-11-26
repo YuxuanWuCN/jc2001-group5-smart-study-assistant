@@ -1,50 +1,66 @@
-# Sources — Section 5.3 & 5.4
+# sources.md -- Repository Material Cited in Ch 5.3-5.4
 
-**Author:** Siqin Dong (50106060) · PoC Logic Developer  
-**Scope:** Section 5.3 (*Question Bank and Trap Engineering*) and Section 5.4 (*Diagnostic Algorithm*)
+> As required by the whole-group writing convention: this table lists the repository files behind every number and assertion in this chapter, and **every number must be traceable here**.
+> Every entry in this table was opened and checked one by one on 2026-10-19.
 
-Every quantitative metric, architectural claim, and data schema referenced in `outline.md` is traceable to the authoritative source code files and test suites in this repository snapshot (`D:\jc2001`, branch `main`).
+## 1. Question Bank and Trap Data
 
----
-
-## 1. Traceable Repository Source Files
-
-| Repository File | File Size / Lines | Sections Referenced | Verified Claims & Evidence Provided |
-| :--- | :---: | :---: | :--- |
-| `backend/app/data/seed_questions.py` | 59,653 B / 932 lines | 5.3.1, 5.3.2, 5.3.3, 5.4.1 | **Authoritative Seed Question Bank**: Contains 12 primary multi-choice items across 4 disciplines (Law, CS, Econ, SE). Confirms exactly 36 distractor traps (`traps` dict) with complete `title`, `desc`, `prereq`, and `radar_hit` metadata. Confirms statutory citations in `explanation`. |
-| `backend/app/models/quiz.py` | 6,327 B / 181 lines | 5.3.2, 5.3.4 | **Domain Pydantic Schemas**: Defines `QuizItem`, `OptionItem`, and `TrapDetail` with strict bidirectional camelCase/snake_case validation (`CamelModel`) and normalization filters. |
-| `backend/app/models/diagnose.py` | 1,842 B / 65 lines | 5.4.1 | **Diagnostic Protocol Contract**: Defines `DiagnoseRequest` (question ID, selected key) and `DiagnoseResponse` (verdict, explanation, Socratic prompt, prerequisite, radar deltas). |
-| `backend/app/services/diagnostic_service.py` | 12,669 B / 266 lines | 5.4.1, 5.4.2 | **Dual-Mode Diagnostic Engine**: Implements static $O(1)$ dictionary lookup, local fallback when API key is missing or calls time out (4.0s timeout), and zero unhandled 500 error boundary. |
-| `backend/app/services/llm_diagnostics.py` | 14,210 B / 401 lines | 5.4.2 | **LLM Health & Diagnostics Service**: Implements automated probing, error classification, and retry strategies for DashScope Qwen-Turbo connectivity. |
-| `backend/app/routers/diagnose.py` | 727 B / 19 lines | 5.4.1 | **REST API Endpoint**: Exposes `POST /api/diagnose` mounted under the FastAPI application shell. |
-| `frontend/app.js` | 265,108 B / ~3,100 lines | 5.4.3 | **Client-Side Telemetry Aggregation**: Implements `state.radar` dictionary, instant radar updates (`updateRadarCharts()`), and responsive rendering via Apache ECharts 5.5.1. |
-| `tests/test_quiz.py` | 3,450 B / 95 lines | 5.3.4 | **Question Invariant Test Suite**: 6 unit test functions verifying 4 options per question, exactly 1 correct answer, and non-empty `explanation` fields. |
-| `tests/test_adversarial_backend.py` | 17,890 B / 523 lines | 5.3.4, 5.4.1 | **Adversarial Resilience Suite**: 25 adversarial test functions verifying invalid question IDs (returns 404), out-of-range option keys (returns 422), malformed JSON payloads, and concurrency safety. |
-| `tests/test_llm_health.py` | 9,120 B / 240 lines | 5.4.2 | **Resilience Test Suite**: 36 automated test cases validating graceful offline degradation and retry behavior when external APIs fail. |
-
----
-
-## 2. Quantitative Measurements and Code Counts
-
-Measurements verified via direct code execution on local runtime baseline (Windows 11, Python 3.13):
-
-| Measured Parameter | Measured Value | Verification Method & File Location |
-| :--- | :---: | :--- |
-| Primary Question Count | **12 items** | Length of `SEED_QUESTIONS[:12]` in `backend/app/data/seed_questions.py` |
-| Primary Option Count | **48 options** | $\sum \text{len}(q.options)$ across 12 primary questions ($12 \times 4$) |
-| Unique Cognitive Traps | **36 traps** | Total keys in `question.traps` across 12 questions ($12 \times 3$) |
-| Distractor-to-Trap Bijective Mapping | **100% (36/36)** | Automated scan: every option where `is_correct == False` contains a valid `trap_id` resolving in `question.traps` |
-| Academic Disciplines | **4 primary** | `law`, `cs`, `econ`, `se` (3 items each in the benchmark baseline) |
-| Competency Radar Dimensions | **5 dimensions** | `recall`, `boundary`, `trapDefense`, `synthesis`, `precision` in `backend/app/models/quiz.py` and `frontend/app.js` |
-| Algorithm Lookup Time | **< 2.5 ms** | Round-trip latency for local `POST /api/diagnose` execution without external network calls |
-| Overall Regression Test Pass Rate | **145 passed (100%)** | `python -m pytest tests/ -q` (executed in 3.58 s) |
-
----
-
-## 3. Deliberately Acknowledged Limitations (Academic Honesty)
-
-| Limitation | Scope | Why It Is Conceded |
+| File | Purpose | Specific data cited in this chapter |
 | :--- | :--- | :--- |
-| Closed Corpus vs. Open Syllabus | 12 items / 36 traps | The corpus serves as a *proof-of-mechanism feasibility prototype*, demonstrating that fine-grained distractor attribution works. It does not claim statistical curriculum coverage across whole degree programmes. |
-| Static Lookup vs. Open Essay Ingestion | Multiple-choice only | Table 5.6 explicitly concedes that generative LLMs outperform lookup tables in open-ended creative essays. Multiple-choice items were deliberately selected to eradicate academic hallucination. |
-| In-Session Radar vs. Longitudinal BKT | Single-session aggregation | Radar scores accumulate incrementally during the active browser session. Long-term temporal decay (Ebbinghaus/FSRS) and Bayesian Knowledge Tracing (BKT) are explicitly documented as post-MVP roadmap goals in Chapter 7. |
+| `backend/app/data/seed_questions.py` | The single authoritative data source for the 12 questions and 36 traps (657 lines, collection variable `SEED_QUESTIONS`) | 12 questions; law/cs/econ/se 3 each; 36 traps (3 per question); difficulty distribution ★★★2/★★★★8/★★★★★2; `radar_hit` distribution boundary 12 / recall 8 / trapDefense 7 / synthesis 7 / precision 2; the `explanation` of 12/12 questions carries an `[Authoritative exam-point analysis]` source annotation |
+| `backend/app/models/quiz.py` | Field definitions of `QuizItem` / `OptionItem` / `TrapDetail` / `GraphNode` / `GraphEdge` (181 lines) | The four `TrapDetail` fields `title` / `desc` / `prereq` / `radar_hit` (the basis of Table 5.5) |
+
+## 2. Diagnostic Algorithm
+
+| File | Purpose | Specific facts cited in this chapter |
+| :--- | :--- | :--- |
+| `backend/app/services/diagnostic_service.py` | Diagnostic engine implementation (274 lines) | Rule-based right/wrong judgement -> trap lookup -> dual mode (call the LLM if available, otherwise local fallback) -> global failsafe; an unknown question ID returns 200 + fallback rather than 404 |
+| `backend/app/routers/diagnose.py` | The `POST /api/diagnose` route (no extra validation logic) | Basis for the pseudocode semantics: the router layer has no 404/422 branches; 422 comes only from request-body schema validation |
+| `backend/app/services/llm_diagnostics.py` | LLM connectivity probing and failure classification (401 lines, PR #10 merged this cycle) | Source material for the 5.4.2 description of "LLM call failures are classified and degraded" |
+
+## 3. Radar Aggregation (5.4.3, option B: frontend aggregation)
+
+| File | Purpose | Specific data cited in this chapter |
+| :--- | :--- | :--- |
+| `frontend/app.js` | The live aggregation of the five-dimension radar within a session | Correct: `recall +4` / `trapDefense +5` / `synthesis +3` / `predictedScore +0.5`; wrong: `trapDefense -6` / `boundary -4`; clamping: dimension cap 100, wrong-path floor 30, `predictedScore` cap 99; initial baseline `recall 76 / boundary 62 / trapDefense 65 / synthesis 72 / precision 81`; the frontend does not consume the backend's `radar_dimension` / `score_delta` (0 references) |
+
+## 4. Tests and Data Integrity
+
+| File | Purpose | Specific data cited in this chapter |
+| :--- | :--- | :--- |
+| `tests/test_quiz.py` | Question-bank data-structure tests | 6 test cases |
+| `tests/test_adversarial_backend.py` | Adversarial/boundary input tests | 25 test functions across 6 test classes |
+| Full test suite | Used for Chapter 6 wording alignment | Measured with `pytest --collect-only`: **189** tests |
+
+## 5. Graphics Sources
+
+| Number | Source |
+| :--- | :--- |
+| Table 5.4 | Per-question summary of `backend/app/data/seed_questions.py` |
+| Table 5.5 | The `TrapDetail` definition in `backend/app/models/quiz.py` + the real values of `law_1 / trap_law_1` |
+| Table 5.6 | The discussion in this chapter (table lookup vs live LLM generation) |
+| Figure 5.2 | Self-drawn causal chain (wrong option -> `trap_id` -> `TrapDetail` -> diagnosis drawer); source file `reports/figures/fig_trap_causal_chain.mmd`, vector `reports/figures/fig_trap_causal_chain.svg` (prefer the SVG when inserting into the report) |
+
+## 5.1 Literature Cited in This Chapter (volume/issue/pages and DOI all checked against Crossref)
+
+| Reference | Supports | Check result |
+| :--- | :--- | :--- |
+| VanLehn (2011), *Educational Psychologist* 46(4), 197-221 | Effectiveness of fine-grained feedback | ✅ vol/issue/pages/DOI all consistent |
+| Corbett and Anderson (1994), *User Modeling and User-Adapted Interaction* 4(4), 253-278 | Independent accumulation of ability dimensions (knowledge tracing) | ⚠️ Crossref records the publication year as **1995**, while the literature most often cites 1994; before submission, follow the publisher page and be consistent throughout |
+| Koedinger, Corbett and Perfetti (2012), *Cognitive Science* 36(5), 757-798 | Necessity of prerequisite knowledge for robust learning | ✅ consistent |
+| Haladyna, Downing and Rodriguez (2002), *Applied Measurement in Education* 15(3), 309-333 | Item-writing convention that distractors must be explainable | ✅ consistent (DOI 10.1207/s15324818ame1503_5) |
+
+## 6. Task Specifications and Conventions
+
+| File | Purpose |
+| :--- | :--- |
+| `reports/cycle3_task_packs/06-ch5-3-4-trap-diagnosis-dong-siqin.md` | This task package (structure, word count, pitfalls, three supervisor questions); 4 of its numbers do not match the code and have been corrected to the measured values |
+| `reports/cycle3_task_packs/README.md` | Whole-group writing conventions (British spelling, Harvard, locked figure numbering, no pasted source code) |
+
+## 7. Content Not Cited in This Chapter (important)
+
+| Content | Reason |
+| :--- | :--- |
+| The "64% of the whole school", "58%", "71%" and "60% of the class" figures in the trap descriptions | No statistical source, which violates "every number must be traceable"; rewritten as "high-frequency error-prone points annotated from textbooks and syllabi" |
+| The verbatim 🚨 emoji text of the trap `title` fields | Academic body text must rewrite it as a declarative sentence |
+| `report_service.py` / `/api/reports/trend` / `reports/report_data_contract.md` | These do not exist in the repository; 5.4.3 now cites `frontend/app.js` as ruled by the team lead |

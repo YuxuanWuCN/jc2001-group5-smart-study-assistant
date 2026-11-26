@@ -321,9 +321,9 @@ def test_truncate_safely_cuts_latin_text_on_a_word_boundary():
     assert text.startswith(out[:-1])
 
 
-def test_truncate_safely_handles_cjk_text_that_has_no_spaces():
-    """CJK text has no spaces; it must still be trimmed to the budget, not dropped."""
-    text = "请回忆相关先修定理的严格边界条件，并思考该选项是否真的满足题干所给的前提假设。"
+def test_truncate_safely_handles_unspaced_text_that_has_no_spaces():
+    """Unspaced text has no word boundaries; it must still be trimmed to the budget, not dropped."""
+    text = "antidisestablishmentarianismantidisestablishmentarianism"
     out = truncate_safely(text, 20)
 
     assert out.endswith("…")

@@ -1,6 +1,6 @@
 # Table 4.1 — Architecture Decision Records
 
-**Chapter 4.4 · 王思鉴 (50106045)**
+**Chapter 4.4 · Wang Sijian (50106045)**
 **Baseline:** `develop` @ `626d467`
 
 All seven decisions below are traceable to the current implementation. Each entry has, in the body text (4.4.2), an 80–120 word expansion; the table exists to make the trade-off structure visible at a glance.
@@ -22,7 +22,7 @@ All seven decisions below are traceable to the current implementation. Each entr
 - **No row may have an empty or "none" cost column.** Task pack §4.4 treats a cost-free decision as evidence that the decision was not thought through, and §4 lists it as an automatic rejection.
 - **AD-5 and AD-6/AD-7 are the honest disclosures.** They are deliberately stated as weaknesses. The marking scheme rewards consistency and technical depth, and a report that claims no weaknesses contradicts the empirical results in Chapter 6.
 - **Cross-references that must stay aligned:**
-  - AD-4 ↔ Chapter 5.4 (董思钦) comparison of table lookup versus LLM generation;
+  - AD-4 ↔ Chapter 5.4 (Dong Siqin) comparison of table lookup versus LLM generation;
   - AD-5 ↔ Figure 4.2 (dashed Neo4j marked *offline evaluation only*) and Chapter 6.3 (MMLU results);
   - AD-6, AD-7 ↔ Chapter 7 Limitations and Chapter 2.3 security NFR.
 - **Word budget:** 300–400 words for §4.4 in total, of which each AD gets 80–120 words in the body. The table itself does not count toward the word total.
@@ -33,8 +33,8 @@ All seven decisions below are traceable to the current implementation. Each entr
 | :--- | :--- |
 | AD-1 | `backend/app/main.py` — `create_app()`, three `include_router` calls, one `StaticFiles` mount |
 | AD-2 | `frontend/index.html`, `frontend/app.js` — no `package.json`, no build output |
-| AD-3 | `backend/app/data/seed_questions.py` — 657 lines, 12 items, imported at start-up |
+| AD-3 | `backend/app/data/seed_questions.py` — 932 lines, 17 items, imported at start-up |
 | AD-4 | `backend/app/services/diagnostic_service.py` — `traps[option.trap_id]` lookup |
-| AD-5 | `graphrag（终）/real_graph_engine.py` — separate offline scripts, not imported by `backend/app` |
+| AD-5 | `graphrag_final/real_graph_engine.py` — separate offline scripts, not imported by `backend/app` |
 | AD-6 | `backend/app/main.py` — `CORSMiddleware(allow_origins=["*"], allow_credentials=True)` |
 | AD-7 | `frontend/app.js` — `localStorage` reads and writes for attempts and theme |

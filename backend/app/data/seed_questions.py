@@ -1,6 +1,7 @@
 """
-JC2001 Smart Study Assistant - Curated Multi-Discipline Seed Question Bank
-Contains 12 curated questions across 4 subjects (law, cs, econ, se) with 36 fine-grained distractor traps.
+StudyGraph (JC2001 Group 5) - Curated Multi-Discipline Seed Question Bank
+Contains 17 curated questions across 9 subjects (law, cs, econ, se, or, mis, prob_stat, mkt, eng)
+with 51 fine-grained distractor traps.
 """
 
 from typing import List, Dict
@@ -15,917 +16,916 @@ from backend.app.models.quiz import (
 
 SEED_QUESTIONS: List[QuizItem] = [
     # =========================================================================
-    # 1. LAW (民商法学与民法典)
+    # 1. LAW (Civil and Commercial Law · Civil Code)
     # =========================================================================
     QuizItem(
         id="law_1",
         subject="law",
         difficulty="★★★☆☆",
-        tag="可撤销民事法律行为 · 撤销权存续期间",
-        stem="甲于2023年3月1日因受欺诈与乙签订二手车买卖合同，同年5月1日甲知道该欺诈事由。根据《民法典》关于可撤销民事法律行为的规定，甲请求人民法院撤销该合同的除斥期间应当自何时起算？最迟于何时届满？",
+        tag="Revocable juristic acts · duration of the right of revocation",
+        stem="On 1 March 2023, Party A was induced by fraud to conclude a second-hand car sale contract with Party B, and on 1 May of the same year Party A became aware of the fraud. Under the Civil Code provisions on revocable juristic acts, from what date does the preclusive period for Party A to request a people's court to rescind the contract start to run, and by what date must it expire at the latest?",
         options=[
-            OptionItem(key="A", text="自合同签订之日（2023年3月1日）起算，最迟于 3 年内届满", is_correct=False, trap_id="trap_law_1"),
-            OptionItem(key="B", text="自知道受欺诈之日（2023年5月1日）起算，最迟于 1 年内届满", is_correct=True),
-            OptionItem(key="C", text="自欺诈行为终止之日起算，最迟于 1 年内届满", is_correct=False, trap_id="trap_law_2"),
-            OptionItem(key="D", text="自合同签订之日起算，无论是否知情一律在 2 年内届满", is_correct=False, trap_id="trap_law_3"),
+            OptionItem(key="A", text="Runs from the date the contract was signed (1 March 2023) and expires no later than 3 years afterwards", is_correct=False, trap_id="trap_law_1"),
+            OptionItem(key="B", text="Runs from the date the fraud became known (1 May 2023) and expires no later than 1 year afterwards", is_correct=True),
+            OptionItem(key="C", text="Runs from the date the fraudulent conduct ceased and expires no later than 1 year afterwards", is_correct=False, trap_id="trap_law_2"),
+            OptionItem(key="D", text="Runs from the date the contract was signed and, irrespective of knowledge, expires in all cases within 2 years", is_correct=False, trap_id="trap_law_3"),
         ],
-        explanation="【权威考点解析 · 民法典第152条】：重大误解撤销权自知道之日起90日内行使，受欺诈撤销权自知道或者应当知道之日起1年内行使；自行为发生之日起5年内未行使的撤销权消灭。该期限性质属于除斥期间，不发生中止、中断或延长！",
+        explanation="[Authoritative examination analysis · Civil Code Art. 152]: The right of revocation for material misunderstanding must be exercised within 90 days of the date it becomes known, and the right of revocation for fraud must be exercised within 1 year of the date the fraud is known or ought to have been known; the right of revocation is extinguished if it is not exercised within 5 years of the date of the act. This period is preclusive in nature: it is not subject to suspension, interruption or extension!",
         traps={
             "trap_law_1": TrapDetail(
-                title="🚨 典型混淆陷阱：把'形成权除斥期间'错套为'3年普通诉讼时效'",
-                desc="这是全校 64% 学生最常踩的深坑！通用 AI 答题时也经常将《民法典》第 188 条的 3 年诉讼时效套到撤销权上。诉讼时效管的是'请求权'，而撤销权属于'形成权'，必须适用严格的法定除斥期间！",
-                prereq="先修定理前置：请求权 vs 形成权区别与法定除斥期间",
+                title="🚨 Classic confusion: applying the 3-year limitation period to a formative right",
+                desc="The most common trap in the cohort. General-purpose chatbots also tend to apply the 3-year limitation period of Civil Code Art. 188 to the right of revocation. A limitation period governs claims, whereas the right of revocation is a formative right and is therefore subject to a strict statutory preclusive period.",
+                prereq="Prerequisite: the distinction between claims and formative rights, and statutory preclusive periods",
                 radar_hit="trapDefense"
             ),
             "trap_law_2": TrapDetail(
-                title="🚨 规范错配陷阱：把'受欺诈'与'受胁迫'的法定起算点混为一谈",
-                desc="《民法典》严格区分受欺诈与受胁迫：受胁迫才自'胁迫行为终止之日'起算；受欺诈则是自'知道或者应当知道撤销事由之日'起算！",
-                prereq="先修定理前置：胁迫与欺诈意志瑕疵法定起算条件",
+                title="🚨 Norm-mismatch trap: conflating the statutory start dates for 'fraud' and 'duress'",
+                desc="The Civil Code draws a strict distinction between fraud and duress: only duress runs from 'the date the duress ceased', whereas fraud runs from 'the date the ground for revocation is known or ought to have been known'!",
+                prereq="Prerequisite: statutory start-date conditions for defects of will caused by duress and fraud",
                 radar_hit="boundary"
             ),
             "trap_law_3": TrapDetail(
-                title="🚨 历史废条死记陷阱：混淆旧合同法与现行民法典",
-                desc="误用了已被废止的旧合同法条款。现行民法典明确统一为受欺诈起算 1 年，最长保护期为 5 年（并非 2 年）。",
-                prereq="先修定理前置：民法典总则编撤销权体系",
+                title="🚨 Repealed-provision rote-memorisation trap: confusing the old Contract Law with the current Civil Code",
+                desc="The student wrongly applies a provision of the repealed Contract Law. The current Civil Code uniformly provides a 1-year period running from fraud and a maximum protection period of 5 years (not 2 years).",
+                prereq="Prerequisite: the system of the right of revocation in the General Provisions of the Civil Code",
                 radar_hit="recall"
             )
         },
         graph=GraphData(
-            title="民法典第152条·可撤销民事法律行为拓扑子图",
+            title="Civil Code Art. 152 · topology subgraph of revocable juristic acts",
             nodes=[
-                GraphNode(id="c1", label="撤销权除斥期间", type="core", x=260, y=140),
-                GraphNode(id="p1", label="知道欺诈之日起 1年", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="行为发生起最长 5年", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 错套3年诉讼时效", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 错记胁迫终止点", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Preclusive period of the right of revocation", type="core", x=260, y=140),
+                GraphNode(id="p1", label="1 year from knowledge of the fraud", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Maximum 5 years from the act", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: misapplying the 3-year limitation period", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: misremembering the duress end point", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="主除斥期间"),
-                GraphEdge(from_node="p2", to_node="c1", label="最长保护期"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (混淆权利性质)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (错配起算点)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Primary preclusive period"),
+                GraphEdge(from_node="p2", to_node="c1", label="Maximum protection period"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (confusing the nature of the right)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (mismatching the start date)"),
             ]
         ),
-        socratic_prompt="同学，请停下来想一想：在民法理论中，当事人要消灭一个已经成立的合同，行使的是让相对人掏钱还货的'请求权'，还是凭单方意思就能变更法律关系的'形成权'？为什么这两种权利的时效规定截然不同？"
+        socratic_prompt="Stop and think for a moment: in civil-law theory, when a party extinguishes an already-formed contract, is it exercising a 'claim' that compels the counterparty to pay money or return goods, or a 'formative right' that can alter the legal relationship by unilateral declaration? Why are the time limits for these two kinds of right fundamentally different?"
     ),
 
     QuizItem(
         id="law_2",
         subject="law",
         difficulty="★★★★☆",
-        tag="物权编 · 动产善意取得构成要件与阻却事由",
-        stem="甲将其所有的专业单反相机出借给乙使用，乙擅自以市场公允价 12000 元卖给不知情的摄影爱好者丙，并当场完成交付并收款完毕。一周后甲发现此事，向丙主张相机所有权要求其无偿归还。关于本案法律效力，下列说法完全正确的是？",
+        tag="Property law · requirements and defences of bona fide acquisition of movables",
+        stem="A lends his professional DSLR camera to B for use. Without authorisation, B sells it at the fair market price of RMB 12,000 to C, a photography enthusiast who is unaware of the arrangement, and completes delivery and payment on the spot. A week later A discovers this and asserts ownership against C, demanding the camera's return without compensation. As to the legal effect of this case, which of the following statements is entirely correct?",
         options=[
-            OptionItem(key="A", text="因乙对相机无处分权，乙丙之间的买卖合同自始绝对无效，丙不能取得所有权", is_correct=False, trap_id="trap_law_2_1"),
-            OptionItem(key="B", text="丙已基于《民法典》善意取得制度原始取得该相机所有权，甲无权要求返还原物", is_correct=True),
-            OptionItem(key="C", text="因相机属于出借物而非遗失物，丙必须先行向甲支付合理补偿后方可保留相机", is_correct=False, trap_id="trap_law_2_2"),
-            OptionItem(key="D", text="善意取得仅适用于不动产物权，动产在原权利人甲明确追认前处于效力待定状态", is_correct=False, trap_id="trap_law_2_3"),
+            OptionItem(key="A", text="Because B had no power of disposal over the camera, the sale contract between B and C is absolutely void ab initio and C cannot acquire ownership", is_correct=False, trap_id="trap_law_2_1"),
+            OptionItem(key="B", text="C has acquired original ownership of the camera under the bona fide acquisition regime of the Civil Code, and A has no right to demand return of the original property", is_correct=True),
+            OptionItem(key="C", text="Because the camera was lent rather than lost, C must first pay A reasonable compensation before retaining it", is_correct=False, trap_id="trap_law_2_2"),
+            OptionItem(key="D", text="Bona fide acquisition applies only to real-property rights; a movable remains in a pending-validity state until the original owner A expressly ratifies the transfer", is_correct=False, trap_id="trap_law_2_3"),
         ],
-        explanation="【权威考点解析 · 民法典第311条与第597条】：① 无处分权人订立的买卖合同有效（彻底废除原合同法第51条效力待定说）；② 善意取得构成要件：受让人受让时善意且无重大过失、以合理价格转让、已依法完成交付。丙完全满足三要件，依法取得动产所有权；甲只能向无权处分人乙主张侵权赔偿或不当得利！",
+        explanation="[Authoritative examination analysis · Civil Code Arts. 311 and 597]: (1) A sale contract concluded by a person without power of disposal is valid (the old Contract Law Art. 51 pending-validity doctrine is entirely abolished); (2) the requirements for bona fide acquisition are: the transferee is in good faith and free of gross negligence at the time of transfer, the transfer is at a reasonable price, and delivery has been completed in accordance with law. C satisfies all three requirements and therefore acquires ownership of the movable by operation of law; A may only claim tort damages or unjust enrichment from B, the person without power of disposal!",
         traps={
             "trap_law_2_1": TrapDetail(
-                title="🚨 废除旧法死记陷阱：把'处分权瑕疵'误等同于'买卖合同绝对无效'",
-                desc="这是法学期末和考研 58% 学生极易踩中的传统重灾区！民法典明确区分负担行为（债权合同）与处分行为（物权变动）。买卖合同即使无权处分也有效，不能履行则承担违约责任，善意受让人更直接受善意取得保护！",
-                prereq="先修定理前置：债权合同效力与物权变动分离原则",
+                title="🚨 Repealed-law rote-memorisation trap: equating a 'defect in the power of disposal' with an 'absolutely void sale contract'",
+                desc="This is the classic disaster zone that 58% of students fall into in law-school finals and postgraduate entrance examinations! The Civil Code clearly separates the obligational act (the contractual claim) from the act of disposal (the change in real rights). A sale contract remains valid even if concluded without power of disposal; failure to perform gives rise to liability for breach, and a bona fide transferee is directly protected by bona fide acquisition!",
+                prereq="Prerequisite: the separation principle between the validity of a contractual claim and the change of real rights",
                 radar_hit="recall"
             ),
             "trap_law_2_2": TrapDetail(
-                title="🚨 规则混淆陷阱：错把'遗失物盗脏物回赎'套用到'意定借用委托物'上",
-                desc="《民法典》第 312 条仅对遗失物等'非基于真正权利人意思脱离占有的物'规定了 2 年内可支付对价请求返还。本案中甲是自愿借给乙的（占有委托物），原权利人必须自担信托风险，根本不存在有偿回赎权利！",
-                prereq="先修定理前置：占有脱离物 vs 占有委托物法律后果差异",
+                title="🚨 Rule-confusion trap: applying the 'redemption of lost or stolen property' rule to a voluntarily lent, entrusted article",
+                desc="Civil Code Art. 312 provides a 2-year right to demand return upon payment of consideration only for lost property and other 'things that left possession without the true owner's intent'. Here A voluntarily lent the camera to B (an article entrusted to possession), so the original owner must bear the trust risk himself; there is simply no right of redemption for consideration!",
+                prereq="Prerequisite: the difference in legal consequences between lost or escaped articles and entrusted articles",
                 radar_hit="boundary"
             ),
             "trap_law_2_3": TrapDetail(
-                title="🚨 制度适用范围盲区：善意取得横跨动产与不动产两大领域",
-                desc="通用 AI 常常将动产交付与不动产登记要件张冠李戴。善意取得恰恰是以动产占有公信力与不动产登记公信力为双支柱的法定原始取得制度！",
-                prereq="先修定理前置：物权公示与公信原则在动产中的体现",
+                title="🚨 Blind spot in the scope of the doctrine: bona fide acquisition spans both movables and immovables",
+                desc="General-purpose AI frequently mixes up delivery for movables with registration for immovables. Bona fide acquisition is precisely a statutory regime of original acquisition resting on two pillars: the public credibility of possession for movables and of registration for immovables!",
+                prereq="Prerequisite: the principles of publicity and public credibility as applied to movables",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="民法典第311条·善意取得构成与阻却拓扑图",
+            title="Civil Code Art. 311 · topology of the elements and defences of bona fide acquisition",
             nodes=[
-                GraphNode(id="c1", label="动产善意取得 (311条)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="善意+合理价格+完成交付", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="占有委托物风险归属", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 误判买卖合同无效", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 错套遗失物回赎补偿", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Bona fide acquisition of movables (Art. 311)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Good faith + reasonable price + completed delivery", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Risk allocation for entrusted articles", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: wrongly treating the sale contract as void", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: misapplying lost-property redemption", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="法定三要素"),
-                GraphEdge(from_node="p2", to_node="c1", label="阻却原物返还"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (负担与处分行为未区分)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (脱离物与委托物混同)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Three statutory elements"),
+                GraphEdge(from_node="p2", to_node="c1", label="Bars return of the original"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (failing to distinguish obligational from dispositive acts)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (conflating escaped and entrusted articles)"),
             ]
         ),
-        socratic_prompt="同学请思考：如果原所有人甲自己不谨慎把相机借给不可靠的朋友乙，而善意买家丙在市场上付了真金白银拿到了相机，法律为什么要保护丙而不是保护甲？这背后体现了怎样的商事交易安全价值取向？"
+        socratic_prompt="Think about this: if the original owner A carelessly lent the camera to an unreliable friend B, while the bona fide buyer C paid real money in the open market and obtained the camera, why does the law protect C rather than A? What commercial-transaction-security value orientation does this reflect?"
     ),
 
     QuizItem(
         id="law_3",
         subject="law",
         difficulty="★★★★☆",
-        tag="总则编 · 表见代理与权利外观责任",
-        stem="某软件科技公司解聘了销售副总张某，但疏忽未及时收缴其持有的加盖公司公章的空白业务授权书及合同专用章。次日，张某持上述文件以该科技公司名义，与不知其离职且已尽通常注意义务的某云服务商签订了价值 80 万元的机房服务器租用合同。关于该合同效力与责任，下列说法正确的是？",
+        tag="General Provisions · apparent authority and liability based on appearance",
+        stem="A software technology company dismissed its vice-president of sales, Zhang, but negligently failed to collect in time the blank business authorisation letter bearing the company seal and the dedicated contract seal that he held. The next day Zhang, using those documents and acting in the company's name, concluded an RMB 800,000 server-room leasing contract with a cloud service provider that was unaware of his departure and had exercised ordinary care. As to the validity of, and liability under, that contract, which of the following statements is correct?",
         options=[
-            OptionItem(key="A", text="张某离职后已无代理权，该合同自始绝对无效，科技公司不负任何民事责任", is_correct=False, trap_id="trap_law_3_1"),
-            OptionItem(key="B", text="构成表见代理，该合同对科技公司有效，科技公司须承担合同约定的履约付款责任", is_correct=True),
-            OptionItem(key="C", text="该合同属于效力待定合同，若科技公司在法定 30 天内不予追认，则合同直接归于消灭", is_correct=False, trap_id="trap_law_3_2"),
-            OptionItem(key="D", text="只有当云服务商能充分证明科技公司高管存在主观欺诈故意时，方能认定表见代理成立", is_correct=False, trap_id="trap_law_3_3"),
+            OptionItem(key="A", text="Zhang had no authority after leaving office, so the contract is absolutely void ab initio and the technology company bears no civil liability whatsoever", is_correct=False, trap_id="trap_law_3_1"),
+            OptionItem(key="B", text="Apparent authority is established; the contract is valid as against the technology company, which must bear the contractual obligation to perform and pay", is_correct=True),
+            OptionItem(key="C", text="The contract is a pending-validity contract; if the technology company does not ratify it within the statutory 30 days, the contract is extinguished outright", is_correct=False, trap_id="trap_law_3_2"),
+            OptionItem(key="D", text="Apparent authority can be established only if the cloud service provider can fully prove that the technology company's executives had a subjective intent to defraud", is_correct=False, trap_id="trap_law_3_3"),
         ],
-        explanation="【权威考点解析 · 民法典第172条】：行为人没有代理权、超越代理权或者代理权终止后，仍然实施代理行为，相对人有理由相信行为人有代理权的，代理行为有效。公司未收回印章与授权书具有重大过失（可归责的外观），相对人善意无过失，构成表见代理！公司履行后可向张某追偿！",
+        explanation="[Authoritative examination analysis · Civil Code Art. 172]: Where an actor performs an agency act without authority, beyond the scope of authority, or after the authority has terminated, and the counterparty has reason to believe that the actor has authority, the agency act is valid. The company's failure to recover the seals and the authorisation letter amounts to gross negligence (an attributable appearance), and the counterparty is in good faith and free from negligence, so apparent authority is established! After performing, the company may seek recourse against Zhang!",
         traps={
             "trap_law_3_1": TrapDetail(
-                title="🚨 机械无权否定陷阱：忽视商事外观法理对善意第三人的倾斜保护",
-                desc="很多初学者只看到'张某已离职无权'这半句话，机械认定合同无效。表见代理制度的存在目的，恰恰就是在代理权实质欠缺时，因被代理人造成了权利外观而强制其承受法律后果！",
-                prereq="先修定理前置：权利外观理论与信赖利益保护",
+                title="🚨 Mechanical denial-of-authority trap: ignoring the commercial-appearance doctrine's tilt towards bona fide third parties",
+                desc="Many beginners see only the half-sentence 'Zhang had left office and had no authority' and mechanically hold the contract void. The very purpose of the apparent-authority regime is to bind the principal to the legal consequences when authority is substantively lacking but the principal has created an appearance of right!",
+                prereq="Prerequisite: the appearance-of-right theory and the protection of reliance interests",
                 radar_hit="trapDefense"
             ),
             "trap_law_3_2": TrapDetail(
-                title="🚨 程序顺位颠倒陷阱：把'表见代理'降级为'狭义无权代理的效力待定'",
-                desc="表见代理一旦成立，相对人享有选择权：既可以主张表见代理有效要求公司履约，也可以主动撤销。但被代理人（科技公司）根本无权单方面通过'拒绝追认'来废除合同！",
-                prereq="先修定理前置：表见代理与狭义无权代理法律后果断点",
+                title="🚨 Reversed-order trap: downgrading 'apparent authority' to the 'pending validity of unauthorised agency in the narrow sense'",
+                desc="Once apparent authority is established, the counterparty has a choice: it may either assert that the apparent agency is valid and require the company to perform, or it may rescind on its own initiative. But the principal (the technology company) has no right at all to annul the contract unilaterally by 'refusing to ratify'!",
+                prereq="Prerequisite: the breakpoint in legal consequences between apparent authority and unauthorised agency in the narrow sense",
                 radar_hit="boundary"
             ),
             "trap_law_3_3": TrapDetail(
-                title="🚨 归责要件苛刻化陷阱：混淆'权利外观可归责性'与'侵权故意'",
-                desc="认定表见代理完全不需要被代理人具有主观欺诈故意！只要公章管理不善、授权书未收回等客观过失造成了权利外观，就足以认定本人具有可归责性！",
-                prereq="先修定理前置：表见代理客观要件与主观要件判定标准",
+                title="🚨 Over-strict attribution trap: confusing 'attributability of the appearance of right' with 'intent to commit a tort'",
+                desc="Establishing apparent authority does not require the principal to have any subjective intent to defraud! Objective negligence such as poor seal management or failure to recover the authorisation letter, if it creates the appearance of right, is sufficient to establish the principal's attributability!",
+                prereq="Prerequisite: the criteria for the objective and subjective elements of apparent authority",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="民法典第172条·表见代理效力归属拓扑图",
+            title="Civil Code Art. 172 · topology of the attribution of apparent-authority effects",
             nodes=[
-                GraphNode(id="c1", label="表见代理 (172条)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="权利外观+本人过失", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="相对人善意且无过失", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 错判为绝对无效", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 误以为必须本人故意", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Apparent authority (Art. 172)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Appearance of right + principal's negligence", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Counterparty in good faith and without negligence", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: wrongly held absolutely void", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: wrongly requiring the principal's intent", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="外观形成归责"),
-                GraphEdge(from_node="p2", to_node="c1", label="信赖保护要件"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (机械无权观)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (苛刻主观要件)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Appearance creates attributability"),
+                GraphEdge(from_node="p2", to_node="c1", label="Reliance-protection element"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (mechanical view of lack of authority)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (over-strict subjective element)"),
             ]
         ),
-        socratic_prompt="请同学设身处地推演：如果你是一家供应商，对方拿着盖有鲜章的授权书和公章来签约，你有可能去查他们公司内部今天有没有发红头文件开除这个人吗？法律为什么要让疏于管理印章的公司买单？"
+        socratic_prompt="Put yourself in the shoes of a supplier: if the person in front of you produces an authorisation letter and company seal stamped with the official red seal, could you realistically check whether that company issued an internal notice dismissing him today? Why does the law make a company that manages its seals carelessly foot the bill?"
     ),
 
     # =========================================================================
-    # 2. CS (计算机体系结构)
+    # 2. CS (Computer Architecture)
     # =========================================================================
     QuizItem(
         id="cs_1",
         subject="cs",
         difficulty="★★★★☆",
-        tag="RISC经典流水线 · 冒险处理与前递旁路",
-        stem="在标准五级按序执行流水线（IF, ID, EX, MEM, WB）中，指令 i 为算术运算（如 add R1, R2, R3），紧随其后的指令 i+1（如 sub R4, R1, R5）在执行阶段需要用到 R1。关于此场景下的流水线冒险与优化，下列说法正确的是？",
+        tag="Classic RISC pipeline · hazard handling and forwarding bypass",
+        stem="In a standard five-stage in-order pipeline (IF, ID, EX, MEM, WB), instruction i is an arithmetic operation (e.g. add R1, R2, R3), and the immediately following instruction i+1 (e.g. sub R4, R1, R5) needs R1 in its execute stage. Regarding the pipeline hazard and its optimisation in this scenario, which of the following statements is correct?",
         options=[
-            OptionItem(key="A", text="属于写后读 (WAR) 反相关冒险；五级流水线必须插入 2 个周期停顿", is_correct=False, trap_id="trap_cs_1"),
-            OptionItem(key="B", text="属于读后写 (RAW) 真实数据相关；可通过硬件前递旁路 (Forwarding) 消除所有停顿", is_correct=True),
-            OptionItem(key="C", text="属于结构冒险 (Structural Hazard)；必须通过将单端口寄存器升级为多端口解决", is_correct=False, trap_id="trap_cs_2"),
-            OptionItem(key="D", text="属于控制冒险 (Control Hazard)；需要引入分支历史表 (BHT) 预测执行", is_correct=False, trap_id="trap_cs_3"),
+            OptionItem(key="A", text="This is a write-after-read (WAR) anti-dependence hazard; the five-stage pipeline must insert 2 stall cycles", is_correct=False, trap_id="trap_cs_1"),
+            OptionItem(key="B", text="This is a read-after-write (RAW) true data dependence; hardware forwarding can eliminate all stalls", is_correct=True),
+            OptionItem(key="C", text="This is a structural hazard; it must be solved by upgrading the single-port register file to a multi-port one", is_correct=False, trap_id="trap_cs_2"),
+            OptionItem(key="D", text="This is a control hazard; a branch history table (BHT) must be introduced to predict execution", is_correct=False, trap_id="trap_cs_3"),
         ],
-        explanation="【权威考点解析 · RISC 五级流水线数据前递】：指令 i 在 EX 阶段结束时（ALU 输出端）已经计算出了 R1 的新值，而指令 i+1 在 EX 阶段开始时才需要 R1。通过在 EX/MEM 流水线寄存器引出一根前递直通线（Forwarding Path）送入 ALU 输入端，即可完全消除气泡（Zero Stall）！",
+        explanation="[Authoritative examination analysis · data forwarding in the classic RISC five-stage pipeline]: By the end of its EX stage (at the ALU output) instruction i has already computed the new value of R1, whereas instruction i+1 needs R1 only at the start of its EX stage. By routing a forwarding path out of the EX/MEM pipeline register into the ALU inputs, bubbles can be eliminated entirely (zero stall)!",
         traps={
             "trap_cs_1": TrapDetail(
-                title="🚨 高阶概念死记硬背陷阱：五级顺序流水线根本不可能出现 WAR/WAW 反相关！",
-                desc="这是通用大模型极易给出的知识幻觉！只有在支持'乱序执行 (Out-of-Order Execution)'的超标量处理器（如 Tomasulo 架构）中才可能发生 WAR 冒险。在经典五级顺序流水线中，指令按序流淌，前一条指令不可能在后一条指令之后才读取！",
-                prereq="先修定理前置：按序执行与乱序执行的前提差异",
+                title="🚨 Advanced-concept rote-memorisation trap: WAR/WAW anti-dependences cannot occur in an in-order five-stage pipeline at all!",
+                desc="This is a knowledge hallucination that general-purpose LLMs produce very easily! WAR hazards can arise only in superscalar processors that support out-of-order execution (e.g. the Tomasulo architecture). In the classic five-stage in-order pipeline instructions flow in program order, so an earlier instruction can never read a register after a later one!",
+                prereq="Prerequisite: the difference in premises between in-order and out-of-order execution",
                 radar_hit="boundary"
             ),
             "trap_cs_2": TrapDetail(
-                title="🚨 分类混淆陷阱：误将'寄存器数据传递'判断为'硬件结构资源冲突'",
-                desc="结构冒险指的是多个指令在同一时钟周期争夺同一物理部件（例如单端口内存同时读指令与读数据）。题干明确是寄存器数值的前后依赖，是纯粹的数据冒险！",
-                prereq="先修定理前置：三大流水线冒险分类边界",
+                title="🚨 Classification-confusion trap: mistaking 'register data transfer' for a 'hardware structural resource conflict'",
+                desc="A structural hazard means several instructions contending for the same physical component in the same clock cycle (for example, a single-port memory being read for an instruction and for data at once). The stem clearly describes a forward-backward dependence on a register value, which is a pure data hazard!",
+                prereq="Prerequisite: the boundaries between the three pipeline hazard classes",
                 radar_hit="recall"
             ),
             "trap_cs_3": TrapDetail(
-                title="🚨 题意泛化盲猜陷阱：算术指令不存在条件分支",
-                desc="控制冒险仅由条件分支（beq, bne）或无条件跳转（jmp）修改 PC 引起，普通算术指令没有任何分支预测需求！",
-                prereq="先修定理前置：控制冒险与分支指令语义",
+                title="🚨 Over-generalisation trap: arithmetic instructions contain no conditional branch",
+                desc="Control hazards are caused only by conditional branches (beq, bne) or unconditional jumps (jmp) modifying the PC; ordinary arithmetic instructions have no branch-prediction requirement at all!",
+                prereq="Prerequisite: control hazards and the semantics of branch instructions",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="RISC 五级流水线·数据依赖与前递旁路图谱",
+            title="RISC five-stage pipeline · data dependence and forwarding-path map",
             nodes=[
-                GraphNode(id="c1", label="流水线数据冒险 (RAW)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="前提: 按序发射执行", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="方案: ALU前递旁路", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="幻觉陷阱: 错套WAR反相关", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="混淆陷阱: 错判为结构争用", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Pipeline data hazard (RAW)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Premise: in-order issue and execution", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Solution: ALU forwarding path", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Hallucination trap: misapplying WAR anti-dependence", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Confusion trap: wrongly judged as structural contention", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="体系结构约束"),
-                GraphEdge(from_node="p2", to_node="c1", label="硬件零停顿优化"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (乱序与顺序概念混淆)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (资源争用与数据流混淆)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Microarchitectural constraint"),
+                GraphEdge(from_node="p2", to_node="c1", label="Zero-stall hardware optimisation"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (conflating out-of-order and in-order concepts)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (conflating resource contention and data flow)"),
             ]
         ),
-        socratic_prompt="吴同学，请观察 MIPS 五级流水线的时空图：在按序发射的情况下，如果一条指令在时钟周期 3 的末尾已经拿到了算术结果，而下一条指令在周期 4 的开始才需要这个结果，为什么我们非要傻等到周期 5 写回寄存器堆才拿呢？中间能搭一条近道吗？"
+        socratic_prompt="Examine the space-time diagram of the MIPS five-stage pipeline: with in-order issue, if an instruction has already obtained its arithmetic result at the end of clock cycle 3, while the next instruction needs that result only at the start of cycle 4, why should we wait needlessly until cycle 5 when the result is written back to the register file? Could we build a short cut in between?"
     ),
 
     QuizItem(
         id="cs_2",
         subject="cs",
         difficulty="★★★★☆",
-        tag="存储层次结构 · Cache 组相联映射与缺失分析",
-        stem="某 32 位字节编址处理器配置有 32KB 的数据 Cache，Cache 块大小为 64 字节，采用 4 路组相联（4-Way Set Associative）映射。现程序频繁循环访问步长为 32KB 的大数组导致严重的冲突缺失（Conflict Miss）。下列关于该 Cache 字段划分与缺失优化，叙述完全正确的是？",
+        tag="Memory hierarchy · set-associative cache mapping and miss analysis",
+        stem="A 32-bit byte-addressed processor has a 32KB data cache with a block size of 64 bytes and 4-way set-associative mapping. A program now repeatedly loops over a large array with a stride of 32KB, causing severe conflict misses. Regarding the cache field breakdown and miss optimisation, which of the following statements is entirely correct?",
         options=[
-            OptionItem(key="A", text="主存地址划分为：Tag=19位，Index=7位，Offset=6位；将相联度提升为 8 路可直接缓解冲突缺失", is_correct=True),
-            OptionItem(key="B", text="主存地址划分为：Tag=18位，Index=8位，Offset=6位；将替换算法由 LRU 改为 FIFO 可降低缺失率", is_correct=False, trap_id="trap_cs_2_1"),
-            OptionItem(key="C", text="主存地址划分为：Tag=20位，Index=6位，Offset=6位；将块大小从 64B 增大到 128B 能根治冲突缺失", is_correct=False, trap_id="trap_cs_2_2"),
-            OptionItem(key="D", text="只要在 CPU 内部增加一级指令预取缓冲区（Prefetch Buffer），即可完全消除数据 Cache 的所有缺失", is_correct=False, trap_id="trap_cs_2_3"),
+            OptionItem(key="A", text="The main-memory address is split as Tag = 19 bits, Index = 7 bits, Offset = 6 bits; raising associativity to 8 ways directly alleviates the conflict misses", is_correct=True),
+            OptionItem(key="B", text="The main-memory address is split as Tag = 18 bits, Index = 8 bits, Offset = 6 bits; changing the replacement policy from LRU to FIFO reduces the miss rate", is_correct=False, trap_id="trap_cs_2_1"),
+            OptionItem(key="C", text="The main-memory address is split as Tag = 20 bits, Index = 6 bits, Offset = 6 bits; increasing the block size from 64B to 128B cures the conflict misses", is_correct=False, trap_id="trap_cs_2_2"),
+            OptionItem(key="D", text="Adding a single instruction prefetch buffer inside the CPU eliminates all data-cache misses completely", is_correct=False, trap_id="trap_cs_2_3"),
         ],
-        explanation="【权威考点解析 · Cache 地址划分与 3C 缺失】：① 块大小 64B = 2⁶，故 Offset = 6 位；总块数 = 32KB / 64B = 512 块；4 路组相联则组数 = 512 / 4 = 128 组 = 2⁷，故 Index = 7 位；Tag = 32 - 7 - 6 = 19 位！② 冲突缺失源于多个数据映射到同一下标组，增大路数（如改为 8 路）或引入 Victim Cache 是经典有效解法！",
+        explanation="[Authoritative examination analysis · cache address breakdown and 3C misses]: (1) block size 64B = 2⁶, so Offset = 6 bits; total blocks = 32KB / 64B = 512 blocks; with 4-way set associativity the number of sets = 512 / 4 = 128 sets = 2⁷, so Index = 7 bits; Tag = 32 - 7 - 6 = 19 bits! (2) Conflict misses arise because several data items map to the same index set; increasing the number of ways (for example to 8 ways) or introducing a victim cache are the classic effective remedies!",
         traps={
             "trap_cs_2_1": TrapDetail(
-                title="🚨 组数计算与替换策略双重陷阱：混淆 Cache 总块数与组数",
-                desc="许多同学直接把 512 块当成 512 组算出 9 位或 8 位 Index。更严重的是，LRU 基于时间局部性是理论与工程最佳基准，FIFO 不仅缺失率更高，还会引发著名的 Belady 异常！",
-                prereq="先修定理前置：组相联 Cache 组数计算公式与局部性原理",
+                title="🚨 Double trap in set counting and replacement policy: confusing total cache blocks with the number of sets",
+                desc="Many students treat the 512 blocks directly as 512 sets and therefore derive a 9-bit or 8-bit Index. Worse still, LRU, grounded in temporal locality, is the best theoretical and engineering baseline; FIFO not only yields a higher miss rate but also triggers the famous Belady anomaly!",
+                prereq="Prerequisite: the set-count formula for set-associative caches and the principle of locality",
                 radar_hit="precision"
             ),
             "trap_cs_2_2": TrapDetail(
-                title="🚨 块大小盲目增大陷阱：块过大会压缩组数并加剧冲突缺失",
-                desc="在 Cache 总容量固定的前提下，盲目增大块大小会导致 Cache 总组数急剧减半，反而使步长访问的冲突缺失雪上加霜，并显著增加主存缺失惩罚（Miss Penalty）！",
-                prereq="先修定理前置：3C 缺失模型（冷启动/容量/冲突）权衡博弈",
+                title="🚨 Blind block-size increase trap: an oversized block compresses the number of sets and aggravates conflict misses",
+                desc="With total cache capacity fixed, blindly increasing the block size sharply halves the number of sets, which makes stride-access conflict misses even worse and significantly raises the main-memory miss penalty!",
+                prereq="Prerequisite: the trade-off structure of the 3C miss model (compulsory / capacity / conflict)",
                 radar_hit="boundary"
             ),
             "trap_cs_2_3": TrapDetail(
-                title="🚨 部件职责错配陷阱：把指令预取与数据访存混为一谈",
-                desc="指令预取缓冲区针对的是顺序指令流的自适应提取，对大步长随机跳转的数据密集型数组读写根本无法起到降低冲突缺失的作用！",
-                prereq="先修定理前置：哈佛结构下指令 Cache 与数据 Cache 行为解耦",
+                title="🚨 Component-role mismatch trap: conflating instruction prefetch with data memory access",
+                desc="An instruction prefetch buffer performs adaptive fetching of a sequential instruction stream; it cannot reduce conflict misses in data-intensive array reads and writes that jump randomly with a large stride!",
+                prereq="Prerequisite: the decoupling of instruction-cache and data-cache behaviour under the Harvard architecture",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="组相联 Cache·地址解码与冲突缺失权衡图谱",
+            title="Set-associative cache · address decoding and conflict-miss trade-off map",
             nodes=[
-                GraphNode(id="c1", label="4路组相联 (Index 7位)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="块大小64B (Offset 6位)", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="容量32KB (128组/Tag 19位)", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 错把块数当组数", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 误以为FIFO优于LRU", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="4-way set associative (Index 7 bits)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Block size 64B (Offset 6 bits)", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Capacity 32KB (128 sets / Tag 19 bits)", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: mistaking block count for set count", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: wrongly assuming FIFO beats LRU", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="低位块内寻址"),
-                GraphEdge(from_node="p2", to_node="c1", label="相联度与组数约束"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (计算除以路数遗漏)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (替换算法局部性原理违背)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Low-order in-block addressing"),
+                GraphEdge(from_node="p2", to_node="c1", label="Associativity and set-count constraint"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (forgetting to divide by the number of ways)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (violating locality in the replacement policy)"),
             ]
         ),
-        socratic_prompt="请同学拿起草稿纸算一算：如果一个水库有 512 个蓄水池，每个池子单独编号。现在我们把每 4 个池子编成一个大组，那么一共有多少个大组？为什么寻址时硬件只需要对组号进行解码，而组内的 4 个池子是并行比较 Tag 的？"
+        socratic_prompt="Take out some paper and calculate: if a reservoir has 512 tanks, each individually numbered, and we now group every 4 tanks into one large group, how many large groups are there in total? Why does the addressing hardware need to decode only the group number, while the 4 tanks within a group have their tags compared in parallel?"
     ),
 
     QuizItem(
         id="cs_3",
         subject="cs",
         difficulty="★★★★★",
-        tag="虚拟存储系统 · TLB 快表与缺页异常处理时序",
-        stem="在支持现代多级页表的虚拟内存系统中，当 CPU 执行一条访存指令（如 lw $t0, 0($a0)）发生地址翻译时，下列关于 TLB（快表）、Page Table（页表）以及缺页异常（Page Fault）的时序与硬件协作，哪一项表述是完全正确的？",
+        tag="Virtual memory system · TLB and page-fault handling sequence",
+        stem="In a virtual-memory system supporting modern multi-level page tables, when the CPU executes a load/store instruction (e.g. lw $t0, 0($a0)) and address translation occurs, which of the following statements about the timing and hardware cooperation among the TLB, the page table and page faults is entirely correct?",
         options=[
-            OptionItem(key="A", text="若 TLB 命中，CPU 直接获取物理地址并发起内存读取，全程完全无需访问主存中的多级页表", is_correct=True),
-            OptionItem(key="B", text="若 TLB 缺失，硬件 MMU 必须立即向操作系统内核报告缺页中断异常（Page Fault），暂停当前进程", is_correct=False, trap_id="trap_cs_3_1"),
-            OptionItem(key="C", text="操作系统缺页异常处理程序完成磁盘换页调入后，CPU 从导致缺页指令的'下一条指令 (PC+4)'恢复执行", is_correct=False, trap_id="trap_cs_3_2"),
-            OptionItem(key="D", text="页表中的有效位（Valid Bit）为 1 且 TLB 缺失时，该物理页必定已经被完全换出到磁盘交换区", is_correct=False, trap_id="trap_cs_3_3"),
+            OptionItem(key="A", text="On a TLB hit the CPU obtains the physical address directly and issues the memory read, with no need whatsoever to access the multi-level page table in main memory", is_correct=True),
+            OptionItem(key="B", text="On a TLB miss the MMU hardware must immediately report a page-fault exception to the OS kernel and suspend the current process", is_correct=False, trap_id="trap_cs_3_1"),
+            OptionItem(key="C", text="After the OS page-fault handler has completed the transfer from disk, the CPU resumes execution at the 'next instruction (PC+4)' after the faulting one", is_correct=False, trap_id="trap_cs_3_2"),
+            OptionItem(key="D", text="When the valid bit in the page table is 1 and the TLB misses, the physical page must already have been fully swapped out to the disk swap area", is_correct=False, trap_id="trap_cs_3_3"),
         ],
-        explanation="【权威考点解析 · 虚拟地址翻译流水线】：① TLB 是页表的高速缓存，TLB 命中时 1 周期内即可完成 VA 到 PA 转换；② TLB 缺失并不等于缺页（Page Fault）！硬件 Page Walker 自动遍历主存页表，若页表项 Valid=1，仅需将该条目回填 TLB 即可，完全不需要唤醒 OS 缺页处理！③ 缺页属于 Fault 级异常，换页完成后硬件必须重新执行引发异常的本条原指令！",
+        explanation="[Authoritative examination analysis · the virtual-address translation pipeline]: (1) The TLB is a cache of page-table entries; on a TLB hit the VA-to-PA translation completes within 1 cycle; (2) a TLB miss is not the same as a page fault! The hardware page walker automatically traverses the main-memory page table, and if the PTE has Valid = 1 it merely needs to refill the TLB with that entry, with no need to wake the OS fault handler at all; (3) a page fault is a fault-class exception, so after the page has been brought in the hardware must re-execute the original instruction that raised the exception!",
         traps={
             "trap_cs_3_1": TrapDetail(
-                title="🚨 经典混淆高危陷阱：把'TLB Miss'错当成'Page Fault'",
-                desc="这是全网大模型乱回答与期末考试 71% 学生必错的核心深坑！TLB 缺失只是快表中没有缓存该页表项，物理页完全可能好端端躺在物理内存中。只有当页表查询发现 Valid=0（该页尚未载入内存）时，才会触发真正的 Page Fault！",
-                prereq="先修定理前置：TLB 快表缓存机制 vs 页表有效位语义",
+                title="🚨 Classic high-risk confusion trap: mistaking a 'TLB miss' for a 'page fault'",
+                desc="This is the core pitfall that LLMs across the web answer wrongly and that 71% of students get wrong in finals! A TLB miss merely means the TLB has not cached that page-table entry; the physical page may well be sitting safely in physical memory. A real page fault is triggered only when the page-table lookup finds Valid = 0 (the page has not yet been loaded into memory)!",
+                prereq="Prerequisite: the TLB caching mechanism versus the semantics of the page-table valid bit",
                 radar_hit="trapDefense"
             ),
             "trap_cs_3_2": TrapDetail(
-                title="🚨 异常返回语义断点陷阱：把'Fault 重执原指令'误套为'Interrupt 返回 PC+4'",
-                desc="中断（Interrupt）是异步的，通常返回下一条指令；而缺页属于故障（Fault），访存指令因缺页尚未成功读取数据，若直接跳到下一条指令，当前寄存器将读入垃圾数据，程序逻辑直接崩塌！",
-                prereq="先修定理前置：三大异常类型（Interrupt, Trap, Fault）保存 PC 行为准则",
+                title="🚨 Exception-return semantics trap: applying the 'interrupt returns to PC+4' rule to a 'fault re-executes the instruction'",
+                desc="An interrupt is asynchronous and normally returns to the next instruction; a page fault, however, is a fault, and the load/store instruction has not yet successfully read its data. Jumping straight to the next instruction would load garbage into the destination register and the program logic would collapse!",
+                prereq="Prerequisite: the PC-saving conventions of the three exception classes (interrupt, trap, fault)",
                 radar_hit="boundary"
             ),
             "trap_cs_3_3": TrapDetail(
-                title="🚨 标志位逻辑彻底反转陷阱：Valid=1 恰恰代表页面在物理内存中",
-                desc="Valid/Present 位为 1 代表页面就在主存物理帧中；为 0 才表示页面未分配或已换出到磁盘 Swap 分区！",
-                prereq="先修定理前置：页表项 PTE（Valid, Dirty, Reference）结构规范",
+                title="🚨 Fully inverted flag-logic trap: Valid = 1 actually means the page is in physical memory",
+                desc="A valid/present bit of 1 means the page is in a physical frame in main memory; only 0 means the page is unallocated or has been swapped out to the disk swap area!",
+                prereq="Prerequisite: the PTE structure (valid, dirty, reference bits)",
                 radar_hit="recall"
             )
         },
         graph=GraphData(
-            title="虚拟内存·TLB查表与缺页异常处理拓扑图",
+            title="Virtual memory · topology of TLB lookup and page-fault handling",
             nodes=[
-                GraphNode(id="c1", label="VA地址翻译流水线", type="core", x=260, y=140),
-                GraphNode(id="p1", label="TLB命中: 1周期直出PA", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="TLB缺失≠缺页 (PageWalk)", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="幻觉陷阱: TLBMiss直报缺页", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 缺页返回跳至PC+4", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="VA address-translation pipeline", type="core", x=260, y=140),
+                GraphNode(id="p1", label="TLB hit: PA in 1 cycle", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="TLB miss ≠ page fault (page walk)", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Hallucination trap: TLB miss reported as page fault", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: page fault returns to PC+4", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="命中快速通道"),
-                GraphEdge(from_node="p2", to_node="c1", label="硬件自动补填"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (未区分TLB与页表层级)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (混淆Fault与Interrupt返回)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Hit fast path"),
+                GraphEdge(from_node="p2", to_node="c1", label="Automatic hardware refill"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (not distinguishing TLB from page-table levels)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (conflating fault and interrupt returns)"),
             ]
         ),
-        socratic_prompt="请同学回想一下：如果一个图书管理员记性特别好（TLB），但他脑子里记不住某本书放在哪个书架上了（TLB Miss），是不是意味着这本书就一定被图书馆扔掉或者借走了呢？他去翻一下总目录卡片（Page Table）是不是就能查到了？"
+        socratic_prompt="Think back: if a librarian has an excellent memory (the TLB) but cannot recall which shelf a particular book is on (a TLB miss), does that necessarily mean the book has been discarded or borrowed? Could he simply consult the master catalogue cards (the page table) and find it?"
     ),
 
     # =========================================================================
-    # 3. ECON (计量经济学)
+    # 3. ECON (Econometrics)
     # =========================================================================
     QuizItem(
         id="econ_1",
         subject="econ",
         difficulty="★★★★☆",
-        tag="经典假定违背 · 多重共线性与遗漏变量偏差",
-        stem="在多元回归模型 Y = β₀ + β₁X₁ + β₂X₂ + u 中，若自变量 X₁ 与 X₂ 之间存在严重但非完全的多重共线性，下列关于普通最小二乘法 (OLS) 估计量性质的描述中，哪一项是完全正确的？",
+        tag="Violation of classic assumptions · multicollinearity and omitted-variable bias",
+        stem="In the multiple regression model Y = β₀ + β₁X₁ + β₂X₂ + u, suppose there is severe but not perfect multicollinearity between the regressors X₁ and X₂. Which of the following descriptions of the properties of the ordinary least squares (OLS) estimator is entirely correct?",
         options=[
-            OptionItem(key="A", text="OLS 估计量失去无偏性 (Biased)，产生严重内生性偏差，无法客观反映总体真实参数", is_correct=False, trap_id="trap_econ_1"),
-            OptionItem(key="B", text="高斯-马尔可夫定理完全失效，OLS 估计量不再属于最佳线性无偏估计 (BLUE)", is_correct=False, trap_id="trap_econ_2"),
-            OptionItem(key="C", text="OLS 估计量依然保持无偏性与 BLUE 性质，但参数方差膨胀，导致 t 检验失效", is_correct=True),
-            OptionItem(key="D", text="模型的总判定系数 R² 会严重受挫跌落至接近 0", is_correct=False, trap_id="trap_econ_3"),
+            OptionItem(key="A", text="The OLS estimator loses unbiasedness, produces severe endogeneity bias and cannot objectively reflect the true population parameters", is_correct=False, trap_id="trap_econ_1"),
+            OptionItem(key="B", text="The Gauss-Markov theorem fails entirely and the OLS estimator is no longer the best linear unbiased estimator (BLUE)", is_correct=False, trap_id="trap_econ_2"),
+            OptionItem(key="C", text="The OLS estimator remains unbiased and BLUE, but the parameter variances are inflated, which undermines the t-tests", is_correct=True),
+            OptionItem(key="D", text="The model's overall coefficient of determination R² collapses to near 0", is_correct=False, trap_id="trap_econ_3"),
         ],
-        explanation="【权威考点解析 · 多重共线性的统计学后果】：在严格外生假定 E(u|X)=0 和同方差假定下，只要不存在'完全共线性'（|X'X| ≠ 0），高斯-马尔可夫定理全部成立！OLS 依然是无偏且 BLUE 的！共线性的真正后果是方差膨胀因子 (VIF) 剧增，标准误过大，单个变量的 t 统计量显著下降，但总体回归方程的 F 检验和 R² 通常依然很高！",
+        explanation="[Authoritative examination analysis · the statistical consequences of multicollinearity]: Under the strict exogeneity assumption E(u|X)=0 and the homoskedasticity assumption, provided there is no 'perfect collinearity' (|X'X| ≠ 0) the Gauss-Markov theorem holds in full! OLS remains unbiased and BLUE! The real consequence of collinearity is that the variance inflation factor (VIF) soars, standard errors become too large and the t statistic of each individual variable falls substantially, while the overall regression's F test and R² usually remain high!",
         traps={
             "trap_econ_1": TrapDetail(
-                title="🚨 混淆无偏性与有效性边界：把'估计精度不足'误等同于'估计量有偏'",
-                desc="很多学生以及未经图谱事实约束的通用大模型，张口就回答'估计量有偏'！有偏（Bias）只有在遗漏关键变量或存在内生性时才会发生。自变量之间有相关性绝不破坏无偏性！",
-                prereq="遗漏变量偏差与高斯-马尔可夫定理：无偏性数学证明前提 E(u|X)=0",
+                title="🚨 Confusing the boundary between unbiasedness and efficiency: equating 'insufficient estimation precision' with a 'biased estimator'",
+                desc="Many students, and general-purpose LLMs unconstrained by graph facts, answer 'the estimator is biased' at once! Bias arises only when a key variable is omitted or endogeneity is present. Correlation among regressors never destroys unbiasedness!",
+                prereq="Omitted-variable bias and the Gauss-Markov theorem: the premise E(u|X)=0 required by the mathematical proof of unbiasedness",
                 radar_hit="recall"
             ),
             "trap_econ_2": TrapDetail(
-                title="🚨 定理条件理解陷阱：误判 BLUE 性质失效",
-                desc="在所有线性无偏估计量中，OLS 依然是方差最小的那个（BLUE），只是此时这个'最小方差'本身已经被样本数据推高了而已。",
-                prereq="先修定理前置：高斯-马尔可夫定理证明边界",
+                title="🚨 Misreading the theorem's conditions trap: wrongly concluding that the BLUE property fails",
+                desc="Among all linear unbiased estimators OLS still has the smallest variance (it is BLUE); it is merely that this 'minimum variance' has itself been pushed up by the sample data.",
+                prereq="Prerequisite: the boundaries of the Gauss-Markov theorem's proof",
                 radar_hit="boundary"
             ),
             "trap_econ_3": TrapDetail(
-                title="🚨 经典反常识表象陷阱：共线性下 R² 和 F 往往虚高！",
-                desc="多重共线性的最经典教科书表象就是：F 检验极度显著、R² 很高（如 0.85），但每个自变量的 t 检验都无法拒绝原假设！",
-                prereq="先修定理前置：联合假设 F 检验与个体 t 检验差异",
+                title="🚨 Classic counter-intuitive symptom trap: under collinearity R² and F are often spuriously high!",
+                desc="The most classic textbook symptom of multicollinearity is: the F test is highly significant and R² is high (e.g. 0.85), yet the t test of every individual regressor fails to reject the null hypothesis!",
+                prereq="Prerequisite: the difference between the joint-hypothesis F test and the individual t test",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="多重共线性·统计性质与诊断陷阱拓扑图",
+            title="Multicollinearity · topology of its statistical properties and diagnostic traps",
             nodes=[
-                GraphNode(id="c1", label="多重共线性 (Multicollinearity)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="假定成立: E(u|X)=0 (严格外生)", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="性质: 依然为 BLUE (无偏且有效)", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="幻觉陷阱: 错判为产生内生偏误", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="表象陷阱: 误以为 R² 会暴跌", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Multicollinearity", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Assumption holds: E(u|X)=0 (strict exogeneity)", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Property: still BLUE (unbiased and efficient)", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Hallucination trap: wrongly judged as endogeneity bias", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Symptom trap: wrongly expecting R² to collapse", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="保证无偏前提"),
-                GraphEdge(from_node="p2", to_node="c1", label="最小方差性质"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (混淆有偏与方差大)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (忽略总体F检验)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Premise guaranteeing unbiasedness"),
+                GraphEdge(from_node="p2", to_node="c1", label="Minimum-variance property"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (conflating bias with high variance)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (ignoring the overall F test)"),
             ]
         ),
-        socratic_prompt="请思考：高斯-马尔可夫定理中保证OLS无偏性的关键假定是什么？遗漏的变量进入了误差项，此时自变量与误差项是否仍然正交？参数估计值的期望值是否等于真实总体参数？"
+        socratic_prompt="Think: what is the key assumption in the Gauss-Markov theorem that guarantees OLS unbiasedness? If an omitted variable enters the error term, are the regressors still orthogonal to the error term? Does the expected value of the parameter estimate equal the true population parameter?"
     ),
 
     QuizItem(
         id="econ_2",
         subject="econ",
         difficulty="★★★★★",
-        tag="因果推断核心 · 工具变量法 (IV/2SLS) 与弱工具变量",
-        stem="在估算教育年限（Educ）对对数工资水平（ln(Wage)）的因果效应方程中，因存在无法直接观测的'个人天生能力'遗漏，解释变量 Educ 产生严重内生性。研究人员选取'受教育者家庭距离最近大学的公里数 (Distance)'作为候选工具变量 Z。下列关于工具变量有效性及两阶段最小二乘法（2SLS）性质的论述，完全正确的是？",
+        tag="Core of causal inference · instrumental variables (IV/2SLS) and weak instruments",
+        stem="In estimating the causal effect of years of education (Educ) on log wages (ln(Wage)), the explanatory variable Educ is severely endogenous because of an unobservable omitted factor, 'individual innate ability'. The researcher selects 'the distance in kilometres from the student's family home to the nearest university (Distance)' as a candidate instrument Z. Which of the following statements about instrument validity and the properties of two-stage least squares (2SLS) is entirely correct?",
         options=[
-            OptionItem(key="A", text="Z 必须同时满足相关性条件（Cov(Z, Educ) ≠ 0）和严格的外生性排他性假定（Cov(Z, u) = 0 且 Z 不能直接决定工资）", is_correct=True),
-            OptionItem(key="B", text="即便第一阶段回归的 F 统计量仅为 2.8（远低于 10），只要样本量 N 趋于无穷大，2SLS 估计量依然绝对无偏且方差最小", is_correct=False, trap_id="trap_econ_2_1"),
-            OptionItem(key="C", text="在模型恰好识别（内生变量数 = 工具变量数 = 1）时，可直接通过过度识别检验（Sargan-Hansen Test）在统计学上严格检验 Z 是否外生", is_correct=False, trap_id="trap_econ_2_2"),
-            OptionItem(key="D", text="为了提高因果解释力，合格的工具变量 Z 必须对因变量 ln(Wage) 具有显著而直接的强相关推动力", is_correct=False, trap_id="trap_econ_2_3"),
+            OptionItem(key="A", text="Z must satisfy both the relevance condition (Cov(Z, Educ) ≠ 0) and the strict exogeneity/exclusion assumption (Cov(Z, u) = 0 and Z must not directly determine wages)", is_correct=True),
+            OptionItem(key="B", text="Even if the first-stage regression's F statistic is only 2.8 (far below 10), the 2SLS estimator remains absolutely unbiased with minimum variance as long as the sample size N tends to infinity", is_correct=False, trap_id="trap_econ_2_1"),
+            OptionItem(key="C", text="When the model is exactly identified (number of endogenous variables = number of instruments = 1), a Sargan-Hansen over-identification test can be used to test statistically and rigorously whether Z is exogenous", is_correct=False, trap_id="trap_econ_2_2"),
+            OptionItem(key="D", text="To strengthen the causal interpretation, a valid instrument Z must have a significant and directly strong driving correlation with the dependent variable ln(Wage)", is_correct=False, trap_id="trap_econ_2_3"),
         ],
-        explanation="【权威考点解析 · 工具变量法与因果识别】：① 工具变量两大铁律：外生性条件（Exogeneity，与扰动项正交且无直接因果通路）+ 相关性条件（Relevance，与内生变量强相关）；② Staiger-Stock 经验法则：第一阶段 F > 10 方可排除弱工具变量风险！弱工具变量会导致 2SLS 甚至比普通 OLS 偏误更大！③ 恰好识别时模型自由度为 0，外生性假定必须依赖经济学理论论证，数学上不可直接检验！",
+        explanation="[Authoritative examination analysis · instrumental variables and causal identification]: (1) The two iron laws of an instrument: the exogeneity condition (orthogonal to the disturbance and with no direct causal path) plus the relevance condition (strongly correlated with the endogenous variable); (2) the Staiger-Stock rule of thumb: only a first-stage F > 10 rules out the weak-instrument risk! A weak instrument can make 2SLS even more biased than ordinary OLS! (3) Under exact identification the model has 0 degrees of freedom, so the exogeneity assumption must rest on economic-theoretic argument and cannot be tested directly by mathematical means!",
         traps={
             "trap_econ_2_1": TrapDetail(
-                title="🚨 弱工具变量致命盲区：大样本并不能自动拯救弱工具变量的严重偏误",
-                desc="这是计量经济学实证顶级翻车现场！当第一阶段相关性微弱时（F < 10），2SLS 的渐近偏误会朝 OLS 方向靠拢，抽样分布极度肥尾畸变，常规标准误完全失效，甚至产生毁灭性虚假因果！",
-                prereq="先修定理前置：Staiger-Stock 弱工具变量与有限样本偏误定理",
+                title="🚨 Fatal blind spot on weak instruments: a large sample does not automatically rescue the severe bias of a weak instrument",
+                desc="This is the top-tier empirical disaster scene in econometrics! When first-stage relevance is weak (F < 10), the asymptotic bias of 2SLS moves towards that of OLS, the sampling distribution becomes extremely fat-tailed and distorted, conventional standard errors fail completely, and even devastating spurious causality can result!",
+                prereq="Prerequisite: the Staiger-Stock weak-instrument and finite-sample-bias results",
                 radar_hit="boundary"
             ),
             "trap_econ_2_2": TrapDetail(
-                title="🚨 自由度与识别条件数学盲区：恰好识别根本无法进行统计外生性检验",
-                desc="过度识别检验（如 Sargan Test / Hansen J 统计量）的前提是工具变量个数 m 严格大于内生变量个数 k（即 m > k）。恰好识别时残差与预测值完全正交，残差平方和自由度为 0，根本无法做检验！",
-                prereq="先修定理前置：Sargan-Hansen 过度识别检验统计自由度定义",
+                title="🚨 Mathematical blind spot on degrees of freedom and identification: exact identification makes a statistical exogeneity test impossible",
+                desc="An over-identification test (such as the Sargan test or the Hansen J statistic) presupposes that the number of instruments m strictly exceeds the number of endogenous variables k (m > k). Under exact identification the residuals are exactly orthogonal to the fitted values and the residual sum of squares has 0 degrees of freedom, so no test can be performed at all!",
+                prereq="Prerequisite: the definition of the degrees of freedom of the Sargan-Hansen over-identification statistic",
                 radar_hit="precision"
             ),
             "trap_econ_2_3": TrapDetail(
-                title="🚨 排他性约束彻底颠倒：合格的工具变量绝对不能直接影响因变量！",
-                desc="排他性约束（Exclusion Restriction）的严苛定义是：工具变量 Z 只能'通过内生变量 Educ 这唯一通道'间接影响工资！若 Z 本身直接决定工资，则该变量直接进入原方程扰动项，外生性荡然无存！",
-                prereq="先修定理前置：DAG 因果有向无环图与排他性约束定理",
+                title="🚨 Exclusion restriction fully inverted: a valid instrument must never directly affect the dependent variable!",
+                desc="The strict definition of the exclusion restriction is that the instrument Z may affect wages only indirectly, through the single channel of the endogenous variable Educ! If Z itself directly determines wages, then that variable enters the disturbance of the original equation and exogeneity is destroyed!",
+                prereq="Prerequisite: causal DAGs (directed acyclic graphs) and the exclusion-restriction theorem",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="因果推断·工具变量识别与外生性约束拓扑图",
+            title="Causal inference · topology of instrument identification and exogeneity constraints",
             nodes=[
-                GraphNode(id="c1", label="2SLS 工具变量识别", type="core", x=260, y=140),
-                GraphNode(id="p1", label="排他性外生: Cov(Z,u)=0", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="强相关检验: 阶段一F>10", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="弱工具陷阱: F<10致严重偏误", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="错位陷阱: 恰好识别做Sargan", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="2SLS instrument identification", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Exogenous exclusion: Cov(Z,u)=0", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Strong relevance: first-stage F > 10", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Weak-instrument trap: F < 10 causes severe bias", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Misplacement trap: Sargan test under exact identification", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="因果外生约束"),
-                GraphEdge(from_node="p2", to_node="c1", label="识别强度门禁"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (低估弱工具破坏力)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (忽视检验自由度约束)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Causal exogeneity constraint"),
+                GraphEdge(from_node="p2", to_node="c1", label="Identification-strength gate"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (underestimating the damage of a weak instrument)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (ignoring the test's degrees-of-freedom constraint)"),
             ]
         ),
-        socratic_prompt="请同学在脑海中画一条因果箭头：如果离大学近的地区本身就是高工资的沿海大城市（即 Z 直接影响了 Wage），那我们怎么可能分清楚那些高工资是因为多读了书，还是因为出生在大城市呢？这就是为什么排他性约束如此至关重要！"
+        socratic_prompt="Draw a causal arrow in your mind: if areas close to a university are themselves high-wage coastal metropolises (that is, Z directly affects Wage), how could we ever distinguish whether the higher wages come from more schooling or from being born in a big city? That is exactly why the exclusion restriction matters so much!"
     ),
 
     QuizItem(
         id="econ_3",
         subject="econ",
         difficulty="★★★★☆",
-        tag="经典假定违背 · 异方差性怀特检验与稳健标准误",
-        stem="在截面家庭消费支出回归中，富裕家庭的储蓄与消费弹性差异远大于低收入家庭，导致误差项呈现随收入增加而发散的异方差性（Var(u_i|X_i) = σ_i²）。下列关于异方差对 OLS 的危害、检验方法及修正策略的叙述中，哪一项完全符合现代实证规范？",
+        tag="Violation of classic assumptions · heteroskedasticity, the White test and robust standard errors",
+        stem="In a cross-sectional regression of household consumption expenditure, the dispersion of saving and consumption elasticities among wealthy households is far greater than among low-income households, so the error term exhibits heteroskedasticity that fans out as income rises (Var(u_i|X_i) = σ_i²). Which of the following statements about the harm heteroskedasticity does to OLS, the available tests and the corrective strategies fully conforms to modern empirical practice?",
         options=[
-            OptionItem(key="A", text="存在异方差时，OLS 估计量 β̂ 彻底失去无偏性与一致性，算出来的回归系数数值完全毫无参考价值", is_correct=False, trap_id="trap_econ_3_1"),
-            OptionItem(key="B", text="怀特检验（White Test）要求研究者必须预先知道异方差的具体数学形式（如指数形式或线性形式）方可实施", is_correct=False, trap_id="trap_econ_3_2"),
-            OptionItem(key="C", text="OLS 估计量依然无偏且一致，但传统公式计算的标准误严重有偏；现代学界通用做法是直接采用 White 稳健标准误（Robust Standard Errors）进行统计推断", is_correct=True),
-            OptionItem(key="D", text="采用加权最小二乘法 (WLS) 在任何情况下都无条件优于 OLS 稳健回归，绝对不可能引入新的模型设定误差", is_correct=False, trap_id="trap_econ_3_3"),
+            OptionItem(key="A", text="Under heteroskedasticity the OLS estimator β̂ loses both unbiasedness and consistency entirely, and the estimated regression coefficients are worthless as a reference", is_correct=False, trap_id="trap_econ_3_1"),
+            OptionItem(key="B", text="The White test requires the researcher to know the exact mathematical form of the heteroskedasticity in advance (for example an exponential or a linear form) before it can be applied", is_correct=False, trap_id="trap_econ_3_2"),
+            OptionItem(key="C", text="The OLS estimator remains unbiased and consistent, but the standard errors computed by the conventional formula are severely biased; the standard modern practice is to use White heteroskedasticity-robust standard errors directly for statistical inference", is_correct=True),
+            OptionItem(key="D", text="Weighted least squares (WLS) is unconditionally superior to OLS with robust standard errors in every situation and can never introduce new model-specification error", is_correct=False, trap_id="trap_econ_3_3"),
         ],
-        explanation="【权威考点解析 · 异方差后果与稳健推断】：① 异方差违背同方差假定，破坏高斯-马尔可夫定理的'有效性（BLUE）'，但完全不影响期望 E(β̂)=β，故 OLS 估计量依然无偏且一致！② 异方差的真正致命伤是传统公式计算的 Var(β̂) 有偏，导致 t 统计量和置信区间全线失真！③ 怀特检验通过辅助回归无需预设异方差形式，学界当前黄金准则是报告 OLS 系数并配备 Heteroskedasticity-Robust 标准误（如 Stata 中的 , robust）！",
+        explanation="[Authoritative examination analysis · consequences of heteroskedasticity and robust inference]: (1) Heteroskedasticity violates the homoskedasticity assumption and destroys the 'efficiency (BLUE)' part of the Gauss-Markov theorem, but it leaves the expectation E(β̂)=β completely unaffected, so the OLS estimator remains unbiased and consistent! (2) The truly fatal injury of heteroskedasticity is that Var(β̂) computed by the conventional formula is biased, which distorts t statistics and confidence intervals across the board! (3) The White test uses an auxiliary regression and requires no presupposed form of heteroskedasticity; the current gold standard in the literature is to report OLS coefficients with heteroskedasticity-robust standard errors (for example ', robust' in Stata)!",
         traps={
             "trap_econ_3_1": TrapDetail(
-                title="🚨 性质混淆高频深坑：把'有效性受损'误判为'估计量失去无偏性'",
-                desc="全班 60% 同学会脱口而出'OLS 估计量有偏'！无偏性的唯一前提是外生性 E(u|X)=0。残差方差变大变小，只是让估计量的抽样波动变大，绝不会让总体平均估计中心发生系统性偏移！",
-                prereq="先修定理前置：无偏性条件 vs BLUE 有效性条件断点对比",
+                title="🚨 High-frequency property-confusion pitfall: mistaking 'impaired efficiency' for a 'loss of unbiasedness'",
+                desc="60% of the class will blurt out 'the OLS estimator is biased'! The sole premise for unbiasedness is exogeneity, E(u|X)=0. A larger or smaller residual variance only makes the estimator's sampling fluctuation larger; it never shifts the centre of the estimator's population average systematically!",
+                prereq="Prerequisite: the breakpoint between the unbiasedness condition and the BLUE efficiency condition",
                 radar_hit="recall"
             ),
             "trap_econ_3_2": TrapDetail(
-                title="🚨 统计检验机制混淆：误把'怀特检验'等同于依赖具体形式的检验",
-                desc="怀特检验最大的突破性贡献，正是由于它将残差平方对所有自变量的一阶项、平方项及交互项做辅助回归，完全不需要研究者猜测异方差是哪种特定函数！",
-                prereq="先修定理前置：White (1980) 渐近大样本辅助回归构造原理",
+                title="🚨 Confusion over test mechanics: mistaking the White test for a test that depends on a specific functional form",
+                desc="The White test's greatest breakthrough is precisely that it runs an auxiliary regression of the squared residuals on the first-order terms, squares and interactions of all regressors, so the researcher never needs to guess which particular function generates the heteroskedasticity!",
+                prereq="Prerequisite: the construction of the White (1980) asymptotic large-sample auxiliary regression",
                 radar_hit="boundary"
             ),
             "trap_econ_3_3": TrapDetail(
-                title="🚨 WLS 盲目盲信反模式：错误权重的 WLS 甚至比 OLS 还要糟糕",
-                desc="可行广义最小二乘法 (FGLS/WLS) 只有在研究者准确猜对异方差函数结构时才渐近有效。若权重矩阵设定错误，WLS 的估计量反而会失去一致性，因此现代顶级实证论文几乎清一色采用 OLS + Robust 标准误！",
-                prereq="先修定理前置：FGLS 稳健性风险与夹心方差估计量（Sandwich Estimator）",
+                title="🚨 Blind-faith WLS anti-pattern: WLS with the wrong weights is even worse than OLS",
+                desc="Feasible generalised least squares (FGLS/WLS) is asymptotically efficient only when the researcher guesses the structure of the heteroskedasticity function correctly. If the weighting matrix is misspecified, the WLS estimator actually loses consistency, which is why almost all top-tier modern empirical papers use OLS with robust standard errors!",
+                prereq="Prerequisite: the robustness risk of FGLS and the sandwich variance estimator",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="异方差·成因后果与怀特稳健推断图谱",
+            title="Heteroskedasticity · causes, consequences and the White robust-inference map",
             nodes=[
-                GraphNode(id="c1", label="异方差性 (Var(u|X)=σi²)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="系数保持无偏与一致", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="对策: White稳健标准误", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="误区: 错判OLS系数有偏", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="误区: 盲目套用WLS权重", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Heteroskedasticity (Var(u|X)=σi²)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Coefficients stay unbiased and consistent", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Remedy: White robust standard errors", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Misconception: OLS coefficients judged biased", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Misconception: applying WLS weights blindly", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="外生假定成立"),
-                GraphEdge(from_node="p2", to_node="c1", label="夹心协方差修正"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (混淆方差大与期望偏)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (忽视权重设定偏误)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Exogeneity assumption holds"),
+                GraphEdge(from_node="p2", to_node="c1", label="Sandwich covariance correction"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (conflating high variance with a biased expectation)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (ignoring weight misspecification)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果一台电子秤只是偶尔称重读数抖动变大（方差大），但平均下来称 100 次的均值依然是完全准确的（无偏），我们应该直接扔掉这台秤，还是给它换一个能正确计算误差范围的合格说明书（稳健标准误）？"
+        socratic_prompt="Think: if an electronic scale occasionally jitters and its readings scatter more (high variance), but the average of 100 weighings is still perfectly accurate (unbiased), should we throw the scale away, or give it a proper manual that correctly computes its error range (robust standard errors)?"
     ),
 
     # =========================================================================
-    # 4. SE (软件工程与系统设计)
+    # 4. SE (Software Engineering and System Design)
     # =========================================================================
     QuizItem(
         id="se_1",
         subject="se",
         difficulty="★★★☆☆",
-        tag="软件过程模型 · 敏捷 Scrum 与瀑布模型适用权衡",
-        stem="在某智慧医院核心业务系统研发项目中，急诊排班与医保微服务接口的需求受政策影响变动极为频繁且不确定，但底层患者核心电子病历的归档存储模块受到国家卫健委《三级医院评审标准》极其严苛的合规性与审计可追溯性约束。关于该项目的软件过程模型选择，下列哪种策略最为科学合理？",
+        tag="Software process models · the trade-off between agile Scrum and the waterfall model",
+        stem="In a core business-system development project for a smart hospital, the requirements for emergency-department rostering and health-insurance microservice interfaces change extremely often and unpredictably under policy influence, whereas the underlying archival storage module for patients' core electronic medical records is bound by the exceptionally strict compliance and audit-traceability requirements of the National Health Commission's Tertiary Hospital Accreditation Standards. As to the choice of software process model for this project, which of the following strategies is the most scientifically sound?",
         options=[
-            OptionItem(key="A", text="强制推行纯瀑布模型（Waterfall），在阶段一彻底冻结所有医保与排班需求规格说明书后才允许进入编码阶段", is_correct=False, trap_id="trap_se_1_1"),
-            OptionItem(key="B", text="采用混合软件过程模型（Hybrid Model），底层强合规与稳定架构采用架构先行和严格文档，高频易变的业务服务采用 2 周 Sprint 的 Scrum 敏捷迭代验证", is_correct=True),
-            OptionItem(key="C", text="彻底废弃所有软件架构设计文档与测试用例，全盘采用极限编程（XP），依靠每天结对重构解决所有国家合规性评审", is_correct=False, trap_id="trap_se_1_2"),
-            OptionItem(key="D", text="采用大爆炸模型（Big Bang Model），由开发人员在期末截止前一周连续通宵一次性交付全量代码", is_correct=False, trap_id="trap_se_1_3"),
+            OptionItem(key="A", text="Impose a pure waterfall model and completely freeze all health-insurance and rostering requirements specifications in phase one before coding may begin", is_correct=False, trap_id="trap_se_1_1"),
+            OptionItem(key="B", text="Adopt a hybrid process model: the strongly compliant and stable lower layer uses architecture-first design and rigorous documentation, while the frequently changing business services use two-week Scrum sprint iterations for validation", is_correct=True),
+            OptionItem(key="C", text="Abandon all software architecture design documents and test cases entirely, adopt extreme programming (XP) wholesale, and rely on daily pair-programming refactoring to pass every national compliance review", is_correct=False, trap_id="trap_se_1_2"),
+            OptionItem(key="D", text="Adopt the big-bang model, with developers working through the night in the final week before the deadline to deliver all the code in one go", is_correct=False, trap_id="trap_se_1_3"),
         ],
-        explanation="【权威考点解析 · 软件生命周期模型权衡】：根据 Boehm 软件工程经济学定律，需求变更成本随项目周期呈指数级增长。面对'高变动度业务'强推瀑布模型必然导致项目严重延期超支；而在'高合规性底层'盲目推行极端零文档开发必然导致验收失败。业内成熟工业实践普遍采用 Hybrid 敏捷双轨制：架构约束基线受控，前端应用敏捷迭代！",
+        explanation="[Authoritative examination analysis · trade-offs among software lifecycle models]: According to Boehm's software-engineering economics law, the cost of a requirements change grows exponentially with the project lifecycle. Imposing the waterfall model on 'highly volatile business' inevitably causes severe schedule and budget overruns, while blindly imposing extreme zero-documentation development on the 'highly compliant lower layer' inevitably causes acceptance failure. Mature industrial practice generally adopts a hybrid agile dual-track approach: an architecture-constrained baseline under control, with agile iteration for the front-end application!",
         traps={
             "trap_se_1_1": TrapDetail(
-                title="🚨 传统教条主义瀑布陷阱：在易变业务中强行'冻结需求'",
-                desc="很多刚学软件工程的同学盲目崇拜瀑布模型的严密性，忽视了当外部业务或政策月月变更时，瀑布模型的前后阶段强依赖会导致全团队陷入永无止境的'需求变更提交流程'和代码大规模推倒重来！",
-                prereq="先修定理前置：Boehm 软件变更成本指数曲线与瀑布局限性",
+                title="🚨 Traditional dogmatic waterfall trap: forcibly 'freezing requirements' in volatile business",
+                desc="Many students new to software engineering worship the rigour of the waterfall model without noticing that, when external business or policy changes month after month, the strong dependence between consecutive waterfall phases traps the whole team in an endless 'requirements-change submission process' and in large-scale code rewrites!",
+                prereq="Prerequisite: Boehm's exponential cost-of-change curve and the limitations of waterfall",
                 radar_hit="boundary"
             ),
             "trap_se_1_2": TrapDetail(
-                title="🚨 敏捷宣言教条化误读陷阱：把'拥抱变更'误等同于'不要任何文档和架构'",
-                desc="敏捷宣言原文是'可工作的软件胜于详尽的文档'，绝不是'不要文档'！在医疗、金融、航天等安全关键系统（Safety-critical systems）中，需求追溯矩阵（RTM）和接口契约文档是法律法规强制要求的一票否决项！",
-                prereq="先修定理前置：敏捷宣言核心原则与合规性系统工程规范",
+                title="🚨 Dogmatic misreading of the Agile Manifesto trap: equating 'embracing change' with 'no documentation and no architecture'",
+                desc="The Agile Manifesto actually says 'working software over comprehensive documentation', never 'no documentation'! In safety-critical systems such as healthcare, finance and aerospace, the requirements traceability matrix (RTM) and interface-contract documents are statutory veto items!",
+                prereq="Prerequisite: the core principles of the Agile Manifesto and compliant systems-engineering norms",
                 radar_hit="recall"
             ),
             "trap_se_1_3": TrapDetail(
-                title="🚨 反工程开发模式陷阱：大爆炸模型是混乱工程的代名词",
-                desc="无计划、无阶段审查、无测试门禁的大爆炸模型违背了软件工程的一切基本原则，是导致绝大多数软件项目彻底报废的头号反模式！",
-                prereq="先修定理前置：软件危机本质与现代软件工程控制论",
+                title="🚨 Anti-engineering development trap: the big-bang model is synonymous with chaotic engineering",
+                desc="The big-bang model, with no plan, no phase reviews and no test gates, violates every basic principle of software engineering and is the number-one anti-pattern that sends the vast majority of software projects to the scrap heap!",
+                prereq="Prerequisite: the nature of the software crisis and modern software-engineering control theory",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="软件过程模型·敏捷迭代与架构合规权衡图谱",
+            title="Software process models · agile iteration versus architecture compliance",
             nodes=[
-                GraphNode(id="c1", label="混合敏捷过程模型 (Hybrid)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="底层强合规: 架构基线受控", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="变动业务层: 2周Scrum迭代", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="教条瀑布: 强行冻结变动需求", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="伪敏捷: 盲目抛弃所有架构文档", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Hybrid agile process model", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Lower layer, strong compliance: controlled architecture baseline", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Volatile business layer: two-week Scrum iterations", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Dogmatic waterfall: forcibly freezing volatile requirements", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Pseudo-agile: blindly discarding all architecture documents", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="合规质量底线"),
-                GraphEdge(from_node="p2", to_node="c1", label="快速拥抱变更"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (教条僵化开发)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (放任混乱无序)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Compliance quality baseline"),
+                GraphEdge(from_node="p2", to_node="c1", label="Rapidly embracing change"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (dogmatic, rigid development)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (letting chaos reign)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果一栋大厦的地基和承重梁（合规核心）要求必须有图纸审查且绝对不能摇晃，而顶层的办公室隔断（变动业务）租户随时想要调整，我们应该全部打掉重盖，还是应该在地基稳固的前提下采用可移动轻量隔断？"
+        socratic_prompt="Think: if a building's foundations and load-bearing beams (the compliance core) must be drawing-reviewed and absolutely immovable, while the office partitions on the top floor (the volatile business) are rearranged by tenants at will, should we demolish and rebuild everything, or keep the foundations solid and use movable lightweight partitions?"
     ),
 
     QuizItem(
         id="se_2",
         subject="se",
         difficulty="★★★★☆",
-        tag="面向对象架构设计 · SOLID 原则与依赖倒置 (DIP)",
-        stem="在设计一个多源学术文献知识图谱抽取引擎时，上层核心分析业务类 LiteratureAnalyzer 直接通过硬编码实例化了具体的 MySQL 数据库客户端（即 this.db = new MySQLClient()）。现因业务扩展需要支持分布式图数据库 Neo4j 及向量数据库 Milvus。根据 SOLID 设计原则中的依赖倒置原则（DIP），应如何实施最佳重构？",
+        tag="Object-oriented architecture design · the SOLID principles and the dependency inversion principle (DIP)",
+        stem="When designing a knowledge-graph extraction engine for multi-source academic literature, the upper-layer core analysis class LiteratureAnalyzer instantiates a concrete MySQL database client by hard-coding (that is, this.db = new MySQLClient()). Business expansion now requires support for the distributed graph database Neo4j and the vector database Milvus. According to the dependency inversion principle (DIP) among the SOLID design principles, how should the refactoring best be carried out?",
         options=[
-            OptionItem(key="A", text="在 LiteratureAnalyzer 内部增加大量的 if-else 或 switch-case 语句，根据传入的环境变量分别执行不同数据库的私有操作代码", is_correct=False, trap_id="trap_se_2_1"),
-            OptionItem(key="B", text="抽象出统一的 IKnowledgeStorage 契约接口，使上层 LiteratureAnalyzer 与具体的 MySQLClient/Neo4jClient 均只依赖该抽象接口，通过构造函数依赖注入（DI）解耦", is_correct=True),
-            OptionItem(key="C", text="直接让 Neo4jClient 类强制继承自 MySQLClient 类，并通过重写（Override）覆写其中的关系查询方法", is_correct=False, trap_id="trap_se_2_2"),
-            OptionItem(key="D", text="将所有数据库操作逻辑整合到一个全局公共上帝类（God Class）GlobalDBManager 中，由业务类直接调用其静态方法", is_correct=False, trap_id="trap_se_2_3"),
+            OptionItem(key="A", text="Add a large number of if-else or switch-case statements inside LiteratureAnalyzer so that, depending on an injected environment variable, it runs the private operation code of each different database", is_correct=False, trap_id="trap_se_2_1"),
+            OptionItem(key="B", text="Abstract a unified IKnowledgeStorage contract interface so that both the upper-layer LiteratureAnalyzer and the concrete MySQLClient/Neo4jClient depend only on that abstraction, decoupling them through constructor dependency injection (DI)", is_correct=True),
+            OptionItem(key="C", text="Make the Neo4jClient class forcibly inherit from MySQLClient and override its relational query methods", is_correct=False, trap_id="trap_se_2_2"),
+            OptionItem(key="D", text="Consolidate all database operation logic into one global public god class, GlobalDBManager, and have business classes call its static methods directly", is_correct=False, trap_id="trap_se_2_3"),
         ],
-        explanation="【权威考点解析 · SOLID 原则与依赖倒置 DIP】：① 依赖倒置原则定义：高层模块不应该依赖低层模块，两者都应该依赖抽象；抽象不应该依赖细节，细节应该依赖抽象。② 方案 B 通过引入 IKnowledgeStorage 接口，解除了高层分析类对底层持久化技术的紧耦合，新增图数据库或向量数据库只需扩展新实现类，无需改动现有业务逻辑，同时完美符合开闭原则（OCP）！",
+        explanation="[Authoritative examination analysis · SOLID principles and dependency inversion (DIP)]: (1) Definition of the dependency inversion principle: high-level modules should not depend on low-level modules — both should depend on abstractions; abstractions should not depend on details — details should depend on abstractions. (2) Option B introduces the IKnowledgeStorage interface, removing the tight coupling between the high-level analysis class and the underlying persistence technology; adding a graph or vector database then merely requires a new implementation class, with no change to existing business logic, and it perfectly satisfies the open-closed principle (OCP)!",
         traps={
             "trap_se_2_1": TrapDetail(
-                title="🚨 分支蔓延坏味道陷阱：严重违反开闭原则 (OCP)",
-                desc="用大量的条件分支（if-else）来扩展底层实现是初学者最常犯的工程坏味道！每次接入新数据库都要修改高层业务代码并重新编译测试，极易引发回归缺陷（Regression Bugs）！",
-                prereq="先修定理前置：开闭原则（OCP：对扩展开放，对修改关闭）",
+                title="🚨 Branch-proliferation code-smell trap: a serious violation of the open-closed principle (OCP)",
+                desc="Extending an underlying implementation with large numbers of conditional branches (if-else) is the engineering smell beginners commit most often! Every new database integration requires editing high-level business code and recompiling and retesting, which very easily introduces regression bugs!",
+                prereq="Prerequisite: the open-closed principle (OCP: open for extension, closed for modification)",
                 radar_hit="trapDefense"
             ),
             "trap_se_2_2": TrapDetail(
-                title="🚨 继承滥用深坑：严重违反里氏替换原则 (LSP)",
-                desc="图数据库和关系型数据库在数据模型、事务语义和查询契约上根本不存在'is-a'的派生替换关系！强行继承导致基类契约被肆意破坏，子类无法安全替换父类！",
-                prereq="先修定理前置：里氏替换原则（LSP）与契约式设计（DbC）",
+                title="🚨 Deep pit of inheritance abuse: a serious violation of the Liskov substitution principle (LSP)",
+                desc="Graph databases and relational databases simply have no 'is-a' derivation-substitution relationship in data model, transaction semantics or query contract! Forcing inheritance wantonly breaks the base-class contract, so the subclass cannot safely substitute for the parent!",
+                prereq="Prerequisite: the Liskov substitution principle (LSP) and design by contract (DbC)",
                 radar_hit="boundary"
             ),
             "trap_se_2_3": TrapDetail(
-                title="🚨 上帝类紧耦合陷阱：制造单点故障并扼杀单元测试",
-                desc="引入全局万能上帝类（God Class）是典型的反模式，导致系统内聚度（Cohesion）极低而耦合度（Coupling）极高，全局状态混乱，且单元测试中将彻底无法进行依赖 Mock！",
-                prereq="先修定理前置：单一职责原则（SRP）与单元测试 Mock 隔离要求",
+                title="🚨 God-class tight-coupling trap: creating a single point of failure and strangling unit tests",
+                desc="Introducing a global all-purpose god class is a typical anti-pattern: it leaves the system with extremely low cohesion and extremely high coupling, muddles global state, and makes dependency mocking in unit tests completely impossible!",
+                prereq="Prerequisite: the single-responsibility principle (SRP) and the isolation requirements of unit-test mocking",
                 radar_hit="synthesis"
             )
         },
         graph=GraphData(
-            title="SOLID架构·依赖倒置与接口隔离设计图谱",
+            title="SOLID architecture · dependency inversion and interface-segregation design map",
             nodes=[
-                GraphNode(id="c1", label="依赖倒置原则 (DIP)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="抽象契约接口 (IKnowledgeStorage)", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="依赖注入解耦 (DI/IoC)", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="坏味道: if-else破坏OCP", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="坏味道: 乱继承破坏LSP", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Dependency inversion principle (DIP)", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Abstract contract interface (IKnowledgeStorage)", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Dependency-injection decoupling (DI/IoC)", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Code smell: if-else breaks OCP", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Code smell: reckless inheritance breaks LSP", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="面向接口编程"),
-                GraphEdge(from_node="p2", to_node="c1", label="控制反转实现"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (业务与底层技术硬绑定)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (为了复用代码滥用继承)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Program to an interface"),
+                GraphEdge(from_node="p2", to_node="c1", label="Inversion-of-control implementation"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (hard-binding business logic to underlying technology)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (abusing inheritance to reuse code)"),
             ]
         ),
-        socratic_prompt="请同学想象一下家里的电源插座：国标三孔插座定义了一套抽象规范（接口），无论是台灯、电脑还是电冰箱（实现类），只要符合插头规范就能插上工作。如果每买一台新电器，我们都得把墙砸开重新接线（修改业务代码），这样的设计能持续吗？"
+        socratic_prompt="Picture the power sockets at home: the national-standard three-pin socket defines an abstract specification (the interface), and whether it is a desk lamp, a computer or a refrigerator (the implementations), anything that meets the plug specification can be plugged in and works. If every time we bought a new appliance we had to break open the wall and rewire (modify the business code), could such a design last?"
     ),
 
     QuizItem(
         id="se_3",
         subject="se",
         difficulty="★★★★☆",
-        tag="软件质量保证 · 边界值分析与变异测试 (Mutation Testing)",
-        stem="在开发学生成绩管理系统的GPA计算模块时，某函数要求输入单门课程学分必须落在有效区间 [0.5, 10.0] 之间。关于该模块的黑盒测试用例设计以及自动化测试套件的充分性度量，下列说法完全正确的是？",
+        tag="Software quality assurance · boundary value analysis and mutation testing",
+        stem="While developing the GPA calculation module of a student records management system, a function requires that the credit value of a single course fall within the valid interval [0.5, 10.0]. Regarding black-box test-case design for this module and the measurement of automated test-suite adequacy, which of the following statements is entirely correct?",
         options=[
-            OptionItem(key="A", text="只要测试套件在代码行覆盖率（Line Coverage）上达到了 100%，就足以证明所有边界值缺陷已被完全消除，无需进一步质量检验", is_correct=False, trap_id="trap_se_3_1"),
-            OptionItem(key="B", text="边界值分析（BVA）不仅应选取边界上及边界内的值（如 0.5, 0.6, 9.9, 10.0），还必须选取边界外紧邻的无效输入（如 0.4, 10.1）检验防御性拦截；变异测试通过在源代码中植入变异体（Mutant）来客观度量测试用例的真正杀伤力", is_correct=True),
-            OptionItem(key="C", text="边界值分析法要求测试人员只能输入合法范围内的有效数据，严禁输入任何负向或越界的无效数据", is_correct=False, trap_id="trap_se_3_2"),
-            OptionItem(key="D", text="变异测试是一种专门用于测量系统在 10 万人并发选课时服务器 CPU 占用率的白盒压力测试工具", is_correct=False, trap_id="trap_se_3_3"),
+            OptionItem(key="A", text="As long as the test suite reaches 100% line coverage, that is sufficient proof that all boundary-value defects have been eliminated and no further quality checks are needed", is_correct=False, trap_id="trap_se_3_1"),
+            OptionItem(key="B", text="Boundary value analysis (BVA) should select not only values on and inside the boundaries (such as 0.5, 0.6, 9.9, 10.0) but also invalid inputs immediately outside them (such as 0.4, 10.1) to verify defensive interception; mutation testing objectively measures the true killing power of the test cases by planting mutants in the source code", is_correct=True),
+            OptionItem(key="C", text="Boundary value analysis requires testers to enter only valid data inside the legal range and strictly forbids any negative or out-of-range invalid data", is_correct=False, trap_id="trap_se_3_2"),
+            OptionItem(key="D", text="Mutation testing is a white-box stress-testing tool specifically for measuring server CPU utilisation when 100,000 people enrol in courses concurrently", is_correct=False, trap_id="trap_se_3_3"),
         ],
-        explanation="【权威考点解析 · 边界值测试与变异测试杀灭率】：① 绝大多数程序 Bug 发生在输入输出边界处，边界值分析（BVA）必须包含正向与负向邻界值（如 0.4 与 10.1 阻断拦截）；② 覆盖率幻觉（Coverage Illusion）：100% 语句覆盖完全可能包含大量'无断言弱测试'（Assertion-free Tests）！变异测试通过自动把 `>=` 改为 `>`、`+` 改为 `-` 等方式产生代码变异体，唯有测试用例能令变异体报错失败（Killed），才能证明测试套件具备真正的缺陷捕获能力！",
+        explanation="[Authoritative examination analysis · boundary value testing and the mutation kill rate]: (1) The overwhelming majority of program bugs occur at input and output boundaries, so boundary value analysis (BVA) must include both positive and negative neighbouring boundary values (such as 0.4 and 10.1 being intercepted); (2) the coverage illusion: 100% statement coverage can perfectly well contain large numbers of assertion-free weak tests! Mutation testing automatically produces code mutants by, for example, changing `>=` to `>`, or `+` to `-`; only when a test case makes a mutant fail (is 'killed') does the suite demonstrate genuine defect-detection capability!",
         traps={
             "trap_se_3_1": TrapDetail(
-                title="🚨 虚假覆盖率安全感陷阱：高行覆盖率 ≠ 高检错能力",
-                desc="这是软件工程质量门禁中最危险的盲区！测试代码执行了每一行，并不代表它断言了每一行的逻辑正确性！如果测试用例中没有任何 assert，覆盖率依然可以显示 100%，但变异测试杀伤率将直降为 0！",
-                prereq="先修定理前置：测试充分性准则与变异分数（Mutation Score）定义",
+                title="🚨 False sense of coverage security trap: high line coverage ≠ high defect-detection power",
+                desc="This is the most dangerous blind spot in software-engineering quality gates! The fact that test code executed every line does not mean it asserted the logical correctness of every line! If the test cases contain no assert at all, coverage can still read 100%, yet the mutation kill rate drops straight to 0!",
+                prereq="Prerequisite: test-adequacy criteria and the definition of the mutation score",
                 radar_hit="trapDefense"
             ),
             "trap_se_3_2": TrapDetail(
-                title="🚨 负向测试缺失陷阱：忽略边界外拦截测试直接导致生产崩溃",
-                desc="只测试合法数据（Positive Testing）是脆弱软件的典型征兆。健壮性测试必须覆盖紧邻边界外的无效等价类，确保异常被安全捕获并抛出受控错误，而非直接抛出未捕获异常导致系统崩溃！",
-                prereq="先修定理前置：等价类划分与健壮性边界值分析矩阵",
+                title="🚨 Missing negative-testing trap: skipping out-of-boundary interception tests leads straight to production crashes",
+                desc="Testing only valid data (positive testing) is a typical symptom of fragile software. Robustness testing must cover the invalid equivalence classes immediately outside the boundaries to ensure that exceptions are safely caught and raised as controlled errors, rather than escaping as unhandled exceptions that crash the system!",
+                prereq="Prerequisite: equivalence partitioning and the robustness boundary-value analysis matrix",
                 radar_hit="boundary"
             ),
             "trap_se_3_3": TrapDetail(
-                title="🚨 测试类型概念错配陷阱：把'变异测试'误判为'性能压测'",
-                desc="变异测试是著名的'测试你的测试（Testing the Tests）'的高级元测试技术，属于缺陷注入（Fault Injection）和测试集能力评价领域，与性能压测完全无关！",
-                prereq="先修定理前置：故障注入机制与自动化变异算子（Mutator）分类",
+                title="🚨 Test-type mismatch trap: mistaking 'mutation testing' for 'performance load testing'",
+                desc="Mutation testing is the famous 'testing the tests' advanced meta-testing technique; it belongs to the field of fault injection and test-suite capability evaluation and has nothing whatsoever to do with performance load testing!",
+                prereq="Prerequisite: fault-injection mechanisms and the classification of automated mutation operators",
                 radar_hit="recall"
             )
         },
         graph=GraphData(
-            title="质量保证·边界值分析与变异测试杀伤力拓扑图",
+            title="Quality assurance · topology of boundary value analysis and mutation-test killing power",
             nodes=[
-                GraphNode(id="c1", label="变异测试 (Mutation Testing)", type="core", x=260, y=140),
-                GraphNode(id="p1", label="BVA: 跨越正负边界取样", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="破除弱断言: 杀灭率评价", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="虚荣陷阱: 迷信100%行覆盖率", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="概念陷阱: 误判变异测试为压测", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Mutation testing", type="core", x=260, y=140),
+                GraphNode(id="p1", label="BVA: sampling across positive and negative boundaries", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Breaking weak assertions: kill-rate evaluation", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Vanity trap: believing in 100% line coverage", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Concept trap: mistaking mutation testing for load testing", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="高危边界敏感度"),
-                GraphEdge(from_node="p2", to_node="c1", label="测试用例质量度量"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (忽略断言有效性)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (测试类型概念混同)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Sensitivity to high-risk boundaries"),
+                GraphEdge(from_node="p2", to_node="c1", label="Test-case quality measurement"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (ignoring assertion effectiveness)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (conflating test types)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果一个保安只是把公司的每一个房间门推开看了一眼（代码行覆盖率 100%），但他根本不认识谁是小偷（没有写判断断言 assert），那么当真正有小偷把房间里的电脑搬走时（变异体引入），这个保安能发出警报吗？"
+        socratic_prompt="Think: if a security guard merely pushes open the door of every room in the company and glances inside (100% line coverage), but he has no idea who a thief is (no assert was written), then when a real thief carries the computers out of a room (a mutant is introduced), can that guard raise the alarm?"
     ),
 
     # =========================================================================
-    # 5. OPERATIONS RESEARCH (运筹学与优化建模 · 大二上核心)
+    # 5. OPERATIONS RESEARCH (Operations Research and Optimisation Modelling · Core, Year 2 Semester 1)
     # =========================================================================
     QuizItem(
         id="or_1",
         subject="or",
         difficulty="★★★☆☆",
-        tag="规划建模 · 决策变量物理非负性与约束边界",
-        stem="某装备制造厂计划生产甲、乙两种工业构件，生产每件构件需消耗钢材工时与数控铣床台时。在建立追求总销售利润最大化（max Z = 300x₁ + 500x₂）的线性规划（LP）模型时，下列关于数学模型构建要素及其标准型规范的说法，完全正确的是？",
+        tag="Planning modelling · physical non-negativity of decision variables and constraint boundaries",
+        stem="An equipment manufacturer plans to produce two industrial components, A and B; each component consumes steel, labour hours and CNC milling-machine hours. When building a linear programming (LP) model that maximises total sales profit (max Z = 300x₁ + 500x₂), which of the following statements about the elements of the mathematical model and the standard-form conventions is entirely correct?",
         options=[
-            OptionItem(key="A", text="只要目标函数是线性的，决策变量 x₁, x₂ 可以取任意负实数，模型无需定义物理非负约束，求解器会自动修正", is_correct=False, trap_id="trap_or_1"),
-            OptionItem(key="B", text="必须严格在约束条件组中加入非负性约束 x₁ ≥ 0, x₂ ≥ 0；若存在不可行解（Infeasible），说明各项约束超平面的交集可行域为空集，而非目标值发散至正无穷", is_correct=True),
-            OptionItem(key="C", text="线性规划模型的可行域一定是一个非凸的开放空间，因此必须依靠遗传算法或模拟退火算法在曲面上寻找局部最优解", is_correct=False, trap_id="trap_or_2"),
-            OptionItem(key="D", text="若将成本极小化模型转换为标准极大化模型，只需将目标函数系数乘以 -1，其余所有约束条件不等号方向必须一律保持原样不变", is_correct=False, trap_id="trap_or_3"),
+            OptionItem(key="A", text="As long as the objective function is linear, the decision variables x₁ and x₂ may take any negative real values; the model need not define physical non-negativity constraints because the solver corrects them automatically", is_correct=False, trap_id="trap_or_1"),
+            OptionItem(key="B", text="The non-negativity constraints x₁ ≥ 0 and x₂ ≥ 0 must be added strictly to the constraint set; if the problem is infeasible, that means the intersection of the constraint hyperplanes — the feasible region — is the empty set, not that the objective diverges to positive infinity", is_correct=True),
+            OptionItem(key="C", text="The feasible region of a linear programming model is necessarily a non-convex open space, so genetic algorithms or simulated annealing must be used to search the surface for a local optimum", is_correct=False, trap_id="trap_or_2"),
+            OptionItem(key="D", text="To convert a cost-minimisation model into the standard maximisation model, one need only multiply the objective coefficients by -1; the inequality directions of all remaining constraints must stay exactly as they are", is_correct=False, trap_id="trap_or_3"),
         ],
-        explanation="【权威考点解析 · Hamdy Taha 规划建模与标准型】：① 决策变量代表真实的物理实体或产销量，必须满足非负约束（Non-negativity Constraints $x_j \\ge 0$），否则会出现生产负构件的荒谬解；② 线性规划可行域必然是超平面交集围成的凸多面体（Convex Polyhedron），极点定理保证最优解必在极点上取得；不可行解意味着约束互斥使得可行域交集为空集！",
+        explanation="[Authoritative examination analysis · Hamdy Taha's planning modelling and standard form]: (1) Decision variables represent real physical entities or production and sales quantities and must satisfy non-negativity constraints ($x_j \\ge 0$), otherwise absurd solutions such as producing a negative number of components appear; (2) the feasible region of a linear programme is necessarily a convex polyhedron bounded by the intersection of hyperplanes, and the extreme point theorem guarantees that an optimal solution is attained at an extreme point; infeasibility means the constraints are mutually exclusive so that the intersection forming the feasible region is empty!",
         traps={
             "trap_or_1": TrapDetail(
-                title="🚨 物理现实意义脱离陷阱：遗漏非负性约束",
-                desc="这是运筹学初学者在建摸中最常犯的严重错误！计算机求解器只认识纯符号逻辑，如果漏写 x₁ ≥ 0，数学计算可能得出 x₁ = -100 获得虚假高利润，导致方案在工程上彻底报废！",
-                prereq="先修定理前置：线性规划标准型三大规范要件与非负性公理",
+                title="🚨 Detached-from-physical-reality trap: omitting the non-negativity constraints",
+                desc="This is the serious error operations-research beginners commit most often in modelling! A computer solver understands only pure symbolic logic: if x₁ ≥ 0 is omitted, the arithmetic may return x₁ = -100 and a spuriously high profit, which makes the plan completely unusable in engineering terms!",
+                prereq="Prerequisite: the three standard-form requirements of a linear programme and the non-negativity axiom",
                 radar_hit="boundary"
             ),
             "trap_or_2": TrapDetail(
-                title="🚨 可行域几何性质误判陷阱：把凸多面体当成非凸曲面",
-                desc="线性规划的所有约束均为线性一阶不等式，由超平面半空间交集构成的可行域严格属于凸集（Convex Set），绝不是非凸曲面！单纯形法正是沿着极点边界迭代寻找全局最优解！",
-                prereq="先修定理前置：凸集定义与极点最优性定理 (Extreme Point Theorem)",
+                title="🚨 Misjudging the geometry of the feasible region trap: treating a convex polyhedron as a non-convex surface",
+                desc="All constraints of a linear programme are linear first-order inequalities, and the feasible region formed by the intersection of hyperplane half-spaces is strictly a convex set — never a non-convex surface! The simplex method iterates along extreme-point boundaries to find the global optimum!",
+                prereq="Prerequisite: the definition of a convex set and the extreme point theorem",
                 radar_hit="recall"
             ),
             "trap_or_3": TrapDetail(
-                title="🚨 对偶与标准型转化粗心陷阱：约束方向未联动调整",
-                desc="极小化化极大化除目标函数取反外，不等式两边乘以负号时不等号方向必须严格反转，或引入非负松弛变量（Slack Variables）化为等式标准型！",
-                prereq="先修定理前置：线性规划对偶理论与单纯形标准型转化矩阵",
+                title="🚨 Careless standard-form conversion trap: constraint directions not adjusted in tandem",
+                desc="When converting minimisation to maximisation, besides negating the objective function, multiplying both sides of an inequality by a negative sign requires the inequality direction to be strictly reversed, or non-negative slack variables must be introduced to obtain the equality standard form!",
+                prereq="Prerequisite: LP duality theory and the simplex standard-form transformation matrix",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="运筹学第1章·线性规划建模与解空间拓扑",
+            title="Operations Research Chapter 1 · linear programming modelling and solution-space topology",
             nodes=[
-                GraphNode(id="c1", label="规划模型三要素", type="core", x=260, y=140),
-                GraphNode(id="p1", label="非负物理约束 x≥0", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="凸多面体可行域极点", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 遗漏非负产销量", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 误判可行域为非凸", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Three elements of a planning model", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Physical non-negativity constraint x ≥ 0", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Extreme points of a convex polyhedron feasible region", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: omitting non-negative output", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: wrongly judging the feasible region non-convex", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="物理现实边界"),
-                GraphEdge(from_node="p2", to_node="c1", label="极点最优保证"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (脱离现实意义)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (几何拓扑混淆)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Physical reality boundary"),
+                GraphEdge(from_node="p2", to_node="c1", label="Extreme-point optimality guarantee"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (detached from real-world meaning)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (confusing the geometric topology)"),
             ]
         ),
-        socratic_prompt="同学请思考：如果一家面包店要计算明天烤多少个牛角包能赚最多钱，计算机求解器算出来说'烤负 5 个牛角包'最划算，这在现实物理世界中能被执行吗？为什么数学公式必须用约束条件锁住物理边界？"
+        socratic_prompt="Think: if a bakery wants to work out how many croissants to bake tomorrow to earn the most money, and the solver reports that 'baking minus 5 croissants' is the most profitable option, could that be carried out in the physical world? Why must mathematical formulations lock down physical boundaries with constraints?"
     ),
 
     # =========================================================================
-    # 6. MANAGEMENT INFORMATION SYSTEMS (管理信息系统 · 大二上核心)
+    # 6. MANAGEMENT INFORMATION SYSTEMS (Management Information Systems · Core, Year 2 Semester 1)
     # =========================================================================
     QuizItem(
         id="mis_1",
         subject="mis",
         difficulty="★★★☆☆",
-        tag="组织系统层级 · TPS与DSS协同与C2M反向供应链",
-        stem="某零售制造企业正在推进数字化转型。在分析 Laudon 经典信息系统架构与新零售 C2M（Customer-to-Manufacturer）反向定制商业模式时，关于各业务系统层级分工与企业价值链协同，下列说法完全正确的是？",
+        tag="Organisational system levels · TPS-DSS coordination and the C2M reverse supply chain",
+        stem="A retail manufacturing enterprise is advancing its digital transformation. When analysing Laudon's classic information-system architecture and the new-retail C2M (Customer-to-Manufacturer) reverse-customisation business model, which of the following statements about the division of labour among business-system levels and value-chain coordination is entirely correct?",
         options=[
-            OptionItem(key="A", text="企业战略决策支持系统（ESS）应该直接实时接入收银台POS机的每一笔零钱流水，并逐笔呈送给董事会高管进行日常核验", is_correct=False, trap_id="trap_mis_1"),
-            OptionItem(key="B", text="TPS（事务处理系统）位于底层支撑日常高频结构化业务交易（如订单创建、库存扣减）；C2M 模式通过拼团等社交裂变聚拢长尾需求直连工厂制造，核心价值在于依托算法精准预测需求，消除中间代理流转与库存牛鞭效应", is_correct=True),
-            OptionItem(key="C", text="现代企业管理信息系统（MIS）纯粹由计算机软件与云服务器硬件等 IT 工具构成，与企业组织结构变革、业务流程再造（BPR）及员工培训毫无关系", is_correct=False, trap_id="trap_mis_2"),
-            OptionItem(key="D", text="ERP 系统（企业资源计划）的主要目的是在各个部门之间建立更严格的数据壁垒，防止财务数据和生产数据发生跨系统共享", is_correct=False, trap_id="trap_mis_3"),
+            OptionItem(key="A", text="The enterprise strategic decision support system (ESS) should connect in real time to every small transaction on the point-of-sale terminals and present each one to board executives for daily verification", is_correct=False, trap_id="trap_mis_1"),
+            OptionItem(key="B", text="The TPS (transaction processing system) sits at the bottom layer supporting daily high-frequency structured business transactions (such as order creation and inventory deduction); the C2M model aggregates long-tail demand through social fission such as group buying and connects it directly to factory production, and its core value lies in using algorithms to predict demand precisely and eliminate intermediate agents and the inventory bullwhip effect", is_correct=True),
+            OptionItem(key="C", text="A modern enterprise management information system (MIS) consists purely of IT tools such as computer software and cloud-server hardware and has nothing to do with organisational restructuring, business process reengineering (BPR) or staff training", is_correct=False, trap_id="trap_mis_2"),
+            OptionItem(key="D", text="The main purpose of an ERP (enterprise resource planning) system is to erect stricter data barriers between departments and prevent financial and production data from being shared across systems", is_correct=False, trap_id="trap_mis_3"),
         ],
-        explanation="【权威考点解析 · Laudon 管理信息系统与数字化新零售】：① TPS（事务处理系统）负责记录底层日常确定性操作；中高层决策系统（MIS/DSS/ESS）依靠汇总和建模提炼高阶商业洞察；② C2M（反向定制）依托数字化长尾聚合消除多级中间代理，削减牛鞭效应；③ MIS 是技术、人与组织的综合社会技术系统，绝非纯硬件采购！",
+        explanation="[Authoritative examination analysis · Laudon's management information systems and digital new retail]: (1) The TPS records daily deterministic operations at the bottom layer, while mid- and senior-level decision systems (MIS/DSS/ESS) distil higher-order business insight through aggregation and modelling; (2) C2M reverse customisation relies on digital long-tail aggregation to eliminate multi-tier intermediaries and dampen the bullwhip effect; (3) an MIS is a sociotechnical system combining technology, people and organisation — emphatically not a pure hardware purchase!",
         traps={
             "trap_mis_1": TrapDetail(
-                title="🚨 数据颗粒度错配陷阱：高管看板混同底层操作流水",
-                desc="给高管呈送未汇总的底层交易明细是典型的信息架构反模式！高管需要的是宏观战略看板与趋势指标，底层明细会造成信息过载（Information Overload）！",
-                prereq="先修定理前置：企业金字塔系统层级（TPS/MIS/DSS/ESS）数据颗粒度理论",
+                title="🚨 Data-granularity mismatch trap: executive dashboards conflated with bottom-layer transaction logs",
+                desc="Presenting unaggregated bottom-layer transaction detail to executives is a classic information-architecture anti-pattern! Executives need macro strategic dashboards and trend indicators; raw detail causes information overload!",
+                prereq="Prerequisite: the data-granularity theory of the enterprise pyramid levels (TPS/MIS/DSS/ESS)",
                 radar_hit="boundary"
             ),
             "trap_mis_2": TrapDetail(
-                title="🚨 技术决定论陷阱：误把 IT 工具等同于系统变革",
-                desc="购买了 ERP/CRM 软件并不等于系统成功！如果没有业务流程再造（BPR）、组织变革管理与人员激励机制协同，系统上线往往沦为摆设甚至引发组织震荡！",
-                prereq="先修定理前置：信息系统社会技术范式与业务流程重组 (BPR)",
+                title="🚨 Technological-determinism trap: equating IT tools with systemic change",
+                desc="Buying ERP/CRM software does not amount to system success! Without business process reengineering (BPR), organisational change management and aligned staff incentives, a go-live often becomes mere decoration or even triggers organisational turmoil!",
+                prereq="Prerequisite: the sociotechnical paradigm of information systems and business process reengineering (BPR)",
                 radar_hit="recall"
             ),
             "trap_mis_3": TrapDetail(
-                title="🚨 企业集成中枢反向误判：ERP 是消除孤岛而非制造壁垒",
-                desc="ERP 的核心使命恰恰是打破部门壁垒与信息孤岛（Information Silos），建立跨财务、进销存与制造的一体化单一真理来源（SSOT）！",
-                prereq="先修定理前置：ERP 核心架构与企业端到端业务集成链",
+                title="🚨 Reversed judgement of the enterprise integration hub: ERP removes islands rather than building barriers",
+                desc="The core mission of ERP is precisely to break down departmental barriers and information silos and to establish a single source of truth (SSOT) integrating finance, purchasing-sales-inventory and manufacturing!",
+                prereq="Prerequisite: the core ERP architecture and the enterprise's end-to-end business integration chain",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="管理信息系统·社会技术范式与企业集成架构",
+            title="Management information systems · sociotechnical paradigm and enterprise integration architecture",
             nodes=[
-                GraphNode(id="c1", label="企业四级系统金字塔", type="core", x=260, y=140),
-                GraphNode(id="p1", label="底层高频事务 TPS", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="C2M 反向供应链算法", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 颗粒度错配高管看明细", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 误把工具采购当变革", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Enterprise four-level system pyramid", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Bottom layer, high-frequency transactions: TPS", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="C2M reverse supply-chain algorithms", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: granularity mismatch — executives shown raw detail", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: mistaking tool purchase for transformation", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="结构化数据源基石"),
-                GraphEdge(from_node="p2", to_node="c1", label="消除中间代理牛鞭效应"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (信息过载错位)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (技术决定论偏见)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Foundation of structured data sources"),
+                GraphEdge(from_node="p2", to_node="c1", label="Eliminating intermediaries and the bullwhip effect"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (information-overload misalignment)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (technological-determinism bias)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果一家医院院长每天上班都要逐笔审查每一个门诊病人挂号付了 10 块钱挂号费的系统日志，他还有时间去规划医院全年的医疗科研战略吗？为什么信息系统必须按管理层级对数据进行不同维度的汇总抽象？"
+        socratic_prompt="Think: if a hospital director had to review, one by one, the system log of every outpatient who paid a 10-yuan registration fee, would he still have time to plan the hospital's medical-research strategy for the year? Why must information systems aggregate and abstract data at different levels according to management level?"
     ),
 
     # =========================================================================
-    # 7. PROBABILITY & STATISTICS (概率论与数理统计 · 大二上核心)
+    # 7. PROBABILITY & STATISTICS (Probability Theory and Mathematical Statistics · Core, Year 2 Semester 1)
     # =========================================================================
     QuizItem(
         id="prob_stat_1",
         subject="prob_stat",
         difficulty="★★★★☆",
-        tag="先验后验反转 · 贝叶斯定理与事件独立性判定",
-        stem="某高校实验室研发了一种针对芯片纳米级微裂纹的无损光学检测仪。已知某批次晶圆芯片中存在该微裂纹的先验概率为 P(A) = 0.002（千分之二）。检测仪对于有裂纹芯片检出阳性的灵敏度为 P(+|A) = 0.99；对于无裂纹芯片误报为阳性的假阳性率为 P(+|Ā) = 0.05。现随机抽取一枚芯片检测呈阳性，关于该芯片确实存在微裂纹的真实后验概率 P(A|+) 以及概率基本理论，下列说法完全正确的是？",
+        tag="Prior-posterior inversion · Bayes' theorem and testing event independence",
+        stem="A university laboratory has developed a non-destructive optical detector for nanoscale micro-cracks in chips. For a batch of wafer dies, the prior probability of the micro-crack is P(A) = 0.002 (two per thousand). The detector's sensitivity, i.e. the probability of a positive reading given a cracked chip, is P(+|A) = 0.99; its false-positive rate, i.e. a positive reading given an uncracked chip, is P(+|Ā) = 0.05. A die is drawn at random and tests positive. Regarding the true posterior probability P(A|+) that the die really has a micro-crack, and the basic theory of probability, which of the following statements is entirely correct?",
         options=[
-            OptionItem(key="A", text="既然检测仪的阳性准确率高达 99%，那么这枚呈阳性的芯片存在微裂纹的概率必定是 99%，无需考虑先验患病率", is_correct=False, trap_id="trap_stat_1"),
-            OptionItem(key="B", text="两个事件互斥（互不相容 AB=∅）等同于两个事件相互独立（P(AB)=P(A)P(B)），因此互斥事件一定不互相影响", is_correct=False, trap_id="trap_stat_2"),
-            OptionItem(key="C", text="依据贝叶斯定理反向计算，受极低先验基准率（0.002）的制约，真实后验概率 P(A|+) = (0.002×0.99) / (0.002×0.99 + 0.998×0.05) ≈ 3.81%；若两个正概率事件相互独立，则它们绝对不可能互斥（必定能同时发生）", is_correct=True),
-            OptionItem(key="D", text="离散型随机变量的所有取值概率之和可以大于 1，只要每个单点概率非负即可", is_correct=False, trap_id="trap_stat_3"),
+            OptionItem(key="A", text="Since the detector's positive accuracy is as high as 99%, the probability that this positively tested chip has a micro-crack must be 99%, and the prior prevalence need not be considered", is_correct=False, trap_id="trap_stat_1"),
+            OptionItem(key="B", text="Two mutually exclusive events (incompatible, AB=∅) are equivalent to two independent events (P(AB)=P(A)P(B)), so mutually exclusive events never influence each other", is_correct=False, trap_id="trap_stat_2"),
+            OptionItem(key="C", text="Applying Bayes' theorem in reverse, and constrained by the extremely low prior base rate (0.002), the true posterior probability is P(A|+) = (0.002×0.99) / (0.002×0.99 + 0.998×0.05) ≈ 3.81%; and if two events with positive probability are independent, they can never be mutually exclusive (they must be able to occur together)", is_correct=True),
+            OptionItem(key="D", text="The sum of the probabilities of all values of a discrete random variable may exceed 1, provided each individual probability is non-negative", is_correct=False, trap_id="trap_stat_3"),
         ],
-        explanation="【权威考点解析 · 贝叶斯反转公式与假阳性悖论】：① 在罕见事件检测中，极低的先验概率（0.002）导致即使检测灵敏度很高（99%），绝大多数阳性结果依然来自海量健康样本中的小比例假阳性（0.998×0.05 ≈ 0.0499），真实后验仅约 3.81%！② 互斥与独立根本对立：若 P(A)>0, P(B)>0 且互斥，则 P(AB)=0 ≠ P(A)P(B)，互斥必定不独立！",
+        explanation="[Authoritative examination analysis · Bayes' inversion formula and the false-positive paradox]: (1) In rare-event screening the extremely low prior probability (0.002) means that even with high sensitivity (99%), the overwhelming majority of positive results come from the small false-positive fraction of the huge healthy sample (0.998×0.05 ≈ 0.0499), and the true posterior is only about 3.81%! (2) Mutual exclusivity and independence are fundamentally opposed: if P(A)>0, P(B)>0 and the events are mutually exclusive, then P(AB)=0 ≠ P(A)P(B), so mutually exclusive events are necessarily dependent!",
         traps={
             "trap_stat_1": TrapDetail(
-                title="🚨 基准率谬误 (Base Rate Fallacy)：误把灵敏度当成确诊后验率",
-                desc="这是全校 72% 学生甚至资深工程师极常踩中的概率深坑！忽视了先验患病率极低这一关键前提，将条件几率 P(+|A) 与 P(A|+) 混为一谈！",
-                prereq="先修定理前置：条件概率测度归一化与全概率划分定理",
+                title="🚨 Base rate fallacy: mistaking sensitivity for the confirmed posterior rate",
+                desc="This is the probability pitfall that 72% of students — and even seasoned engineers — fall into most often! The key premise of an extremely low prior prevalence is ignored, and the conditional probability P(+|A) is conflated with P(A|+)!",
+                prereq="Prerequisite: normalisation of the conditional-probability measure and the law of total probability",
                 radar_hit="boundary"
             ),
             "trap_stat_2": TrapDetail(
-                title="🚨 集合互斥与统计独立混同高危陷阱",
-                desc="互斥说的是'几何交集为空不能同时发生'；独立说的是'一个发生完全不改变另一个的几率'！当 A 发生时 B 绝对不能发生，这说明 A 对 B 产生了极其强烈的负向信息约束，怎么可能是独立？",
-                prereq="先修定理前置：事件统计独立性严格数学判定 P(AB)=P(A)P(B)",
+                title="🚨 High-risk trap: conflating set-theoretic exclusivity with statistical independence",
+                desc="Mutual exclusivity says 'the intersection is empty, so they cannot occur together'; independence says 'the occurrence of one does not change the probability of the other at all'! If B absolutely cannot occur when A occurs, then A imposes an extremely strong negative informational constraint on B — how could they be independent?",
+                prereq="Prerequisite: the strict mathematical criterion for statistical independence, P(AB)=P(A)P(B)",
                 radar_hit="recall"
             ),
             "trap_stat_3": TrapDetail(
-                title="🚨 离散概率质量函数 (PMF) 归一化性质缺失",
-                desc="柯尔莫哥洛夫第二公理规范性明确规定 P(Ω)=1，离散型随机变量在全样本空间上的所有分布律概率和必须严格等于 1，绝不可能大于 1！",
-                prereq="先修定理前置：柯尔莫哥洛夫公理化体系与 PMF 归一化",
+                title="🚨 Missing normalisation property of the discrete probability mass function (PMF)",
+                desc="Kolmogorov's second axiom of normalisation states explicitly that P(Ω)=1: the probabilities of a discrete random variable over the entire sample space must sum to exactly 1 and can never exceed 1!",
+                prereq="Prerequisite: Kolmogorov's axiomatic system and PMF normalisation",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="概率统计·公理化测度与贝叶斯先验后验拓扑",
+            title="Probability and statistics · axiomatic measure and the Bayesian prior-posterior topology",
             nodes=[
-                GraphNode(id="c1", label="贝叶斯后验更新定理", type="core", x=260, y=140),
-                GraphNode(id="p1", label="先验基准率 P(A)=0.002", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="全概率分母归一化", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 错把灵敏度当后验率", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 混淆互斥与相互独立", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Bayesian posterior-update theorem", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Prior base rate P(A)=0.002", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Normalisation of the total-probability denominator", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: mistaking sensitivity for the posterior rate", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: conflating exclusivity with independence", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="执果索因核心先验"),
-                GraphEdge(from_node="p2", to_node="c1", label="分母完备事件群划分"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (基准率谬误)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (几何与信息测度混淆)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Inferring cause from effect: the core prior"),
+                GraphEdge(from_node="p2", to_node="c1", label="Partition of the denominator into a complete event group"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (base rate fallacy)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (conflating geometric and informational measures)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果全世界只有 1 个人得了某种奇特疾病，而医院有一种准确率 99.9% 的测试仪。如果全地球 80 亿人都去测，会有 800 万健康人被误报为阳性，而真正患病的只有 1 个人。如果你拿到阳性报告，你真的有 99.9% 的几率患病吗？"
+        socratic_prompt="Think: suppose only 1 person in the world has a rare disease, and a hospital has a test with 99.9% accuracy. If all 8 billion people on Earth were tested, 8 million healthy people would be falsely reported positive while only 1 is truly ill. If you received a positive report, would your chance of actually having the disease really be 99.9%?"
     ),
 
     # =========================================================================
-    # 8. MARKETING (市场营销学 · 大二上核心)
+    # 8. MARKETING (Marketing Principles · Core, Year 2 Semester 1)
     # =========================================================================
     QuizItem(
         id="mkt_1",
         subject="mkt",
         difficulty="★★★☆☆",
-        tag="STP战略定位 · 4Ps协同与波特竞争战略",
-        stem="在分析中国现制咖啡市场（以瑞幸咖啡与库迪咖啡的“9.9元价格战”为实战案例）时，关于经典 STP 战略营销框架与波特五力竞争策略的实施，下列分析完全正确的是？",
+        tag="STP strategic positioning · 4Ps coordination and Porter's competitive strategy",
+        stem="When analysing China's freshly made coffee market (using the '9.9-yuan price war' between Luckin Coffee and Cotti Coffee as a real-world case), which of the following analyses of the implementation of the classic STP strategic marketing framework and Porter's five-forces competitive strategy is entirely correct?",
         options=[
-            OptionItem(key="A", text="一个成熟品牌的最佳市场定位策略就是“试图迎合全社会所有消费群体的所有需求”，因此无需进行市场细分（Segmentation）和目标选择（Targeting）", is_correct=False, trap_id="trap_mkt_1"),
-            OptionItem(key="B", text="瑞幸依托密集的下沉门店网络与数字化全自动化下单流程，在细分市场上锁定高性价比、高便利性白领客群；企业若仅依赖低价补贴打价格战而未能形成供应链规模成本领先（Cost Leadership）或心智差异化（Differentiation），极易陷入“夹在中间”（Stuck in the Middle）并严重蚕食品牌资产", is_correct=True),
-            OptionItem(key="C", text="营销组合（4Ps）中的“Promotion（推广）”就是现代市场营销（Marketing）的全部内涵，产品研发与定价与营销无关", is_correct=False, trap_id="trap_mkt_2"),
-            OptionItem(key="D", text="消费者对于日常现磨咖啡这类低卷入度（Low Involvement）快消品，每次购买前都会花费数周时间阅读上万字行业研究报告后再理性下单", is_correct=False, trap_id="trap_mkt_3"),
+            OptionItem(key="A", text="The best market-positioning strategy for a mature brand is to 'try to cater to all the needs of every consumer group in society', so market segmentation and target selection are unnecessary", is_correct=False, trap_id="trap_mkt_1"),
+            OptionItem(key="B", text="Luckin relies on a dense network of lower-tier-city stores and a fully digital, automated ordering process to target, in its chosen segment, white-collar customers who value cost-effectiveness and convenience; a firm that relies only on low-price subsidies in a price war without achieving supply-chain scale cost leadership or differentiation in consumers' minds easily becomes 'stuck in the middle' and severely erodes its brand equity", is_correct=True),
+            OptionItem(key="C", text="The 'Promotion' element of the marketing mix (4Ps) is the entire content of modern marketing, and product development and pricing have nothing to do with marketing", is_correct=False, trap_id="trap_mkt_2"),
+            OptionItem(key="D", text="For a low-involvement fast-moving consumer good such as everyday freshly ground coffee, consumers spend several weeks reading ten-thousand-word industry research reports before each rational purchase", is_correct=False, trap_id="trap_mkt_3"),
         ],
-        explanation="【权威考点解析 · STP战略与波特三大竞争策略】：① 战略的本质在于取舍（Trade-off），试图满足所有人会导致定位模糊；② 价格战不是长久之计，企业必须具备供应链规模效应支撑的成本领先或品牌心智差异化，否则必沦为亏损内卷；③ 4Ps 是产品、价格、渠道与推广四大要素的整体协同！",
+        explanation="[Authoritative examination analysis · STP strategy and Porter's three generic competitive strategies]: (1) The essence of strategy lies in trade-offs; trying to satisfy everyone blurs positioning; (2) a price war is no long-term plan — a firm must have either cost leadership backed by supply-chain economies of scale or brand differentiation in consumers' minds, otherwise it degenerates into loss-making cut-throat competition; (3) the 4Ps are the coordinated whole of product, price, place and promotion!",
         traps={
             "trap_mkt_1": TrapDetail(
-                title="🚨 目标定位泛化陷阱：试图迎合所有人",
-                desc="没有细分就没有定位！试图做万能品牌的企业往往在任何细分人群中心智都极其平庸，导致资源迅速被差异化对手蚕食！",
-                prereq="先修定理前置：STP 理论与目标细分市场吸引力评估",
+                title="🚨 Target-positioning over-generalisation trap: trying to please everyone",
+                desc="Without segmentation there is no positioning! A firm that tries to be an all-purpose brand is usually utterly unremarkable in the minds of every segment, and its resources are quickly eaten away by differentiated rivals!",
+                prereq="Prerequisite: STP theory and the assessment of target-segment attractiveness",
                 radar_hit="boundary"
             ),
             "trap_mkt_2": TrapDetail(
-                title="🚨 营销狭隘化误区：把营销等同于打折促销",
-                desc="很多人误把 Marketing 窄化为促销打折，忽视了 Product（核心价值）与 Place（渠道掌控）才是构成商业竞争壁垒的长效资产！",
-                prereq="先修定理前置：营销组合 4Ps 协同理论与品牌资产模型",
+                title="🚨 Marketing-narrowing misconception: equating marketing with discount promotions",
+                desc="Many people wrongly reduce marketing to promotional discounts and overlook that Product (core value) and Place (channel control) are the durable assets that form a commercial competitive barrier!",
+                prereq="Prerequisite: the 4Ps marketing-mix coordination theory and brand-equity models",
                 radar_hit="recall"
             ),
             "trap_mkt_3": TrapDetail(
-                title="🚨 消费者涉入度模型错配：快消品误套高涉入决策",
-                desc="现磨咖啡属于典型低涉入度、高频即时消费品，消费者决策依赖便利性、习惯和价格刺激，绝非长周期深度搜索！",
-                prereq="先修定理前置：消费者卷入度理论（FCB Grid / Involvement Funnel）",
+                title="🚨 Consumer-involvement model mismatch: applying high-involvement decision models to fast-moving consumer goods",
+                desc="Freshly ground coffee is a textbook low-involvement, high-frequency impulse product: consumer decisions depend on convenience, habit and price stimuli, never on long-cycle in-depth search!",
+                prereq="Prerequisite: consumer-involvement theory (the FCB grid / involvement funnel)",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="市场营销·STP战略定位与4Ps协同竞争拓扑",
+            title="Marketing · topology of STP strategic positioning and 4Ps competitive coordination",
             nodes=[
-                GraphNode(id="c1", label="STP战略核心定位", type="core", x=260, y=140),
-                GraphNode(id="p1", label="供应链成本领先壁垒", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="低涉入度快消决策漏斗", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 试图迎合所有人泛化", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 狭隘降价打折伤商誉", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="Core STP strategic positioning", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Supply-chain cost-leadership barrier", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Low-involvement FMCG decision funnel", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: over-generalising to please everyone", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: narrow discounting damages brand equity", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="规模效应支撑价格战"),
-                GraphEdge(from_node="p2", to_node="c1", label="即时便利与心智卡位"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (缺乏战略舍弃勇气)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (战术打折蚕食品牌)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Economies of scale underpin the price war"),
+                GraphEdge(from_node="p2", to_node="c1", label="Instant convenience and mind-share positioning"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (lacking the courage of strategic trade-offs)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (tactical discounting erodes the brand)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果星巴克和瑞幸明天突然把每一杯咖啡都免费送，后天停止补贴时消费者还会觉得咖啡好喝吗？如果一个品牌只靠降价来吸引顾客，一旦对手比你多降 1 块钱，你辛辛苦苦积累的客户还在吗？"
+        socratic_prompt="Think: if Starbucks and Luckin suddenly gave every cup of coffee away free tomorrow, would consumers still find the coffee good when the subsidies stopped the day after? If a brand attracts customers only by cutting prices, then the moment a rival cuts one yuan more than you, will the customers you worked so hard to accumulate still be there?"
     ),
 
     # =========================================================================
-    # 9. ACADEMIC ENGLISH (学术英语与商务沟通 · 大二上核心)
+    # 9. ACADEMIC ENGLISH (Academic English and Business Communication · Core, Year 2 Semester 1)
     # =========================================================================
     QuizItem(
         id="eng_1",
         subject="eng",
         difficulty="★★★☆☆",
-        tag="学术论文范式 · IMRaD语篇与客观对冲语修辞",
-        stem="在撰写面向国际同行评审的高水平学术论文或软件工程毕业技术报告时，关于学术语域（Academic Register）、对冲语（Hedging）及反抄袭规范，下列说法完全正确的是？",
+        tag="Academic paper conventions · IMRaD discourse and the rhetoric of objective hedging",
+        stem="When writing a high-level academic paper for international peer review, or a software-engineering final-year technical report, which of the following statements about academic register, hedging and anti-plagiarism norms is entirely correct?",
         options=[
-            OptionItem(key="A", text="为了让学术结论看起来更有说服力，研究人员在论文中应该尽可能多地使用“always, absolutely, perfectly proves”等绝对化断言，坚决不能使用“may, might, suggest”等软化词", is_correct=False, trap_id="trap_eng_1"),
-            OptionItem(key="B", text="国际公认的学术论文 IMRaD 结构（引言、方法、结果、讨论）要求严谨客观；对冲语（Hedging Devices）是学术严谨性的体现，能精确控制论证确定性范围；合规释义（Paraphrasing）必须彻底重构原意句式逻辑，仅机械替换同义词的拼贴仍会被查重系统判定为 Patchwriting 学术不端", is_correct=True),
-            OptionItem(key="C", text="在撰写论文 Results（结果）部分时，应该直接掺杂大量未经实验数据检验的主观推测和个人情绪化宣誓", is_correct=False, trap_id="trap_eng_2"),
-            OptionItem(key="D", text="学术英语允许在正式论文中随意大面积使用“kids, a lot of, cool stuff”等口语化日常俚语，无需区分口头语域与学术书面语域", is_correct=False, trap_id="trap_eng_3"),
+            OptionItem(key="A", text="To make academic conclusions appear more persuasive, researchers should use absolutist assertions such as 'always, absolutely, perfectly proves' as much as possible in their papers and must never use softeners such as 'may, might, suggest'", is_correct=False, trap_id="trap_eng_1"),
+            OptionItem(key="B", text="The internationally recognised IMRaD structure of academic papers (Introduction, Methods, Results, Discussion) demands rigour and objectivity; hedging devices embody academic rigour and precisely control the scope of certainty in an argument; compliant paraphrasing must thoroughly restructure the original's sentence logic, and a patchwork that merely swaps synonyms mechanically will still be judged by plagiarism-detection systems as the academic misconduct of patchwriting", is_correct=True),
+            OptionItem(key="C", text="When writing the Results section of a paper, one should directly mix in large amounts of subjective speculation and personal emotional declarations that have not been tested against the experimental data", is_correct=False, trap_id="trap_eng_2"),
+            OptionItem(key="D", text="Academic English permits the free and extensive use of colloquial everyday slang such as 'kids, a lot of, cool stuff' in formal papers, with no need to distinguish the spoken register from the academic written register", is_correct=False, trap_id="trap_eng_3"),
         ],
-        explanation="【权威考点解析 · IMRaD 语篇规范与学术诚信】：① 科学结论必须留有余地，对冲语（may, indicate, suggest, potentially）展现了科研人员面对未知的谦逊与严密；② 释义（Paraphrasing）必须用自己的句式和逻辑重述，简单同义词替换仍属 Patchwriting 抄袭！③ 结果部分客观罗列数据，讨论部分方可展开深入机理探讨！",
+        explanation="[Authoritative examination analysis · IMRaD discourse conventions and academic integrity]: (1) Scientific conclusions must leave room for doubt; hedging devices (may, indicate, suggest, potentially) display the researcher's humility and rigour in the face of the unknown; (2) paraphrasing must restate the source in one's own syntax and logic — simple synonym substitution still counts as patchwriting plagiarism! (3) The Results section lists data objectively; only the Discussion section may develop in-depth mechanistic argument!",
         traps={
             "trap_eng_1": TrapDetail(
-                title="🚨 绝对化过度承诺陷阱：缺少学术对冲语 (Hedging)",
-                desc="在学术写作中使用 absolutely / perfectly proves 是初学者的致命伤！任何实验都有采样和边界限制，武断断言极易被同行评审严厉驳回！",
-                prereq="先修定理前置：学术语域客观性与对冲修辞规范 (Epistemic Modality)",
+                title="🚨 Absolutist over-commitment trap: missing academic hedging",
+                desc="Using 'absolutely' or 'perfectly proves' in academic writing is a beginner's fatal flaw! Every experiment has sampling and boundary limitations, and dogmatic assertions are easily and severely rejected in peer review!",
+                prereq="Prerequisite: the objectivity of academic register and the norms of hedging rhetoric (epistemic modality)",
                 radar_hit="boundary"
             ),
             "trap_eng_2": TrapDetail(
-                title="🚨 语篇结构功能错位陷阱：在结果中夹带主观臆断",
-                desc="Results 必须是纯粹、客观、中立的事实和图表！主观引申和假设机制解释必须放在 Discussion 章节中展开！",
-                prereq="先修定理前置：学术语篇 IMRaD 宏观四大功能分区",
+                title="🚨 Discourse-structure function misplacement trap: smuggling subjective conjecture into the Results",
+                desc="Results must be purely objective, neutral facts and figures! Subjective extrapolation and hypothetical mechanistic explanations belong in the Discussion section!",
+                prereq="Prerequisite: the four macro-functional divisions of IMRaD academic discourse",
                 radar_hit="recall"
             ),
             "trap_eng_3": TrapDetail(
-                title="🚨 伪释义拼贴抄袭陷阱：Patchwriting 仍构成学术不端",
-                desc="只是在别人的句子里把 important 换成 significant、把 big 换成 massive，原作者的句式骨架原封不动，在查重系统（如 Turnitin）中将直接标红！",
-                prereq="先修定理前置：学术引用规范与深度释义结构重组技巧",
+                title="🚨 Pseudo-paraphrase patchwork plagiarism trap: patchwriting is still academic misconduct",
+                desc="Merely swapping 'important' for 'significant' or 'big' for 'massive' inside someone else's sentence while leaving the original author's syntactic skeleton untouched will be flagged in red by plagiarism-detection systems such as Turnitin!",
+                prereq="Prerequisite: academic citation norms and the techniques of deep paraphrasing and structural restructuring",
                 radar_hit="trapDefense"
             )
         },
         graph=GraphData(
-            title="学术英语·IMRaD范式与客观对冲语篇拓扑",
+            title="Academic English · the IMRaD paradigm and objective hedging discourse topology",
             nodes=[
-                GraphNode(id="c1", label="IMRaD学术语篇范式", type="core", x=260, y=140),
-                GraphNode(id="p1", label="客观审慎对冲语 Hedging", type="prereq", x=120, y=60),
-                GraphNode(id="p2", label="反抄袭深度释义 Paraphrasing", type="prereq", x=400, y=60),
-                GraphNode(id="t1", label="陷阱: 绝对化过度承诺", type="trap", x=130, y=240),
-                GraphNode(id="t2", label="陷阱: 机械同义词拼贴抄袭", type="trap", x=390, y=240),
+                GraphNode(id="c1", label="IMRaD academic discourse paradigm", type="core", x=260, y=140),
+                GraphNode(id="p1", label="Objective, cautious hedging", type="prereq", x=120, y=60),
+                GraphNode(id="p2", label="Anti-plagiarism deep paraphrasing", type="prereq", x=400, y=60),
+                GraphNode(id="t1", label="Trap: absolutist over-commitment", type="trap", x=130, y=240),
+                GraphNode(id="t2", label="Trap: mechanical synonym-patchwork plagiarism", type="trap", x=390, y=240),
             ],
             edges=[
-                GraphEdge(from_node="p1", to_node="c1", label="讨论部分科学严密性"),
-                GraphEdge(from_node="p2", to_node="c1", label="文献综述合法性"),
-                GraphEdge(from_node="c1", to_node="t1", label="易错于 (武断绝对化)"),
-                GraphEdge(from_node="c1", to_node="t2", label="易错于 (查重系统标红)"),
+                GraphEdge(from_node="p1", to_node="c1", label="Scientific rigour in the Discussion"),
+                GraphEdge(from_node="p2", to_node="c1", label="Legitimacy of the literature review"),
+                GraphEdge(from_node="c1", to_node="t1", label="Common error (dogmatic absolutism)"),
+                GraphEdge(from_node="c1", to_node="t2", label="Common error (flagged red by plagiarism detection)"),
             ]
         ),
-        socratic_prompt="请同学思考：如果一位气象学家在学术论文中写道'明天必定 100% 下雨，绝对不会有一丝阳光'，而第二天正好出了太阳；如果他写成'雷达监测数据显示存在明显的冷暖气流交汇，表明明天下雨的概率极高'。哪一种表述才是真正的科学态度？"
+        socratic_prompt="Think: if a meteorologist wrote in a paper 'it will 100% certainly rain tomorrow and there will absolutely not be a ray of sunshine', and the next day the sun came out; versus writing 'radar data show a pronounced convergence of cold and warm air masses, indicating a very high probability of rain tomorrow' — which formulation expresses the genuinely scientific attitude?"
     ),
 ]
-
 
 def get_seed_questions() -> List[QuizItem]:
     """Return all seed quiz items."""

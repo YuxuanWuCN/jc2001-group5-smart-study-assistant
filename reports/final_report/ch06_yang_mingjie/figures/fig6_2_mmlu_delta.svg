@@ -93,6 +93,6 @@
   <text x="327" y="459" text-anchor="end" font-size="11.5" font-weight="700" fill="#991B1B">-1.32 pp (60.26% → 58.94%)</text>
 
   <text x="480" y="523" text-anchor="middle" font-size="11.5" fill="#64748B">
-    Source: `graphrag（终）/final_systematic_report.csv` (12 MMLU subsets, total n = 4,445 items; unweighted mean Δ = +0.605 pp).
+    Source: `graphrag_final/final_systematic_report.csv` (12 MMLU subsets, total n = 4,445 items; unweighted mean Δ = +0.605 pp).
   </text>
 </svg>

@@ -1,72 +1,72 @@
-# 技术研究与架构决策：前端视觉巅峰重构 (Research & Architecture Decisions)
+# Technical Research and Architecture Decisions: Frontend Visual Overhaul (Research & Architecture Decisions)
 
-**功能编号**：`002-frontend-visual-overhaul`  
-**所属项目**：JC2001 Group 5 — 智学罗盘 (SmartStudy Assistant System)  
-**日期**：2026-10-10  
-**状态**：COMPLETED / APPROVED  
-
----
-
-## 1. 调研问题与架构抉择
-
-### 决策 1: 视觉美学系统与材质技术选型
-- **决策**：采用 **Cyber Obsidian (深空极光暗色)** 与 **Technical Chalk (学术科技明亮)** 双模现代工业美学。底层使用现代原生 CSS 变量设计系统、多层亚克力毛玻璃 (`backdrop-filter: blur(16px)`)、微光辉光渐变 (Aurora Glow) 与工程网格/点阵底纹 (Grid Matrix Pattern)。
-- **理由**：
-  1. 现代顶级 AI 工具（Linear, Raycast, Vercel, DeepSeek）之所以视觉极度惊艳，核心在于“空间纵深感”与“微光材质感”，而非单纯换颜色；
-  2. 纯原生 CSS Variables 和现代 CSS3 特性原生支持硬件加速，无需引入臃肿的三方框架，本地离线秒开（首次内容渲染 FCP < 80ms）；
-  3. 严格符合宪章原则 I 与原则 II，零外部构建黑盒。
-- **考虑的替代方案**：
-  - *Tailwind CSS CDN*：运行时体积庞大，带来额外的 CDN 依赖与样式覆盖冲突，弃用。
-  - *Bootstrap / Ant Design*：高度同质化，浓厚的十年前传统企业后台管理系统风格，直接导致用户评价“不够看”，坚决弃用。
-  - *Three.js 3D 背景*：CPU/GPU 占用过高，在低配演示笔记本上易造成卡顿或风扇狂转，违反 NFR-02。
+**Feature ID**: `002-frontend-visual-overhaul`  
+**Project**: JC2001 Group 5 — SmartStudy Compass (SmartStudy Assistant System)  
+**Date**: 2026-10-10  
+**Status**: COMPLETED / APPROVED  
 
 ---
 
-### 决策 2: 交互式对比演播台 (Interactive Comparison Sandbox) 架构设计
-- **决策**：在 Landing 页面与工作台无缝嵌入双核分屏对比沙盒 (Split-screen Sandbox)。用户可直接点击干扰项，左侧动态展示“传统 AI / 普通题库”的机械式冷硬反馈（直接报答案、无知识点反查），右侧同步激活“智学罗盘”的错因拓扑高亮、先修短板警示与启发式点拨。
-- **理由**：
-  1. 本科生软件工程大作业与路演答辩中，评委最大的痛点是“你的系统和直接让学生问 ChatGPT 或搜题软件有什么不同”；
-  2. 交互式沙盒让评委无需进入深层做题流程，在 5 秒钟内亲自动手拨动开关，直观看到两个系统的信息密度与导学差距，极具说服力；
-  3. 数据驱动的纯 DOM 状态机切换，渲染极其轻量。
-- **考虑的替代方案**：
-  - *静态图文对比表*：枯燥沉闷，缺乏互动性与说服力。
-  - *预录制视频*：无法交互，无法按评委意愿点击测试。
+## 1. Research Questions and Architecture Choices
+
+### Decision 1: Visual aesthetics system and material technology selection
+- **Decision**: adopt the **Cyber Obsidian (deep-space aurora dark)** and **Technical Chalk (academic-tech light)** dual-mode modern industrial aesthetics. The foundation uses a modern native CSS-variable design system, multi-layer acrylic frosted glass (`backdrop-filter: blur(16px)`), aurora glow gradients, and engineering grid/dot-matrix textures.
+- **Rationale**:
+  1. The reason modern top-tier AI tools (Linear, Raycast, Vercel, DeepSeek) look so stunning is the "sense of spatial depth" and "subtle glowing materiality", not merely different colours;
+  2. Pure native CSS Variables and modern CSS3 features natively support hardware acceleration, require no bulky third-party framework, and open instantly offline (first contentful paint FCP < 80ms);
+  3. Strictly complies with Constitution Principles I and II, with zero external build black boxes.
+- **Alternatives considered**:
+  - *Tailwind CSS CDN*: large runtime payload, adding extra CDN dependency and style-override conflicts; rejected.
+  - *Bootstrap / Ant Design*: highly homogenised, strongly reminiscent of traditional enterprise back-office systems from a decade ago, which directly caused the "not impressive enough" verdict; firmly rejected.
+  - *Three.js 3D background*: excessive CPU/GPU usage, likely to cause jank or loud fans on low-spec demo laptops, violating NFR-02.
 
 ---
 
-### 决策 3: DeepSeek-R1 风格思维链折叠面板 (Reasoning Accordion)
-- **决策**：在苏格拉底学伴与排雷诊断视图中，引入“🧠 深度思考推演路径 (Thinking Process)”可折叠交互区块。默认包含带有脉冲流光的微徽章，展开后呈现结构化的 4 步认知图谱仲裁过程：
-  - `[01 知识图谱召回]`：命中前置定理与关联考点；
-  - `[02 错因拓扑仲裁]`：识别当前选项所属高频思维陷阱；
-  - `[03 防剧透安全过滤]`：阻断直接倾倒最终答案；
-  - `[04 阶梯点拨生成]`：输出苏格拉底式启发问题。
-- **理由**：
-  1. 契合 2026 年现代 Reasoning Model（如 DeepSeek-R1、o3、Claude 3.7 Sonnet）的主流前沿交互标准；
-  2. 将后台不可见的 GraphRAG 推理逻辑以高科技感具象化呈现给用户和导师，学术解释力拉满。
-- **考虑的替代方案**：
-  - *直接在聊天框打印纯文本*：视觉结构散乱，缺乏科技仪式感。
+### Decision 2: Interactive Comparison Sandbox architecture design
+- **Decision**: seamlessly embed a dual-core split-screen comparison sandbox on the Landing page and in the workspace. Users can click a distractor directly; the left side dynamically shows the mechanical, cold feedback of "traditional AI / ordinary question bank" (reports the answer directly, no knowledge reverse-lookup), while the right side simultaneously activates SmartStudy Compass's misconception-topology highlights, prerequisite-weakness warnings, and heuristic hints.
+- **Rationale**:
+  1. In undergraduate software-engineering coursework and pitch defences, the judges' biggest pain point is "how is your system different from just asking ChatGPT or using a question-search app";
+  2. The interactive sandbox lets judges flip the switch themselves within 5 seconds without entering a deep practice flow, directly seeing the difference in information density and tutoring value between the two systems - highly persuasive;
+  3. Data-driven pure DOM state-machine switching renders extremely lightly.
+- **Alternatives considered**:
+  - *Static image/text comparison table*: dull and lifeless, lacking interactivity and persuasiveness.
+  - *Pre-recorded video*: not interactive; judges cannot click and test as they wish.
 
 ---
 
-### 决策 4: 全局极客 HUD 快捷指令控制台 (Command Palette `Cmd+K` / `Ctrl+K`)
-- **决策**：实现纯原生轻量 Command Palette 悬浮弹窗。通过键盘监听 `keydown (Meta+K / Ctrl+K / Escape)` 呼出，支持上下键选择与回车确认。预设快捷指令包含：
-  - 快速学科切换（民商法 / 计组 / 计量经济 / 软工）；
-  - 快速题号定位；
-  - 考点图谱全景跳转；
-  - 明暗主题瞬间切换；
-  - 预设身份一键切换。
-- **理由**：
-  1. 键盘第一优先级的极客交互体验，大幅提升操作效率；
-  2. 显著提升整个界面的专业度与工业软件质感。
-- **考虑的替代方案**：
-  - *仅依靠顶部导航点击*：对于多功能复杂系统操作链路过长。
+### Decision 3: DeepSeek-R1-style reasoning accordion
+- **Decision**: in the Socratic companion and trap-detection diagnosis views, introduce a "🧠 Thinking Process" collapsible interaction block. It defaults to a micro-badge with pulsing glow, and when expanded reveals a structured 4-step cognitive-graph arbitration process:
+  - `[01 Knowledge-graph recall]`: hits the prerequisite theorems and associated exam points;
+  - `[02 Misconception-topology arbitration]`: identifies the high-frequency thinking trap the current option belongs to;
+  - `[03 Anti-spoiler safety filtering]`: blocks direct dumping of the final answer;
+  - `[04 Staged hint generation]`: outputs Socratic heuristic questions.
+- **Rationale**:
+  1. Aligns with the mainstream cutting-edge interaction standard of 2026 Reasoning Models (such as DeepSeek-R1, o3, Claude 3.7 Sonnet);
+  2. Concretises the otherwise invisible backend GraphRAG reasoning logic for users and tutors with a high-tech feel, maximising academic explainability.
+- **Alternatives considered**:
+  - *Printing plain text directly in the chat box*: visually unstructured and lacking technological ceremony.
 
 ---
 
-### 决策 5: 鼠标悬浮流光与微动效实现机制 (Spotlight Glow & Micro-animations)
-- **决策**：通过轻量 CSS 变量注入机制：监听卡片容器上的 `pointermove` 事件，计算 `e.clientX - rect.left`，动态给卡片写入 `--mouse-x` 与 `--mouse-y`，结合 CSS `radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(99,102,241,0.18), transparent 70%)` 实现如同 Linear 官网一样的动态流动高光边框效果。
-- **理由**：
-  1. 无需任何 Canvas 或复杂 WebGL，性能开销极低（由浏览器原生 Compositor 处理）；
-  2. 视觉质感极其细腻，彻底消灭“朴素粗糙感”。
-- **考虑的替代方案**：
-  - *固定静态渐变阴影*：呆板，无跟手交互反馈。
+### Decision 4: Global geek HUD command palette (`Cmd+K` / `Ctrl+K`)
+- **Decision**: implement a pure-native lightweight Command Palette overlay. It is summoned by a keyboard listener on `keydown (Meta+K / Ctrl+K / Escape)` and supports up/down selection and Enter confirmation. Preset commands include:
+  - quick subject switching (Civil & Commercial Law / Computer Organization / Econometrics / Software Engineering);
+  - quick question-number navigation;
+  - jump to the exam-point graph panorama;
+  - instant light/dark theme switching;
+  - one-click preset identity switching.
+- **Rationale**:
+  1. A keyboard-first geek interaction experience that greatly improves operating efficiency;
+  2. Significantly raises the professionalism and industrial-software quality of the entire interface.
+- **Alternatives considered**:
+  - *Relying only on top navigation clicks*: operation chains become too long for a complex multi-function system.
+
+---
+
+### Decision 5: Spotlight glow and micro-animation implementation mechanism
+- **Decision**: use a lightweight CSS-variable injection mechanism: listen for `pointermove` events on card containers, compute `e.clientX - rect.left`, dynamically write `--mouse-x` and `--mouse-y` onto the card, and combine with CSS `radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(99,102,241,0.18), transparent 70%)` to achieve a dynamic flowing highlight border like the Linear website.
+- **Rationale**:
+  1. Requires no Canvas or complex WebGL; performance overhead is extremely low (handled by the browser's native compositor);
+  2. The visual quality is extremely refined, completely eliminating any "plain and crude" feel.
+- **Alternatives considered**:
+  - *Fixed static gradient shadows*: stiff, with no cursor-following interaction feedback.
